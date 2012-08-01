@@ -2,8 +2,8 @@ package test.java;
 
 import static org.junit.Assert.*;
 
-import main.java.Config;
-import main.java.Village;
+import main.java.gameRules.Config;
+import main.java.gameRules.Village;
 
 import org.junit.Test;
 

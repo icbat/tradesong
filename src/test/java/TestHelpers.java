@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.Helpers;
+import main.java.engine.Helpers;
 
 import org.junit.Test;
 
