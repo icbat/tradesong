@@ -1,5 +1,7 @@
-up w
-down s
-left a
-right d
-interact f
+up up
+down down
+left left
+right right
+interact z
+cancel x
+menu c
