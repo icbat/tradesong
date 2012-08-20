@@ -9,5 +9,6 @@ immediate toDos
  
 Checkpoint - Monday Aug 13 2012
 
+* Research thread sleeping for performance
 * YAML parser
 * Change exposed configs to YAML

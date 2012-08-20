@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public interface Layer {
-	void OnLoad(Event e);
+	void OnLoad(LayerStacker sender);
     //void OnUpdateFrame(FrameEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse);
     //void OnRenderFrame(FrameEventArgs e);
     void OnResize(Event e, Resolution newResolution);
@@ -13,5 +13,5 @@ public interface Layer {
     void OnKeyUp(Object sender, KeyEvent e);
     void OnMouseDown(Object sender, MouseEvent e);
     void OnMouseUp(Object sender, MouseEvent e);
-    void OnUnload(Event e);
+    void OnUnload(LayerStacker sender);
 }

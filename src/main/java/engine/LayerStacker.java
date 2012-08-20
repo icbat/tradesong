@@ -2,21 +2,26 @@ package main.java.engine;
 
 import java.util.Stack;
 
+import javax.swing.JFrame;
+
 public class LayerStacker {
-	private static Stack<Layer> stack;
+	private Stack<Layer> stack;
+	public JFrame window;
 	
-	public LayerStacker(){
+	public LayerStacker(JFrame theWindow){
 		stack = new Stack<Layer>();
+		window = theWindow;
 	}
 	
 	public Layer pop() {
 		Layer holder = stack.pop();
-		
+		holder.OnUnload(this);
 		return holder;
 	}
 	
 	public void push(Layer input) {
 		stack.push(input);
+		input.OnLoad(this);
 	}
 	
 	public Layer peek() {
