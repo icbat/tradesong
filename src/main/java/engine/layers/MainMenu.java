@@ -4,9 +4,12 @@ import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import main.java.engine.Layer;
 import main.java.engine.LayerStacker;
@@ -68,9 +71,14 @@ public final class MainMenu implements Layer {
 		private static final long serialVersionUID = 221977529370055154L;
 
 		public void paint(Graphics g) {
-			Dimension d = new Dimension(640, 480);
-			g.setColor(Color.black);
-			g.fillRect(0, 0, d.width, d.height);
+			Image img = null;
+			try {
+			    img = ImageIO.read(new File("assets/menus/title.png"));
+			} catch (IOException e) {
+			}
+			
+			
+			g.drawImage(img, 0, 0, null);
 		}
 	}
 }
