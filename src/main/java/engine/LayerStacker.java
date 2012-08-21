@@ -31,4 +31,10 @@ public class LayerStacker {
 	public Layer peek(int i) {
 		return stack.elementAt(i);
 	}
+
+	@Override
+	public String toString() {
+		return "LayerStacker \n[stack=" + stack + "\nwindow=" + window + "]\n---\n";
+	}
+	
 }
