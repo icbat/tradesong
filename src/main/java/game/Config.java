@@ -1,4 +1,4 @@
-package main.java.gameRules;
+package main.java.game;
 
 public final class Config {
 	public static int resourcesToSpawn = 12;
