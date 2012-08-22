@@ -1,4 +1,4 @@
-package main.java.gameRules;
+package main.java.game;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +20,7 @@ public class Village {
 		
 		residents = new HashSet<Entity>();
 		for (int i=0; i < startingResidents; ++i)
-			residents.add(new Friendly());
+			residents.add(new Entity());
 		
 		name = startingName;
 	}

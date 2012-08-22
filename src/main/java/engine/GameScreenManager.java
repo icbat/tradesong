@@ -4,31 +4,32 @@ import java.util.Stack;
 
 import javax.swing.JFrame;
 
-public class LayerStacker {
-	private Stack<Layer> stack;
+public class GameScreenManager {
+	private Stack<GameScreen> stack;
 	public JFrame window;
 	
-	public LayerStacker(JFrame theWindow){
-		stack = new Stack<Layer>();
+	public GameScreenManager(JFrame theWindow){
+		stack = new Stack<GameScreen>();
 		window = theWindow;
 	}
 	
-	public Layer pop() {
-		Layer holder = stack.pop();
+	public GameScreen pop() {
+		GameScreen holder = stack.pop();
 		holder.OnUnload(this);
 		return holder;
 	}
 	
-	public void push(Layer input) {
+	public void push(GameScreen input) {
 		stack.push(input);
 		input.OnLoad(this);
+		window.setVisible(true);
 	}
 	
-	public Layer peek() {
+	public GameScreen peek() {
 		return stack.peek();
 	}
 	
-	public Layer peek(int i) {
+	public GameScreen peek(int i) {
 		return stack.elementAt(i);
 	}
 
