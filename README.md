@@ -1,7 +1,7 @@
 hamlet
 ======
 
-Hamlet (working title) is a game for Windows, Linux, and Mac about "business as usual". Please see the wiki for more details.
+Hamlet (working title) is a game for Windows, Linux, and Mac about "business as usual". Please see the [wiki](https://github.com/icbat/hamlet/wiki) for more details.
 
 ##immediate toDos
 
