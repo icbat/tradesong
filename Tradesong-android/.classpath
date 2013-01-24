@@ -8,4 +8,5 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" exported="true" path="/Tradesong/libs/gdx.jar" sourcepath="/Tradesong/libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" exported="true" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="/Tradesong/libs/tween-engine-api.jar" sourcepath="/Tradesong/libs/tween-engine-api-sources.jar"/>
 </classpath>
