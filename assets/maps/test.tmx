@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="oryx_overworld" tilewidth="32" tileheight="32">
+  <image source="../tilesets/oryx_overworld.png" trans="000000" width="512" height="512"/>
+ </tileset>
+ <layer name="Ground" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEOgCAMRuGeudzAkxM3lwJirX/iG76pDC+FBDczR6ljQKUrmit2+cL8za6sc6dWtK+VthbI6Huy36grq29nv7Om6ra7XRVt17tX61K7x52+r5pG71DpfwMAAAAAAP/UAQlly18=
+  </data>
+ </layer>
+ <layer name="Detail" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1jkWgDAIRVF2rIV9Nq3WtinUQvFH4N0+BzIBZvmsojURqfa5ieJEsovjLeJ4GfX/ZRqWhY82OoEbzf6dXwae9eBtfZ9dsrj2pM9FeX/92X/Zz8/uqMqcVAEzGgAAAIBKDvUND6o=
+  </data>
+ </layer>
+</map>
