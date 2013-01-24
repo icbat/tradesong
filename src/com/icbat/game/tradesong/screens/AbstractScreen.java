@@ -1,12 +1,15 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.icbat.game.tradesong.Tradesong;
 
 public abstract class AbstractScreen implements Screen {
 
-	Tradesong myGameInstance;
+	protected final Tradesong myGameInstance;
+	
 	public AbstractScreen( Tradesong instance ) {
+		debug( "creating");
 		this.myGameInstance = instance;
 	}
 	
@@ -17,42 +20,47 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		log( "resizing to " + width + "w by " + height + "h" );
+		debug( "resizing to " + width + "w by " + height + "h" );
+//		super.resize(width, height);
 
 	}
 
 	@Override
 	public void show() {
-		log( "showing" );
+		debug( "showing" );
 
 	}
 
 	@Override
 	public void hide() {
-		log( "hiding" );
+		debug( "hiding" );
 
 	}
 
 	@Override
 	public void pause() {
-		log( "pausing" );
+		debug( "pausing" );
 
 	}
 
 	@Override
 	public void resume() {
-		log( "resuming" );
+		debug( "resuming" );
 
 	}
 
 	@Override
 	public void dispose() {
-		log( "disposing" );
+		debug( "disposing" );
 
 	}
 	
-	private void log( String message ) {
-		Tradesong.log( getClass().getSimpleName() + ":  Message" );
+	private void debug( String message ) {
+		Tradesong.debug( getClass().getSimpleName() + ":  " + message);
+	}
+	
+	public void log(String message) {
+		Tradesong.debug( getClass().getSimpleName() + ":  " + message );
 	}
 
 }
