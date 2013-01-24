@@ -51,11 +51,15 @@ public class Tradesong extends Game {
 		super.setScreen( screen );
 	}
 	
-	public static final void debug(String message) {
+	public static final void debug( String message ) {
 		Gdx.app.debug( "", message );
 	}
 	
-	public static final void log(String message) {
-		Gdx.app.log( "", message );
+	public static final void log( String message ) {
+		Gdx.app.log( "#", message );
+	}
+	
+	public static final void error( String message ) {
+		Gdx.app.error( "!!", message )
 	}
 }
