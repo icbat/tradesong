@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.icbat.game.tradesong.Tradesong;
 
