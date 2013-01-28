@@ -1,22 +1,62 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.tiled.SimpleTileAtlas;
+import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
+import com.badlogic.gdx.graphics.g2d.tiled.TileMapRenderer;
+import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
+import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
 import com.icbat.game.tradesong.Tradesong;
 
 public class LevelScreen extends AbstractScreen {
 	
 	BitmapFont font;
+	TiledMap map;
+	TileAtlas atlas;
+	TileMapRenderer renderer;
+	
+	// TODO abstract somehow to not be code-static
+	FileHandle tilesetsDir = Gdx.files.internal("tilesets/");
+	
+	
 
-	public LevelScreen(FileHandle level, Tradesong instance) {
+	public LevelScreen(FileHandle mapFile, Tradesong instance) {
 		super(instance);
-		log( "Opening level:  " + level );
+		log( "Opening level:  " + mapFile );
 		
-		// TODO actually load
 		// Load up resources
 		this.font = new BitmapFont();
 		font.setColor(Color.RED);
+		
+		// Load map and log the time
+		// TODO refactor this timing to be more readable
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
+		this.map = TiledLoader.createMap(mapFile);		
+		endTime = System.currentTimeMillis();
+		log("loaded map in " + (endTime - startTime) + " milliseconds");
+		
+		// Atlas map
+		startTime = System.currentTimeMillis();
+		this.atlas = new SimpleTileAtlas(this.map, tilesetsDir);
+		endTime = System.currentTimeMillis();
+		log("atlas'd map in " + (endTime - startTime) + " milliseconds");
+		
+		
+		// Set up renderer
+		int blockHeight = 10;
+		int blockWidth = 10;
+		
+		startTime = System.currentTimeMillis();
+		this.renderer = new TileMapRenderer(map, atlas, blockWidth, blockHeight, 32, 32); 
+		endTime = System.currentTimeMillis();
+		log("renderer loaded in " + (endTime - startTime) + "milliseconds");
+		
+		//TODO Continue loading/making this show
+		
 	}
 	
 	@Override

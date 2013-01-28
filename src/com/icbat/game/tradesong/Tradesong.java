@@ -60,6 +60,6 @@ public class Tradesong extends Game {
 	}
 	
 	public static final void error( String message ) {
-		Gdx.app.error( "!!", message )
+		Gdx.app.error( "!!", message );
 	}
 }
