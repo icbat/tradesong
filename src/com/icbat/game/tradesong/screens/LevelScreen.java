@@ -60,7 +60,7 @@ public class LevelScreen extends AbstractScreen {
 	}
 	
 	@Override
-	public void render(float delta) {
+	public void render(float delta) {		
 		super.render(delta);
 		
 	}

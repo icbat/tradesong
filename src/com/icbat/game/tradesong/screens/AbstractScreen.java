@@ -59,7 +59,7 @@ public abstract class AbstractScreen implements Screen {
 	}
 	
 	public void log(String message) {
-		Tradesong.debug( getClass().getSimpleName() + ":  " + message );
+		Tradesong.log( getClass().getSimpleName() + ":  " + message );
 	}
 
 }
