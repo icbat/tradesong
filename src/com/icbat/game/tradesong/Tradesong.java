@@ -14,6 +14,8 @@ public class Tradesong extends Game {
 		
 		debug( "Creating game" );
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
+		
+		Gdx.input.setInputProcessor(new InputHandler());
 	}
 
 	@Override
