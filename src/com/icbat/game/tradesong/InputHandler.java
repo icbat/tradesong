@@ -18,19 +18,42 @@ public class InputHandler extends InputAdapter {
 	
 	@Override
 	/** Adds the key 'keycode' to the set (if it doesn't yet exist) */
-	public boolean keyDown(int keycode) {
-		keysDown.add(keycode);
-		Tradesong.log( new Integer(keycode).toString() );
+	public boolean keyDown( int keycode ) {
+		keysDown.add( keycode );
+		Tradesong.log( keycode + " was pressed" );
 		return true;
 	}
 	
 	
 	@Override
 	/** Removes the key 'keycode' from the set (if it still exists) */
-	public boolean keyUp(int keycode) {
+	public boolean keyUp( int keycode ) {
 		keysDown.remove(keycode);
-		Tradesong.log( new Integer(keycode).toString());
-		Tradesong.log( "Num of Keys down still: " + keysDown.size());
+		Tradesong.log( keycode + " was released" );
+		Tradesong.log( "Num of Keys down still: " + keysDown.size() );
 		return true;
+	}
+	
+	@Override
+	public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
+		// TODO This handles "mouse down" and "finger down"
+		Tradesong.log( button + " (touch) was pressed with ptr " + pointer );
+		return false;
+		
+	}
+	
+	@Override
+	public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
+		// TODO This handles "mouse down" and "finger down"
+		Tradesong.log( button + " (touch) was released with ptr " + pointer );
+		return false;
+		
+	}
+	
+	@Override
+	public boolean touchDragged( int screenX, int screenY, int pointer ) {
+		// TODO This handles "mouse down" and "finger down"
+		return false;
+		
 	}
 }
