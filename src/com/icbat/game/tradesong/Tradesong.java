@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong;
 
+import java.util.Date;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -13,7 +15,8 @@ public class Tradesong extends Game {
 		LJ.setLevel(Application.LOG_DEBUG);
 		LJ.log( "Creating game", LJ.DEBUG );
 		// Some initial logging (type and version)
-//		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LOG );
+		LJ.log(new Date().toString());
+		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LJ.LOG);
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
 		
 		Gdx.input.setInputProcessor( new InputHandler() );
