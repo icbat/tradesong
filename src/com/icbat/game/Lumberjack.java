@@ -25,6 +25,7 @@ public class Lumberjack {
 	private Boolean file = false;
 	private Boolean console = false;
 	private FileHandle logfile = null;
+	private String gameName = "";
 	
 	/**
 	 * Instantiate with specific flags for each method of logging
@@ -36,24 +37,25 @@ public class Lumberjack {
 	public Lumberjack( String gameName, boolean fi, boolean cons ) {
 		this.file = fi;
 		this.console = cons;
+		this.gameName = gameName;
 		
 		if ( this.file ) {
 			logfile = new FileHandle( gameName + "." +  new Date().toString() + ".log" );
 		}
 		
 		// Some initial logging (type and version)
-		this.log( Gdx.app.getType().toString(), LOG, "Version:  " + Gdx.app.getVersion() );
+		this.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LOG );
 	}
 	
 	/**
 	 * Workhorse of the class. This method will handle the actual logging of events.
 	 * 
 	 * @param	message		The message to be logged
+	 * @param	className	Class Name of the caller	
 	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
-	 * @param	additional	Adds another column and lets you put something in here (for the CSV log files, mainly)	
 	 * */
-	public void log( String message, int category, String additional ) {
-		String toBeLogged = category + ", " + message + ", " + additional;
+	public void log( String message, String className, int category ) {
+		String toBeLogged = category + ", " + className + ", " + message;
 		
 		// Console Logging
 		if ( console ) {
@@ -93,7 +95,7 @@ public class Lumberjack {
 	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
 	public void log( String message, int category ) {
-		this.log ( message, category, "" );
+		this.log ( message, gameName, category );
 	}
 	
 	/**

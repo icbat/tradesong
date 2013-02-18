@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
 import com.badlogic.gdx.graphics.g2d.tiled.TileMapRenderer;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
+import com.icbat.game.Lumberjack;
 import com.icbat.game.tradesong.Tradesong;
 
 public class LevelScreen extends AbstractScreen {
@@ -25,7 +26,7 @@ public class LevelScreen extends AbstractScreen {
 
 	public LevelScreen(FileHandle mapFile, Tradesong instance) {
 		super(instance);
-		log( "Opening level:  " + mapFile );
+		log( "Opening level:  " + mapFile, Lumberjack.DEBUG );
 		
 		// Load up resources
 		this.font = new BitmapFont();
@@ -37,13 +38,13 @@ public class LevelScreen extends AbstractScreen {
 		startTime = System.currentTimeMillis();
 		this.map = TiledLoader.createMap(mapFile);		
 		endTime = System.currentTimeMillis();
-		log("loaded map in " + (endTime - startTime) + " milliseconds");
+		log( "Loaded map in " + (endTime - startTime) + " milliseconds", Lumberjack.DEBUG );
 		
 		// Atlas map
 		startTime = System.currentTimeMillis();
 		this.atlas = new SimpleTileAtlas(this.map, tilesetsDir);
 		endTime = System.currentTimeMillis();
-		log("atlas'd map in " + (endTime - startTime) + " milliseconds");
+		log( "Atlas'd map in " + (endTime - startTime) + " milliseconds", Lumberjack.DEBUG );
 		
 		
 		// Set up renderer
@@ -53,7 +54,7 @@ public class LevelScreen extends AbstractScreen {
 		startTime = System.currentTimeMillis();
 		this.renderer = new TileMapRenderer(map, atlas, blockWidth, blockHeight, 32, 32); 
 		endTime = System.currentTimeMillis();
-		log("renderer loaded in " + (endTime - startTime) + "milliseconds");
+		log( "Renderer loaded in " + (endTime - startTime) + " milliseconds", Lumberjack.DEBUG );
 		
 		//TODO Continue loading/making this show
 		

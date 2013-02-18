@@ -35,10 +35,15 @@ public class InputHandler extends InputAdapter {
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
 		// TODO This handles "mouse down" and "finger down"
 		Tradesong.log( button + " (touch) was pressed with ptr " + pointer );
 		return false;
+=======
+	public boolean keyDown(int keycode) {
+		game.logger.log( new Integer(keycode).toString() );
+>>>>>>> origin/logging-utility
 		
 	}
 	
