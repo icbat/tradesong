@@ -16,11 +16,23 @@ import com.badlogic.gdx.InputAdapter;
 public class InputHandler extends InputAdapter {
 	public Set<Integer> keysDown = new TreeSet<Integer>(); // TreeSet guarantees log(n) add/remove/contains
 	
+	Tradesong game;
+	
+	/** For logging to work, making this impossible */
+	@SuppressWarnings("unused")
+	private InputHandler() {}
+	
+	public InputHandler(Tradesong instance) {
+		this.game = instance;
+	}
+	
+	
+	
 	@Override
 	/** Adds the key 'keycode' to the set (if it doesn't yet exist) */
 	public boolean keyDown( int keycode ) {
 		keysDown.add( keycode );
-		Tradesong.log( keycode + " was pressed" );
+		game.logger.log( keycode + " was pressed" );
 		return true;
 	}
 	
@@ -29,35 +41,29 @@ public class InputHandler extends InputAdapter {
 	/** Removes the key 'keycode' from the set (if it still exists) */
 	public boolean keyUp( int keycode ) {
 		keysDown.remove(keycode);
-		Tradesong.log( keycode + " was released" );
-		Tradesong.log( "Num of Keys down still: " + keysDown.size() );
+		game.logger.log( keycode + " was released" );
+		game.logger.log( "Num of Keys down still: " + keysDown.size() );
 		return true;
 	}
 	
 	@Override
-<<<<<<< HEAD
+
 	public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
-		// TODO This handles "mouse down" and "finger down"
-		Tradesong.log( button + " (touch) was pressed with ptr " + pointer );
+		game.logger.log( button + " (touch) was pressed with ptr " + pointer );
 		return false;
-=======
-	public boolean keyDown(int keycode) {
-		game.logger.log( new Integer(keycode).toString() );
->>>>>>> origin/logging-utility
-		
 	}
+
 	
 	@Override
 	public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
-		// TODO This handles "mouse down" and "finger down"
-		Tradesong.log( button + " (touch) was released with ptr " + pointer );
+		game.logger.log( button + " (touch) was released with ptr " + pointer );
 		return false;
 		
 	}
 	
 	@Override
 	public boolean touchDragged( int screenX, int screenY, int pointer ) {
-		// TODO This handles "mouse down" and "finger down"
+		// TODO 
 		return false;
 		
 	}

@@ -8,7 +8,6 @@ import com.icbat.game.Lumberjack;
 
 public class Tradesong extends Game {
 	public Lumberjack logger = new Lumberjack(this.getClass().getSimpleName(), true, true);
-	public int trd = 1;
 	
 	@Override
 	public void create() {
@@ -16,18 +15,13 @@ public class Tradesong extends Game {
 		logger.log( "Creating game", Lumberjack.DEBUG );
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
 		
-		Gdx.input.setInputProcessor(new InputHandler());
+		Gdx.input.setInputProcessor( new InputHandler( this ) );
 	}
 
 	@Override
 	public void dispose() {
 		logger.log( "Disposing game", Lumberjack.DEBUG );
 		super.dispose();
-	}
-
-	@Override
-	public void render() {		
-		super.render();
 	}
 
 	@Override
