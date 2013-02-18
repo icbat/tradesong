@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.badlogic.gdx.InputAdapter;
+import com.icbat.game.LJ;
 
 /**
  * Input adapter specialized for this game.
@@ -16,15 +17,9 @@ import com.badlogic.gdx.InputAdapter;
 public class InputHandler extends InputAdapter {
 	public Set<Integer> keysDown = new TreeSet<Integer>(); // TreeSet guarantees log(n) add/remove/contains
 	
-	Tradesong game;
-	
 	/** For logging to work, making this impossible */
-	@SuppressWarnings("unused")
-	private InputHandler() {}
-	
-	public InputHandler(Tradesong instance) {
-		this.game = instance;
-	}
+	public InputHandler() {}
+
 	
 	
 	
@@ -32,7 +27,7 @@ public class InputHandler extends InputAdapter {
 	/** Adds the key 'keycode' to the set (if it doesn't yet exist) */
 	public boolean keyDown( int keycode ) {
 		keysDown.add( keycode );
-		game.logger.log( keycode + " was pressed" );
+		LJ.log( keycode + " was pressed" );
 		return true;
 	}
 	
@@ -41,22 +36,22 @@ public class InputHandler extends InputAdapter {
 	/** Removes the key 'keycode' from the set (if it still exists) */
 	public boolean keyUp( int keycode ) {
 		keysDown.remove(keycode);
-		game.logger.log( keycode + " was released" );
-		game.logger.log( "Num of Keys down still: " + keysDown.size() );
+		LJ.log( keycode + " was released" );
+		LJ.log( "Num of Keys down still: " + keysDown.size() );
 		return true;
 	}
 	
 	@Override
 
 	public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
-		game.logger.log( button + " (touch) was pressed with ptr " + pointer );
+		LJ.log( button + " (touch) was pressed with ptr " + pointer );
 		return false;
 	}
 
 	
 	@Override
 	public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
-		game.logger.log( button + " (touch) was released with ptr " + pointer );
+		LJ.log( button + " (touch) was released with ptr " + pointer );
 		return false;
 		
 	}

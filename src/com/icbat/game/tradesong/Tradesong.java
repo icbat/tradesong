@@ -4,41 +4,42 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.icbat.game.Lumberjack;
+import com.icbat.game.LJ;
 
 public class Tradesong extends Game {
-	public Lumberjack logger = new Lumberjack(this.getClass().getSimpleName(), true, true);
 	
 	@Override
 	public void create() {
-		logger.setSensitivity(Application.LOG_DEBUG);
-		logger.log( "Creating game", Lumberjack.DEBUG );
+		LJ.setLevel(Application.LOG_DEBUG);
+		LJ.log( "Creating game", LJ.DEBUG );
+		// Some initial logging (type and version)
+//		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LOG );
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
 		
-		Gdx.input.setInputProcessor( new InputHandler( this ) );
+		Gdx.input.setInputProcessor( new InputHandler() );
 	}
 
 	@Override
 	public void dispose() {
-		logger.log( "Disposing game", Lumberjack.DEBUG );
+		LJ.log( "Disposing game", LJ.DEBUG );
 		super.dispose();
 	}
 
 	@Override
 	public void resize( int width, int height ) {
-		logger.log( "Resizing game to " + width + "w by " + height + "h", Lumberjack.DEBUG );
+		LJ.log( "Resizing game to " + width + "w by " + height + "h", LJ.DEBUG );
 		super.resize(width, height);
 	}
 
 	@Override
 	public void pause() {
-		logger.log( "Pausing game", Lumberjack.DEBUG );
+		LJ.log( "Pausing game", LJ.DEBUG );
 		super.pause();
 	}
 
 	@Override
 	public void resume() {
-		logger.log( "Resuming game", Lumberjack.DEBUG );
+		LJ.log( "Resuming game", LJ.DEBUG );
 		super.resume();
 	}
 	
