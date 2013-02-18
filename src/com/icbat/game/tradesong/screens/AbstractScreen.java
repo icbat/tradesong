@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Screen;
-import com.icbat.game.Lumberjack;
+import com.icbat.game.LJ;
 import com.icbat.game.tradesong.Tradesong;
 
 public abstract class AbstractScreen implements Screen {
@@ -10,7 +10,7 @@ public abstract class AbstractScreen implements Screen {
 	
 	public AbstractScreen( Tradesong instance ) {
 		this.gameInstance = instance;
-		log( "Creating Screen: ", Lumberjack.LOG );
+		log( "Creating Screen: ", LJ.LOG );
 	}
 	
 	@Override
@@ -20,42 +20,42 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		log( "Resizing screen to " + width + "w by " + height + "h", Lumberjack.DEBUG );
+		log( "Resizing screen to " + width + "w by " + height + "h", LJ.DEBUG );
 //		super.resize(width, height);
 
 	}
 
 	@Override
 	public void show() {
-		log( "Showing Screen: ", Lumberjack.DEBUG );
+		log( "Showing Screen: ", LJ.DEBUG );
 
 	}
 
 	@Override
 	public void hide() {
-		log( "Hiding Screen: ", Lumberjack.DEBUG );
+		log( "Hiding Screen: ", LJ.DEBUG );
 
 	}
 
 	@Override
 	public void pause() {
-		log( "Pausing Screen: ", Lumberjack.DEBUG );
+		log( "Pausing Screen: ", LJ.DEBUG );
 
 	}
 
 	@Override
 	public void resume() {
-		log( "Resuming Screen: ", Lumberjack.DEBUG );
+		log( "Resuming Screen: ", LJ.DEBUG );
 
 	}
 
 	@Override
 	public void dispose() {
-		log( "Disposing of Screen: ", Lumberjack.DEBUG );
+		log( "Disposing of Screen: ", LJ.DEBUG );
 
 	}
 	
 	protected void log( String message, int level ) {
-		gameInstance.logger.log( message, getClass().getSimpleName(), level );
+		LJ.log( message, getClass().getSimpleName(), level );
 	}
 }
