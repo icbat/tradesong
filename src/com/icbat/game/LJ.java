@@ -6,46 +6,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 /**
- * Logging utility class to allow seem-less logging to either console, file, or both
+ * LJ, or Lumberjack, is a logging utility class to allow seam less logging to either console, file, or both
  * 
  * To use: Instantiate with the appropriate flags for logging, then use log()
+ * If you don't instantiate first, console logging (only) will be used
  * 
  * When extending this: a boolean, edit constructor and the appropriate lines to log(string, string, string) 
  * 
  * @author icbat
  * @see log(String, String, String)
  * */
-public class Lumberjack {
+public class LJ {
 	
 	// Categories
 	public static final int ERROR = 0;
 	public static final int LOG = 1;
 	public static final int DEBUG = 2;
 	
-	private Boolean file = false;
-	private Boolean console = false;
-	private FileHandle logfile = null;
-	private String gameName = "";
+	private static FileHandle logfile = null;
 	
-	/**
-	 * Instantiate with specific flags for each method of logging
-	 * 
-	 * @param	gameName	String name of the Game for file-naming
-	 * @param 	fi			Boolean: True if you want to log to a file
-	 * @param	cons		Boolean: True if you want to log to the console/logcat
-	 * */
-	public Lumberjack( String gameName, boolean fi, boolean cons ) {
-		this.file = fi;
-		this.console = cons;
-		this.gameName = gameName;
-		
-		if ( this.file ) {
-			logfile = new FileHandle( gameName + "." +  new Date().toString() + ".log" );
-		}
-		
-		// Some initial logging (type and version)
-		this.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LOG );
-	}
+	/** Static class, doesn't need to instantiate */
+	private LJ() {}
 	
 	/**
 	 * Workhorse of the class. This method will handle the actual logging of events.
@@ -54,28 +35,27 @@ public class Lumberjack {
 	 * @param	className	Class Name of the caller	
 	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
-	public void log( String message, String className, int category ) {
+	public static void log( String message, String className, int category ) {
 		String toBeLogged = category + ", " + className + ", " + message;
 		
 		// Console Logging
-		if ( console ) {
-			switch ( category ) {
-			case LOG:
-				Gdx.app.log( "", toBeLogged );
-				break;
-			case ERROR:
-				Gdx.app.error( "", toBeLogged);
-				Gdx.app.error( "", "Java heap in bytes:  " + Gdx.app.getJavaHeap() );
-				Gdx.app.error( "", "Native heap in bytes:  " + Gdx.app.getNativeHeap() );
-				break;
-			case DEBUG:
-				Gdx.app.debug( "", toBeLogged );
-				break;
+		
+		switch ( category ) {
+		case LOG:
+			Gdx.app.log( "", toBeLogged );
+			break;
+		case ERROR:
+			Gdx.app.error( "", toBeLogged);
+			Gdx.app.error( "", "Java heap in bytes:  " + Gdx.app.getJavaHeap() );
+			Gdx.app.error( "", "Native heap in bytes:  " + Gdx.app.getNativeHeap() );
+			break;
+		case DEBUG:
+			Gdx.app.debug( "", toBeLogged );
+			break;
 			// If something's wrong with the category, go ahead and log
-			default:
-				Gdx.app.log( "", toBeLogged );
-				break;
-			}
+		default:
+			Gdx.app.log( "", toBeLogged );
+			break;
 		}
 		
 		// File logging
@@ -94,8 +74,8 @@ public class Lumberjack {
 	 * @param	message		The message to be logged
 	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
-	public void log( String message, int category ) {
-		this.log ( message, gameName, category );
+	public static void log( String message, int category ) {
+		LJ.log ( message, "", category );
 	}
 	
 	/**
@@ -103,8 +83,8 @@ public class Lumberjack {
 	 * 
 	 * @param	message	The message to be logged
 	 * */
-	public void log( String message ) {
-		this.log ( message, LOG );
+	public static void log( String message ) {
+		LJ.log( message, LOG );
 	}
 	
 	/** Wrapper so this class can encapsulate all logging
@@ -112,7 +92,16 @@ public class Lumberjack {
 	 * 
 	 * @see	Gdx.app
 	 *  */
-	public void setSensitivity( int logLevel ) {
+	public static void setLevel( int logLevel ) {
 		Gdx.app.setLogLevel( logLevel );
 	}
+
+	public static FileHandle getLogfile() {
+		return logfile;
+	}
+
+	public static void newLogfile(String gameName) {
+		LJ.logfile = new FileHandle(gameName + "." + new Date() + ".log");
+	}
+	
 }
