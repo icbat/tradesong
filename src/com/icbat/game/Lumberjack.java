@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game;
 
 import com.badlogic.gdx.Gdx;
 
