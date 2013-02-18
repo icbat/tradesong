@@ -60,10 +60,10 @@ public class LJ {
 		
 		// File logging
 		if ( logfile != null ) {
-			logfile.writeString( toBeLogged, true );
+			logfile.writeString( toBeLogged  + "\n", true );
 			if ( category == ERROR ) {
-				logfile.writeString( "Java heap in bytes:  " + Gdx.app.getJavaHeap(), true );
-				logfile.writeString( "Native heap in bytes:  " + Gdx.app.getNativeHeap(), true );
+				logfile.writeString( "Java heap in bytes:  " + Gdx.app.getJavaHeap() + "\n", true );
+				logfile.writeString( "Native heap in bytes:  " + Gdx.app.getNativeHeap() + "\n", true );
 			}
 		}
 	}
