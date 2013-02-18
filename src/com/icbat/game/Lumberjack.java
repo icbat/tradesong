@@ -1,6 +1,9 @@
 package com.icbat.game;
 
+import java.util.Date;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 /**
  * Logging utility class to allow seemless logging to either console, file, or both
@@ -16,13 +19,18 @@ public class Lumberjack {
 	
 	private Boolean file = false;
 	private Boolean console = false;
+	private FileHandle logfile = null;
 	
 	/**
 	 * Instantiate with specific flags (as opposed to instantiating all False and setting later
 	 * */
-	public Lumberjack(boolean fi, boolean cons) {
+	public Lumberjack(String gameName, boolean fi, boolean cons) {
 		this.file = fi;
 		this.console = cons;
+		
+		if (this.file) {
+			logfile = new FileHandle( gameName + "." +  new Date().toString() );
+		}
 	}
 	
 	/**
@@ -34,7 +42,7 @@ public class Lumberjack {
 			Gdx.app.log("", toBeLogged);
 		}
 		
-		if ( file ) { //TODO this is the important part, but it can wait
+		if ( logfile != null ) { //TODO this is the important part, but it can wait
 			
 		}
 	}
