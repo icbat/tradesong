@@ -4,15 +4,16 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.icbat.game.Lumberjack;
 
 public class Tradesong extends Game {
+	public Lumberjack logger = new Lumberjack(this.getClass().getSimpleName(), true, true);
+	public int trd = 1;
 	
 	@Override
 	public void create() {
-		// Comment out -> No debug messages show
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		
-		debug( "Creating game" );
+		logger.setSensitivity(Application.LOG_DEBUG);
+		logger.log( "Creating game", Lumberjack.DEBUG );
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
 		
 		Gdx.input.setInputProcessor(new InputHandler());
@@ -20,7 +21,7 @@ public class Tradesong extends Game {
 
 	@Override
 	public void dispose() {
-		debug( "Disposing game" );
+		logger.log( "Disposing game", Lumberjack.DEBUG );
 		super.dispose();
 	}
 
@@ -31,19 +32,19 @@ public class Tradesong extends Game {
 
 	@Override
 	public void resize( int width, int height ) {
-		debug( "Resizing game" );
+		logger.log( "Resizing game to " + width + "w by " + height + "h", Lumberjack.DEBUG );
 		super.resize(width, height);
 	}
 
 	@Override
 	public void pause() {
-		debug( "Pausing game" );
+		logger.log( "Pausing game", Lumberjack.DEBUG );
 		super.pause();
 	}
 
 	@Override
 	public void resume() {
-		debug( "Resuming game" );
+		logger.log( "Resuming game", Lumberjack.DEBUG );
 		super.resume();
 	}
 	
@@ -51,17 +52,5 @@ public class Tradesong extends Game {
 	public void setScreen( Screen screen ) {
 		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
 		super.setScreen( screen );
-	}
-	
-	public static final void debug( String message ) {
-		Gdx.app.debug( "", message );
-	}
-	
-	public static final void log( String message ) {
-		Gdx.app.log( "#", message );
-	}
-	
-	public static final void error( String message ) {
-		Gdx.app.error( "!!", message );
 	}
 }
