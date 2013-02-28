@@ -62,18 +62,18 @@ public class LJ {
 		if ( logfile != null ) {
 			switch( logLevel ) {
 			case LOG:
-				logfile.writeString("Log," + message, true);
+				logfile.writeString("Log," + message + "\n", true);
 				break;
 			case ERROR:
-				logfile.writeString("ERROR," + message, true);
+				logfile.writeString("ERROR," + message + "\n", true);
 				logfile.writeString( "Java heap in bytes:  " + Gdx.app.getJavaHeap() + "\n", true );
 				logfile.writeString( "Native heap in bytes:  " + Gdx.app.getNativeHeap() + "\n", true );
 				break;
 			case DEBUG:
-				logfile.writeString("Debug," + message, true);
+				logfile.writeString("Debug," + message + "\n", true);
 				break;
 			default:
-				logfile.writeString("Log," + message, true);
+				logfile.writeString("Log," + message + "\n", true);
 				break;
 			}
 		}
