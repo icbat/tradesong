@@ -101,7 +101,7 @@ public class LJ {
 	}
 
 	public static void newLogfile(String gameName) {
-		LJ.logfile = new FileHandle(gameName + "." + new Date().toString().replaceAll("\\W", "") + ".log");
+		LJ.logfile = new FileHandle(gameName + "." + new Date().toString().replaceAll("\\W", ".") + ".log");
 		LJ.log("Logfile created at " + LJ.logfile.path());
 	}
 	
