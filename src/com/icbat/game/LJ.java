@@ -42,10 +42,10 @@ public class LJ {
 		// Console Logging
 		switch ( logLevel ) {
 		case LOG:
-			Gdx.app.log( "Log ", message );
+			Gdx.app.log( "Log", message );
 			break;
 		case ERROR:
-			Gdx.app.error( "ERROR ", message);
+			Gdx.app.error( "ERROR", message);
 			Gdx.app.error( "#", "Java heap in bytes:  " + Gdx.app.getJavaHeap() );
 			Gdx.app.error( "#", "Native heap in bytes:  " + Gdx.app.getNativeHeap() );
 			break;
