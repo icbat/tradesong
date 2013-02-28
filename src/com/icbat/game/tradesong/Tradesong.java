@@ -21,7 +21,8 @@ public class Tradesong extends Game {
 		LJ.log( "Creating game", LJ.DEBUG );
 		// Some initial logging (type and version)
 		LJ.log(new Date().toString());
-		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LJ.LOG);
+		LJ.log( "App Type", Gdx.app.getType().toString(), LJ.LOG);
+		LJ.log( "Device Version" + Gdx.app.getVersion(), LJ.LOG);
 		// setScreen( new LevelScreen("test", this) );
 		setScreen( new InventoryScreen(this) );
 	}

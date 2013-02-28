@@ -10,7 +10,7 @@ public abstract class AbstractScreen implements Screen {
 	
 	public AbstractScreen( Tradesong instance ) {
 		this.gameInstance = instance;
-		log( "Creating Screen: ", LJ.LOG );
+		log( "Creating Screen", LJ.LOG );
 	}
 	
 	@Override
