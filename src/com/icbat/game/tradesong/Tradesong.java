@@ -7,9 +7,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.icbat.game.LJ;
+import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.LevelScreen;
 
 public class Tradesong extends Game {
+	
+	public Object inventory = null;
 	
 	@Override
 	public void create() {
@@ -19,7 +22,8 @@ public class Tradesong extends Game {
 		// Some initial logging (type and version)
 		LJ.log(new Date().toString());
 		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LJ.LOG);
-		setScreen( new LevelScreen("test", this) );
+		// setScreen( new LevelScreen("test", this) );
+		setScreen( new InventoryScreen(this) );
 	}
 
 	@Override
