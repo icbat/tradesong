@@ -110,10 +110,15 @@ public class LJ {
 	public static FileHandle getLogfile() {
 		return logfile;
 	}
-
+	
+	/**
+	 * Sets the log file to a FileHandle of Internal(param)
+	 * 
+	 * @param	gameName	String you'd like to Prepend the logfile with. Context assumes name of game
+	 * @see		FileHandle
+	 * */
 	public static void setLogfile(String gameName) {
-		LJ.logfile = new FileHandle(gameName + "." + new Date().toString().replaceAll("\\W", ".") + ".log");
+		LJ.logfile = Gdx.files.local( "logs/"+ gameName + "." + new Date().toString().replaceAll("\\W", ".") + ".log" );
 		LJ.log("Logfile created at " + LJ.logfile.path());
 	}
-	
 }
