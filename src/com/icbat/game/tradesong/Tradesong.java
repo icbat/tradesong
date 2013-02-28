@@ -19,8 +19,6 @@ public class Tradesong extends Game {
 		LJ.log(new Date().toString());
 		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LJ.LOG);
 		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
-		
-		Gdx.input.setInputProcessor( new InputHandler() );
 	}
 
 	@Override
