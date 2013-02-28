@@ -17,7 +17,7 @@ public class Tradesong extends Game {
 	@Override
 	public void create() {
 		LJ.setLevel(Application.LOG_DEBUG);
-		LJ.newLogfile(this.getClass().getSimpleName());
+		LJ.setLogfile(this.getClass().getSimpleName());
 		LJ.log( "Creating game", LJ.DEBUG );
 		// Some initial logging (type and version)
 		LJ.log(new Date().toString());
