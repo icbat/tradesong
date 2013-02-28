@@ -24,8 +24,13 @@ public class LevelScreen extends AbstractScreen {
 	
 	
 
-	public LevelScreen(FileHandle mapFile, Tradesong instance) {
+	public LevelScreen(String level, Tradesong instance) {
 		super(instance);
+		LJ.log("Trying to load level", level, LJ.LOG);
+		FileHandle mapFile = Gdx.files.internal("maps/" + level + ".tmx");
+		if (!mapFile.exists())
+			LJ.log("Level not found!", level, LJ.ERROR);
+		
 		log( "Opening level:  " + mapFile, LJ.DEBUG );
 		
 		// Load up resources

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.icbat.game.LJ;
+import com.icbat.game.tradesong.screens.LevelScreen;
 
 public class Tradesong extends Game {
 	
@@ -18,7 +19,7 @@ public class Tradesong extends Game {
 		// Some initial logging (type and version)
 		LJ.log(new Date().toString());
 		LJ.log( Gdx.app.getType().toString(), "Version:  " + Gdx.app.getVersion(), LJ.LOG);
-		setScreen( ScreenFactory.getLevelScreen( "test", this ) );
+		setScreen( new LevelScreen("test", this) );
 	}
 
 	@Override
