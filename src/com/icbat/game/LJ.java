@@ -33,14 +33,14 @@ public class LJ {
 	 * 
 	 * @param	message		The message to be logged
 	 * @param	className	Class Name of the caller	
-	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
+	 * @param	logLevel	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
-	public static void log( String message, String className, int category ) {
+	public static void log( String message, String className, int logLevel ) {
 		// TODO this needs to be reworked; it shows lots of whitespace and commas
-		String toBeLogged = category + ", " + className + ", " + message;
+		String toBeLogged = logLevel + ", " + className + ", " + message;
 		
 		// Console Logging
-		switch ( category ) {
+		switch ( logLevel ) {
 		case LOG:
 			Gdx.app.log( "", toBeLogged );
 			break;
@@ -61,7 +61,7 @@ public class LJ {
 		// File logging
 		if ( logfile != null ) {
 			logfile.writeString( toBeLogged  + "\n", true );
-			if ( category == ERROR ) {
+			if ( logLevel == ERROR ) {
 				logfile.writeString( "Java heap in bytes:  " + Gdx.app.getJavaHeap() + "\n", true );
 				logfile.writeString( "Native heap in bytes:  " + Gdx.app.getNativeHeap() + "\n", true );
 			}
@@ -72,10 +72,10 @@ public class LJ {
 	 * Specify a category but no additional column (like variables, stack types, etc.)
 	 * 
 	 * @param	message		The message to be logged
-	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
+	 * @param	logLevel	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
-	public static void log( String message, int category ) {
-		LJ.log ( message, "", category );
+	public static void log( String message, int logLevel ) {
+		LJ.log ( message, "", logLevel );
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class LJ {
 	/** Wrapper so this class can encapsulate all logging
 	 * ONLY pertains to console logging; file logging and any others will still log everything always
 	 * 
-	 * @see	Gdx.app
+	 * @see	Gdx
 	 *  */
 	public static void setLevel( int logLevel ) {
 		Gdx.app.setLogLevel( logLevel );
