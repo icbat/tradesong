@@ -29,17 +29,17 @@ public class LJ {
 	private LJ() {}
 	
 	/**
-	 * Workhorse of the class. This method will handle the actual logging of events.
+	 * Workhorse of the class. This method handles the actual logging of events.
 	 * 
 	 * @param	message		The message to be logged
 	 * @param	className	Class Name of the caller	
 	 * @param	category	int (or constant) specifying ERROR, LOG, or DEBUG mode
 	 * */
 	public static void log( String message, String className, int category ) {
+		// TODO this needs to be reworked; it shows lots of whitespace and commas
 		String toBeLogged = category + ", " + className + ", " + message;
 		
 		// Console Logging
-		
 		switch ( category ) {
 		case LOG:
 			Gdx.app.log( "", toBeLogged );
@@ -51,8 +51,8 @@ public class LJ {
 			break;
 		case DEBUG:
 			Gdx.app.debug( "", toBeLogged );
-			break;
-			// If something's wrong with the category, go ahead and log
+			break;	
+		// If something's wrong with the category, go ahead and log
 		default:
 			Gdx.app.log( "", toBeLogged );
 			break;
