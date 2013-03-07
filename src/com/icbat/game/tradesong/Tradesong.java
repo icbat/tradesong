@@ -6,13 +6,15 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.icbat.game.LJ;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.LevelScreen;
 
 public class Tradesong extends Game {
 	
-	public Object inventory = null;
+	protected Object inventory = null;
+	public AssetManager assets = new AssetManager();
 	
 	@Override
 	public void create() {
