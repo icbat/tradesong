@@ -23,8 +23,8 @@ public class Tradesong extends Game {
 		LJ.log(new Date().toString());
 		LJ.log( "App Type", Gdx.app.getType().toString(), LJ.LOG);
 		LJ.log( "Device Version" + Gdx.app.getVersion(), LJ.LOG);
-		// setScreen( new LevelScreen("test", this) );
-		setScreen( new InventoryScreen(this) );
+		setScreen( new LevelScreen("staticTest", this) );
+//		setScreen( new InventoryScreen(this) );
 	}
 
 	@Override
