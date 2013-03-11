@@ -1,10 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -13,16 +9,9 @@ import com.icbat.game.tradesong.Tradesong;
 
 public class LevelScreen extends AbstractScreen {
 	
-//	BitmapFont font;
-//	TiledMap map;
-//	TileAtlas atlas;
-//	TileMapRenderer renderer;
-	
-	// TODO abstract somehow to not be code-static
-	FileHandle tilesetsDir = Gdx.files.internal("tilesets/");
-	
-	private TiledMap map = null;
 	public String mapName = "";
+	private TiledMap map = null;
+	private TiledMapRenderer renderer = null;
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
@@ -41,6 +30,7 @@ public class LevelScreen extends AbstractScreen {
 		LJ.log("Loaded map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG);
 		
 		this.map = game.assets.get(mapName);
+		
 		
 		
 	}
