@@ -13,43 +13,46 @@ import com.icbat.game.tradesong.screens.LevelScreen;
 
 public class Tradesong extends Game {
 	
-	protected Object inventory = null;
+
 	public AssetManager assets = new AssetManager();
+	public Object inventory = null;
+	public LJ log = new LJ("", this.getClass().getSimpleName());
+
 	
 	@Override
 	public void create() {
-		LJ.setLevel(Application.LOG_DEBUG);
-		LJ.setLogfile(this.getClass().getSimpleName());
-		LJ.log( "Creating game", LJ.DEBUG );
+		log.setLevel( Application.LOG_DEBUG );
+		log.info( "Creating game" );
 		// Some initial logging (type and version)
-		LJ.log(new Date().toString());
-		LJ.log( "App Type", Gdx.app.getType().toString(), LJ.LOG);
-		LJ.log( "Device Version" + Gdx.app.getVersion(), LJ.LOG);
-		setScreen( new LevelScreen("staticTest", this) );
-//		setScreen( new InventoryScreen(this) );
+		log.info( new Date().toString() );
+		log.info( "App Type" + Gdx.app.getType().toString() );
+		log.info( "Device Version" + Gdx.app.getVersion() );
+		setScreen( new LevelScreen("test", this) );
+		// setScreen( new InventoryScreen(this) );
+
 	}
 
 	@Override
 	public void dispose() {
-		LJ.log( "Disposing game", LJ.DEBUG );
+		log.debug( "Disposing game" );
 		super.dispose();
 	}
 
 	@Override
 	public void resize( int width, int height ) {
-		LJ.log( "Resizing game to " + width + "w by " + height + "h", LJ.DEBUG );
+		log.debug( "Resizing game to " + width + "w by " + height + "h" );
 		super.resize(width, height);
 	}
 
 	@Override
 	public void pause() {
-		LJ.log( "Pausing game", LJ.DEBUG );
+		log.debug( "Pausing game" );
 		super.pause();
 	}
 
 	@Override
 	public void resume() {
-		LJ.log( "Resuming game", LJ.DEBUG );
+		log.debug( "Resuming game" );
 		super.resume();
 	}
 	

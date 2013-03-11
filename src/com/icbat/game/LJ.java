@@ -4,121 +4,125 @@ import java.util.Date;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Logger;
+
 
 /**
- * LJ, or Lumberjack, is a logging utility class to allow seam less logging to either console, file, or both
+ * Logging class that extends Gdx.utils.Logger
  * 
- * Set file logging a file with setLogFile. Logs naturally to CSV
- *  
- * When extending this: a boolean, edit constructor and the appropriate lines to log(string, string, string) 
+ * (tries) to log to file automatically from the same commands
  * 
- * @author icbat
- * @see log(String, String, String)
+ * @author	icbat
  * */
-public class LJ {
+public class LJ extends Logger {
 	
-	// Categories
-	public static final int ERROR = 0;
-	public static final int LOG = 1;
-	public static final int DEBUG = 2;
+	private FileHandle logfile = null;
 	
-	private static FileHandle logfile = null;
+	public LJ() {
+		super("");
+		makeFileWithName("");
+	}
 	
-	/** Static class, doesn't need to instantiate */
-	private LJ() {}
+	public LJ(String tag) {
+		super(tag);
+		makeFileWithName("");
+	}
 	
+	public LJ(String tag, String gameName) {
+		super(tag);
+		makeFileWithName(gameName);
+	}
+	
+	@Override
+	public void debug (String message) {
+		super.debug(message);
+		logToFile("Debug", message);
+	} 
+	
+	@Override
+	public void debug (String message, java.lang.Exception exception) {
+		super.debug(message, exception);
+		logToFile("Debug", message, exception);
+	} 
+	
+	@Override
+	public void error (String message) {
+		super.error(message);
+		logToFile("Error", message);
+	} 
+	
+	@Override
+	public void error (String message, java.lang.Throwable exception) {
+		super.error(message, exception);
+		logToFile("Error", message, exception);
+	} 
+	
+	@Override
+	public void info (String message) {
+		super.info(message);
+		logToFile("Info", message);
+	} 
+	
+	@Override
+	public void info (String message, java.lang.Exception exception) {
+		super.info(message, exception);
+		logToFile("Info", message, exception);
+	} 
+	
+	// Util
 	/**
-	 * Workhorse of the class. This method handles the actual logging of events.
+	 * TRY's to make a new logfile with relative path/name given as:
 	 * 
-	 * @param	message				The message to be logged
-	 * @param	additionalMessage	Additional info if necessary	
-	 * @param	logLevel			int (or constant) specifying ERROR, LOG, or DEBUG mode. If anything else, defaults to LOG
+	 * LOCAL:"logs/" + gameName + ".log"
+	 * 
+	 * @param	gameName	Name of the program to help identify where the log was generated
 	 * */
-	public static void log( String message, String additionalMessage, int logLevel ) {
-		// Only add the comma is there's something coming
-		if (additionalMessage != "")
-			message = message + "," + additionalMessage;
+	private boolean makeFileWithName(String gameName) {
+		//logfile = Gdx.files.local(makeFileName(""));
+		String filename = "logs/" + gameName + new Date().toString().replaceAll("\\W", ".") + ".log";
+		boolean outcome = false;
 		
-		// Console Logging
-		switch ( logLevel ) {
-		case LOG:
-			Gdx.app.log( "Log", message );
-			break;
-		case ERROR:
-			Gdx.app.error( "ERROR", message);
-			Gdx.app.error( "#", "Java heap in bytes:  " + Gdx.app.getJavaHeap() );
-			Gdx.app.error( "#", "Native heap in bytes:  " + Gdx.app.getNativeHeap() );
-			break;
-		case DEBUG:
-			Gdx.app.debug( "Debug", message );
-			break;	
-		// If something's wrong with the category, go ahead and log
-		default:
-			Gdx.app.log( "Log", message );
-			break;
+		try {
+			logfile = Gdx.files.local(filename);
+			outcome = true;
+		} catch (Exception e) {
+			super.error("Failed to create logging file", e);
+			outcome = false;
 		}
 		
-		// File logging
-		if ( logfile != null ) {
-			switch( logLevel ) {
-			case LOG:
-				logfile.writeString("Log," + message + "\n", true);
-				break;
-			case ERROR:
-				logfile.writeString("ERROR," + message + "\n", true);
-				logfile.writeString( "Java heap in bytes:  " + Gdx.app.getJavaHeap() + "\n", true );
-				logfile.writeString( "Native heap in bytes:  " + Gdx.app.getNativeHeap() + "\n", true );
-				break;
-			case DEBUG:
-				logfile.writeString("Debug," + message + "\n", true);
-				break;
-			default:
-				logfile.writeString("Log," + message + "\n", true);
-				break;
-			}
+		return outcome;
+	}
+	
+	/**
+	 * TRY's to write a log message to the open logfile.
+	 * 
+	 * Fails out to the SUPER class (Gdx.utils.Logger)
+	 * 
+	 * @param	tag		Which method called this? Debug, Error, or Info?
+	 * @param	message	The string to be logged
+	 * */
+	private void logToFile(String tag, String message) {
+		try {
+			this.logfile.writeString(tag + "," + message + ",\n", true);
+		} catch (Exception e) {
+			super.error("Failed to write to file:  " + message, e);
 		}
 	}
 	
 	/**
-	 * Specify a category but no additional column (like variables, stack types, etc.)
+	 * TRY's to write a log message to the open log file, concatenating any thrown exception included
 	 * 
-	 * @param	message		The message to be logged
-	 * @param	logLevel	int (or constant) specifying ERROR, LOG, or DEBUG mode
+	 * Fails out to the SUPER class's error method
+	 * 
+	 * @param 	tag		Which method called this? Debug, Error, or Info?
+	 * @param	message	The string to be logged
+	 * @param	e		A java Throwable that has been thrown, the reason we're logging an error
 	 * */
-	public static void log( String message, int logLevel ) {
-		LJ.log ( message, "", logLevel );
-	}
-	
-	/**
-	 * By default, this will assume LOG-level of sensitivity
-	 * 
-	 * @param	message	The message to be logged
-	 * */
-	public static void log( String message ) {
-		LJ.log( message, LOG );
-	}
-	
-	/** Wrapper so this class can encapsulate all logging
-	 * ONLY pertains to console logging; file logging and any others will still log everything always
-	 * 
-	 * @see	Gdx
-	 *  */
-	public static void setLevel( int logLevel ) {
-		Gdx.app.setLogLevel( logLevel );
-	}
-
-	public static FileHandle getLogfile() {
-		return logfile;
-	}
-	
-	/**
-	 * Sets the log file to a FileHandle of Internal(param)
-	 * 
-	 * @param	gameName	String you'd like to Prepend the logfile with. Context assumes name of game
-	 * @see		FileHandle
-	 * */
-	public static void setLogfile(String gameName) {
-		LJ.logfile = Gdx.files.local( "logs/"+ gameName + "." + new Date().toString().replaceAll("\\W", ".") + ".log" );
-		LJ.log("Logfile created at " + LJ.logfile.path());
+	private void logToFile(String tag, String message, java.lang.Throwable e) {
+		try {
+			this.logfile.writeString(tag + "," + message + "," + e.toString() + "\n", true);
+		} catch (Exception newE) {
+			super.error("Failed to write to file:  " + message + e + newE);
+		}
 	}
 }
