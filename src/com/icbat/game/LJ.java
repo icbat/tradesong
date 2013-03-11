@@ -8,11 +8,6 @@ import com.badlogic.gdx.utils.Logger;
 
 public class LJ extends Logger {
 	
-	// Categories
-	public static final int ERROR = 0;
-	public static final int LOG = 1;
-	public static final int DEBUG = 2;
-	
 	private FileHandle logfile = null;
 	
 	public LJ() {
