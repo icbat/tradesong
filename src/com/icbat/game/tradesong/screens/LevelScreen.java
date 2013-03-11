@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.*;
-import com.icbat.game.LJ;
 import com.icbat.game.tradesong.Tradesong;
 
 public class LevelScreen extends AbstractScreen {
@@ -41,13 +40,13 @@ public class LevelScreen extends AbstractScreen {
 		// "Internal" relative address. What the asset loader wants.
 		this.mapName = "maps/" + level + ".tmx";
 		
-		LJ.log("Loading level", level, LJ.LOG);
+		log("Loading level" + level);
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
 		game.assets.load(mapName, TiledMap.class);
 		game.assets.finishLoading();
 		endTime = System.currentTimeMillis();
-		LJ.log("Loaded map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG);
+		log("Loaded map in " + (endTime - startTime) + " milliseconds");
 		// Map loading ends
 		
 		
