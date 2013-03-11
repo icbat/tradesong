@@ -1,9 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.*;
 import com.icbat.game.LJ;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -12,10 +17,25 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
 	private TiledMap map = null;
 	private TiledMapRenderer renderer = null;
+	
+	private OrthographicCamera camera = null;
+	private InputAdapter cameraController;
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
 		
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, (w / h) * 10, 10);
+		camera.zoom = 2;
+		camera.update();
+
+		cameraController = new InputAdapter();
+		Gdx.input.setInputProcessor(cameraController);
+		
+		// Map loading Starts
 		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		
 		// "Internal" relative address. What the asset loader wants.
@@ -28,46 +48,25 @@ public class LevelScreen extends AbstractScreen {
 		game.assets.finishLoading();
 		endTime = System.currentTimeMillis();
 		LJ.log("Loaded map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG);
+		// Map loading ends
+		
 		
 		this.map = game.assets.get(mapName);
-		
+		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 		
 		
 	}
 	
 	@Override
-	public void render(float delta) {		
+	public void render(float delta) {
+		camera = new OrthographicCamera();
+		
 		super.render(delta);
-		
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-		
-	}
-
-	@Override
-	public void show() {
-		super.show();
-		
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
-		
-	}
-
-	@Override
-	public void pause() {
-		super.pause();
-		
-	}
-
-	@Override
-	public void resume() {
-		super.resume();
+		Gdx.gl.glClearColor(100f / 255f, 100f / 255f, 250f / 255f, 1f);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		camera.update();
+		renderer.setView(camera);
+		renderer.render();
 		
 	}
 
