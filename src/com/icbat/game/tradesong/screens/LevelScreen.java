@@ -21,57 +21,27 @@ public class LevelScreen extends AbstractScreen {
 	// TODO abstract somehow to not be code-static
 	FileHandle tilesetsDir = Gdx.files.internal("tilesets/");
 	
-	
+	private TiledMap map = null;
+	public String mapName = "";
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
 		
 		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		
+		// "Internal" relative address. What the asset loader wants.
+		this.mapName = "maps/" + level + ".tmx";
+		
 		LJ.log("Loading level", level, LJ.LOG);
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
-		game.assets.load("maps/" + level + ".tmx", TiledMap.class);
+		game.assets.load(mapName, TiledMap.class);
+		game.assets.finishLoading();
 		endTime = System.currentTimeMillis();
 		LJ.log("Loaded map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG);
 		
+		this.map = game.assets.get(mapName);
 		
-//		LJ.log("Trying to load level", level, LJ.LOG);
-//		FileHandle mapFile = Gdx.files.internal("maps/" + level + ".tmx");
-//		if (!mapFile.exists())
-//			LJ.log("Level not found!", level, LJ.ERROR);
-//		
-//		log( "Opening level:  " + mapFile, LJ.DEBUG );
-//		
-//		// Load up resources
-//		this.font = new BitmapFont();
-//		font.setColor(Color.RED);
-//		
-//		// Load map and log the time
-//		// TODO refactor this timing to be more readable
-//		long startTime, endTime;
-//		startTime = System.currentTimeMillis();
-//		this.map = TiledLoader.createMap(mapFile);		
-//		endTime = System.currentTimeMillis();
-//		log( "Loaded map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG );
-//		
-//		// Atlas map
-//		startTime = System.currentTimeMillis();
-//		this.atlas = new SimpleTileAtlas(this.map, tilesetsDir);
-//		endTime = System.currentTimeMillis();
-//		log( "Atlas'd map in " + (endTime - startTime) + " milliseconds", LJ.DEBUG );
-//		
-//		
-//		// Set up renderer
-//		int blockHeight = 10;
-//		int blockWidth = 10;
-//		
-//		startTime = System.currentTimeMillis();
-//		this.renderer = new TileMapRenderer(map, atlas, blockWidth, blockHeight, 32, 32); 
-//		endTime = System.currentTimeMillis();
-//		log( "Renderer loaded in " + (endTime - startTime) + " milliseconds", LJ.DEBUG );
-//		
-//		//TODO Continue loading/making this show
 		
 	}
 	
