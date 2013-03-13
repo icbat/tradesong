@@ -8,8 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.icbat.game.LJ;
-import com.icbat.game.tradesong.screens.InventoryScreen;
-import com.icbat.game.tradesong.screens.LevelScreen;
+import com.icbat.game.tradesong.screens.MainMenuScreen;
 
 public class Tradesong extends Game {
 	
@@ -27,8 +26,8 @@ public class Tradesong extends Game {
 		log.info( new Date().toString() );
 		log.info( "App Type" + Gdx.app.getType().toString() );
 		log.info( "Device Version" + Gdx.app.getVersion() );
-		setScreen( new LevelScreen("test", this) );
-		// setScreen( new InventoryScreen(this) );
+//		setScreen( new LevelScreen("test", this) );
+		setScreen( new MainMenuScreen(this) );
 
 	}
 
