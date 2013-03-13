@@ -79,16 +79,14 @@ public class LJ extends Logger {
 	 * */
 	private boolean makeFileWithName(String gameName) {
 		//logfile = Gdx.files.local(makeFileName(""));
+		
+		
+		
 		String filename = "logs/" + gameName + new Date().toString().replaceAll("\\W", ".") + ".log";
 		boolean outcome = false;
-		
-		try {
-			logfile = Gdx.files.local(filename);
-			outcome = true;
-		} catch (Exception e) {
-			super.error("Failed to create logging file", e);
-			outcome = false;
-		}
+//		logfile = Gdx.files.local(filename);
+//		logfile = Gdx.files.local("logtest.log");
+		outcome = true;
 		
 		return outcome;
 	}
@@ -102,11 +100,8 @@ public class LJ extends Logger {
 	 * @param	message	The string to be logged
 	 * */
 	private void logToFile(String tag, String message) {
-		try {
+		if (logfile != null) 
 			this.logfile.writeString(tag + "," + message + ",\n", true);
-		} catch (Exception e) {
-			super.error("Failed to write to file:  " + message, e);
-		}
 	}
 	
 	/**
@@ -119,10 +114,7 @@ public class LJ extends Logger {
 	 * @param	e		A java Throwable that has been thrown, the reason we're logging an error
 	 * */
 	private void logToFile(String tag, String message, java.lang.Throwable e) {
-		try {
+		if (logfile != null) 
 			this.logfile.writeString(tag + "," + message + "," + e.toString() + "\n", true);
-		} catch (Exception newE) {
-			super.error("Failed to write to file:  " + message + e + newE);
-		}
 	}
 }
