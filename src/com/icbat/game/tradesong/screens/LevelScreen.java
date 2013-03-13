@@ -28,7 +28,7 @@ public class LevelScreen extends AbstractScreen {
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, (w / h) * 10, 10);
-		camera.zoom = 2;
+		camera.zoom = 1;
 		camera.update();
 
 		cameraController = new InputAdapter();
