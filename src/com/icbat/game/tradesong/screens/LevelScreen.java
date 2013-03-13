@@ -53,7 +53,6 @@ public class LevelScreen extends AbstractScreen {
 		this.map = game.assets.get(mapName);
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 		
-		
 	}
 	
 	@Override
@@ -71,7 +70,7 @@ public class LevelScreen extends AbstractScreen {
 	public void dispose() {
 		// TODO dispose ALL the things
 		super.dispose(); // Likely needs to be called last
-		
+		this.map.dispose();
 	}
 
 }
