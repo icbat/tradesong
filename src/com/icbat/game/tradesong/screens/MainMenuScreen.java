@@ -22,7 +22,6 @@ public class MainMenuScreen extends AbstractScreen {
 		stage = new Stage();
         table = new Table();
 
-        log("create called!");
         Gdx.input.setInputProcessor(stage);
 
         
@@ -39,12 +38,17 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.setHeight(100);
         newGameButton.setColor(Color.CYAN);
         table.add(newGameButton);
+        
+        log("Number of cells " + table.getCells().size());
 	}
 
 	public void resize (int width, int height) {
 	        stage.setViewport(width, height, true);
 	        log("Stage set to " + width + "w by " + height + "h");
 	        log("Table is " + table.getWidth());
+	        table.setWidth(width);
+	        table.setHeight(height);
+	        log("Table is NOW " + table.getWidth());
 	}
 
 	public void render () {
