@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,32 +12,39 @@ import com.icbat.game.tradesong.Tradesong;
 
 public class MainMenuScreen extends AbstractScreen {
 
+	
+
 	private Stage stage;
+	private Table table;
+
 	public MainMenuScreen(Tradesong game) {
 		super(game);
 		stage = new Stage();
-		// TODO Auto-generated constructor stub
-	}
-	
+        table = new Table();
 
-	public void create () {
-	        Gdx.input.setInputProcessor(stage);
+        log("create called!");
+        Gdx.input.setInputProcessor(stage);
 
-	        Table table = new Table();
-	        table.setFillParent(true);
-	        stage.addActor(table);
+        
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.debug();
 
-	        // Add widgets to the table here.
-	        TextButtonStyle style = new TextButtonStyle();
-	        style.font = new BitmapFont();
-	        
-	        TextButton newGameButton = new TextButton("New Game", style);
-	        
-	        stage.addActor(newGameButton);
+        // Add widgets to the table here.
+        TextButtonStyle style = new TextButtonStyle();
+        style.font = new BitmapFont();
+        
+        TextButton newGameButton = new TextButton("New Game", style);
+        newGameButton.setWidth(100);
+        newGameButton.setHeight(100);
+        newGameButton.setColor(Color.CYAN);
+        table.add(newGameButton);
 	}
 
 	public void resize (int width, int height) {
 	        stage.setViewport(width, height, true);
+	        log("Stage set to " + width + "w by " + height + "h");
+	        log("Table is " + table.getWidth());
 	}
 
 	public void render () {
