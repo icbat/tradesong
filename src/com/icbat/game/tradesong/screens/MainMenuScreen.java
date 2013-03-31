@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.icbat.game.tradesong.Tradesong;
 
 public class MainMenuScreen extends AbstractScreen {
@@ -22,7 +25,7 @@ public class MainMenuScreen extends AbstractScreen {
 		stage = new Stage();
         table = new Table();
 
-        Gdx.input.setInputProcessor(stage);
+//        Gdx.input.setInputProcessor(stage);
 
         
         table.setFillParent(true);
@@ -30,14 +33,19 @@ public class MainMenuScreen extends AbstractScreen {
         table.debug();
 
         // Add widgets to the table here.
-        TextButtonStyle style = new TextButtonStyle();
-        style.font = new BitmapFont();
+        Skin skin = new Skin();
         
-        TextButton newGameButton = new TextButton("New Game", style);
-        newGameButton.setWidth(100);
-        newGameButton.setHeight(100);
-        newGameButton.setColor(Color.CYAN);
-        table.add(newGameButton);
+        Label nameLabel = new Label("Name:", null);
+        TextField nameText = new TextField("NAME", skin);
+        Label addressLabel = new Label("Address:", skin);
+        TextField addressText = new TextField("ADDR", skin);
+
+        Table table = new Table();
+        table.add(nameLabel);
+        table.add(nameText).width(100);
+        table.row();
+        table.add(addressLabel);
+        table.add(addressText).width(100);
         
         log("Number of cells " + table.getCells().size());
 	}
