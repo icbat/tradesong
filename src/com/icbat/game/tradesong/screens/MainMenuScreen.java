@@ -3,72 +3,97 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.icbat.game.tradesong.Tradesong;
 
 public class MainMenuScreen extends AbstractScreen {
-
-	
-
-	private Stage stage;
-	private Table table;
-
+		
+	Skin skin;
+	Stage stage;
+	SpriteBatch batch;
+		
 	public MainMenuScreen(Tradesong game) {
 		super(game);
+		batch = new SpriteBatch();
 		stage = new Stage();
-        table = new Table();
-
-//        Gdx.input.setInputProcessor(stage);
-
-        
-        table.setFillParent(true);
-        stage.addActor(table);
-        table.debug();
-
-        // Add widgets to the table here.
-        Skin skin = new Skin();
-        
-        Label nameLabel = new Label("Name:", null);
-        TextField nameText = new TextField("NAME", skin);
-        Label addressLabel = new Label("Address:", skin);
-        TextField addressText = new TextField("ADDR", skin);
-
-        Table table = new Table();
-        table.add(nameLabel);
-        table.add(nameText).width(100);
-        table.row();
-        table.add(addressLabel);
-        table.add(addressText).width(100);
-        
-        log("Number of cells " + table.getCells().size());
+		Gdx.input.setInputProcessor(stage);
+	
+		// A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
+		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
+		skin = new Skin();
+	
+		// Generate a 1x1 white texture and store it in the skin named "white".
+		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		skin.add("white", new Texture(pixmap));
+	
+		// Store the default libgdx font under the name "default".
+		skin.add("default", new BitmapFont());
+	
+		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.font = skin.getFont("default");
+		skin.add("default", textButtonStyle);
+	
+		// Create a table that fills the screen. Everything else will go inside this table.
+		Table table = new Table();
+		table.setFillParent(true);
+		stage.addActor(table);
+	
+		// Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
+		final TextButton button = new TextButton("Click me!", skin);
+		table.add(button);
+	
+		// Add a listener to the button. ChangeListener is fired when the button's checked state changes, eg when clicked,
+		// Button#setChecked() is called, via a key press, etc. If the event.cancel() is called, the checked state will be reverted.
+		// ClickListener could have been used, but would only fire when clicked. Also, canceling a ClickListener event won't
+		// revert the checked state.
+		button.addListener(new ChangeListener() {
+		public void changed (ChangeEvent event, Actor actor) {
+		System.out.println("Clicked! Is checked: " + button.isChecked());
+		button.setText("Good job!");
+		}
+		});
+	
+		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
+		table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
 	}
-
-	public void resize (int width, int height) {
-	        stage.setViewport(width, height, true);
-	        log("Stage set to " + width + "w by " + height + "h");
-	        log("Table is " + table.getWidth());
-	        table.setWidth(width);
-	        table.setHeight(height);
-	        log("Table is NOW " + table.getWidth());
+	
+	
+	@Override
+	public void render( float delta ) {
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.draw();
+		Table.drawDebug(stage);
 	}
-
-	public void render () {
-	        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-	        stage.act(Gdx.graphics.getDeltaTime());
-	        stage.draw();
-
-	        Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
+	
+	@Override
+	public void resize(int width, int height) {
+		stage.setViewport(width, height, false);
 	}
-
+	
+	@Override
 	public void dispose() {
-	        stage.dispose();
+		stage.dispose();
+		skin.dispose();
 	}
-
 }
