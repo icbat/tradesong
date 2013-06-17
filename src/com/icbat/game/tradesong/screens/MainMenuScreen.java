@@ -48,7 +48,9 @@ public class MainMenuScreen extends AbstractScreen {
 //		textButtonStyle.up = skin.newDrawable("pixel", Color.DARK_GRAY);
 //		textButtonStyle.down = skin.newDrawable("pixel", Color.DARK_GRAY);
 //		textButtonStyle.checked = skin.newDrawable("pixel", Color.BLUE);
-//		textButtonStyle.over = skin.newDrawable("pixel", Color.LIGHT_GRAY);
+		textButtonStyle.over = skin.newDrawable("pixel", Color.LIGHT_GRAY);
+		textButtonStyle.downFontColor = Color.LIGHT_GRAY;
+		textButtonStyle.fontColor = Color.WHITE;
 		textButtonStyle.font = skin.getFont("default");
 		skin.add("default", textButtonStyle);
 	
@@ -61,6 +63,7 @@ public class MainMenuScreen extends AbstractScreen {
 		final TextButton newButton = new TextButton("Start", skin);
 		final TextButton exitButton = new TextButton("Exit", skin);
 		table.add(newButton);
+		table.row();
 		table.add(exitButton);
 	
 		// Add a listener to the button. ChangeListener is fired when the button's checked state changes, eg when clicked,
@@ -75,7 +78,7 @@ public class MainMenuScreen extends AbstractScreen {
 //		});
 	
 		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
-		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
+//		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
 	}
 	
 	
