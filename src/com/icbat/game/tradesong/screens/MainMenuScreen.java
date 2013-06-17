@@ -34,21 +34,21 @@ public class MainMenuScreen extends AbstractScreen {
 		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
 		skin = new Skin();
 	
-		// Generate a 1x1 white texture and store it in the skin named "white".
+		// Generate a 1x1 white texture and store it in the skin named "pixel".
 		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
-		skin.add("white", new Texture(pixmap));
+		skin.add("pixel", new Texture(pixmap));
 	
 		// Store the default libgdx font under the name "default".
 		skin.add("default", new BitmapFont());
 	
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.up = skin.newDrawable("pixel", Color.DARK_GRAY);
+		textButtonStyle.down = skin.newDrawable("pixel", Color.DARK_GRAY);
+		textButtonStyle.checked = skin.newDrawable("pixel", Color.BLUE);
+		textButtonStyle.over = skin.newDrawable("pixel", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
 		skin.add("default", textButtonStyle);
 	
@@ -73,7 +73,7 @@ public class MainMenuScreen extends AbstractScreen {
 		});
 	
 		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
-		table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
+		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
 	}
 	
 	
