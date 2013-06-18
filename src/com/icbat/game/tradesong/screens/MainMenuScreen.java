@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -70,12 +69,12 @@ public class MainMenuScreen extends AbstractScreen {
 		// Button#setChecked() is called, via a key press, etc. If the event.cancel() is called, the checked state will be reverted.
 		// ClickListener could have been used, but would only fire when clicked. Also, canceling a ClickListener event won't
 		// revert the checked state.
-//		button.addListener(new ChangeListener() {
-//		public void changed (ChangeEvent event, Actor actor) {
-//		System.out.println("Clicked! Is checked: " + button.isChecked());
-//		button.setText("Good job!");
-//		}
-//		});
+		exitButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				log("Exiting!");
+				Gdx.app.exit();
+			}
+		});
 	
 		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
 //		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
