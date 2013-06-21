@@ -66,4 +66,5 @@ public class Tradesong extends Game {
 		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
 		super.setScreen( screen );
 	}
+	
 }

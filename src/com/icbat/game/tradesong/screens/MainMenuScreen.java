@@ -26,7 +26,7 @@ public class MainMenuScreen extends AbstractScreen {
 	Stage stage;
 	SpriteBatch batch;
 		
-	public MainMenuScreen(Tradesong game) {
+	public MainMenuScreen(final Tradesong game) {
 		super(game);
 		batch = new SpriteBatch();
 		stage = new Stage();
@@ -62,7 +62,7 @@ public class MainMenuScreen extends AbstractScreen {
 		stage.addActor(table);
 	
 		// Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-		final TextButton newButton = new TextButton("Start", skin);
+		final TextButton newButton = new TextButton("New Game", skin);
 		final TextButton exitButton = new TextButton("Exit", skin);
 		table.add(newButton);
 		table.row();
@@ -72,10 +72,19 @@ public class MainMenuScreen extends AbstractScreen {
 		// Button#setChecked() is called, via a key press, etc. If the event.cancel() is called, the checked state will be reverted.
 		// ClickListener could have been used, but would only fire when clicked. Also, canceling a ClickListener event won't
 		// revert the checked state.
+		newButton.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					log("Starting a new game!");
+					game.setScreen(new LevelScreen("test", game));
+				}
+			}
+		
+		);
+		
 		exitButton.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
-				log("Exiting!");
-				Gdx.app.exit();
+				public void changed (ChangeEvent event, Actor actor) {
+					log("Exiting!");
+					Gdx.app.exit();
 			}
 		});
 	
