@@ -3,6 +3,9 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Screen;
 import com.icbat.game.tradesong.Tradesong;
 
+/**
+ * Generic abstraction of things shared by all screens
+ * */
 public abstract class AbstractScreen implements Screen {
 
 	protected final Tradesong gameInstance;

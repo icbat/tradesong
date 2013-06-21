@@ -10,6 +10,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.icbat.game.LJ;
 import com.icbat.game.tradesong.screens.MainMenuScreen;
 
+
+/**
+ * This class:
+ *  - sets up the game initially
+ *  - tracks/exposes "global" things.
+ * */
 public class Tradesong extends Game {
 	
 

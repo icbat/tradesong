@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.icbat.game.tradesong.Tradesong;
 
+/**
+ * Screen shown first, directs user to other screens/functions
+ * */
 public class MainMenuScreen extends AbstractScreen {
 		
 	Skin skin;
