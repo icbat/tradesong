@@ -22,10 +22,6 @@ import com.icbat.game.tradesong.Tradesong;
  * */
 public class MainMenuScreen extends AbstractScreen {
 		
-	Skin skin;
-	Stage stage;
-	SpriteBatch batch;
-		
 	public MainMenuScreen(final Tradesong game) {
 		super(game);
 		batch = new SpriteBatch();
