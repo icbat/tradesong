@@ -1,6 +1,9 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.icbat.game.tradesong.Tradesong;
 
 /**
@@ -9,6 +12,9 @@ import com.icbat.game.tradesong.Tradesong;
 public abstract class AbstractScreen implements Screen {
 
 	protected final Tradesong gameInstance;
+	protected Skin skin;
+	protected Stage stage;
+	protected SpriteBatch batch;
 	
 	public AbstractScreen( Tradesong game ) {
 		this.gameInstance = game;
