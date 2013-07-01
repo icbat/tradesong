@@ -32,7 +32,6 @@ public class Tradesong extends Game {
 		log.info( new Date().toString() );
 		log.info( "App Type" + Gdx.app.getType().toString() );
 		log.info( "Device Version" + Gdx.app.getVersion() );
-//		setScreen( new LevelScreen("test", this) );
 		setScreen( new MainMenuScreen(this) );
 
 	}
