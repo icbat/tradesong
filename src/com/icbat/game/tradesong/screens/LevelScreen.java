@@ -9,8 +9,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.*;
+import com.badlogic.gdx.math.Vector3;
 import com.icbat.game.tradesong.Tradesong;
 
+/**
+ * Generic level screen. The way maps are shown.
+ * */
 public class LevelScreen extends AbstractScreen {
 	
 	public String mapName = "";
@@ -31,7 +35,7 @@ public class LevelScreen extends AbstractScreen {
 		camera.zoom = 1;
 		camera.update();
 
-		cameraController = new InputAdapter();
+		cameraController = new OrthoCamController(camera);
 		Gdx.input.setInputProcessor(cameraController);
 		
 		// Map loading Starts
@@ -73,4 +77,38 @@ public class LevelScreen extends AbstractScreen {
 		this.map.dispose();
 	}
 
+	/**
+	 * Input Adapter for these maps. Directly from GDX test cases for now. Handles:
+	 *  - touch-dragging 
+	 * */
+	class OrthoCamController extends InputAdapter {
+		final OrthographicCamera camera;
+		final Vector3 curr = new Vector3();
+		final Vector3 last = new Vector3(-1, -1, -1);
+		final Vector3 delta = new Vector3();
+
+		public OrthoCamController (OrthographicCamera camera) {
+			this.camera = camera;
+		}
+
+		@Override
+		public boolean touchDragged (int x, int y, int pointer) {
+			camera.unproject(curr.set(x, y, 0));
+			
+			if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
+				camera.unproject(delta.set(last.x, last.y, 0));
+				delta.sub(curr);
+				camera.position.add(delta.x, delta.y, 0);
+			}
+			
+			last.set(x, y, 0);
+			return false;
+		}
+	
+		@Override
+		public boolean touchUp (int x, int y, int pointer, int button) {
+			last.set(-1, -1, -1);
+			return false;
+		}
+	}
 }
