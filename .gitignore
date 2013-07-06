@@ -3,7 +3,7 @@ assets/
 libs/
 bin/
 .settings/
+
 R.java
 Manifest.Java
 BuildConfig.java
-workspace.xml

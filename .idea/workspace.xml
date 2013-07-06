@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" name="Default" comment="Committing these files to get them out of my working set">
+    <list default="true" id="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/BuildConfig.java" afterPath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/BuildConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/Manifest.java" afterPath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/Manifest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/R.java" afterPath="$PROJECT_DIR$/Android/gen/com/icbat/games/tradesong/R.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Tradesong.iws" />
@@ -11,8 +14,8 @@
     <file path="$PROJECT_DIR$/Android/res/layout/main.xml" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373091410805" ignored="false" />
     <file path="/TradesongStartingActivity.java" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373092159699" ignored="false" />
     <file path="/fragment.java" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373092797291" ignored="false" />
-    <file path="/Dummy.txt" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373095236939" ignored="false" />
-    <file path="/.gitignore" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373095044324" ignored="false" />
+    <file path="/Dummy.txt" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373094999398" ignored="false" />
+    <file path="/.gitignore" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373094964148" ignored="false" />
     <file path="/README.md" changelist="d6acbc1e-84cc-4d99-8e65-c3fb8a2f7504" time="1373094880340" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +89,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="10" selection-start="36" selection-end="36" vertical-scroll-proportion="0.17258883">
+            <state line="9" column="14" selection-start="93" selection-end="93" vertical-scroll-proportion="0.3883249">
               <folding />
             </state>
           </provider>
@@ -311,20 +314,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Tradesong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Tradesong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value=".idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -492,15 +481,7 @@
       <created>1373094913654</created>
       <updated>1373094913654</updated>
     </task>
-    <task id="LOCAL-00002" summary="Committing these files to get them out of my working set">
-      <created>1373095011314</created>
-      <updated>1373095011314</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Stopping tracking workspace files">
-      <created>1373095146763</created>
-      <updated>1373095146763</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -572,7 +553,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Stopping tracking workspace files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Committing these files to get them out of my working set" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -589,7 +570,6 @@
     <MESSAGE value="IntelliJ up and running; works as before" />
     <MESSAGE value="IntelliJ up and running; works as before&#10;&#10;Updating readme with a few steps I keep forgetting" />
     <MESSAGE value="Committing these files to get them out of my working set" />
-    <MESSAGE value="Stopping tracking workspace files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -648,7 +628,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="10" selection-start="36" selection-end="36" vertical-scroll-proportion="0.17258883">
+        <state line="9" column="14" selection-start="93" selection-end="93" vertical-scroll-proportion="0.3883249">
           <folding />
         </state>
       </provider>
