@@ -4,6 +4,7 @@ libs/
 bin/
 .settings/
 
-R.java
-Manifest.Java
-BuildConfig.java
+*R.java
+*Manifest.Java
+*BuildConfig.java
+*workspace.xml
