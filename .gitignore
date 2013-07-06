@@ -1,10 +1,14 @@
-*class
+## Do not edit this with windows-whitespace! Use the web interface if necessary ##
+
+class
 assets/
 libs/
 bin/
 .settings/
+R.java
+Manifest.Java
+BuildConfig.java
 
-*R.java
-*Manifest.Java
-*BuildConfig.java
-*workspace.xml
+## IntelliJ-ish ##
+workspace.xml
+*.iws
