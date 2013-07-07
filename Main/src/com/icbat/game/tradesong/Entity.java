@@ -1,7 +1,5 @@
 package com.icbat.game.tradesong;
 
-import com.icbat.game.tradesong.components.Component;
-
 import java.util.ArrayList;
 
 /**
