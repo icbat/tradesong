@@ -10,5 +10,4 @@ Manifest.Java
 BuildConfig.java
 
 ## IntelliJ-ish ##
-workspace.xml
-*.iws
+.idea
