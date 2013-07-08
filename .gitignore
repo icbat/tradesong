@@ -1,13 +1,22 @@
 ## Do not edit this with windows-whitespace! Use the web interface if necessary ##
 
-class
+# Project-specific
 assets/
 libs/
-bin/
-.settings/
-R.java
-Manifest.Java
-BuildConfig.java
 
-## IntelliJ-ish ##
-.idea
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
