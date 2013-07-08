@@ -6,6 +6,14 @@ import java.util.ArrayList;
  * Basic class of all items/objects
  * */
 public class Item {
-    public Item(String itemName) {}
 
+    private String itemName;
+
+    public Item(String itemName) {
+        this.itemName = itemName;
+
+    }
+    public String getItemName() {
+        return itemName;
+    }
 }
