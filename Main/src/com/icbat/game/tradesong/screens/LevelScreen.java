@@ -10,7 +10,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.*;
 import com.badlogic.gdx.math.Vector3;
+import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
+
+import java.util.LinkedList;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -23,6 +26,8 @@ public class LevelScreen extends AbstractScreen {
 	
 	private OrthographicCamera camera = null;
 	private InputAdapter cameraController;
+
+    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
