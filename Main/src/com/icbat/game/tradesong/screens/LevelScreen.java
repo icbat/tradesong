@@ -27,9 +27,8 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer = null;
 	
 	private OrthographicCamera camera = null;
-	private InputAdapter cameraController;
 
-    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
+//    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
