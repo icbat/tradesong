@@ -64,6 +64,6 @@ public abstract class AbstractScreen implements Screen {
 	}
 	
 	protected void log( String message ) {
-		this.gameInstance.log.info( getClass().getSimpleName() + " says:  " + message);
+		this.gameInstance.log.info( ((Object) this).getClass().getSimpleName() + ":  " + message);
 	}	
 }
