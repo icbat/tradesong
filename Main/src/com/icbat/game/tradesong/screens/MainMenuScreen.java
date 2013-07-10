@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -87,25 +86,6 @@ public class MainMenuScreen extends AbstractScreen {
 		// Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
 //		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
 	}
-	
-	
-	@Override
-	public void render( float delta ) {
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		stage.draw();
-		Table.drawDebug(stage);
-	}
-	
-	@Override
-	public void resize(int width, int height) {
-		stage.setViewport(width, height, false);
-	}
-	
-	@Override
-	public void dispose() {
-		stage.dispose();
-		skin.dispose();
-	}
+
+
 }
