@@ -34,6 +34,7 @@ public class LevelScreen extends AbstractScreen {
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
         this.stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
 		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
@@ -44,7 +45,7 @@ public class LevelScreen extends AbstractScreen {
 		camera.zoom = 1;
 		camera.update();
 
-
+        // This doesn't seem to be working right now =(
         this.stage.addListener(new InputListener() {
             public boolean touchDragged(InputEvent event, float x, float y, int pointer, int button) {
                 log("down");
@@ -55,8 +56,6 @@ public class LevelScreen extends AbstractScreen {
                 log("up");
             }
         });
-        //cameraController = new OrthoCamController(camera);
-		Gdx.input.setInputProcessor(stage);
 		
 		// Map loading Starts
 		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));

@@ -42,9 +42,6 @@ public class MainMenuScreen extends AbstractScreen {
 	
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-//		textButtonStyle.up = skin.newDrawable("pixel", Color.DARK_GRAY);
-//		textButtonStyle.down = skin.newDrawable("pixel", Color.DARK_GRAY);
-//		textButtonStyle.checked = skin.newDrawable("pixel", Color.BLUE);
 		textButtonStyle.over = skin.newDrawable("pixel", Color.LIGHT_GRAY);
 		textButtonStyle.downFontColor = Color.LIGHT_GRAY;
 		textButtonStyle.fontColor = Color.WHITE;
