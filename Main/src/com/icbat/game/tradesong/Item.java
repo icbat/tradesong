@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
  * Originally had entity-component design pattern in mind.
  * decided to go with this instead; consider extracting out later
  * */
-public class Item {
+public class Item extends Image {
 
     private String itemName;
 
