@@ -122,7 +122,7 @@ public class LevelScreen extends AbstractScreen {
             if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
                 camera.unproject(delta.set(last.x, last.y, 0));
                 delta.sub(curr);
-                camera.position.add(delta.x, delta.y, 0);
+                camera.position.add(delta.x, delta.y * -1, 0);
             }
 
             last.set(x, y, 0);
