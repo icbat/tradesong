@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -28,7 +27,10 @@ public class LevelScreen extends AbstractScreen {
 
     private Actor backgroundActor = null;
 
-//    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
+    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
+    /** The string label in the map. If it changes there, change it here! */
+    private String spawnable_items = "spawnable_items";
+    private String[] spawnableItems;
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
@@ -68,13 +70,16 @@ public class LevelScreen extends AbstractScreen {
 		game.assets.finishLoading();
 		endTime = System.currentTimeMillis();
 		log("Loaded map in " + (endTime - startTime) + " milliseconds");
-		// Map loading ends
-		
-		
+
 		this.map = game.assets.get(mapName);
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
-		
-	}
+
+        // Set up list of items to spawn
+        String items = (String)this.map.getProperties().get(spawnable_items);
+        this.spawnableItems = items.split(",");
+
+
+    }
 	
 	@Override
 	public void render(float delta) {
@@ -90,7 +95,6 @@ public class LevelScreen extends AbstractScreen {
         super.resize(width, height);
         backgroundActor.setBounds(0,0, width, height);
     }
-
 
 	@Override
 	public void dispose() {
