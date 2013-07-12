@@ -1,8 +1,11 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,6 +17,7 @@ import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -23,10 +27,12 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
 	private TiledMap map = null;
 	private TiledMapRenderer renderer = null;
-	private OrthographicCamera camera = null;
 
+	private OrthographicCamera camera = null;
     private Actor backgroundActor = null;
 
+    // Used with items
+    private Texture itemsTexture;
     private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
     /** The string label in the map. If it changes there, change it here! */
     private String spawnable_items = "spawnable_items";
@@ -74,6 +80,14 @@ public class LevelScreen extends AbstractScreen {
 		this.map = game.assets.get(mapName);
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
+        startTime = System.currentTimeMillis();
+        game.assets.load("sprites/items.png", Texture.class);
+        game.assets.finishLoading();
+        endTime = System.currentTimeMillis();
+        log("Loaded sprites in " + (endTime - startTime) + " milliseconds");
+
+//        itemsTexture = new Texture();
+
         // Set up list of items to spawn
         String items = (String)this.map.getProperties().get(spawnable_items);
         this.spawnableItems = items.split(",");
@@ -102,6 +116,37 @@ public class LevelScreen extends AbstractScreen {
 		super.dispose(); // Likely needs to be called last
 		this.map.dispose();
 	}
+
+    /** Spawns a random item that is possible on this map */
+    private Item spawnItem() {
+        Random r = new Random();
+        int i = r.nextInt(spawnableItems.length);
+        String name, descr;
+        TextureRegion region = null;
+
+        name = spawnableItems[i];
+        // ATTN: hard coding this for now. Extract out later. This is good enough for alpha
+        switch(i) {
+            case 1:
+                descr = "Some rock with little glinting bits.";
+
+                break;
+            case 2:
+                descr = "Some rock with little glinting bits.";
+
+                break;
+            case 3:
+                descr = "Some rock with little glinting bits.";
+
+                break;
+            default:
+                descr = "What a strange object!";
+//                region = new TextureRegion().setRegion();
+        }
+
+        return new Item(name, descr, region);
+    }
+
 
     /**
      * Input handling for moving camera on maps. Handles:

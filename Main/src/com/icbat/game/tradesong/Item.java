@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -8,13 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  *
  * Originally had entity-component design pattern in mind.
  * decided to go with this instead; consider extracting out later
+ *
+ * This extends Actor -> Image, and can already handle stage association and actor association
  * */
 public class Item extends Image {
 
     private String itemName;
     private String description;
     private TextureRegion region;
-
 
     public Item(String itemName, String description, TextureRegion region) {
         this.itemName = itemName;
@@ -29,4 +31,5 @@ public class Item extends Image {
     public String getDescription() {
         return description;
     }
+
 }
