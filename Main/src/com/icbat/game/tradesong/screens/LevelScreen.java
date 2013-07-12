@@ -116,7 +116,6 @@ public class LevelScreen extends AbstractScreen {
         @Override
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             super.touchDragged(event, x, y, pointer);
-            log("Dragging");
 
             camera.unproject(curr.set(x, y, 0));
 
@@ -132,7 +131,6 @@ public class LevelScreen extends AbstractScreen {
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             super.touchUp(event, x, y, pointer, button);
-            log("Touch up!");
             last.set(-1, -1, -1);
         }
     }
