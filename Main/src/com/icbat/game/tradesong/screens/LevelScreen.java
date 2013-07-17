@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.*;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -35,8 +36,9 @@ public class LevelScreen extends AbstractScreen {
     private Texture itemsTexture;
     private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
     /** The string label in the map. If it changes there, change it here! */
-    private String spawnable_items = "spawnable_items";
+    private String item_key = "spawnable_items";
     private String[] spawnableItems;
+    private Timer timer;
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
@@ -89,10 +91,19 @@ public class LevelScreen extends AbstractScreen {
 //        itemsTexture = new Texture();
 
         // Set up list of items to spawn
-        String items = (String)this.map.getProperties().get(spawnable_items);
+        String items = (String)this.map.getProperties().get(item_key);
         this.spawnableItems = items.split(",");
 
+        timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            public void run() {
+                Item toSpawn = spawnItem();
+                Random r = new Random();
 
+                log(toSpawn.getItemName());
+            }
+        }
+                ,5 , 6);
     }
 	
 	@Override
@@ -113,6 +124,7 @@ public class LevelScreen extends AbstractScreen {
 	@Override
 	public void dispose() {
 		// TODO dispose ALL the things
+        timer.clear(); // Cancels all tasks
 		super.dispose(); // Likely needs to be called last
 		this.map.dispose();
 	}
@@ -147,6 +159,17 @@ public class LevelScreen extends AbstractScreen {
         return new Item(name, descr, region);
     }
 
+    @Override
+    public void pause() {
+        super.pause();
+        timer.stop();
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        timer.start();
+    }
 
     /**
      * Input handling for moving camera on maps. Handles:
@@ -185,6 +208,3 @@ public class LevelScreen extends AbstractScreen {
     }
 
 }
-
-
-
