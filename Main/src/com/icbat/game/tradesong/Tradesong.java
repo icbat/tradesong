@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
@@ -66,11 +67,4 @@ public class Tradesong extends Game {
 		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
 		super.setScreen( screen );
 	}
-
-    public void logAssets() {
-        Array<String> assetnames = this.assets.getAssetNames();
-        while (assetnames.size > 0) {
-            log.debug(assetnames.pop());
-        }
-    }
 }

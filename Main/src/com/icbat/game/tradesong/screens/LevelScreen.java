@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +36,8 @@ public class LevelScreen extends AbstractScreen {
     private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
     /** The string label in the map. If it changes there, change it here! */
     private String item_key = "spawnable_items";
+    private String itemSpriteFilename = "sprites/items.png";
+    private int itemSize = 34;
     private String[] spawnableItems;
     private Timer timer;
 
@@ -82,24 +83,31 @@ public class LevelScreen extends AbstractScreen {
 		this.map = game.assets.get(mapName);
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
+        // Load items texture
         startTime = System.currentTimeMillis();
-        game.assets.load("sprites/items.png", Texture.class);
+        game.assets.load(itemSpriteFilename, Texture.class);
         game.assets.finishLoading();
         endTime = System.currentTimeMillis();
         log("Loaded sprites in " + (endTime - startTime) + " milliseconds");
 
-//        itemsTexture = new Texture();
+
 
         // Set up list of items to spawn
         String items = (String)this.map.getProperties().get(item_key);
         this.spawnableItems = items.split(",");
 
         timer = new Timer();
+        // TODO:  See if this task can be extracted somewhere
         timer.scheduleTask(new Timer.Task() {
             public void run() {
                 Item toSpawn = spawnItem();
                 Random r = new Random();
 
+                int x = r.nextInt((Integer)map.getProperties().get("width"));
+                int y = r.nextInt((Integer)map.getProperties().get("height"));
+
+                stage.addActor(toSpawn);
+                toSpawn.setBounds(x, y, itemSize, itemSize);
                 log(toSpawn.getItemName());
             }
         }
@@ -135,26 +143,32 @@ public class LevelScreen extends AbstractScreen {
         int i = r.nextInt(spawnableItems.length);
         String name, descr;
         TextureRegion region = null;
-
+        int x, y;
         name = spawnableItems[i];
         // ATTN: hard coding this for now. Extract out later. This is good enough for alpha
         switch(i) {
             case 1:
-                descr = "Some rock with little glinting bits.";
-
+                descr = "A clump of Blackberries. But where's the bush?";
+                x = 0;
+                y = 0;
                 break;
             case 2:
                 descr = "Some rock with little glinting bits.";
-
+                x=0;
+                y=17;
                 break;
             case 3:
                 descr = "Some rock with little glinting bits.";
-
+                x=6;
+                y=18;
                 break;
             default:
                 descr = "What a strange object!";
-//                region = new TextureRegion().setRegion();
+                x=0;
+                y=0;
         }
+        Texture itemTexture = gameInstance.assets.get(itemSpriteFilename);
+        region = new TextureRegion(itemTexture, x * itemSize, y * itemSize, itemSize, itemSize);
 
         return new Item(name, descr, region);
     }
