@@ -103,8 +103,8 @@ public class LevelScreen extends AbstractScreen {
                 Item toSpawn = spawnItem();
                 Random r = new Random();
 
-                int x = r.nextInt((Integer)map.getProperties().get("width"));
-                int y = r.nextInt((Integer)map.getProperties().get("height"));
+                int x = 32 * r.nextInt((Integer)map.getProperties().get("width"));
+                int y = 32 * r.nextInt((Integer)map.getProperties().get("height"));
 
                 stage.addActor(toSpawn);
                 toSpawn.setBounds(x, y, itemSize, itemSize);
