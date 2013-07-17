@@ -109,6 +109,7 @@ public class LevelScreen extends AbstractScreen {
                 stage.addActor(toSpawn);
                 toSpawn.setBounds(x, y, itemSize, itemSize);
                 log(toSpawn.getItemName());
+                log(toSpawn.getDescription());
             }
         }
                 ,5 , 6);
@@ -145,20 +146,23 @@ public class LevelScreen extends AbstractScreen {
         TextureRegion region = null;
         int x, y;
         name = spawnableItems[i];
+
+        log(new Integer(i).toString());
+
         // ATTN: hard coding this for now. Extract out later. This is good enough for alpha
         switch(i) {
-            case 1:
+            case 2:
                 descr = "A clump of Blackberries. But where's the bush?";
                 x = 0;
                 y = 0;
                 break;
-            case 2:
+            case 0:
                 descr = "Some rock with little glinting bits.";
                 x=0;
                 y=17;
                 break;
-            case 3:
-                descr = "Some rock with little glinting bits.";
+            case 1:
+                descr = "You've got wood!";
                 x=6;
                 y=18;
                 break;
