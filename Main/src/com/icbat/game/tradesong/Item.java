@@ -19,6 +19,7 @@ public class Item extends Image {
     private TextureRegion region;
 
     public Item(String itemName, String description, TextureRegion region) {
+        super(region);
         this.itemName = itemName;
         this.region = region;
         this.description = description;
