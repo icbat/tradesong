@@ -40,6 +40,9 @@ public class LevelScreen extends AbstractScreen {
     private int itemSize = 34;
     private String[] spawnableItems;
     private Timer timer;
+    private int itemCount = 0;
+    // TODO a lot of stuff here; see if anything can be removed/extracted/refactored
+
 
 	public LevelScreen(String level, Tradesong game) {
 		super(game);
@@ -91,26 +94,22 @@ public class LevelScreen extends AbstractScreen {
         endTime = System.currentTimeMillis();
         log("Loaded sprites in " + (endTime - startTime) + " milliseconds");
 
-
-
         // Set up list of items to spawn
         String items = (String)this.map.getProperties().get(item_key);
         this.spawnableItems = items.split(",");
 
+        // Load in 3 to start
+        addItem();
+        addItem();
+        addItem();
+
+        // Set up timer to spawn more
         timer = new Timer();
         // TODO:  See if this task can be extracted somewhere
         timer.scheduleTask(new Timer.Task() {
             public void run() {
-                Item toSpawn = spawnItem();
-                Random r = new Random();
-
-                int x = 32 * r.nextInt((Integer)map.getProperties().get("width"));
-                int y = 32 * r.nextInt((Integer)map.getProperties().get("height"));
-
-                stage.addActor(toSpawn);
-                toSpawn.setBounds(x, y, itemSize, itemSize);
-                log(toSpawn.getItemName());
-                log(toSpawn.getDescription());
+                if(itemCount < 7)
+                    addItem();
             }
         }
                 ,5 , 6);
@@ -140,16 +139,14 @@ public class LevelScreen extends AbstractScreen {
 		this.map.dispose();
 	}
 
-    /** Spawns a random item that is possible on this map */
-    private Item spawnItem() {
+    /** Spawns a random item that is possible on this map     * */
+    private Item makeItem() {
         Random r = new Random();
         int i = r.nextInt(spawnableItems.length);
         String name, descr;
         TextureRegion region = null;
         int x, y;
         name = spawnableItems[i];
-
-        log(new Integer(i).toString());
 
         // ATTN: hard coding this for now. Extract out later. This is good enough for alpha
         switch(i) {
@@ -164,7 +161,7 @@ public class LevelScreen extends AbstractScreen {
                 y=17;
                 break;
             case 1:
-                descr = "You've got wood!";
+                descr = "It's a log!";
                 x=6;
                 y=18;
                 break;
@@ -177,6 +174,33 @@ public class LevelScreen extends AbstractScreen {
         region = new TextureRegion(itemTexture, x * itemSize, y * itemSize, itemSize, itemSize);
 
         return new Item(name, descr, region);
+    }
+
+    /** Puts a random item that is spawnable onto the map and updates the count */
+    private void addItem() {
+        addItem(makeItem());
+    }
+
+
+    /** Puts an item on the map and updates the count */
+    private void addItem(Item item) {
+        // TODO is there an easy way to do this in a transaction? Does it need to be?
+        Random r = new Random();
+
+        int x = 32 * r.nextInt((Integer)map.getProperties().get("width"));
+        int y = 32 * r.nextInt((Integer)map.getProperties().get("height"));
+
+        item.setTouchable(Touchable.enabled);
+        item.addListener(new ItemTouchListener(item));
+        item.setVisible(true);
+
+        stage.addActor(item);
+        item.setBounds(x, y, itemSize, itemSize);
+        log(item.getItemName());
+        log(item.getDescription());
+
+        itemCount++;
+
     }
 
     @Override
@@ -224,6 +248,23 @@ public class LevelScreen extends AbstractScreen {
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             super.touchUp(event, x, y, pointer, button);
             last.set(-1, -1, -1);
+        }
+    }
+
+    class ItemTouchListener extends ClickListener {
+        Item owner;
+
+        ItemTouchListener(Item owner) {
+            this.owner = owner;
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            super.touchUp(event, x, y, pointer, button);
+            // TODO send to inventory
+            owner.remove();
+            itemCount--;
+            log("Picked up" + owner.getItemName());
         }
     }
 
