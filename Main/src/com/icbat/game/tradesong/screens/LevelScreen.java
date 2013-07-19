@@ -77,6 +77,7 @@ public class LevelScreen extends AbstractScreen {
 		startTime = System.currentTimeMillis();
 		game.assets.load(mapName, TiledMap.class);
 		game.assets.finishLoading();
+
 		endTime = System.currentTimeMillis();
 		log("Loaded map in " + (endTime - startTime) + " milliseconds");
 
@@ -121,7 +122,8 @@ public class LevelScreen extends AbstractScreen {
 		camera.update();
 		renderer.setView(camera);
 		renderer.render();
-		
+        // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the camera
+		stage.draw();
 	}
 
     @Override
