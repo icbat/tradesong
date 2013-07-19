@@ -58,6 +58,8 @@ public class LevelScreen extends AbstractScreen {
 		camera.zoom = 1;
 		camera.update();
 
+        // TODO take this and make it work... problems: laggy when spawning, makes map TINY. Learn about cameras
+        stage.setCamera(camera);
 
         backgroundActor = new Actor();
         backgroundActor.setTouchable(Touchable.enabled);
@@ -66,6 +68,7 @@ public class LevelScreen extends AbstractScreen {
 
 
         stage.addActor(backgroundActor);
+
 
 
 		
@@ -264,7 +267,7 @@ public class LevelScreen extends AbstractScreen {
             // TODO send to inventory
             owner.remove();
             itemCount--;
-            log("Picked up" + owner.getItemName());
+            log("Picked up " + owner.getItemName());
         }
     }
 
