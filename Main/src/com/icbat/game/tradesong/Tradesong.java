@@ -1,12 +1,14 @@
 package com.icbat.game.tradesong;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.utils.Array;
 import com.icbat.game.LJ;
 import com.icbat.game.tradesong.screens.MainMenuScreen;
 
@@ -65,5 +67,4 @@ public class Tradesong extends Game {
 		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
 		super.setScreen( screen );
 	}
-	
 }

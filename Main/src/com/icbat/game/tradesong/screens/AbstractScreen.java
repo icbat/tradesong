@@ -1,6 +1,8 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -18,52 +20,62 @@ public abstract class AbstractScreen implements Screen {
 	
 	public AbstractScreen( Tradesong game ) {
 		this.gameInstance = game;
-		log( "Creating Screen" );
+		log( "Creating" );
 	}
 	
 	@Override
 	public void render( float delta ) {
-
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		log( "Resizing screen to " + width + "w by " + height + "h" );
+		log( "Resizing to " + width + "w by " + height + "h" );
+        stage.setViewport(width, height, false);
 //		super.resize(width, height);
 
 	}
 
 	@Override
 	public void show() {
-		log( "Showing Screen: " );
+		log( "Showing" );
 
 	}
 
 	@Override
 	public void hide() {
-		log( "Hiding Screen: " );
+		log( "Hiding" );
 
 	}
 
 	@Override
 	public void pause() {
-		log( "Pausing Screen: " );
+		log( "Pausing" );
 
 	}
 
 	@Override
 	public void resume() {
-		log( "Resuming Screen: " );
+		log( "Resuming" );
 
 	}
 
 	@Override
 	public void dispose() {
-		log( "Disposing of Screen: " );
+		log( "Disposing" );
+        stage.dispose();
+        skin.dispose();
 
 	}
 	
 	protected void log( String message ) {
-		this.gameInstance.log.info( getClass().getSimpleName() + " says:  " + message);
-	}	
+		this.gameInstance.log.info(((Object) this).getClass().getSimpleName() + ":  " + message);
+	}
+    protected void log ( String descriptor, int i) {
+        log (descriptor + ": " + new Integer(i).toString());
+    }
+
 }
