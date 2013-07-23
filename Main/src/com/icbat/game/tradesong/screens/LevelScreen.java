@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
+import com.icbat.game.tradesong.LevelItemFactory;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.LinkedList;
@@ -25,23 +26,19 @@ import java.util.Random;
 public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
-	private TiledMap map = null;
+
+    int itemCount = 0;
+    int initialItemCount = 4;
+    int maxSpawnedPerMap = 10; // TODO pull this out of map properties
+
+    private TiledMap map = null;
 	private TiledMapRenderer renderer = null;
 
-	private OrthographicCamera camera = null;
-    private Actor backgroundActor = null;
+	private OrthographicCamera camera = new OrthographicCamera();
+    private Actor backgroundActor = new Actor();
 
-    // Used with items
-    private Texture itemsTexture;
-    private LinkedList<Item> itemsOnMap = new LinkedList<Item>();
-    /** The string label in the map. If it changes there, change it here! */
-    private String item_key = "spawnable_items";
-    private String itemSpriteFilename = "sprites/items.png";
-    private int itemSize = 34;
-    private String[] spawnableItems;
-    private Timer timer;
-    private int itemCount = 0;
-    // TODO a lot of stuff here; see if anything can be removed/extracted/refactored
+    private Timer timer = new Timer();
+    private LevelItemFactory itemFactory;
 
 
 	public LevelScreen(String level, Tradesong game) {
@@ -53,25 +50,18 @@ public class LevelScreen extends AbstractScreen {
 		float h = Gdx.graphics.getHeight();
 
         // Setup a camera
-		camera = new OrthographicCamera();
 		camera.setToOrtho(false, (w / h) * 10, 10);
 		camera.zoom = 1;
 		camera.update();
 
-        // TODO take this and make it work... problems: laggy when spawning, makes map TINY. Learn about cameras
+        // TODO take this and make it work... problems: lag when spawning, makes map TINY. Learn about cameras
 //        stage.setCamera(camera);
-
-        backgroundActor = new Actor();
+        // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
         backgroundActor.setVisible(true);
         backgroundActor.addListener(new OrthoCamController(camera));
-
-
         stage.addActor(backgroundActor);
 
-
-
-		
 		// Map loading Starts
 		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		
@@ -90,29 +80,18 @@ public class LevelScreen extends AbstractScreen {
 		this.map = game.assets.get(mapName);
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
-        // Load items texture
-        startTime = System.currentTimeMillis();
-        game.assets.load(itemSpriteFilename, Texture.class);
-        game.assets.finishLoading();
-        endTime = System.currentTimeMillis();
-        log("Loaded sprites in " + (endTime - startTime) + " milliseconds");
 
-        // Set up list of items to spawn
-        String items = (String)this.map.getProperties().get(item_key);
-        this.spawnableItems = items.split(",");
+        this.itemFactory =  new LevelItemFactory(this.map, game);
+        // Initial item spawns
+        for (int i = 0; i < initialItemCount; ++i) {
+            stage.addActor(itemFactory.makeItem());
+        }
 
-        // Load in 3 to start
-        addItem();
-        addItem();
-        addItem();
-
-        // Set up timer to spawn more
-        timer = new Timer();
-        // TODO:  See if this task can be extracted somewhere
+        // Set up timer to spawn more items
         timer.scheduleTask(new Timer.Task() {
             public void run() {
-                if(itemCount < 7)
-                    addItem();
+                if(itemCount < maxSpawnedPerMap) {}
+                    stage.addActor(itemFactory.makeItem());
             }
         }
                 ,5 , 6);
@@ -142,69 +121,9 @@ public class LevelScreen extends AbstractScreen {
 		this.map.dispose();
 	}
 
-    /** Spawns a random item that is possible on this map     * */
-    private Item makeItem() {
-        Random r = new Random();
-        int i = r.nextInt(spawnableItems.length);
-        String name, descr;
-        TextureRegion region = null;
-        int x, y;
-        name = spawnableItems[i];
-
-        // ATTN: hard coding this for now. Extract out later. This is good enough for alpha
-        switch(i) {
-            case 2:
-                descr = "A clump of Blackberries. But where's the bush?";
-                x = 0;
-                y = 0;
-                break;
-            case 0:
-                descr = "Some rock with little glinting bits.";
-                x=0;
-                y=17;
-                break;
-            case 1:
-                descr = "It's a log!";
-                x=6;
-                y=18;
-                break;
-            default:
-                descr = "What a strange object!";
-                x=0;
-                y=0;
-        }
-        Texture itemTexture = gameInstance.assets.get(itemSpriteFilename);
-        region = new TextureRegion(itemTexture, x * itemSize, y * itemSize, itemSize, itemSize);
-
-        return new Item(name, descr, region);
-    }
-
-    /** Puts a random item that is spawnable onto the map and updates the count */
-    private void addItem() {
-        addItem(makeItem());
-    }
 
 
-    /** Puts an item on the map and updates the count */
-    private void addItem(Item item) {
-        // TODO is there an easy way to do this in a transaction? Does it need to be?
-        Random r = new Random();
 
-        int x = 32 * r.nextInt((Integer)map.getProperties().get("width"));
-        int y = 32 * r.nextInt((Integer)map.getProperties().get("height"));
-
-        item.setTouchable(Touchable.enabled);
-        item.addListener(new ItemTouchListener(item));
-        item.setVisible(true);
-
-        stage.addActor(item);
-        item.setBounds(x, y, itemSize, itemSize);
-        log(item.getItemName());
-        log(item.getDescription());
-
-        itemCount++;
-
-    }
 
     @Override
     public void pause() {
@@ -216,6 +135,10 @@ public class LevelScreen extends AbstractScreen {
     public void resume() {
         super.resume();
         timer.start();
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 
     /**
@@ -254,21 +177,6 @@ public class LevelScreen extends AbstractScreen {
         }
     }
 
-    class ItemTouchListener extends ClickListener {
-        Item owner;
 
-        ItemTouchListener(Item owner) {
-            this.owner = owner;
-        }
-
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchUp(event, x, y, pointer, button);
-            // TODO send to inventory
-            owner.remove();
-            itemCount--;
-            log("Picked up " + owner.getItemName());
-        }
-    }
 
 }

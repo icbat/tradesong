@@ -13,7 +13,9 @@ import com.icbat.game.tradesong.Tradesong;
  * */
 public abstract class AbstractScreen implements Screen {
 
-	protected final Tradesong gameInstance;
+
+
+    protected final Tradesong gameInstance;
 	protected Skin skin;
 	protected Stage stage;
 	protected SpriteBatch batch;
@@ -70,6 +72,10 @@ public abstract class AbstractScreen implements Screen {
         skin.dispose();
 
 	}
+
+    public Tradesong getGameInstance() {
+        return gameInstance;
+    }
 	
 	protected void log( String message ) {
 		this.gameInstance.log.info(((Object) this).getClass().getSimpleName() + ":  " + message);
