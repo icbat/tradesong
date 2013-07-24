@@ -84,5 +84,10 @@ public class MainMenuScreen extends AbstractScreen {
 //		table.add(new Image(skin.newDrawable("pixel", Color.RED))).size(64);
 	}
 
-
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        stage.act(delta);
+        stage.draw();
+    }
 }
