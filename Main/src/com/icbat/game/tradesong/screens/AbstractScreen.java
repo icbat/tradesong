@@ -13,7 +13,9 @@ import com.icbat.game.tradesong.Tradesong;
  * */
 public abstract class AbstractScreen implements Screen {
 
-	protected final Tradesong gameInstance;
+
+
+    protected final Tradesong gameInstance;
 	protected Skin skin;
 	protected Stage stage;
 	protected SpriteBatch batch;
@@ -28,7 +30,6 @@ public abstract class AbstractScreen implements Screen {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
 	}
 
 	@Override
@@ -70,6 +71,10 @@ public abstract class AbstractScreen implements Screen {
         skin.dispose();
 
 	}
+
+    public Tradesong getGameInstance() {
+        return gameInstance;
+    }
 	
 	protected void log( String message ) {
 		this.gameInstance.log.info(((Object) this).getClass().getSimpleName() + ":  " + message);
