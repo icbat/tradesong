@@ -3,8 +3,6 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -13,12 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.LevelItemFactory;
 import com.icbat.game.tradesong.Tradesong;
-
-import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -34,7 +28,8 @@ public class LevelScreen extends AbstractScreen {
     private TiledMap map = null;
 	private TiledMapRenderer renderer = null;
 
-	private OrthographicCamera camera = new OrthographicCamera();
+	private OrthographicCamera bgCamera = new OrthographicCamera();
+    private OrthographicCamera stageCamera = new OrthographicCamera();
     private Actor backgroundActor = new Actor();
 
     private Timer timer = new Timer();
@@ -49,17 +44,22 @@ public class LevelScreen extends AbstractScreen {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-        // Setup a camera
-		camera.setToOrtho(false, (w / h) * 10, 10);
-		camera.zoom = 1;
-		camera.update();
+        // Setup a bgCamera
+		bgCamera.setToOrtho(false, (w / h) * 10, 10);
+		bgCamera.zoom = 1;
+		bgCamera.update();
+
+        // Set the stage camera to match
+        stageCamera.setToOrtho(false, (w/h)*10, 10);
+        stageCamera.zoom = 1;
+        stageCamera.update();
 
         // TODO take this and make it work... problems: lag when spawning, makes map TINY. Learn about cameras
-//        stage.setCamera(camera);
+        stage.setCamera(stageCamera);
         // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
         backgroundActor.setVisible(true);
-        backgroundActor.addListener(new OrthoCamController(camera));
+        backgroundActor.addListener(new OrthoCamController(bgCamera));
         stage.addActor(backgroundActor);
 
 		// Map loading Starts
@@ -90,7 +90,7 @@ public class LevelScreen extends AbstractScreen {
         // Set up timer to spawn more items
         timer.scheduleTask(new Timer.Task() {
             public void run() {
-                if(itemCount < maxSpawnedPerMap) {}
+                if(itemCount < maxSpawnedPerMap)
                     stage.addActor(itemFactory.makeItem());
             }
         }
@@ -100,10 +100,10 @@ public class LevelScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		camera.update();
-		renderer.setView(camera);
+		bgCamera.update();
+		renderer.setView(bgCamera);
 		renderer.render();
-        // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the camera
+        // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the bgCamera
 		stage.draw();
 	}
 
@@ -137,12 +137,8 @@ public class LevelScreen extends AbstractScreen {
         timer.start();
     }
 
-    public TiledMap getMap() {
-        return map;
-    }
-
     /**
-     * Input handling for moving camera on maps. Handles:
+     * Input handling for moving bgCamera on maps. Handles:
      *  - touch-dragging
      * */
     class OrthoCamController extends ClickListener {
