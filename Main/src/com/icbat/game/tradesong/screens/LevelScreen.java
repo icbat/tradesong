@@ -49,7 +49,7 @@ public class LevelScreen extends AbstractScreen {
 		bgCamera.zoom = 1;
 		bgCamera.update();
 
-        // Set the stage camera to match
+        // Set the stage camera1 to match
         stageCamera.setToOrtho(false, (w/h)*10, 10);
         stageCamera.zoom = 1;
         stageCamera.update();
@@ -59,7 +59,7 @@ public class LevelScreen extends AbstractScreen {
         // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
         backgroundActor.setVisible(true);
-        backgroundActor.addListener(new OrthoCamController(bgCamera));
+        backgroundActor.addListener(new DualCamController(bgCamera, stageCamera));
         stage.addActor(backgroundActor);
 
 		// Map loading Starts
@@ -101,6 +101,7 @@ public class LevelScreen extends AbstractScreen {
 	public void render(float delta) {
 		super.render(delta);
 		bgCamera.update();
+//        stageCamera.update();
 		renderer.setView(bgCamera);
 		renderer.render();
         // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the bgCamera
@@ -141,26 +142,32 @@ public class LevelScreen extends AbstractScreen {
      * Input handling for moving bgCamera on maps. Handles:
      *  - touch-dragging
      * */
-    class OrthoCamController extends ClickListener {
-        final OrthographicCamera camera;
+    class DualCamController extends ClickListener {
+        final OrthographicCamera camera1;
+        final OrthographicCamera camera2;
         final Vector3 curr = new Vector3();
         final Vector3 last = new Vector3(-1, -1, -1);
         final Vector3 delta = new Vector3();
 
-        public OrthoCamController (OrthographicCamera camera) {
-            this.camera = camera;
+        public DualCamController(OrthographicCamera camera1, OrthographicCamera camera2) {
+            this.camera1 = camera1;
+            this.camera2 = camera2;
         }
 
         @Override
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             super.touchDragged(event, x, y, pointer);
 
-            camera.unproject(curr.set(x, y, 0));
+            // Use Camera1 as the last point
+            camera1.unproject(curr.set(x, y, 0));
 
+            // If this isn't the first drag called
             if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
-                camera.unproject(delta.set(last.x, last.y, 0));
+                // Still use camera 1 as the latest; this time as change
+                camera1.unproject(delta.set(last.x, last.y, 0));
                 delta.sub(curr);
-                camera.position.add(delta.x, delta.y * -1, 0);
+                camera1.position.add(delta.x, delta.y * -1, 0);
+                camera2.position.add(delta.x * 32, delta.y * -32, 0);
             }
 
             last.set(x, y, 0);
