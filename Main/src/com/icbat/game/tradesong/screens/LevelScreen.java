@@ -62,6 +62,9 @@ public class LevelScreen extends AbstractScreen {
         backgroundActor.addListener(new DualCamController(bgCamera, stageCamera));
         stage.addActor(backgroundActor);
 
+        // Add the UI
+
+
 		// Map loading Starts
 		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		
