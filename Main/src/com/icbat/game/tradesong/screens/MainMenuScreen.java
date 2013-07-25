@@ -24,6 +24,7 @@ public class MainMenuScreen extends AbstractScreen {
     protected Stage stage;
 
     public MainMenuScreen(final Tradesong game) {
+        // TODO Refactor this to its own worldStage class!
 		super(game);
 		batch = new SpriteBatch();
 		stage = new Stage();
