@@ -20,8 +20,7 @@ public class Tradesong extends Game {
 	
     public GameStateManager gameState = new GameStateManager();
 	public LJ log = new LJ("", this.getClass().getSimpleName());
-    public AssetManager assets = new LoggedAssetManager(this);
-
+    public AssetManager assets = new AssetManager();
 	
 	@Override
 	public void create() {
@@ -33,35 +32,5 @@ public class Tradesong extends Game {
 		log.info( "Device Version" + Gdx.app.getVersion() );
 		setScreen( new MainMenuScreen(this) );
 
-	}
-
-	@Override
-	public void dispose() {
-		log.debug( "Disposing game" );
-		super.dispose();
-	}
-
-	@Override
-	public void resize( int width, int height ) {
-		log.debug( "Resizing game to " + width + "w by " + height + "h" );
-		super.resize(width, height);
-	}
-
-	@Override
-	public void pause() {
-		log.debug( "Pausing game" );
-		super.pause();
-	}
-
-	@Override
-	public void resume() {
-		log.debug( "Resuming game" );
-		super.resume();
-	}
-	
-	@Override
-	public void setScreen( Screen screen ) {
-		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
-		super.setScreen( screen );
 	}
 }
