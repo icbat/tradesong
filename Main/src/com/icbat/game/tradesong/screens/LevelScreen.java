@@ -50,12 +50,11 @@ public class LevelScreen extends AbstractScreen {
 		bgCamera.zoom = 1;
 		bgCamera.update();
 
-        // Set the stage camera1 to match
+        // Set the stage camera to match
         stageCamera.setToOrtho(false, (w/h)*10, 10);
         stageCamera.zoom = 1;
         stageCamera.update();
 
-        // TODO take this and make it work... problems: lag when spawning, makes map TINY. Learn about cameras
         stage.setCamera(stageCamera);
         // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
