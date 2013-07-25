@@ -2,7 +2,6 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -11,28 +10,36 @@ import com.icbat.game.tradesong.screens.LevelScreen;
 import java.util.Random;
 
 public class LevelItemFactory {
-    TiledMap parent;
+    LevelScreen parent;
     Random rand = new Random();
 
     private Texture itemsTexture;
     private int itemSize = 34;
+    private int mapX = 0;
+    private int mapY = 0;
+
     private String[] spawnableItems = null;
 
 
     /** Handles the common functionality of the other constructors */
-    public LevelItemFactory(TiledMap parent, Tradesong gameInstance) {
+    public LevelItemFactory(LevelScreen parent) {
         // Independent vars
         this.parent = parent;
         String itemSpriteFilename = "sprites/items.png";
-        gameInstance.assets.load(itemSpriteFilename, Texture.class); // TODO Does this want timing? Or just overload the manager class...?
-        gameInstance.assets.finishLoading();
-        this.itemsTexture = gameInstance.assets.get(itemSpriteFilename);
+        parent.gameInstance.assets.load(itemSpriteFilename, Texture.class); // TODO Does this want timing? Or just overload the manager class...?
+        parent.gameInstance.assets.finishLoading();
+        this.itemsTexture = parent.gameInstance.assets.get(itemSpriteFilename);
 
         // Dependent vars
         /* Keywords/static parameters */
+
         String itemKey = "spawnable_items";
-        String items = (String)parent.getProperties().get(itemKey);
+        String items = (String) parent.getMap().getProperties().get(itemKey);
         this.spawnableItems = items.split(",");
+
+        mapX = (Integer) parent.getMap().getProperties().get("width");
+        mapY = (Integer) parent.getMap().getProperties().get("height");
+
 
     }
 
@@ -85,8 +92,8 @@ public class LevelItemFactory {
         Random r = new Random();
 
         // Scale up by tile size (32x32) to the width and height for coordinates
-        int x = 32 * r.nextInt((Integer)parent.getProperties().get("width"));
-        int y = 32 * r.nextInt((Integer) parent.getProperties().get("height"));
+        int x = 32 * r.nextInt(mapX);
+        int y = 32 * r.nextInt(mapY);
 
         item.setTouchable(Touchable.enabled);
         item.addListener(new ItemClickListener(item));
@@ -110,11 +117,21 @@ public class LevelItemFactory {
         }
 
         @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchUp(event, x, y, pointer, button);
-            // TODO send to inventory
-            owner.remove();
+            parent.gameInstance.log.debug("Attempting to gather item:  " + owner.getItemName());
+            boolean outcome = parent.gameInstance.gameState.getInventory().add(owner);
+            if (outcome) {
+                parent.removeItemCount();
+                owner.remove();
+                parent.gameInstance.log.debug(owner.getItemName() + " successfully gathered!");
+            }
+            else {
+                parent.gameInstance.log.debug("Gathering failed!");
+            }
+
             //game.log.debug("Picked up " + owner.getItemName());
+            return true;
         }
     }
 }

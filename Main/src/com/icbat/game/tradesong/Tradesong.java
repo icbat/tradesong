@@ -20,9 +20,8 @@ import com.icbat.game.tradesong.screens.MainMenuScreen;
  * */
 public class Tradesong extends Game {
 	
-
+    public GameStateManager gameState = new GameStateManager();
 	public AssetManager assets = new AssetManager();
-	public Object inventory = null;
 	public LJ log = new LJ("", this.getClass().getSimpleName());
 
 	

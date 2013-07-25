@@ -16,14 +16,12 @@ public class Item extends Image {
 
     private String itemName;
     private String description;
-    private TextureRegion region;
+    public int maxStack = 64;
 
     public Item(String itemName, String description, TextureRegion region) {
         super(region);
         this.itemName = itemName;
-        this.region = region;
         this.description = description;
-
     }
     public String getItemName() {
         return itemName;
@@ -32,5 +30,4 @@ public class Item extends Image {
     public String getDescription() {
         return description;
     }
-
 }
