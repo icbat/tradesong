@@ -26,7 +26,7 @@ public class LevelItemFactory {
         // Independent vars
         this.parent = parent;
         String itemSpriteFilename = "sprites/items.png";
-        parent.gameInstance.assets.load(itemSpriteFilename, Texture.class); // TODO Does this want timing? Or just overload the manager class...?
+        parent.gameInstance.assets.load(itemSpriteFilename, Texture.class); // TODO Does this want timing? Ideally just overload the manager class?
         parent.gameInstance.assets.finishLoading();
         this.itemsTexture = parent.gameInstance.assets.get(itemSpriteFilename);
 
@@ -73,9 +73,7 @@ public class LevelItemFactory {
                 y=0;
         }
 
-        TextureRegion region = new TextureRegion(itemsTexture, x * itemSize, y * itemSize, itemSize, itemSize);
-
-        return new Item(name, description, region);
+        return new Item(name, description, new TextureRegion(itemsTexture, x * itemSize, y * itemSize, itemSize, itemSize));
     }
 
 
