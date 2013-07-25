@@ -1,14 +1,12 @@
 package com.icbat.game.tradesong;
 
 import java.util.Date;
-import java.util.Iterator;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.utils.Array;
 import com.icbat.game.LJ;
 import com.icbat.game.tradesong.screens.MainMenuScreen;
 
@@ -21,8 +19,8 @@ import com.icbat.game.tradesong.screens.MainMenuScreen;
 public class Tradesong extends Game {
 	
     public GameStateManager gameState = new GameStateManager();
-	public AssetManager assets = new AssetManager();
 	public LJ log = new LJ("", this.getClass().getSimpleName());
+    public AssetManager assets = new LoggedAssetManager(this);
 
 	
 	@Override
