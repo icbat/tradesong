@@ -151,6 +151,14 @@ public class LevelScreen extends AbstractScreen {
         return map;
     }
 
+    public void removeItemCount() {
+        removeItemCount(1);
+    }
+
+    public void removeItemCount(int i) {
+        itemCount -= i;
+    }
+
 
     /**
      * Input handling for moving bgCamera on maps. Handles:

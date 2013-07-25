@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.icbat.game.tradesong.screens.AbstractScreen;
 import com.icbat.game.tradesong.screens.LevelScreen;
 
 import java.util.Random;
 
 public class LevelItemFactory {
-    AbstractScreen parent;
+    LevelScreen parent;
     Random rand = new Random();
 
     private Texture itemsTexture;
@@ -23,7 +22,7 @@ public class LevelItemFactory {
 
 
     /** Handles the common functionality of the other constructors */
-    public LevelItemFactory(AbstractScreen parent) {
+    public LevelItemFactory(LevelScreen parent) {
         // Independent vars
         this.parent = parent;
         String itemSpriteFilename = "sprites/items.png";
@@ -37,13 +36,11 @@ public class LevelItemFactory {
         // Get the map properties if it's a levelscreen
         String itemKey = "spawnable_items";
         // TODO else alllll the items, or just turn this in to all the items in general
-        if (parent instanceof LevelScreen) {
-            String items = (String)((LevelScreen)parent).getMap().getProperties().get(itemKey);
-            this.spawnableItems = items.split(",");
+        String items = (String) parent.getMap().getProperties().get(itemKey);
+        this.spawnableItems = items.split(",");
 
-            mapX = (Integer)((LevelScreen)parent).getMap().getProperties().get("width");
-            mapY = (Integer)((LevelScreen)parent).getMap().getProperties().get("height");
-        }
+        mapX = (Integer) parent.getMap().getProperties().get("width");
+        mapY = (Integer) parent.getMap().getProperties().get("height");
 
 
     }
@@ -127,6 +124,7 @@ public class LevelItemFactory {
             parent.gameInstance.log.debug("Attempting to gather item:  " + owner.getItemName());
             boolean outcome = parent.gameInstance.gameState.getInventory().add(owner);
             if (outcome) {
+                parent.removeItemCount();
                 owner.remove();
                 parent.gameInstance.log.debug(owner.getItemName() + " successfully gathered!");
             }
