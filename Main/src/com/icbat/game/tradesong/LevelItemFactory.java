@@ -33,9 +33,7 @@ public class LevelItemFactory {
         // Dependent vars
         /* Keywords/static parameters */
 
-        // Get the map properties if it's a levelscreen
         String itemKey = "spawnable_items";
-        // TODO else alllll the items, or just turn this in to all the items in general
         String items = (String) parent.getMap().getProperties().get(itemKey);
         this.spawnableItems = items.split(",");
 
