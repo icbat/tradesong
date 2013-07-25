@@ -1,10 +1,11 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.icbat.game.tradesong.Tradesong;
 
 public class InterfaceOverlay extends Group {
 

@@ -3,10 +3,12 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
 
 public class InventoryScreen extends AbstractScreen {
-	private String bgPath = "bg/bgrepeat.com.edited.jpg";
+    protected Stage stage;
+    private String bgPath = "bg/bgrepeat.com.edited.jpg";
 	
 	// Disposables
 	private Texture bg;

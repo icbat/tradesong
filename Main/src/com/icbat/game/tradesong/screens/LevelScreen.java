@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.InterfaceOverlay;
+import com.icbat.game.tradesong.stages.InterfaceOverlay;
 import com.icbat.game.tradesong.LevelItemFactory;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -21,6 +21,7 @@ import com.icbat.game.tradesong.Tradesong;
 public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
+    protected Stage stage;
 
 
     int initialItemCount = 4;
@@ -123,13 +124,14 @@ public class LevelScreen extends AbstractScreen {
 		bgCamera.update();
 		renderer.setView(bgCamera);
 		renderer.render();
-        // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the bgCamera
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 	}
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        stage.setViewport(width, height, false);
         backgroundActor.setBounds(0,0, width, height);
     }
 

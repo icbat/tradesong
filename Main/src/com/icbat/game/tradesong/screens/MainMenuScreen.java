@@ -20,8 +20,10 @@ import com.icbat.game.tradesong.Tradesong;
  * Screen shown first, directs user to other screens/functions
  * */
 public class MainMenuScreen extends AbstractScreen {
-		
-	public MainMenuScreen(final Tradesong game) {
+
+    protected Stage stage;
+
+    public MainMenuScreen(final Tradesong game) {
 		super(game);
 		batch = new SpriteBatch();
 		stage = new Stage();
@@ -89,5 +91,17 @@ public class MainMenuScreen extends AbstractScreen {
         super.render(delta);
         stage.act(delta);
         stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        stage.setViewport(width, height, false);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        stage.dispose();
     }
 }
