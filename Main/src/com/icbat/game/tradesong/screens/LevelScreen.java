@@ -21,8 +21,9 @@ public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
 
-    int itemCount = 0;
+
     int initialItemCount = 4;
+    int itemCount;
     int maxSpawnedPerMap = 10; // TODO pull this out of map properties
 
     private TiledMap map = null;
@@ -85,6 +86,7 @@ public class LevelScreen extends AbstractScreen {
         // Initial item spawns
         for (int i = 0; i < initialItemCount; ++i) {
             stage.addActor(itemFactory.makeItem());
+            ++itemCount;
         }
 
         // Set up timer to spawn more items
@@ -92,6 +94,7 @@ public class LevelScreen extends AbstractScreen {
             public void run() {
                 if(itemCount < maxSpawnedPerMap) {
                     stage.addActor(itemFactory.makeItem());
+                    ++itemCount;
 
                     // FOR DEBUGGING PLEASE REMOVE TODO
                     log(""+(Integer)gameInstance.gameState.getInventory().size());
