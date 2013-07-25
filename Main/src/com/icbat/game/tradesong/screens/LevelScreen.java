@@ -21,7 +21,7 @@ import com.icbat.game.tradesong.Tradesong;
 public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
-    protected Stage stage;
+    protected Stage worldStage;
 
 
     int initialItemCount = 4;
@@ -42,8 +42,8 @@ public class LevelScreen extends AbstractScreen {
 	public LevelScreen(String level, Tradesong game) {
         // TODO look at all this tech-debt. Desperately needs cleaning
 		super(game);
-        this.stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        this.worldStage = new Stage();
+        Gdx.input.setInputProcessor(worldStage);
 		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
@@ -53,17 +53,17 @@ public class LevelScreen extends AbstractScreen {
 		bgCamera.zoom = 1;
 		bgCamera.update();
 
-        // Set the stage camera to match
+        // Set the worldStage camera to match
         stageCamera.setToOrtho(false, (w/h)*10, 10);
         stageCamera.zoom = 1;
         stageCamera.update();
 
-        stage.setCamera(stageCamera);
+        worldStage.setCamera(stageCamera);
         // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
         backgroundActor.setVisible(true);
         backgroundActor.addListener(new DualCamController(bgCamera, stageCamera));
-        stage.addActor(backgroundActor);
+        worldStage.addActor(backgroundActor);
 
 
 
@@ -91,7 +91,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Initial item spawns
         for (int i = 0; i < initialItemCount; ++i) {
-            stage.addActor(itemFactory.makeItem());
+            worldStage.addActor(itemFactory.makeItem());
             ++itemCount;
         }
 
@@ -99,7 +99,7 @@ public class LevelScreen extends AbstractScreen {
         timer.scheduleTask(new Timer.Task() {
             public void run() {
                 if(itemCount < maxSpawnedPerMap) {
-                    stage.addActor(itemFactory.makeItem());
+                    worldStage.addActor(itemFactory.makeItem());
                     ++itemCount;
 
                     // FOR DEBUGGING PLEASE REMOVE TODO
@@ -115,7 +115,7 @@ public class LevelScreen extends AbstractScreen {
                 ,5 , 6);
 
         // Add the UI
-        stage.addActor(new InterfaceOverlay(game));
+        worldStage.addActor(new InterfaceOverlay(game));
     }
 	
 	@Override
@@ -124,14 +124,14 @@ public class LevelScreen extends AbstractScreen {
 		bgCamera.update();
 		renderer.setView(bgCamera);
 		renderer.render();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		stage.draw();
+        worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		worldStage.draw();
 	}
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        stage.setViewport(width, height, false);
+        worldStage.setViewport(width, height, false);
         backgroundActor.setBounds(0,0, width, height);
     }
 
