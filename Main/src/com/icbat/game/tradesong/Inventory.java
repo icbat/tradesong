@@ -11,18 +11,24 @@ public class Inventory {
 
     public boolean add(Item newItem) {
         for(StackedItem stackedItem : stacks) {
-            if (stackedItem.getItemType().getItemName().equals(newItem.getItemName())) {
-                if (stackedItem.getCount() >= stackedItem.getItemType().maxStack) {
-                    stackedItem.add();
+            // If we found a non-full stack
+            if (stackedItem.getBaseItem().getItemName().equals(newItem.getItemName())) {
+                // See if we can add to it
+                if (stackedItem.add()) {
+                    // Note: this needs to be return true; and not return stackedItem.add();
+                    //       This is because if it's false, we don't want to quit looking, we want to check the next stack, and so on.
                     return true;
                 }
             }
         }
 
+        // We didn't find a stack. Can we make a new one?
         if (stacks.size() >= capacity) {
+            // Nope. We're already full.
             return false;
         }
         else {
+            // Sure! Add a new one.
             stacks.add(new StackedItem(newItem));
             return true;
         }
@@ -31,7 +37,7 @@ public class Inventory {
     }
 
     public Item itemAt(int i) {
-        return stacks.get(i).getItemType();
+        return stacks.get(i).getBaseItem();
     }
 
     public int size() {

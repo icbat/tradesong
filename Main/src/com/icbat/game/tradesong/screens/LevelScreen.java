@@ -97,7 +97,11 @@ public class LevelScreen extends AbstractScreen {
                     ++itemCount;
 
                     // FOR DEBUGGING PLEASE REMOVE TODO
-                    log(""+(Integer)gameInstance.gameState.getInventory().size());
+                    int size = gameInstance.gameState.getInventory().size();
+                    log(""+(Integer)size);
+                    if (size > 0)
+                        log (gameInstance.gameState.getInventory().itemAt(0).getItemName());
+
                 }
 
             }

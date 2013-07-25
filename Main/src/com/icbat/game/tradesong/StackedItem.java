@@ -1,15 +1,17 @@
 package com.icbat.game.tradesong;
 
 public class StackedItem {
-    private Item itemType;
-    private int count = 0;
+    private Item baseItem;
+    /** Initializes with one item stacked. Add more if necessary */
+    private int count = 1;
+
 
     public StackedItem(Item item) {
-        itemType = item;
+        baseItem = item;
     }
 
-    public Item getItemType() {
-        return itemType;
+    public Item getBaseItem() {
+        return baseItem;
     }
 
     public int getCount() {
@@ -20,20 +22,30 @@ public class StackedItem {
         this.count = count;
     }
 
-    /** Where the magic happens */
-    public void add(int i) {
-        count += i;
+    /** Where the magic happens.
+     *
+     * @return true if add ends in appropriate params successfully
+     * */
+    public boolean add(int i) {
+        int newTotal = count + i;
+        if (newTotal <= baseItem.maxStack && newTotal >= 0) {
+            count = newTotal;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public void add() {
-        add(1);
+    public boolean add() {
+        return add(1);
     }
 
-    public void remove() {
-        add(-1);
+    public boolean remove() {
+        return add(-1);
     }
 
-    public void remove(int i) {
-        add(-1 * i);
+    public boolean remove(int i) {
+        return add(-1 * i);
     }
 }
