@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
-import com.icbat.game.tradesong.stages.InterfaceOverlay;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -85,8 +84,8 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                //
-                log(""); // TODO do something useful here
+                    if(worldStage.spawnItem())   // Doesn't do anything if the map is full (returns false)
+                        log("Spawned an item!");
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds);

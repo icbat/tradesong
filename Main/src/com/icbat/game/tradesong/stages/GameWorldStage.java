@@ -56,9 +56,7 @@ public class GameWorldStage extends Stage {
 
     public boolean spawnItem() {
         Item item = ItemFactory.makeRandomItem((Texture)gameInstance.assets.get(SPRITES_ITEMS_PNG), possibleItemSpawns);
-
-        spawnItem(item);
-        return true;
+        return spawnItem(item);
     }
 
     /** @return true if the item was successfully added */
