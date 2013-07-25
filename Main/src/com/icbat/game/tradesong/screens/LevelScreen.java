@@ -10,12 +10,9 @@ import com.badlogic.gdx.maps.tiled.renderers.*;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.LevelItemFactory;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
-import com.icbat.game.tradesong.stages.InterfaceOverlay;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -25,24 +22,17 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
     protected Stage worldStage;
 
+    private TiledMap map;
+	private TiledMapRenderer renderer;
 
-    int initialItemCount = 4;
-    int itemCount;
-    int maxSpawnedPerMap = 10; // TODO pull this out of map properties
-
-    private TiledMap map = null;
-	private TiledMapRenderer renderer = null;
-
-	private OrthographicCamera rendererCamera = new OrthographicCamera();
-    private OrthographicCamera stageCamera = new OrthographicCamera();
+	private final OrthoCamera worldCamera;
+    private OrthoCamera UICamera;
     private Actor backgroundActor = new Actor();
-
-    private Timer timer = new Timer();
-    private LevelItemFactory itemFactory;
-
 
 	public LevelScreen(String level, Tradesong game) {
         super(game);
+
+
         // Load the map
         game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
@@ -53,27 +43,38 @@ public class LevelScreen extends AbstractScreen {
         this.map = game.assets.get(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
+
         // Setup an input Multiplexer
 
 
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
+
+
         // Load the World Stage
         worldStage = new GameWorldStage(map.getProperties());
-        worldStage.setCamera(new OrthoCamera(width, height));
-
         // Load the UI's Stage
 //        UIStage = new InterfaceOverlay();
-//        UIStage.setCamera(new OrthoCamera(width, height));
+
+
+        // Set up cameras and controllers
+
+        worldCamera = new OrthoCamera(width, height);
+        UICamera = new OrthoCamera(width, height);
+        worldStage.setCamera(worldCamera);
+//        UIStage.setCamera(new OrthoCamera(width, height)); // Extract to final var
+        // DualCamController
+
+
 
     }
 	
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		rendererCamera.update();
-		renderer.setView(rendererCamera);
+		worldCamera.update();
+		renderer.setView(worldCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		worldStage.draw();
@@ -110,17 +111,8 @@ public class LevelScreen extends AbstractScreen {
         return map;
     }
 
-    public void removeItemCount() {
-        removeItemCount(1);
-    }
-
-    public void removeItemCount(int i) {
-        itemCount -= i;
-    }
-
-
     /**
-     * Input handling for moving rendererCamera on maps. Handles:
+     * Input handling for moving worldCamera on maps. Handles:
      *  - touch-dragging
      * */
     class DualCamController extends ClickListener {
