@@ -1,10 +1,10 @@
 package com.icbat.game.tradesong;
 
-public class StackedItems {
+public class StackedItem {
     private Item itemType;
     private int count = 0;
 
-    public StackedItems(Item item) {
+    public StackedItem(Item item) {
         itemType = item;
     }
 
@@ -20,19 +20,20 @@ public class StackedItems {
         this.count = count;
     }
 
-    public void add() {
-        add(1);
-    }
-
+    /** Where the magic happens */
     public void add(int i) {
         count += i;
     }
 
+    public void add() {
+        add(1);
+    }
+
     public void remove() {
-        remove(1);
+        add(-1);
     }
 
     public void remove(int i) {
-        count -= i;
+        add(-1 * i);
     }
 }

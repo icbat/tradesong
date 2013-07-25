@@ -81,7 +81,7 @@ public class LevelScreen extends AbstractScreen {
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
-        this.itemFactory =  new LevelItemFactory(this.map, game);
+        this.itemFactory =  new LevelItemFactory(this);
         // Initial item spawns
         for (int i = 0; i < initialItemCount; ++i) {
             stage.addActor(itemFactory.makeItem());
@@ -90,18 +90,24 @@ public class LevelScreen extends AbstractScreen {
         // Set up timer to spawn more items
         timer.scheduleTask(new Timer.Task() {
             public void run() {
-                if(itemCount < maxSpawnedPerMap)
+                if(itemCount < maxSpawnedPerMap) {
                     stage.addActor(itemFactory.makeItem());
+
+                    // FOR DEBUGGING PLEASE REMOVE TODO
+                    log(""+(Integer)gameInstance.gameState.getInventory().size());
+                }
+
             }
         }
                 ,5 , 6);
+
+
     }
 	
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 		bgCamera.update();
-//        stageCamera.update();
 		renderer.setView(bgCamera);
 		renderer.render();
         // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the bgCamera
@@ -122,10 +128,6 @@ public class LevelScreen extends AbstractScreen {
 		this.map.dispose();
 	}
 
-
-
-
-
     @Override
     public void pause() {
         super.pause();
@@ -137,6 +139,11 @@ public class LevelScreen extends AbstractScreen {
         super.resume();
         timer.start();
     }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
 
     /**
      * Input handling for moving bgCamera on maps. Handles:
@@ -179,7 +186,5 @@ public class LevelScreen extends AbstractScreen {
             last.set(-1, -1, -1);
         }
     }
-
-
 
 }
