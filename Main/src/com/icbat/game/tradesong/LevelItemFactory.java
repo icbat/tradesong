@@ -73,7 +73,9 @@ public class LevelItemFactory {
                 y=0;
         }
 
-        return new Item(name, description, new TextureRegion(itemsTexture, x * itemSize, y * itemSize, itemSize, itemSize));
+        TextureRegion region = new TextureRegion(itemsTexture, x * itemSize, y * itemSize, itemSize, itemSize);
+
+        return new Item(name, description, region);
     }
 
 
