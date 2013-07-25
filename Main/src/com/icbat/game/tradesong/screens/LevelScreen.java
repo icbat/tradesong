@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
+import com.icbat.game.tradesong.stages.InterfaceOverlay;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -22,8 +23,8 @@ public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
 
-    Stage worldStage;
-    Stage UIStage;
+    GameWorldStage worldStage;
+//    InterfaceOverlay UIStage;
 
     Timer itemSpawnTimer;
 
@@ -32,21 +33,20 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer;
 
 	private OrthoCamera worldCamera;
-    private OrthoCamera UICamera;
-    private Actor backgroundActor = new Actor();
+//    private OrthoCamera UICamera;
 
-	public LevelScreen(String level, Tradesong game) {
-        super(game);
+	public LevelScreen(String level, Tradesong gameInstance) {
+        super(gameInstance);
 
 
         // Load the map
-        game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        gameInstance.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
 
-        game.assets.load(mapName, TiledMap.class);
-        game.assets.finishLoading();
+        gameInstance.assets.load(mapName, TiledMap.class);
+        gameInstance.assets.finishLoading();
 
-        this.map = game.assets.get(mapName);
+        this.map = gameInstance.assets.get(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
@@ -57,21 +57,23 @@ public class LevelScreen extends AbstractScreen {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-
         // Load the World Stage
-        worldStage = new GameWorldStage(map.getProperties());
-        // Load the UI's Stage
-//        UIStage = new InterfaceOverlay();
+        worldStage = new GameWorldStage(this.gameInstance, map.getProperties());
+
+        // Load the UI Stage
+//        UIStage = new InterfaceOverlay(this.gameInstance);
 
 
-        // Set up cameras and controllers
+        // Set up cameras
 
         worldCamera = new OrthoCamera(width, height);
-        UICamera = new OrthoCamera(width, height);
-        worldStage.setCamera(worldCamera);
+//        UICamera = new OrthoCamera(width, height);
 
-//        UIStage.setCamera(new OrthoCamera(width, height)); // Extract to final var
+        worldStage.setCamera(worldCamera);
+//        UIStage.setCamera(UICamera);
+
         // DualCamController
+//        worldStage.getBackgroundActor().addListener(new DualCamController(worldCamera, UICamera));
 
 
         // Set up timers
@@ -84,7 +86,7 @@ public class LevelScreen extends AbstractScreen {
             new Timer.Task() {
                 public void run() {
                 //
-                log("");
+                log(""); // TODO do something useful here
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds);
@@ -103,7 +105,7 @@ public class LevelScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         worldStage.setViewport(width, height, false);
-        backgroundActor.setBounds(0,0, width, height);
+        worldStage.getBackgroundActor().setBounds(0, 0, width, height);
     }
 
 	@Override
@@ -128,10 +130,6 @@ public class LevelScreen extends AbstractScreen {
     public void resume() {
         super.resume();
         itemSpawnTimer.start();
-    }
-
-    public TiledMap getMap() {
-        return map;
     }
 
     /**
