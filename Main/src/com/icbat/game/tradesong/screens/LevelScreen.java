@@ -21,8 +21,9 @@ public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
 
-    int itemCount = 0;
+
     int initialItemCount = 4;
+    int itemCount;
     int maxSpawnedPerMap = 10; // TODO pull this out of map properties
 
     private TiledMap map = null;
@@ -81,27 +82,39 @@ public class LevelScreen extends AbstractScreen {
 		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
-        this.itemFactory =  new LevelItemFactory(this.map, game);
+        this.itemFactory =  new LevelItemFactory(this);
         // Initial item spawns
         for (int i = 0; i < initialItemCount; ++i) {
             stage.addActor(itemFactory.makeItem());
+            ++itemCount;
         }
 
         // Set up timer to spawn more items
         timer.scheduleTask(new Timer.Task() {
             public void run() {
-                if(itemCount < maxSpawnedPerMap)
+                if(itemCount < maxSpawnedPerMap) {
                     stage.addActor(itemFactory.makeItem());
+                    ++itemCount;
+
+                    // FOR DEBUGGING PLEASE REMOVE TODO
+                    int size = gameInstance.gameState.getInventory().size();
+                    log(""+(Integer)size);
+                    if (size > 0)
+                        log (gameInstance.gameState.getInventory().itemAt(0).getItemName());
+
+                }
+
             }
         }
                 ,5 , 6);
+
+
     }
 	
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 		bgCamera.update();
-//        stageCamera.update();
 		renderer.setView(bgCamera);
 		renderer.render();
         // Stage.act(d) is handled in super. So is draw, but Stage's needs to happen last, after the bgCamera
@@ -122,10 +135,6 @@ public class LevelScreen extends AbstractScreen {
 		this.map.dispose();
 	}
 
-
-
-
-
     @Override
     public void pause() {
         super.pause();
@@ -137,6 +146,19 @@ public class LevelScreen extends AbstractScreen {
         super.resume();
         timer.start();
     }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public void removeItemCount() {
+        removeItemCount(1);
+    }
+
+    public void removeItemCount(int i) {
+        itemCount -= i;
+    }
+
 
     /**
      * Input handling for moving bgCamera on maps. Handles:
@@ -179,7 +201,5 @@ public class LevelScreen extends AbstractScreen {
             last.set(-1, -1, -1);
         }
     }
-
-
 
 }

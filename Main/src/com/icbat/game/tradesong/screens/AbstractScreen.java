@@ -15,7 +15,7 @@ public abstract class AbstractScreen implements Screen {
 
 
 
-    protected final Tradesong gameInstance;
+    public final Tradesong gameInstance;
 	protected Skin skin;
 	protected Stage stage;
 	protected SpriteBatch batch;
