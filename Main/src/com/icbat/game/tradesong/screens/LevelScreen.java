@@ -11,9 +11,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.stages.InterfaceOverlay;
 import com.icbat.game.tradesong.LevelItemFactory;
+import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.stages.GameWorldStage;
+import com.icbat.game.tradesong.stages.InterfaceOverlay;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -31,7 +33,7 @@ public class LevelScreen extends AbstractScreen {
     private TiledMap map = null;
 	private TiledMapRenderer renderer = null;
 
-	private OrthographicCamera bgCamera = new OrthographicCamera();
+	private OrthographicCamera rendererCamera = new OrthographicCamera();
     private OrthographicCamera stageCamera = new OrthographicCamera();
     private Actor backgroundActor = new Actor();
 
@@ -40,89 +42,38 @@ public class LevelScreen extends AbstractScreen {
 
 
 	public LevelScreen(String level, Tradesong game) {
-        // TODO look at all this tech-debt. Desperately needs cleaning
-		super(game);
-        this.worldStage = new Stage();
-        Gdx.input.setInputProcessor(worldStage);
-		
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+        super(game);
+        // Load the map
+        game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
 
-        // Setup a bgCamera
-		bgCamera.setToOrtho(false, (w / h) * 10, 10);
-		bgCamera.zoom = 1;
-		bgCamera.update();
+        game.assets.load(mapName, TiledMap.class);
+        game.assets.finishLoading();
 
-        // Set the worldStage camera to match
-        stageCamera.setToOrtho(false, (w/h)*10, 10);
-        stageCamera.zoom = 1;
-        stageCamera.update();
+        this.map = game.assets.get(mapName);
+        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
-        worldStage.setCamera(stageCamera);
-        // Actor for dragging map around. Covers all the ground but doesn't have an image
-        backgroundActor.setTouchable(Touchable.enabled);
-        backgroundActor.setVisible(true);
-        backgroundActor.addListener(new DualCamController(bgCamera, stageCamera));
-        worldStage.addActor(backgroundActor);
+        // Setup an input Multiplexer
 
 
 
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        // Load the World Stage
+        worldStage = new GameWorldStage(map.getProperties());
+        worldStage.setCamera(new OrthoCamera(width, height));
 
-		// Map loading Starts
-		game.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		
-		// "Internal" relative address. What the asset loader wants.
-		this.mapName = "maps/" + level + ".tmx";
-		
-		log("Loading level: \"" + level + "\"");
-		long startTime, endTime;
-		startTime = System.currentTimeMillis();
-		game.assets.load(mapName, TiledMap.class);
-		game.assets.finishLoading();
+        // Load the UI's Stage
+//        UIStage = new InterfaceOverlay();
+//        UIStage.setCamera(new OrthoCamera(width, height));
 
-		endTime = System.currentTimeMillis();
-		log("Loaded map in " + (endTime - startTime) + " milliseconds");
-
-		this.map = game.assets.get(mapName);
-		this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
-
-
-        this.itemFactory =  new LevelItemFactory(this);
-
-        // Initial item spawns
-        for (int i = 0; i < initialItemCount; ++i) {
-            worldStage.addActor(itemFactory.makeItem());
-            ++itemCount;
-        }
-
-        // Set up timer to spawn more items
-        timer.scheduleTask(new Timer.Task() {
-            public void run() {
-                if(itemCount < maxSpawnedPerMap) {
-                    worldStage.addActor(itemFactory.makeItem());
-                    ++itemCount;
-
-                    // FOR DEBUGGING PLEASE REMOVE TODO
-                    int size = gameInstance.gameState.getInventory().size();
-                    log(""+(Integer)size);
-                    if (size > 0)
-                        log (gameInstance.gameState.getInventory().itemAt(0).getItemName());
-
-                }
-
-            }
-        }
-                ,5 , 6);
-
-        // Add the UI
-        worldStage.addActor(new InterfaceOverlay(game));
     }
 	
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		bgCamera.update();
-		renderer.setView(bgCamera);
+		rendererCamera.update();
+		renderer.setView(rendererCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		worldStage.draw();
@@ -169,7 +120,7 @@ public class LevelScreen extends AbstractScreen {
 
 
     /**
-     * Input handling for moving bgCamera on maps. Handles:
+     * Input handling for moving rendererCamera on maps. Handles:
      *  - touch-dragging
      * */
     class DualCamController extends ClickListener {
