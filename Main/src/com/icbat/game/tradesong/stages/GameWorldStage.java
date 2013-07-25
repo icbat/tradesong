@@ -1,7 +1,9 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.ItemFactory;
 import com.icbat.game.tradesong.Tradesong;
+
+import java.util.Random;
 
 /** This stage governs:
  *  - items
@@ -27,6 +31,8 @@ public class GameWorldStage extends Stage {
 
     private final Tradesong gameInstance;
     private final String[] possibleItemSpawns;
+    private int mapX = 0;
+    private int mapY = 0;
 
 
     private Actor backgroundActor = new Actor();
@@ -36,6 +42,11 @@ public class GameWorldStage extends Stage {
     int maxSpawnedPerMap = 10; // TODO pull this out of map properties
 
     public GameWorldStage(Tradesong gameInstance, MapProperties properties) {
+
+        // Get coords for setting bounds
+        mapX = (Integer)properties.get("width");
+        mapY = (Integer)properties.get("height");
+
         //    // Actor for dragging map around. Covers all the ground but doesn't have an image
         backgroundActor.setTouchable(Touchable.enabled);
         backgroundActor.setVisible(true);
@@ -62,14 +73,35 @@ public class GameWorldStage extends Stage {
     /** @return true if the item was successfully added */
     public boolean spawnItem(Item item) {
         if (itemCount < 1 + maxSpawnedPerMap) {
+
+            item.addListener(new ItemClickListener(item));
+            int[] coords = getRandomCoords();
+            item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
+            item.setTouchable(Touchable.enabled);
+            item.setVisible(true);
             this.addActor(item);
-            ++itemCount;     // TODO check for capacity
+
+
+
+            ++itemCount;
 
             return true;
         }
         else {
             return false;
         }
+    }
+
+    public int[] getRandomCoords() {
+        int[] output = new int[2];
+
+        Random random = new Random();
+
+        output[0] = random.nextInt(mapX) * 32;
+        output[1] = random.nextInt(mapY) * 32;
+
+
+        return output;
     }
 
 
@@ -98,7 +130,6 @@ public class GameWorldStage extends Stage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchUp(event, x, y, pointer, button);
-//            parent.gameInstance.log.debug("Attempting to gather item:  " + owner.getItemName());
             boolean outcome = gameInstance.gameState.getInventory().add(owner);
             if (outcome) {
                 removeItemCount();
