@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.InterfaceOverlay;
 import com.icbat.game.tradesong.LevelItemFactory;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -38,6 +39,7 @@ public class LevelScreen extends AbstractScreen {
 
 
 	public LevelScreen(String level, Tradesong game) {
+        // TODO look at all this tech-debt. Desperately needs cleaning
 		super(game);
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -62,7 +64,7 @@ public class LevelScreen extends AbstractScreen {
         backgroundActor.addListener(new DualCamController(bgCamera, stageCamera));
         stage.addActor(backgroundActor);
 
-        // Add the UI
+
 
 
 		// Map loading Starts
@@ -85,6 +87,7 @@ public class LevelScreen extends AbstractScreen {
 
 
         this.itemFactory =  new LevelItemFactory(this);
+
         // Initial item spawns
         for (int i = 0; i < initialItemCount; ++i) {
             stage.addActor(itemFactory.makeItem());
@@ -110,7 +113,8 @@ public class LevelScreen extends AbstractScreen {
         }
                 ,5 , 6);
 
-
+        // Add the UI
+        stage.addActor(new InterfaceOverlay(game));
     }
 	
 	@Override
