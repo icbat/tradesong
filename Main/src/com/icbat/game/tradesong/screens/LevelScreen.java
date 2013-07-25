@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.*;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
@@ -20,12 +21,17 @@ import com.icbat.game.tradesong.stages.GameWorldStage;
 public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
-    protected Stage worldStage;
+
+    Stage worldStage;
+    Stage UIStage;
+
+    Timer itemSpawnTimer;
+
 
     private TiledMap map;
 	private TiledMapRenderer renderer;
 
-	private final OrthoCamera worldCamera;
+	private OrthoCamera worldCamera;
     private OrthoCamera UICamera;
     private Actor backgroundActor = new Actor();
 
@@ -63,17 +69,30 @@ public class LevelScreen extends AbstractScreen {
         worldCamera = new OrthoCamera(width, height);
         UICamera = new OrthoCamera(width, height);
         worldStage.setCamera(worldCamera);
+
 //        UIStage.setCamera(new OrthoCamera(width, height)); // Extract to final var
         // DualCamController
 
 
+        // Set up timers
+        itemSpawnTimer = new Timer();
 
-    }
-	
-	@Override
+
+        int spawnInitialDelay = 5;
+        int spawnIntervalSeconds = 6;
+        itemSpawnTimer.scheduleTask(
+            new Timer.Task() {
+                public void run() {
+                //
+                log("");
+                }
+
+            }, spawnInitialDelay, spawnIntervalSeconds);
+        }
+
+        @Override
 	public void render(float delta) {
 		super.render(delta);
-		worldCamera.update();
 		renderer.setView(worldCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -90,21 +109,25 @@ public class LevelScreen extends AbstractScreen {
 	@Override
 	public void dispose() {
 		// TODO dispose ALL the things
-        timer.clear(); // Cancels all tasks
-		super.dispose(); // Likely needs to be called last
+        itemSpawnTimer.clear(); // Cancels all tasks
+
 		this.map.dispose();
+        this.worldStage.dispose();
+
+        super.dispose(); // Likely needs to be called last
+
 	}
 
     @Override
     public void pause() {
         super.pause();
-        timer.stop();
+        itemSpawnTimer.stop();
     }
 
     @Override
     public void resume() {
         super.resume();
-        timer.start();
+        itemSpawnTimer.start();
     }
 
     public TiledMap getMap() {
