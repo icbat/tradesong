@@ -7,7 +7,7 @@ This project is a school project until the end of summer 2013; thus, no pull req
 
 ### To-do list
 
-The to-do list is located [here](https://gist.github.com/icbat/5939450). It will be updated as goals are met.
+List of tasks/issues are kept in this repository's Issue tracker
 
 ### When forking/cloning
 
