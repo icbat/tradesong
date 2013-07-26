@@ -65,7 +65,6 @@ public class LevelScreen extends AbstractScreen {
 
 
         // Set up cameras
-
         rendererCamera = new OrthoCamera(width, height);
         gameWorldCamera = new OrthoCamera(width, height);
 
@@ -74,7 +73,7 @@ public class LevelScreen extends AbstractScreen {
 
         // DualCamController
         worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
-
+//        worldStage.getBackgroundActor().addListener(new DualCamController(gameWorldCamera, rendererCamera));
 
 
         // Setup an input Multiplexer
@@ -83,7 +82,6 @@ public class LevelScreen extends AbstractScreen {
         plexer.addProcessor(worldStage);
 
         Gdx.input.setInputProcessor(plexer);
-//        Gdx.input.setInputProcessor(worldStage);
 
 
         // Set up timers
@@ -95,8 +93,7 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                    if(worldStage.spawnItem())   // Doesn't do anything if the map is full (returns false)
-                        log("Spawned an item!");
+                    worldStage.spawnItem();
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds);
@@ -107,7 +104,9 @@ public class LevelScreen extends AbstractScreen {
 		super.render(delta);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        // UI
 		worldStage.draw();
+        // UI
 	}
 
     @Override
