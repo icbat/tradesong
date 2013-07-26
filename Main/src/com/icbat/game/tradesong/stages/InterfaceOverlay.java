@@ -13,9 +13,10 @@ public class InterfaceOverlay extends Stage {
     String itemSpriteFilename = "sprites/items.png";
     int dimension = 34;
     Texture texture;
-
     Tradesong gameInstance;
+
     public InterfaceOverlay(Tradesong gameInstance) {
+        this.gameInstance = gameInstance;
         gameInstance.assets.load(itemSpriteFilename, Texture.class);
         gameInstance.assets.finishLoading();
         texture = gameInstance.assets.get(itemSpriteFilename);
@@ -45,7 +46,7 @@ public class InterfaceOverlay extends Stage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
-            gameInstance.goToInventory();
+            gameInstance.log.info("I've been clicked!");
             return true;
         }
     }
