@@ -1,6 +1,8 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -49,7 +51,6 @@ public class LevelScreen extends AbstractScreen {
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
-        // Setup an input Multiplexer
 
 
 
@@ -66,12 +67,23 @@ public class LevelScreen extends AbstractScreen {
         // Set up cameras
 
         rendererCamera = new OrthoCamera(width, height);
-//        gameWorldCamera = new OrthoCamera(width, height);
+        gameWorldCamera = new OrthoCamera(width, height);
 
         renderer.setView(rendererCamera);
+        worldStage.setCamera(gameWorldCamera);
 
         // DualCamController
-//        worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+        worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+
+
+
+        // Setup an input Multiplexer
+        InputMultiplexer plexer = new InputMultiplexer();
+        // ADD UI
+        plexer.addProcessor(worldStage);
+
+        Gdx.input.setInputProcessor(plexer);
+//        Gdx.input.setInputProcessor(worldStage);
 
 
         // Set up timers
