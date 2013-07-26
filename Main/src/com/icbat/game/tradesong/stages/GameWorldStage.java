@@ -58,7 +58,7 @@ public class GameWorldStage extends Stage {
         this.gameInstance.assets.finishLoading();
 
         // Use the Map properties to get some good stuff
-        possibleItemSpawns = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",'");
+        possibleItemSpawns = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
