@@ -48,6 +48,7 @@ public class InterfaceOverlay extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             gameInstance.log.info("I've been clicked!");
+            // TODO remove ambiguity
             if (gameInstance.getCurrentScreen().getClass().equals(InventoryScreen.class)) {
                 gameInstance.goBack();
             }
