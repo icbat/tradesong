@@ -16,7 +16,7 @@ public class Item extends Image {
 
     private String itemName;
     private String description;
-    public int maxStack = 5;
+    public int maxStack = 5; // TODO Deliberately small for testing purposes
 
     public Item(String itemName, String description, TextureRegion region) {
         super(region);

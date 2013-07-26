@@ -36,12 +36,23 @@ public class Inventory {
 
     }
 
-    public Item itemAt(int i) {
+    public Item itemTypeAt(int i) {
         return stacks.get(i).getBaseItem();
     }
 
     public int size() {
         return stacks.size();
     }
+
+    public int capacity() {
+        return capacity;
+
+    }
+
+    public ArrayList<StackedItem> getStacks() {
+        return stacks;
+    }
+
+    // TODO remove item methods!
 
 }
