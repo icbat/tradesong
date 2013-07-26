@@ -96,12 +96,15 @@ public class LevelScreen extends AbstractScreen {
                     worldStage.spawnItem();
                 }
 
-            }, spawnInitialDelay, spawnIntervalSeconds);
-        }
+            }, spawnInitialDelay, spawnIntervalSeconds
+        );
+    }
 
-        @Override
+    @Override
 	public void render(float delta) {
 		super.render(delta);
+        rendererCamera.update();
+        renderer.setView(rendererCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         // UI
