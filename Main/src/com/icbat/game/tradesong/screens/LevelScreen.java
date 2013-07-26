@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
+import com.icbat.game.tradesong.stages.InterfaceOverlay;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -25,7 +26,7 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
 
     GameWorldStage worldStage;
-//    InterfaceOverlay UIStage;
+    InterfaceOverlay UIStage;
 
     Timer itemSpawnTimer;
 
@@ -51,34 +52,27 @@ public class LevelScreen extends AbstractScreen {
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
-
-
-
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        // Load the World Stage
+        // Load the stages
         worldStage = new GameWorldStage(this.gameInstance, map.getProperties());
-
-        // Load the UI Stage
-//        UIStage = new InterfaceOverlay(this.gameInstance);
-
+        UIStage = new InterfaceOverlay(this.gameInstance);
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);
         gameWorldCamera = new OrthoCamera(width, height);
 
-        renderer.setView(rendererCamera);
+
         worldStage.setCamera(gameWorldCamera);
+
 
         // DualCamController
         worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
-//        worldStage.getBackgroundActor().addListener(new DualCamController(gameWorldCamera, rendererCamera));
-
 
         // Setup an input Multiplexer
         InputMultiplexer plexer = new InputMultiplexer();
-        // ADD UI
+        // TODO ADD UI
         plexer.addProcessor(worldStage);
 
         Gdx.input.setInputProcessor(plexer);
@@ -107,9 +101,9 @@ public class LevelScreen extends AbstractScreen {
         renderer.setView(rendererCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        // UI
+        UIStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
 		worldStage.draw();
-        // UI
+        UIStage.draw();
 	}
 
     @Override
