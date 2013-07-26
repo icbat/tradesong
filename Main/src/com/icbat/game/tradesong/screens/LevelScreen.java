@@ -31,8 +31,8 @@ public class LevelScreen extends AbstractScreen {
     private TiledMap map;
 	private TiledMapRenderer renderer;
 
-	private OrthoCamera worldCamera;
-//    private OrthoCamera UICamera;
+	private OrthoCamera rendererCamera;
+    private OrthoCamera gameWorldCamera;
 
 	public LevelScreen(String level, Tradesong gameInstance) {
         super(gameInstance);
@@ -65,14 +65,13 @@ public class LevelScreen extends AbstractScreen {
 
         // Set up cameras
 
-        worldCamera = new OrthoCamera(width, height);
-//        UICamera = new OrthoCamera(width, height);
+        rendererCamera = new OrthoCamera(width, height);
+//        gameWorldCamera = new OrthoCamera(width, height);
 
-        renderer.setView(worldCamera);
-//        UIStage.setCamera(UICamera);
+        renderer.setView(rendererCamera);
 
         // DualCamController
-//        worldStage.getBackgroundActor().addListener(new DualCamController(worldCamera, UICamera));
+//        worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
 
 
         // Set up timers
@@ -131,7 +130,7 @@ public class LevelScreen extends AbstractScreen {
     }
 
     /**
-     * Input handling for moving worldCamera on maps. Handles:
+     * Input handling for moving rendererCamera on maps. Handles:
      *  - touch-dragging
      * */
     class DualCamController extends ClickListener {
