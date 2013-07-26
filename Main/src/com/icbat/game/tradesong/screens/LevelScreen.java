@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -26,7 +25,7 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
 
     GameWorldStage worldStage;
-    InterfaceOverlay UIStage;
+    InterfaceOverlay hud;
 
     Timer itemSpawnTimer;
 
@@ -57,7 +56,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Load the stages
         worldStage = new GameWorldStage(this.gameInstance, map.getProperties());
-        UIStage = new InterfaceOverlay(this.gameInstance);
+        hud = new InterfaceOverlay(this.gameInstance);
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);
@@ -72,7 +71,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Setup an input Multiplexer
         InputMultiplexer plexer = new InputMultiplexer();
-        plexer.addProcessor(UIStage);
+        plexer.addProcessor(hud);
         plexer.addProcessor(worldStage);
 
         Gdx.input.setInputProcessor(plexer);
@@ -101,9 +100,9 @@ public class LevelScreen extends AbstractScreen {
         renderer.setView(rendererCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        UIStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        hud.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		worldStage.draw();
-        UIStage.draw();
+        hud.draw();
 	}
 
     @Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.screens.InventoryScreen;
 
 public class InterfaceOverlay extends Stage {
     String itemSpriteFilename = "sprites/items.png";
@@ -47,6 +48,12 @@ public class InterfaceOverlay extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             gameInstance.log.info("I've been clicked!");
+            if (gameInstance.getCurrentScreen().getClass().equals(InventoryScreen.class)) {
+                gameInstance.goBack();
+            }
+            else {
+                gameInstance.goToInventory();
+            }
             return true;
         }
     }

@@ -18,8 +18,8 @@ public abstract class AbstractScreen implements Screen {
     public final Tradesong gameInstance;
 	protected Skin skin;
     protected SpriteBatch batch;
-	
-	public AbstractScreen( Tradesong game ) {
+
+    public AbstractScreen( Tradesong game ) {
 		this.gameInstance = game;
 		log( "Creating" );
 	}
@@ -78,7 +78,8 @@ public abstract class AbstractScreen implements Screen {
 		this.gameInstance.log.info(((Object) this).getClass().getSimpleName() + ":  " + message);
 	}
     protected void log ( String descriptor, int i) {
-        log (descriptor + ": " + new Integer(i).toString());
+        log (descriptor + ": " + Integer.toString(i));
     }
+
 
 }
