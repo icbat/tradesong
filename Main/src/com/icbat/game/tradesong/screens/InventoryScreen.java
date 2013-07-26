@@ -1,27 +1,26 @@
 package com.icbat.game.tradesong.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.stages.InventoryStage;
 
 public class InventoryScreen extends AbstractScreen {
-	private String bgPath = "bg/bgrepeat.com.edited.jpg";
-	
-	// Disposables
-	private Texture bg;
+
+    HUDStage hud;
+    InventoryStage inventoryStage;
+
 	public InventoryScreen(Tradesong instance) {
 		super(instance);
-		
-		log("Loading background texture from: " + bgPath);
-		bg = new Texture(Gdx.files.internal(bgPath));
-		bg.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		
-	}
-	
-	@Override
-	public void dispose() {
-		bg.dispose();
+        hud = new HUDStage(instance);
+        inventoryStage = new InventoryStage(instance);
 	}
 
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        hud.act(delta);
+        inventoryStage.act(delta);
+        hud.draw();
+        inventoryStage.draw();
+    }
 }

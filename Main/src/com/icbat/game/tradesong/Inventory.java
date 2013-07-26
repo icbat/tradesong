@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Inventory {
 
     private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>();
-    int capacity = 32;
+    int capacity = 15;
 
     Inventory() {}
 
@@ -36,12 +36,27 @@ public class Inventory {
 
     }
 
-    public Item itemAt(int i) {
+    public StackedItem getStack(int i) {
+        return stacks.get(i);
+    }
+
+    public Item getItemType(int i) {
         return stacks.get(i).getBaseItem();
     }
 
     public int size() {
         return stacks.size();
     }
+
+    public int capacity() {
+        return capacity;
+
+    }
+
+    public ArrayList<StackedItem> getStacks() {
+        return stacks;
+    }
+
+    // TODO remove item methods!
 
 }

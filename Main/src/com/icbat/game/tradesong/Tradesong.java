@@ -1,15 +1,16 @@
 package com.icbat.game.tradesong;
 
 import java.util.Date;
-import java.util.Iterator;
+import java.util.Stack;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.utils.Array;
 import com.icbat.game.LJ;
+import com.icbat.game.tradesong.screens.AbstractScreen;
+import com.icbat.game.tradesong.screens.InventoryScreen;
+import com.icbat.game.tradesong.screens.LevelScreen;
 import com.icbat.game.tradesong.screens.MainMenuScreen;
 
 
@@ -21,9 +22,9 @@ import com.icbat.game.tradesong.screens.MainMenuScreen;
 public class Tradesong extends Game {
 	
     public GameStateManager gameState = new GameStateManager();
-	public AssetManager assets = new AssetManager();
 	public LJ log = new LJ("", this.getClass().getSimpleName());
-
+    public AssetManager assets = new AssetManager();
+    private Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
 	
 	@Override
 	public void create() {
@@ -33,37 +34,35 @@ public class Tradesong extends Game {
 		log.info( new Date().toString() );
 		log.info( "App Type" + Gdx.app.getType().toString() );
 		log.info( "Device Version" + Gdx.app.getVersion() );
-		setScreen( new MainMenuScreen(this) );
+		goToMainMenu();
 
 	}
 
-	@Override
-	public void dispose() {
-		log.debug( "Disposing game" );
-		super.dispose();
-	}
+    public void goBack() {
+        if (screenStack.size() > 0) {
+            log.info("Popping screens");
+            screenStack.pop();
+            setScreen(screenStack.peek());
+        }
+    }
 
-	@Override
-	public void resize( int width, int height ) {
-		log.debug( "Resizing game to " + width + "w by " + height + "h" );
-		super.resize(width, height);
-	}
+    public void goToScreen(AbstractScreen newScreen) {
+        log.info("Going to new screen");
+        screenStack.push(newScreen);
+        setScreen(screenStack.peek());
+    }
 
-	@Override
-	public void pause() {
-		log.debug( "Pausing game" );
-		super.pause();
-	}
+    public void goToMainMenu() {
+        goToScreen(new MainMenuScreen(this));
+    }
 
-	@Override
-	public void resume() {
-		log.debug( "Resuming game" );
-		super.resume();
-	}
-	
-	@Override
-	public void setScreen( Screen screen ) {
-		// Deliberately no debug here. Doesn't 'toString' well, and context is still clear.
-		super.setScreen( screen );
-	}
+    public void goToInventory() {
+        goToScreen(new InventoryScreen(this));
+    }
+    public void goToLevel(String levelname) {
+        goToScreen(new LevelScreen(levelname, this));
+    }
+    public AbstractScreen getCurrentScreen() {
+        return screenStack.peek();
+    }
 }
