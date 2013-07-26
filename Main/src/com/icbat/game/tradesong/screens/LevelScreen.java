@@ -68,7 +68,7 @@ public class LevelScreen extends AbstractScreen {
         worldCamera = new OrthoCamera(width, height);
 //        UICamera = new OrthoCamera(width, height);
 
-        worldStage.setCamera(worldCamera);
+        renderer.setView(worldCamera);
 //        UIStage.setCamera(UICamera);
 
         // DualCamController
@@ -94,7 +94,6 @@ public class LevelScreen extends AbstractScreen {
         @Override
 	public void render(float delta) {
 		super.render(delta);
-		renderer.setView(worldCamera);
 		renderer.render();
         worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		worldStage.draw();
