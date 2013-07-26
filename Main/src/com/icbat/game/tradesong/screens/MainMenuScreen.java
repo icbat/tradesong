@@ -70,7 +70,7 @@ public class MainMenuScreen extends AbstractScreen {
 		newButton.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
 					log("Starting a new game!");
-					game.setScreen(new LevelScreen("test", game));
+					game.goToLevel("test");
 				}
 			}
 		

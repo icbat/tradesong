@@ -2,9 +2,11 @@ package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 
 public class InterfaceOverlay extends Stage {
@@ -28,9 +30,17 @@ public class InterfaceOverlay extends Stage {
         int y = 29;
         Image inventoryButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
 
-
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.setVisible(true);
+
+        inventoryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                gameInstance.goToInventory();
+            }
+        });
 
         this.addActor(inventoryButton);
     }
