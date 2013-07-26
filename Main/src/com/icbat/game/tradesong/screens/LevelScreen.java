@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.GameWorldStage;
-import com.icbat.game.tradesong.stages.InterfaceOverlay;
+import com.icbat.game.tradesong.stages.HUDStage;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -25,7 +25,7 @@ public class LevelScreen extends AbstractScreen {
 	public String mapName = "";
 
     GameWorldStage worldStage;
-    InterfaceOverlay hud;
+    HUDStage hud;
 
     Timer itemSpawnTimer;
 
@@ -56,7 +56,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Load the stages
         worldStage = new GameWorldStage(this.gameInstance, map.getProperties());
-        hud = new InterfaceOverlay(this.gameInstance);
+        hud = new HUDStage(this.gameInstance);
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);

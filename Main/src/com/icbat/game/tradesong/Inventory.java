@@ -36,7 +36,11 @@ public class Inventory {
 
     }
 
-    public Item itemTypeAt(int i) {
+    public StackedItem getStack(int i) {
+        return stacks.get(i);
+    }
+
+    public Item getItemType(int i) {
         return stacks.get(i).getBaseItem();
     }
 

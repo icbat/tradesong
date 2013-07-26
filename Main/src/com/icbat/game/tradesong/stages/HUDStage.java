@@ -10,13 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 
-public class InterfaceOverlay extends Stage {
+public class HUDStage extends Stage {
     String itemSpriteFilename = "sprites/items.png";
     int dimension = 34;
     Texture texture;
     Tradesong gameInstance;
 
-    public InterfaceOverlay(Tradesong gameInstance) {
+    public HUDStage(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
         gameInstance.assets.load(itemSpriteFilename, Texture.class);
         gameInstance.assets.finishLoading();
@@ -48,7 +48,7 @@ public class InterfaceOverlay extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             gameInstance.log.info("I've been clicked!");
-            // TODO remove ambiguity
+            // Following error is a known bug in IDEA, not an actual problem
             if (gameInstance.getCurrentScreen().getClass().equals(InventoryScreen.class)) {
                 gameInstance.goBack();
             }
