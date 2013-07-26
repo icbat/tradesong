@@ -40,12 +40,14 @@ public class Tradesong extends Game {
 
     public void goBack() {
         if (screenStack.size() > 0) {
+            log.info("Popping screens");
             screenStack.pop();
             setScreen(screenStack.peek());
         }
     }
 
     public void goToScreen(AbstractScreen newScreen) {
+        log.info("Going to new screen");
         screenStack.push(newScreen);
         setScreen(screenStack.peek());
     }

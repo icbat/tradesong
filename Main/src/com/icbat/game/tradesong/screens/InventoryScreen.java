@@ -7,23 +7,23 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
 
 public class InventoryScreen extends AbstractScreen {
-    protected Stage stage;
-    private String bgPath = "bg/bgrepeat.com.edited.jpg";
+//    protected Stage stage;
+//    private String bgPath = "bg/bgrepeat.com.edited.jpg";
 	
 	// Disposables
-	private Texture bg;
+//	private Texture bg;
 	public InventoryScreen(Tradesong instance) {
 		super(instance);
 		
-		log("Loading background texture from: " + bgPath);
-		bg = new Texture(Gdx.files.internal(bgPath));
-		bg.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+//		log("Loading background texture from: " + bgPath);
+//		bg = new Texture(Gdx.files.internal(bgPath));
+//		bg.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		
 	}
 	
 	@Override
 	public void dispose() {
-		bg.dispose();
+//		bg.dispose();
 	}
 
 }

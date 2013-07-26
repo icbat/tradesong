@@ -72,7 +72,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Setup an input Multiplexer
         InputMultiplexer plexer = new InputMultiplexer();
-        // TODO ADD UI
+        plexer.addProcessor(UIStage);
         plexer.addProcessor(worldStage);
 
         Gdx.input.setInputProcessor(plexer);

@@ -33,15 +33,20 @@ public class InterfaceOverlay extends Stage {
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.setVisible(true);
 
-        inventoryButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                gameInstance.goToInventory();
-            }
-        });
+        inventoryButton.addListener(new InterfaceButtonListener());
 
         this.addActor(inventoryButton);
+    }
+
+    class InterfaceButtonListener extends ClickListener {
+        //TODO way to differentiate screens that use this 'generic' one
+
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            super.touchDown(event, x, y, pointer, button);
+            gameInstance.goToInventory();
+            return true;
+        }
     }
 }
