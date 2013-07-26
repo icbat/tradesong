@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Inventory {
 
     private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>();
-    int capacity = 32;
+    int capacity = 15;
 
     Inventory() {}
 
