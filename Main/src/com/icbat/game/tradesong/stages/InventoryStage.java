@@ -22,6 +22,12 @@ public class InventoryStage extends Stage {
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
+        // Slot frames
+        for (int i = 0; i < inventory.capacity(); ++i) {
+            addSlotFrame(i);
+        }
+
+        // Add items
         for (int i = 0; i < inventory.capacity(); ++i) {
             gameInstance.log.info("## Checking");
             if (i < inventory.size()) {
@@ -56,10 +62,8 @@ public class InventoryStage extends Stage {
         this.addActor(item);
     }
 
-    private void addSlotFrames(int capacity) {
-        for (int i = 0; i < capacity; ++i) {
+    private void addSlotFrame(int position) {
 
-        }
     }
 
 
