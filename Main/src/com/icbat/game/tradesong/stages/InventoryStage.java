@@ -1,10 +1,13 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.StackedItem;
@@ -20,10 +23,13 @@ public class InventoryStage extends Stage {
     public static final int SIZE = 34;
     public static final int SLOT_SIZE = 40;
     public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
+    private BitmapFont font;
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
+        // Initialize assets
+        font = new BitmapFont();
         gameInstance.assets.load(SPRITES_FRAME_PNG, Texture.class);
         gameInstance.assets.finishLoading();
 
@@ -31,7 +37,7 @@ public class InventoryStage extends Stage {
 
         // Slot frames
         for (int i = 0; i < inventory.capacity(); ++i) {
-            addSlotFrame(i, frame);
+            addSlotFrame(frame, i);
         }
 
         // Add items
@@ -45,26 +51,41 @@ public class InventoryStage extends Stage {
 
     }
 
-    private void addStackedItemToStage(StackedItem stack, int position) {
+    private void addStackedItemToStage(StackedItem stack, int i) {
 
         Item item = stack.getBaseItem(); // Item is an Actor and meant to be representative, just like this
 
-
-        int[] positionXY = positionToXY(position);
-        item.setBounds(positionXY[0],positionXY[1], SIZE, SIZE);
+        int[] position = positionToXY(i);
+        item.setBounds(position[0],position[1], SIZE, SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
         this.addActor(item);
     }
 
-    private void addSlotFrame(int position, Texture frame) {
-        int[] positionXY = positionToXY(position);
+    private void addItemCount(StackedItem stack, int i) {
+        Integer stackSize = stack.getCount();
+        int[] position = positionToXY(i);
+
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+
+        TextButton text = new TextButton(stackSize.toString(), buttonStyle);
+        text.setTouchable(Touchable.disabled);
+        text.setVisible(true);
+        text.setBounds(position[0], position[1], SIZE, SIZE);
+        this.addActor(text);
+
+
+    }
+
+    private void addSlotFrame(Texture frame, int i) {
+        int[] position = positionToXY(i);
 
 
         Image frameActor = new Image(new TextureRegion(frame));
 
 
-        frameActor.setBounds(positionXY[0],positionXY[1], SIZE, SIZE);
+        frameActor.setBounds(position[0],position[1], SIZE, SIZE);
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
         this.addActor(frameActor);

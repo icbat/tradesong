@@ -23,4 +23,11 @@ public class InventoryScreen extends AbstractScreen {
         hud.draw();
         inventoryStage.draw();
     }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        inventoryStage.setViewport(width, height, false);
+        hud.setViewport(width, height, false); //TODO probably a way to put all of this in to abstractScreen later
+    }
 }
