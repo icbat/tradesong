@@ -20,8 +20,11 @@ import static com.badlogic.gdx.math.MathUtils.floor;
 public class InventoryStage extends Stage {
 
     public static final int SIZE = 34;
-    public static final int SLOT_SIZE = 40;
+    public static final int SLOT_SIZE = 32;
+    public static final int SLOT_SPACING = 8;
     public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
+    public static final int COLUMNS_PER_ROW = 5;
+
     private BitmapFont font;
 
     public InventoryStage(Tradesong gameInstance) {
@@ -34,37 +37,37 @@ public class InventoryStage extends Stage {
 
         Texture frame = gameInstance.assets.get(SPRITES_FRAME_PNG);
 
-        // Slot frames
-        for (int i = 0; i < inventory.capacity(); ++i) {
-            addSlotFrame(frame, i);
-        }
-
         // Add items
         for (int i = 0; i < inventory.capacity(); ++i) {
-            gameInstance.log.info("## Checking");
+
+            int[] coords = positionToCoords(i);
+
+            // Slot frames
+            addSlotFrame(frame, coords);
+
             if (i < inventory.size()) {
-                gameInstance.log.info("## Adding an item");
-                addStackedItemToStage(inventory.getStack(i), i);
-                addItemCount(inventory.getStack(i), i);
+                addStackedItemToStage(inventory.getStack(i), coords);
+                addItemCount(inventory.getStack(i), coords);
             }
         }
-
     }
 
-    private void addStackedItemToStage(StackedItem stack, int i) {
+
+
+
+
+    private void addStackedItemToStage(StackedItem stack, int[] position) {
 
         Item item = stack.getBaseItem(); // Item is an Actor and meant to be representative, just like this
 
-        int[] position = positionToXY(i);
         item.setBounds(position[0],position[1], SIZE, SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
         this.addActor(item);
     }
 
-    private void addItemCount(StackedItem stack, int i) {
+    private void addItemCount(StackedItem stack, int[] position) {
         Integer stackSize = stack.getCount();
-        int[] position = positionToXY(i);
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
@@ -78,38 +81,37 @@ public class InventoryStage extends Stage {
 
     }
 
-    private void addSlotFrame(Texture frame, int i) {
-        int[] position = positionToXY(i);
-
-
+    private void addSlotFrame(Texture frame, int[] position) {
         Image frameActor = new Image(new TextureRegion(frame));
-
 
         frameActor.setBounds(position[0],position[1], SIZE, SIZE);
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
         this.addActor(frameActor);
-
-
-
-
     }
 
     /** Utility to take a list slot and take it to a 2d coordinate */
-    private int[] positionToXY(int position) {
+    private int[] positionToCoords(int position) {
         //boundary math
         int x;
         int y;
 
-        x = position % 5; // 5 columns
-        y = floor(position / 5);
+        int totalSlotSize = SLOT_SIZE + SLOT_SPACING;
 
-        x *= SLOT_SIZE;
-        y *= SLOT_SIZE;
+        // Figure out how many cells are in each row/col
+        x = position % COLUMNS_PER_ROW; // 5 columns
+        y = floor(position / COLUMNS_PER_ROW);
 
-        //TODO I'd rather do something based on height/width but this is fine for now
-        x += 100;
-        y += 100;
+        // Scale the Column and Row up by the png dimensions + a spacer
+        x *= (totalSlotSize);
+        y *= (totalSlotSize);
+
+        // Start at the middle of the screen
+        x += floor(this.getWidth()/2);
+        y += floor(this.getHeight()/2);
+
+        x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
+        //TODO center on y-axis
 
         int[] out = new int[2];
         out[0] = x;
