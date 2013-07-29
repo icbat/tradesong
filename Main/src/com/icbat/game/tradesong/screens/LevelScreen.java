@@ -69,6 +69,7 @@ public class LevelScreen extends AbstractScreen {
         // DualCamController
         worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
 
+
         // Setup an input Multiplexer
         InputMultiplexer plexer = new InputMultiplexer();
         plexer.addProcessor(hud);
@@ -109,6 +110,7 @@ public class LevelScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         worldStage.setViewport(width, height, false);
+        hud.setViewport(width,height, false);
         worldStage.getBackgroundActor().setBounds(0, 0, width, height);
     }
 
