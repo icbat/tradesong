@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
@@ -46,6 +45,7 @@ public class InventoryStage extends Stage {
             if (i < inventory.size()) {
                 gameInstance.log.info("## Adding an item");
                 addStackedItemToStage(inventory.getStack(i), i);
+                addItemCount(inventory.getStack(i), i);
             }
         }
 
