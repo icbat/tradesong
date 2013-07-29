@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.icbat.game.tradesong.Inventory;
@@ -21,6 +22,8 @@ public class InventoryStage extends Stage {
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
+
+        gameInstance.assets.load("sprites/frame.png", Texture.class);
 
         // Slot frames
         for (int i = 0; i < inventory.capacity(); ++i) {
