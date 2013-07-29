@@ -1,8 +1,10 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.StackedItem;
@@ -10,8 +12,6 @@ import com.icbat.game.tradesong.Tradesong;
 
 import static com.badlogic.gdx.math.MathUtils.floor;
 
-
-// TODO Position stacks
 // TODO make them clickable/draggable
 // TODO show stack count
 
@@ -19,15 +19,19 @@ public class InventoryStage extends Stage {
 
     public static final int SIZE = 34;
     public static final int SLOT_SIZE = 40;
+    public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
-        gameInstance.assets.load("sprites/frame.png", Texture.class);
+        gameInstance.assets.load(SPRITES_FRAME_PNG, Texture.class);
+        gameInstance.assets.finishLoading();
+
+        Texture frame = gameInstance.assets.get(SPRITES_FRAME_PNG);
 
         // Slot frames
         for (int i = 0; i < inventory.capacity(); ++i) {
-            addSlotFrame(i);
+            addSlotFrame(i, frame);
         }
 
         // Add items
@@ -45,6 +49,33 @@ public class InventoryStage extends Stage {
 
         Item item = stack.getBaseItem(); // Item is an Actor and meant to be representative, just like this
 
+
+        int[] positionXY = positionToXY(position);
+        item.setBounds(positionXY[0],positionXY[1], SIZE, SIZE);
+        item.setVisible(true);
+        item.setTouchable(Touchable.enabled);
+        this.addActor(item);
+    }
+
+    private void addSlotFrame(int position, Texture frame) {
+        int[] positionXY = positionToXY(position);
+
+
+        Image frameActor = new Image(new TextureRegion(frame));
+
+
+        frameActor.setBounds(positionXY[0],positionXY[1], SIZE, SIZE);
+        frameActor.setVisible(true);
+        frameActor.setTouchable(Touchable.disabled);
+        this.addActor(frameActor);
+
+
+
+
+    }
+
+    /** Utility to take a list slot and take it to a 2d coordinate */
+    private int[] positionToXY(int position) {
         //boundary math
         int x;
         int y;
@@ -59,14 +90,11 @@ public class InventoryStage extends Stage {
         x += 100;
         y += 100;
 
-        item.setBounds(x,y, SIZE, SIZE);
-        item.setVisible(true);
-        item.setTouchable(Touchable.enabled);
-        this.addActor(item);
-    }
+        int[] out = new int[2];
+        out[0] = x;
+        out[1] = y;
 
-    private void addSlotFrame(int position) {
-
+        return out;
     }
 
 
