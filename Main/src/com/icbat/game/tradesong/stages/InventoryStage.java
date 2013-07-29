@@ -56,5 +56,11 @@ public class InventoryStage extends Stage {
         this.addActor(item);
     }
 
+    private void addSlotFrames(int capacity) {
+        for (int i = 0; i < capacity; ++i) {
+
+        }
+    }
+
 
 }
