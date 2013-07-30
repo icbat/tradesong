@@ -16,6 +16,8 @@ public class GameStateManager {
     public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
+    private int totalRarity = 0;
+
     public GameStateManager(Tradesong gameInstance) {
         // Load sprites and other assets
         gameInstance.assets.load(PATH_SPRITE_ITEMS, Texture.class);
@@ -23,7 +25,8 @@ public class GameStateManager {
 
 
         // Load data and initialize
-        loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) ); //TODO check return
+        loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
+
 
     }
 
@@ -74,6 +77,7 @@ public class GameStateManager {
 
             if (!properties[0].equals("itemName")) {
                 allKnownItems.add( new Item(name, description, texture, x, y, rarity, maxStack) );
+                totalRarity += rarity;
             }
 
         }
