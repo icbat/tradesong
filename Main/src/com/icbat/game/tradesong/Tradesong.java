@@ -21,7 +21,7 @@ import com.icbat.game.tradesong.screens.MainMenuScreen;
  * */
 public class Tradesong extends Game {
 	
-    public GameStateManager gameState = new GameStateManager(this);
+    public GameStateManager gameState;
 	public LJ log = new LJ("", this.getClass().getSimpleName());
     public AssetManager assets = new AssetManager();
     private Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
@@ -34,7 +34,9 @@ public class Tradesong extends Game {
 		log.info( new Date().toString() );
 		log.info( "App Type" + Gdx.app.getType().toString() );
 		log.info( "Device Version" + Gdx.app.getVersion() );
+        gameState = new GameStateManager(this);
 		goToMainMenu();
+
 
 	}
 

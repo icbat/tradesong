@@ -14,12 +14,13 @@ public class Item extends Image {
 
     private String itemName;
     private String description;
-    private int maxStack = 9;
-    private int rarity = -1;
+    private int maxStack;
+    private int rarity;
 
     public static final int ICON_SIZE = 34;
 
-    public Item(String itemName, String description, Texture texture,  int spriteX, int spriteY, int rarity, int maxStack) {
+    // name, description, texture, maxStack, rarity, x, y
+    public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY) {
         super( new TextureRegion(texture, spriteX, spriteY, ICON_SIZE, ICON_SIZE) );
         this.itemName = itemName;
         this.description = description;

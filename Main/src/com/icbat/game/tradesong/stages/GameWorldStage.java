@@ -35,8 +35,6 @@ public class GameWorldStage extends Stage {
     int itemCount;
     int maxSpawnedPerMap;
 
-    int totalRarityForMap = 0;
-
     public GameWorldStage(Tradesong gameInstance, MapProperties properties) {
         this.gameInstance = gameInstance;
 
@@ -50,14 +48,13 @@ public class GameWorldStage extends Stage {
         this.addActor(backgroundActor);
 
         // Use the Map properties to get some good stuff
-        initialItemCount = (Integer)properties.get(PROPERTY_INITIAL_SPAWN_COUNT);
-        maxSpawnedPerMap = (Integer)properties.get(PROPERTY_SPAWN_CAPACITY);
+        initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
+        maxSpawnedPerMap = Integer.parseInt((String)properties.get(PROPERTY_SPAWN_CAPACITY));
         String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
         // Figure out what spawns here and what the total rarity is
         for (String itemName : itemsArray) {
             possibleItemSpawns.add( gameInstance.gameState.getItemByName(itemName) );
-            totalRarityForMap += gameInstance.gameState.getItemByName(itemName).getRarity();
         }
 
 
@@ -68,9 +65,7 @@ public class GameWorldStage extends Stage {
 
     public boolean spawnItem() {
         if (itemCount < maxSpawnedPerMap + 1) {
-
-
-            finalizeItemForView(item);
+            finalizeItemForView(chooseItemByRarity());
             ++itemCount;
             return true;
         } else {
@@ -78,8 +73,30 @@ public class GameWorldStage extends Stage {
         }
     }
 
-    /** @return true if the item was successfully added */
-    public void finalizeItemForView(Item item) {
+    /***/
+    private Item chooseItemByRarity() {
+        int totalRarity = 0;
+        for (Item item : possibleItemSpawns) {
+            totalRarity += 2 << item.getRarity() - 1;
+        }
+
+        // Rarity algorithm
+        Random random = new Random();
+        int n = random.nextInt(totalRarity); // 0 - (totalRarity - 1)
+
+        int highestSeen = 0;
+        for (Item item : possibleItemSpawns) {
+            highestSeen += item.getRarity();
+            if (n < highestSeen) {
+                return item;
+            }
+        }
+
+        return null; // TODO if this ever gets hit, make a note and FIX IT
+    }
+
+    /** Performs common steps for Items being added to the stage randomly */
+    private void finalizeItemForView(Item item) {
 
         item.addListener(new ItemClickListener(item));
         int[] coords = getRandomCoords();
@@ -89,8 +106,7 @@ public class GameWorldStage extends Stage {
         this.addActor(item);
     }
 
-
-    public int[] getRandomCoords() {
+    private int[] getRandomCoords() {
         int[] output = new int[2];
 
         Random random = new Random();
@@ -101,8 +117,6 @@ public class GameWorldStage extends Stage {
 
         return output;
     }
-
-
 
     public void removeItemCount() {
         removeItemCount(1);
