@@ -67,30 +67,28 @@ public class GameWorldStage extends Stage {
     }
 
     public boolean spawnItem() {
-        // RANDOMNESS
+        if (itemCount < maxSpawnedPerMap + 1) {
 
-        return finalizeItemForView(item);
-    }
 
-    /** @return true if the item was successfully added */
-    public boolean finalizeItemForView(Item item) {
-        if (itemCount < 1 + maxSpawnedPerMap) {
-
-            item.addListener(new ItemClickListener(item));
-            int[] coords = getRandomCoords();
-            item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
-            item.setTouchable(Touchable.enabled);
-            item.setVisible(true);
-            this.addActor(item);
-
+            finalizeItemForView(item);
             ++itemCount;
-
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
+    /** @return true if the item was successfully added */
+    public void finalizeItemForView(Item item) {
+
+        item.addListener(new ItemClickListener(item));
+        int[] coords = getRandomCoords();
+        item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
+        item.setTouchable(Touchable.enabled);
+        item.setVisible(true);
+        this.addActor(item);
+    }
+
 
     public int[] getRandomCoords() {
         int[] output = new int[2];
