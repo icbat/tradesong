@@ -96,6 +96,14 @@ public class GameStateManager {
         return allKnownItems;
     }
 
+    public Item getItemByName(String name) {
+        if (allKnownItems.contains(name)) {
+            int i = allKnownItems.indexOf(name);
+            return allKnownItems.get(i);
+        }
+        return null;
+    }
+
     public ArrayList<Recipe> getAllKnownRecipes() {
         return allKnownRecipes;
     }

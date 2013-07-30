@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /** This stage governs:
@@ -19,26 +19,26 @@ import java.util.Random;
  *  */
 public class GameWorldStage extends Stage {
 
-    public static final String SPRITES_ITEMS_PNG = "sprites/items.png";
-
-    // Map properties TODO extract this out to a map handler or something...
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
     public static final String PROPERTY_SPAWNABLE_ITEMS = "spawnableItems";
 
-    private final Tradesong gameInstance;
-    private final String[] possibleItemSpawns;
+    private Tradesong gameInstance;
+    private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
     private int mapX = 0;
     private int mapY = 0;
 
 
     private Actor backgroundActor = new Actor();
 
-    int initialItemCount = 4;  // TODO pull this out of map properties
+    int initialItemCount;
     int itemCount;
-    int maxSpawnedPerMap = 10; // TODO pull this out of map properties
+    int maxSpawnedPerMap;
+
+    int totalRarityForMap = 0;
 
     public GameWorldStage(Tradesong gameInstance, MapProperties properties) {
+        this.gameInstance = gameInstance;
 
         // Get coords for setting bounds
         mapX = (Integer)properties.get("width");
@@ -49,13 +49,17 @@ public class GameWorldStage extends Stage {
         backgroundActor.setVisible(true);
         this.addActor(backgroundActor);
 
-        // Grab texture to pass to item factory
-        this.gameInstance = gameInstance;
-        this.gameInstance.assets.load(SPRITES_ITEMS_PNG, Texture.class);
-        this.gameInstance.assets.finishLoading();
-
         // Use the Map properties to get some good stuff
-        possibleItemSpawns = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
+        initialItemCount = (Integer)properties.get(PROPERTY_INITIAL_SPAWN_COUNT);
+        maxSpawnedPerMap = (Integer)properties.get(PROPERTY_SPAWN_CAPACITY);
+        String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
+
+        // Figure out what spawns here and what the total rarity is
+        for (String itemName : itemsArray) {
+            possibleItemSpawns.add( gameInstance.gameState.getItemByName(itemName) );
+            totalRarityForMap += gameInstance.gameState.getItemByName(itemName).getRarity();
+        }
+
 
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
@@ -63,12 +67,13 @@ public class GameWorldStage extends Stage {
     }
 
     public boolean spawnItem() {
+        // RANDOMNESS
 
-        return spawnItem(item);
+        return finalizeItemForView(item);
     }
 
     /** @return true if the item was successfully added */
-    public boolean spawnItem(Item item) {
+    public boolean finalizeItemForView(Item item) {
         if (itemCount < 1 + maxSpawnedPerMap) {
 
             item.addListener(new ItemClickListener(item));
@@ -77,8 +82,6 @@ public class GameWorldStage extends Stage {
             item.setTouchable(Touchable.enabled);
             item.setVisible(true);
             this.addActor(item);
-
-
 
             ++itemCount;
 
