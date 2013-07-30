@@ -75,27 +75,37 @@ public class GameWorldStage extends Stage {
 
     /***/
     private Item chooseItemByRarity() {
+        int maxRarity = 0;
         int totalRarity = 0;
-        gameInstance.log.info("Summing " + (Integer)possibleItemSpawns.size() + " items");
-        gameInstance.log.info("First of which is: " + possibleItemSpawns.get(0).getItemName());
+
         for (Item item : possibleItemSpawns) {
-            gameInstance.log.info("Summing: " + item.getItemName());
-            totalRarity += (int)Math.pow(2, item.getRarity()) ;
+            totalRarity += item.getRarity();
+            if (item.getRarity() > maxRarity)
+                maxRarity = item.getRarity();
         }
 
-        // Rarity algorithm
-        Random random = new Random();
-        int n = random.nextInt(totalRarity); // 0 - (totalRarity - 1)
-
-        int highestSeen = 0;
+        ArrayList<Integer> scaledRarities = new ArrayList<Integer>();
         for (Item item : possibleItemSpawns) {
-            highestSeen += item.getRarity();
-            if (n < highestSeen) {
-                return item;
+            int n = maxRarity + 1 - item.getRarity();
+
+
+            scaledRarities.add( n );
+        }
+
+        int n = new Random().nextInt( totalRarity );
+
+        for (int i = 0; i < possibleItemSpawns.size(); ++i) {
+            if (n < scaledRarities.get(i)) {
+                gameInstance.log.info("Spawning: " + possibleItemSpawns.get(i).getItemName());
+                return possibleItemSpawns.get(i);
             }
+            else {
+                n -= scaledRarities.get(i);
+            }
+
         }
 
-        return null; // TODO if this ever gets hit, make a note and FIX IT
+        return null; // TODO this should never return; if it does, mess with math
     }
 
     /** Performs common steps for Items being added to the stage randomly */
@@ -144,9 +154,9 @@ public class GameWorldStage extends Stage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchUp(event, x, y, pointer, button);
-            boolean outcome = gameInstance.gameState.getInventory().add(owner);
-            if (outcome) {
+            super.touchDown(event, x, y, pointer, button);
+
+            if ( gameInstance.gameState.getInventory().add(owner) ) {
                 removeItemCount();
                 owner.remove();
             }

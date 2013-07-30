@@ -72,10 +72,10 @@ public class GameStateManager {
                 // public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY) {
                 name = properties[0];
                 description = properties[1];
-                x = Integer.parseInt(properties[2].trim());
-                y =  Integer.parseInt(properties[3].trim());
-                rarity =  Integer.parseInt(properties[4].trim());
-                maxStack =  Integer.parseInt(properties[5].trim());
+                x = Integer.parseInt(properties[4].trim());
+                y =  Integer.parseInt(properties[5].trim());
+                rarity =  Integer.parseInt(properties[3].trim());
+                maxStack =  Integer.parseInt(properties[2].trim());
 
                 allKnownItems.add( new Item(name, description, texture, maxStack, rarity, x, y) );
 

@@ -21,7 +21,7 @@ public class Item extends Image {
 
     // name, description, texture, maxStack, rarity, x, y
     public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY) {
-        super( new TextureRegion(texture, spriteX, spriteY, ICON_SIZE, ICON_SIZE) );
+        super( new TextureRegion(texture, spriteX * ICON_SIZE, spriteY * ICON_SIZE, ICON_SIZE, ICON_SIZE) );
         this.itemName = itemName;
         this.description = description;
         this.maxStack = maxStack;

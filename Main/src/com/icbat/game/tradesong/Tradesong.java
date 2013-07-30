@@ -67,4 +67,5 @@ public class Tradesong extends Game {
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
     }
+
 }
