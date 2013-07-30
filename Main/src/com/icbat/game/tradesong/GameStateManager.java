@@ -13,10 +13,9 @@ public class GameStateManager {
     private ArrayList<Recipe> allKnownRecipes = new ArrayList<Recipe>();
 
     public static final String PATH_ITEMS = "items.csv";
-    public static final String PATH_RECIPES = "recipes.csv";
+//    public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
-    private int totalRarity = 0;
 
     public GameStateManager(Tradesong gameInstance) {
         // Load sprites and other assets
@@ -29,6 +28,8 @@ public class GameStateManager {
 
 
     }
+
+
 
     /** Saves to a file.
      *
@@ -77,7 +78,6 @@ public class GameStateManager {
 
             if (!properties[0].equals("itemName")) {
                 allKnownItems.add( new Item(name, description, texture, x, y, rarity, maxStack) );
-                totalRarity += rarity;
             }
 
         }
