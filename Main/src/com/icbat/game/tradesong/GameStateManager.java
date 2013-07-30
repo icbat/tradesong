@@ -4,13 +4,20 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.util.ArrayList;
 
-// TODO this needs a lot of error-checking for things like shrinking inventory, etc.
+
 /** Class to keep track of game state data. Also handles saving/loading of said data. */
 public class GameStateManager {
     private Inventory inventory = new Inventory();
+    private ArrayList<Item> allKnownItems = new ArrayList<Item>();
+    private ArrayList<Recipe> allKnownRecipes = new ArrayList<Recipe>();
+
+    public static final String PATH_ITEMS = "items.csv";
+    public static final String PATH_RECIPES = "recipes.csv";
+
     private int money = 100;
 
     public GameStateManager() {
+        loadItems(); //TODO check return
 
     }
 
@@ -24,18 +31,33 @@ public class GameStateManager {
 
     /** Saves to a file.
      *
-     * @param filename of save
-     * @return true if save seems successful*/
-    public boolean save(FileHandle filename) {
+     * @param filename of saveGame
+     * @return true if saveGame seems successful*/
+    public boolean saveGame(FileHandle filename) {
         return false;
     }
 
-    /**Loads from a file.
+    /** Loads from a file.
      *
-     * @param filename of save.
-     * @return true if load seems successful
+     * @param filename of saveGame.
+     * @return true if loadGame seems successful
      * */
-    public boolean load(FileHandle filename){
+    public boolean loadGame(FileHandle filename){
+        return false;
+    }
+
+    /** Load in items from XML file assets
+     *
+     * @return true if loadedSuccessfully
+     * */
+    public boolean loadItems() {
+
+        // Load the main file
+
+
+
+
+        // TODO see about loading from all from a folder to allow for modding/end-user-adding
         return false;
     }
 
@@ -43,5 +65,11 @@ public class GameStateManager {
         return inventory;
     }
 
+    public ArrayList<Item> getAllKnownItems() {
+        return allKnownItems;
+    }
 
+    public ArrayList<Recipe> getAllKnownRecipes() {
+        return allKnownRecipes;
+    }
 }
