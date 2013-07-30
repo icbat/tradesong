@@ -49,7 +49,7 @@ public class GameWorldStage extends Stage {
 
         // Use the Map properties to get some good stuff
         initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
-        maxSpawnedPerMap = Integer.parseInt((String)properties.get(PROPERTY_SPAWN_CAPACITY));
+        maxSpawnedPerMap = Integer.parseInt((String) properties.get(PROPERTY_SPAWN_CAPACITY));
         String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
         // Figure out what spawns here and what the total rarity is
@@ -76,8 +76,11 @@ public class GameWorldStage extends Stage {
     /***/
     private Item chooseItemByRarity() {
         int totalRarity = 0;
+        gameInstance.log.info("Summing " + (Integer)possibleItemSpawns.size() + " items");
+        gameInstance.log.info("First of which is: " + possibleItemSpawns.get(0).getItemName());
         for (Item item : possibleItemSpawns) {
-            totalRarity += 2 << item.getRarity() - 1;
+            gameInstance.log.info("Summing: " + item.getItemName());
+            totalRarity += (int)Math.pow(2, item.getRarity()) ;
         }
 
         // Rarity algorithm

@@ -78,6 +78,7 @@ public class GameStateManager {
                 maxStack =  Integer.parseInt(properties[5].trim());
 
                 allKnownItems.add( new Item(name, description, texture, maxStack, rarity, x, y) );
+
             }
 
         }
@@ -97,10 +98,11 @@ public class GameStateManager {
     }
 
     public Item getItemByName(String name) {
-        if (allKnownItems.contains(name)) {
-            int i = allKnownItems.indexOf(name);
-            return allKnownItems.get(i);
+        for (Item item : allKnownItems) {
+            if (item.getItemName().equals(name))
+                return item;
         }
+
         return null;
     }
 
