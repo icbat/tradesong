@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
@@ -13,20 +14,17 @@ public class GameStateManager {
 
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
+    public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
-    private int money = 100;
+    public GameStateManager(Tradesong gameInstance) {
+        // Load sprites and other assets
+        gameInstance.assets.load(PATH_SPRITE_ITEMS, Texture.class);
+        gameInstance.assets.finishLoading();
 
-    public GameStateManager() {
-        loadItems(); //TODO check return
 
-    }
+        // Load data and initialize
+        loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) ); //TODO check return
 
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
     }
 
     /** Saves to a file.
@@ -49,11 +47,36 @@ public class GameStateManager {
     /** Load in items from XML file assets
      *
      * @return true if loadedSuccessfully
+     * @see assets/items.csv
      * */
-    public boolean loadItems() {
+    public boolean loadItems(Texture texture) {
 
         // Load the main file
+        String itemBlob = new FileHandle(PATH_ITEMS).readString();
+        String[] lineOfSpec = itemBlob.split("\n");
 
+        // Declaring for memory usage
+        String[] properties;
+        String name, description;
+        Integer x, y, rarity, maxStack;
+
+        for (String line : lineOfSpec) {
+            properties = line.split(",");
+
+            // public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY) {
+            name = properties[0];
+            description = properties[1];
+            x = new Integer(properties[2]);
+            y = new Integer(properties[3]);
+            rarity = new Integer(properties[4]);
+            maxStack = new Integer(properties[5]);
+
+
+            if (!properties[0].equals("itemName")) {
+                allKnownItems.add( new Item(name, description, texture, x, y, rarity, maxStack) );
+            }
+
+        }
 
 
 

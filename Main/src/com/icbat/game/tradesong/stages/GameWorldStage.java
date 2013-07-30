@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
-import com.icbat.game.tradesong.ItemFactory;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.Random;
@@ -64,7 +63,7 @@ public class GameWorldStage extends Stage {
     }
 
     public boolean spawnItem() {
-        Item item = ItemFactory.makeRandomItem((Texture)gameInstance.assets.get(SPRITES_ITEMS_PNG), possibleItemSpawns);
+
         return spawnItem(item);
     }
 
