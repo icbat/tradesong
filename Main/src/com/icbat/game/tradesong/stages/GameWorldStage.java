@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
-import com.icbat.game.tradesong.ItemFactory;
 import com.icbat.game.tradesong.Tradesong;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /** This stage governs:
@@ -20,26 +19,24 @@ import java.util.Random;
  *  */
 public class GameWorldStage extends Stage {
 
-    public static final String SPRITES_ITEMS_PNG = "sprites/items.png";
-
-    // Map properties TODO extract this out to a map handler or something...
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
     public static final String PROPERTY_SPAWNABLE_ITEMS = "spawnableItems";
 
-    private final Tradesong gameInstance;
-    private final String[] possibleItemSpawns;
+    private Tradesong gameInstance;
+    private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
     private int mapX = 0;
     private int mapY = 0;
 
 
     private Actor backgroundActor = new Actor();
 
-    int initialItemCount = 4;  // TODO pull this out of map properties
+    int initialItemCount;
     int itemCount;
-    int maxSpawnedPerMap = 10; // TODO pull this out of map properties
+    int maxSpawnedPerMap;
 
     public GameWorldStage(Tradesong gameInstance, MapProperties properties) {
+        this.gameInstance = gameInstance;
 
         // Get coords for setting bounds
         mapX = (Integer)properties.get("width");
@@ -50,13 +47,16 @@ public class GameWorldStage extends Stage {
         backgroundActor.setVisible(true);
         this.addActor(backgroundActor);
 
-        // Grab texture to pass to item factory
-        this.gameInstance = gameInstance;
-        this.gameInstance.assets.load(SPRITES_ITEMS_PNG, Texture.class);
-        this.gameInstance.assets.finishLoading();
-
         // Use the Map properties to get some good stuff
-        possibleItemSpawns = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
+        initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
+        maxSpawnedPerMap = Integer.parseInt((String) properties.get(PROPERTY_SPAWN_CAPACITY));
+        String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
+
+        // Figure out what spawns here and what the total rarity is
+        for (String itemName : itemsArray) {
+            possibleItemSpawns.add( gameInstance.gameState.getItemByName(itemName) );
+        }
+
 
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
@@ -64,33 +64,62 @@ public class GameWorldStage extends Stage {
     }
 
     public boolean spawnItem() {
-        Item item = ItemFactory.makeRandomItem((Texture)gameInstance.assets.get(SPRITES_ITEMS_PNG), possibleItemSpawns);
-        return spawnItem(item);
-    }
-
-    /** @return true if the item was successfully added */
-    public boolean spawnItem(Item item) {
-        if (itemCount < 1 + maxSpawnedPerMap) {
-
-            item.addListener(new ItemClickListener(item));
-            int[] coords = getRandomCoords();
-            item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
-            item.setTouchable(Touchable.enabled);
-            item.setVisible(true);
-            this.addActor(item);
-
-
-
+        if (itemCount < maxSpawnedPerMap + 1) {
+            finalizeItemForView(chooseItemByRarity());
             ++itemCount;
-
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public int[] getRandomCoords() {
+    /***/
+    private Item chooseItemByRarity() {
+        int maxRarity = 0;
+        int totalRarity = 0;
+
+        for (Item item : possibleItemSpawns) {
+            totalRarity += item.getRarity();
+            if (item.getRarity() > maxRarity)
+                maxRarity = item.getRarity();
+        }
+
+        ArrayList<Integer> scaledRarities = new ArrayList<Integer>();
+        for (Item item : possibleItemSpawns) {
+            int n = maxRarity + 1 - item.getRarity();
+
+
+            scaledRarities.add( n );
+        }
+
+        int n = new Random().nextInt( totalRarity );
+
+        for (int i = 0; i < possibleItemSpawns.size(); ++i) {
+            if (n < scaledRarities.get(i)) {
+                gameInstance.log.info("Spawning: " + possibleItemSpawns.get(i).getItemName());
+                return possibleItemSpawns.get(i);
+            }
+            else {
+                n -= scaledRarities.get(i);
+            }
+
+        }
+
+        return null; // TODO this should never return; if it does, mess with math
+    }
+
+    /** Performs common steps for Items being added to the stage randomly */
+    private void finalizeItemForView(Item item) {
+
+        item.addListener(new ItemClickListener(item));
+        int[] coords = getRandomCoords();
+        item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
+        item.setTouchable(Touchable.enabled);
+        item.setVisible(true);
+        this.addActor(item);
+    }
+
+    private int[] getRandomCoords() {
         int[] output = new int[2];
 
         Random random = new Random();
@@ -101,8 +130,6 @@ public class GameWorldStage extends Stage {
 
         return output;
     }
-
-
 
     public void removeItemCount() {
         removeItemCount(1);
@@ -127,9 +154,9 @@ public class GameWorldStage extends Stage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchUp(event, x, y, pointer, button);
-            boolean outcome = gameInstance.gameState.getInventory().add(owner);
-            if (outcome) {
+            super.touchDown(event, x, y, pointer, button);
+
+            if ( gameInstance.gameState.getInventory().add(owner) ) {
                 removeItemCount();
                 owner.remove();
             }
