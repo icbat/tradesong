@@ -4,10 +4,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,6 +24,7 @@ public class HUDStage extends Stage {
     int dimension = 34;
     Texture texture;
     Tradesong gameInstance;
+    private TextButton capacityCounter;
 
     public HUDStage(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
@@ -84,14 +88,25 @@ public class HUDStage extends Stage {
 
         textStyle.font = font;
 
-        TextButton loadTextButton = new TextButton(size.toString() + " / " + capacity.toString(), textStyle);
+        capacityCounter = new TextButton(size.toString() + " / " + capacity.toString(), textStyle) {
+            @Override
+            public void draw(SpriteBatch batch, float parentAlpha) {
+                Integer size = gameInstance.gameState.getInventory().size();
+                Integer capacity = gameInstance.gameState.getInventory().capacity();
+                capacityCounter.setText(size.toString() + " / " + capacity.toString());
+
+                super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.
+            }
+        };
 
 
-        loadTextButton.setVisible(true);
-        loadTextButton.setTouchable(Touchable.disabled);
-        loadTextButton.setBounds(dimension, 0, dimension, dimension);
+        capacityCounter.setVisible(true);
+        capacityCounter.setTouchable(Touchable.disabled);
+        capacityCounter.setBounds(dimension, 0, dimension, dimension);
 
-        this.addActor(loadTextButton);
+
+
+        this.addActor(capacityCounter);
     }
 
     class InterfaceButtonListener extends ClickListener {
