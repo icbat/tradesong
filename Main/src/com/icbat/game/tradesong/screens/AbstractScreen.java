@@ -33,7 +33,7 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		log( "Resizing to " + width + "w by " + height + "h" );
+//		log( "Resizing to " + width + "w by " + height + "h" );
 
 //		super.resize(width, height);
 
@@ -41,25 +41,25 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void show() {
-		log( "Showing" );
+//		log( "Showing" );
 
 	}
 
 	@Override
 	public void hide() {
-		log( "Hiding" );
+//		log( "Hiding" );
 
 	}
 
 	@Override
 	public void pause() {
-		log( "Pausing" );
+//		log( "Pausing" );
 
 	}
 
 	@Override
 	public void resume() {
-		log( "Resuming" );
+//		log( "Resuming" );
 
 	}
 

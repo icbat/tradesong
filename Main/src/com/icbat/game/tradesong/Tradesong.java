@@ -8,10 +8,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.icbat.game.LJ;
-import com.icbat.game.tradesong.screens.AbstractScreen;
-import com.icbat.game.tradesong.screens.InventoryScreen;
-import com.icbat.game.tradesong.screens.LevelScreen;
-import com.icbat.game.tradesong.screens.MainMenuScreen;
+import com.icbat.game.tradesong.screens.*;
 
 
 /**
@@ -68,4 +65,7 @@ public class Tradesong extends Game {
         return screenStack.peek();
     }
 
+    public void goToWorkshop() {
+        goToScreen(new WorkshopScreen(this));
+    }
 }

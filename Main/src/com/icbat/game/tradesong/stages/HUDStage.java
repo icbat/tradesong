@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.screens.AbstractScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
+import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends Stage {
     String itemSpriteFilename = "sprites/items.png";
@@ -36,7 +39,7 @@ public class HUDStage extends Stage {
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.setVisible(true);
 
-        inventoryButton.addListener(new InterfaceButtonListener());
+        inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
 
         this.addActor(inventoryButton);
     }
@@ -51,7 +54,7 @@ public class HUDStage extends Stage {
         workshopButton.setTouchable(Touchable.enabled);
         workshopButton.setVisible(true);
 
-        workshopButton.addListener(new InterfaceButtonListener());
+        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));
 
         int maxX = (int)this.getWidth();
 
@@ -61,19 +64,31 @@ public class HUDStage extends Stage {
     }
 
     class InterfaceButtonListener extends ClickListener {
-        //TODO way to differentiate screens that use this 'generic' one
+        private Class landingPage;
 
+        InterfaceButtonListener(Class landingPage) {
+            super();
+            this.landingPage = landingPage;
+        }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             gameInstance.log.info("I've been clicked!");
             // Following error is a known bug in IDEA, not an actual problem
-            if (gameInstance.getCurrentScreen().getClass().equals(InventoryScreen.class)) {
+            if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
+                // If we're already on that screen
                 gameInstance.goBack();
             }
             else {
-                gameInstance.goToInventory();
+                // Find the screen to go to based on landing
+                if (landingPage.equals(InventoryScreen.class)) {
+                    gameInstance.goToInventory();
+                }
+                else if (landingPage.equals(WorkshopScreen.class)) {
+                    gameInstance.goToWorkshop();
+
+                }
             }
             return true;
         }
