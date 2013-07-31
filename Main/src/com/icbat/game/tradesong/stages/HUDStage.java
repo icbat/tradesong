@@ -89,7 +89,7 @@ public class HUDStage extends Stage {
 
         loadTextButton.setVisible(true);
         loadTextButton.setTouchable(Touchable.disabled);
-        loadTextButton.setBounds(dimension*3, 0, dimension, dimension);
+        loadTextButton.setBounds(dimension, 0, dimension, dimension);
 
         this.addActor(loadTextButton);
     }
