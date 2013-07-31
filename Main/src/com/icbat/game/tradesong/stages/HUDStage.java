@@ -27,6 +27,7 @@ public class HUDStage extends Stage {
 
         addInventoryButton();
         addWorkshopsButton();
+        addInventoryStats();
 
     }
 
@@ -37,11 +38,10 @@ public class HUDStage extends Stage {
         Image inventoryButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
 
         inventoryButton.setTouchable(Touchable.enabled);
-        inventoryButton.setVisible(true);
-
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
+        // No need to set bounds; this is the bottom-left corner
 
-        this.addActor(inventoryButton);
+        addImage(inventoryButton);
     }
 
     private void addWorkshopsButton() {
@@ -52,15 +52,27 @@ public class HUDStage extends Stage {
         Image workshopButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
 
         workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.setVisible(true);
-
         workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));
 
         int maxX = (int)this.getWidth();
-
         workshopButton.setBounds(maxX - dimension, 0, dimension, dimension);
 
-        this.addActor(workshopButton);
+        addImage(workshopButton);
+    }
+
+    private void addInventoryStats() {
+
+    }
+
+    /** Extracting common functionality/steps for adding images. Before calling this:
+     * - add listeners
+     * - set bounds
+     * - set touchable if necessary
+     * */
+    private void addImage (Image image) {
+        image.setVisible(true);
+        this.addActor(image);
+
     }
 
     class InterfaceButtonListener extends ClickListener {
@@ -74,7 +86,6 @@ public class HUDStage extends Stage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
-            gameInstance.log.info("I've been clicked!");
             // Following error is a known bug in IDEA, not an actual problem
             if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
                 // If we're already on that screen
