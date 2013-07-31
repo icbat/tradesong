@@ -23,6 +23,7 @@ public class HUDStage extends Stage {
         texture = gameInstance.assets.get(itemSpriteFilename);
 
         addInventoryButton();
+        addWorkshopsButton();
 
     }
 
@@ -38,6 +39,25 @@ public class HUDStage extends Stage {
         inventoryButton.addListener(new InterfaceButtonListener());
 
         this.addActor(inventoryButton);
+    }
+
+    private void addWorkshopsButton() {
+        int x = 3;
+        int y = 9;
+
+
+        Image workshopButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
+
+        workshopButton.setTouchable(Touchable.enabled);
+        workshopButton.setVisible(true);
+
+        workshopButton.addListener(new InterfaceButtonListener());
+
+        int maxX = (int)this.getWidth();
+
+        workshopButton.setBounds(maxX - dimension, 0, dimension, dimension);
+
+        this.addActor(workshopButton);
     }
 
     class InterfaceButtonListener extends ClickListener {
