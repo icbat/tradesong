@@ -30,6 +30,8 @@ public class Item extends Image {
         this.baseTexture = texture;
         this.maxStack = maxStack;
         this.rarity = rarity;
+        this.spriteX = spriteX;
+        this.spriteY = spriteY;
     }
 
     /** Copy constructor */
