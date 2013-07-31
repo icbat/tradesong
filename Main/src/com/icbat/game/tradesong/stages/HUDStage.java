@@ -1,12 +1,15 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.AbstractScreen;
@@ -41,7 +44,8 @@ public class HUDStage extends Stage {
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
         // No need to set bounds; this is the bottom-left corner
 
-        addImage(inventoryButton);
+        inventoryButton.setVisible(true);
+        this.addActor(inventoryButton);
     }
 
     private void addWorkshopsButton() {
@@ -57,22 +61,37 @@ public class HUDStage extends Stage {
         int maxX = (int)this.getWidth();
         workshopButton.setBounds(maxX - dimension, 0, dimension, dimension);
 
-        addImage(workshopButton);
+        workshopButton.setVisible(true);
+        this.addActor(workshopButton);
     }
 
     private void addInventoryStats() {
 
-    }
+        Integer capacity = gameInstance.gameState.getInventory().capacity();
+        Integer size = gameInstance.gameState.getInventory().size();
 
-    /** Extracting common functionality/steps for adding images. Before calling this:
-     * - add listeners
-     * - set bounds
-     * - set touchable if necessary
-     * */
-    private void addImage (Image image) {
-        image.setVisible(true);
-        this.addActor(image);
+        TextButton.TextButtonStyle textStyle = new TextButton.TextButtonStyle();
+        BitmapFont font = new BitmapFont();
+        if (size.equals(capacity)) {
+            font.setColor(Color.RED);
+        }
+        else if (size.equals(capacity - 3)) {
+            font.setColor(Color.ORANGE);
+        }
+        else {
+            font.setColor(Color.WHITE);
+        }
 
+        textStyle.font = font;
+
+        TextButton loadTextButton = new TextButton(size.toString() + " / " + capacity.toString(), textStyle);
+
+
+        loadTextButton.setVisible(true);
+        loadTextButton.setTouchable(Touchable.disabled);
+        loadTextButton.setBounds(dimension*3, 0, dimension, dimension);
+
+        this.addActor(loadTextButton);
     }
 
     class InterfaceButtonListener extends ClickListener {
