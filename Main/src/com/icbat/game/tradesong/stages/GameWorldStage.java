@@ -97,7 +97,7 @@ public class GameWorldStage extends Stage {
         for (int i = 0; i < possibleItemSpawns.size(); ++i) {
             if (n < scaledRarities.get(i)) {
                 gameInstance.log.info("Spawning: " + possibleItemSpawns.get(i).getItemName());
-                return possibleItemSpawns.get(i);
+                return new Item(possibleItemSpawns.get(i));
             }
             else {
                 n -= scaledRarities.get(i);

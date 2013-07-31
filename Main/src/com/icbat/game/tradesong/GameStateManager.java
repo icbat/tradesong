@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 
 
-/** Class to keep track of game state data. Also handles saving/loading of said data. */
+/** Class to keep track of game state data. */
 public class GameStateManager {
     private Inventory inventory = new Inventory();
     private ArrayList<Item> allKnownItems = new ArrayList<Item>();
