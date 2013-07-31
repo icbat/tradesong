@@ -16,6 +16,9 @@ public class Item extends Image {
     private String description;
     private int maxStack;
     private int rarity;
+    private Texture baseTexture;
+    private int spriteX;
+    private int spriteY;
 
     public static final int ICON_SIZE = 34;
 
@@ -24,8 +27,17 @@ public class Item extends Image {
         super( new TextureRegion(texture, spriteX * ICON_SIZE, spriteY * ICON_SIZE, ICON_SIZE, ICON_SIZE) );
         this.itemName = itemName;
         this.description = description;
+        this.baseTexture = texture;
         this.maxStack = maxStack;
         this.rarity = rarity;
+        this.spriteX = spriteX;
+        this.spriteY = spriteY;
+    }
+
+    /** Copy constructor */
+    public Item(Item old) {
+        this(old.getItemName(), old.getDescription(), old.getBaseTexture(), old.getMaxStack(), old.getRarity(), old.getSpriteX(), old.getSpriteY());
+
     }
 
     public String getItemName() {
@@ -42,5 +54,17 @@ public class Item extends Image {
 
     public int getRarity() {
         return rarity;
+    }
+
+    public Texture getBaseTexture() {
+        return baseTexture;
+    }
+
+    public int getSpriteX() {
+        return spriteX;
+    }
+
+    public int getSpriteY() {
+        return spriteY;
     }
 }
