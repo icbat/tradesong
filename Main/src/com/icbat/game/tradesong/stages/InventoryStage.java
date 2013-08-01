@@ -16,7 +16,7 @@ import static com.badlogic.gdx.math.MathUtils.floor;
 
 public class InventoryStage extends Stage {
 
-    public static final int SIZE = 34;
+    public static final int ICON_SIZE = 34;
     public static final int SLOT_SIZE = 32;
     public static final int SLOT_SPACING = 8;
     public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
@@ -47,14 +47,33 @@ public class InventoryStage extends Stage {
             }
         }
 
+        addSortButton();
 
+
+    }
+
+    private void addSortButton() {
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+
+        TextButton sortButton = new TextButton("Sort it out!", buttonStyle);
+
+        // Start in the middle
+        int x = floor(this.getWidth()/2);
+        int y = floor(this.getHeight()/2);
+        y -= ICON_SIZE;
+
+
+
+        sortButton.setBounds(x, y, sortButton.getWidth(), sortButton.getHeight());
+        this.addActor(sortButton);
     }
 
     private void addStackedItemToStage(StackedItem stack, int[] position) {
 
         Item item = stack.getBaseItem();
 
-        item.setBounds(position[0],position[1], SIZE, SIZE);
+        item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
 
@@ -70,7 +89,7 @@ public class InventoryStage extends Stage {
         TextButton text = new TextButton(stackSize.toString(), buttonStyle);
         text.setTouchable(Touchable.disabled);
         text.setVisible(true);
-        text.setBounds(position[0], position[1], SIZE, SIZE);
+        text.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
 
         this.addActor(text);
 
@@ -80,7 +99,7 @@ public class InventoryStage extends Stage {
     private void addSlotFrame(Texture frame, int[] position) {
         Image frameActor = new Image(new TextureRegion(frame));
 
-        frameActor.setBounds(position[0],position[1], SIZE, SIZE);
+        frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
 

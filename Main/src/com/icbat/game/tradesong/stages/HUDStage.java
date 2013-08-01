@@ -33,11 +33,6 @@ public class HUDStage extends Stage {
         addInventoryButton();
         addInventoryStats();
         addWorkshopsButton();
-        addSortButton();
-
-    }
-
-    private void addSortButton() {
     }
 
     private void addInventoryButton() {
