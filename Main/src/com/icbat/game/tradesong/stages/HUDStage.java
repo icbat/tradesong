@@ -17,7 +17,7 @@ import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends Stage {
     public static final String ITEM_SPRITE_FILENAME = "sprites/items.png";
-    public static final int SPACER = 10;
+    public static final int SPACER = 6;
     public static final int ICON_SIZE = 34;
 
     Texture texture;
@@ -100,7 +100,7 @@ public class HUDStage extends Stage {
 
         capacityCounter.setVisible(true);
         capacityCounter.setTouchable(Touchable.disabled);
-        capacityCounter.setBounds(ICON_SIZE, 0, ICON_SIZE, ICON_SIZE);
+        capacityCounter.setBounds(ICON_SIZE + SPACER, 0, ICON_SIZE, ICON_SIZE);
 
 
 
