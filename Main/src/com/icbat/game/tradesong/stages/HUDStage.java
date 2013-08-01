@@ -31,16 +31,19 @@ public class HUDStage extends Stage {
         texture = gameInstance.assets.get(ITEM_SPRITE_FILENAME);
 
         addInventoryButton();
-        addWorkshopsButton();
         addInventoryStats();
+        addWorkshopsButton();
+        addSortButton();
 
     }
 
+    private void addSortButton() {
+    }
+
     private void addInventoryButton() {
-        // Add the default actors for the UI
         int x = 7;
         int y = 29;
-        Image inventoryButton = new Image(new TextureRegion(texture, x* ICON_SIZE, y* ICON_SIZE, ICON_SIZE, ICON_SIZE));
+        Image inventoryButton = new Image(new TextureRegion(texture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
@@ -55,7 +58,7 @@ public class HUDStage extends Stage {
         int y = 9;
 
 
-        Image workshopButton = new Image(new TextureRegion(texture, x* ICON_SIZE, y* ICON_SIZE, ICON_SIZE, ICON_SIZE));
+        Image workshopButton = new Image(new TextureRegion(texture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
         workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));
@@ -101,8 +104,6 @@ public class HUDStage extends Stage {
         capacityCounter.setVisible(true);
         capacityCounter.setTouchable(Touchable.disabled);
         capacityCounter.setBounds(ICON_SIZE + SPACER, 0, ICON_SIZE, ICON_SIZE);
-
-
 
         this.addActor(capacityCounter);
     }
