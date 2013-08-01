@@ -47,27 +47,27 @@ public class InventoryStage extends Stage {
             }
         }
 
-        addSortButton();
+//        addCompressButton();
 
 
     }
-
-    private void addSortButton() {
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font;
-
-        TextButton sortButton = new TextButton("Sort it out!", buttonStyle);
-
-        // Start in the middle
-        int x = floor(this.getWidth()/2);
-        int y = floor(this.getHeight()/2);
-        y -= ICON_SIZE;
-
-
-
-        sortButton.setBounds(x, y, sortButton.getWidth(), sortButton.getHeight());
-        this.addActor(sortButton);
-    }
+//
+//    private void addCompressButton() {
+//        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+//        buttonStyle.font = font;
+//
+//        TextButton compressButton = new TextButton("Compress!", buttonStyle);
+//
+//        // Start in the middle
+//        int x = floor(this.getWidth()/2);
+//        int y = floor(this.getHeight()/2);
+//        y -= ICON_SIZE;
+//
+//
+//
+//        compressButton.setBounds(x, y, compressButton.getWidth(), compressButton.getHeight());
+//        this.addActor(compressButton);
+//    }
 
     private void addStackedItemToStage(StackedItem stack, int[] position) {
 
