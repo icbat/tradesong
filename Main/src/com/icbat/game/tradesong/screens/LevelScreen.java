@@ -35,8 +35,9 @@ public class LevelScreen extends AbstractScreen {
 
 	private OrthoCamera rendererCamera;
     private OrthoCamera gameWorldCamera;
+    private final InputMultiplexer inputMultiplexer;
 
-	public LevelScreen(String level, Tradesong gameInstance) {
+    public LevelScreen(String level, Tradesong gameInstance) {
         super(gameInstance);
 
 
@@ -71,11 +72,11 @@ public class LevelScreen extends AbstractScreen {
 
 
         // Setup an input Multiplexer
-        InputMultiplexer plexer = new InputMultiplexer();
-        plexer.addProcessor(hud);
-        plexer.addProcessor(worldStage);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(hud);
+        inputMultiplexer.addProcessor(worldStage);
 
-        Gdx.input.setInputProcessor(plexer);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
 
         // Set up timers
@@ -142,6 +143,7 @@ public class LevelScreen extends AbstractScreen {
     public void show() {
         super.show();
         itemSpawnTimer.start();
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override

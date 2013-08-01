@@ -11,19 +11,20 @@ public class InventoryScreen extends AbstractScreen {
 
     HUDStage hud;
     InventoryStage inventoryStage;
+    private final InputMultiplexer inputMultiplexer;
 
-	public InventoryScreen(Tradesong instance) {
+    public InventoryScreen(Tradesong instance) {
 		super(instance);
         hud = new HUDStage(instance);
         inventoryStage = new InventoryStage(instance);
 
 
         // Setup an input Multiplexer
-        InputMultiplexer plexer = new InputMultiplexer();
-        plexer.addProcessor(hud);
-        plexer.addProcessor(inventoryStage);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(hud);
+        inputMultiplexer.addProcessor(inventoryStage);
 
-        Gdx.input.setInputProcessor(plexer);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
     @Override
@@ -42,5 +43,11 @@ public class InventoryScreen extends AbstractScreen {
         super.resize(width, height);
         inventoryStage.setViewport(width, height, false);
         hud.setViewport(width, height, false); //TODO probably a way to put all of this in to abstractScreen later
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 }
