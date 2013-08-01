@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL10;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.HUDStage;
@@ -15,6 +16,14 @@ public class InventoryScreen extends AbstractScreen {
 		super(instance);
         hud = new HUDStage(instance);
         inventoryStage = new InventoryStage(instance);
+
+
+        // Setup an input Multiplexer
+        InputMultiplexer plexer = new InputMultiplexer();
+        plexer.addProcessor(hud);
+        plexer.addProcessor(inventoryStage);
+
+        Gdx.input.setInputProcessor(plexer);
 	}
 
     @Override

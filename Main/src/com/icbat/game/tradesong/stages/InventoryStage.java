@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -27,7 +26,6 @@ public class InventoryStage extends Stage {
 
     private BitmapFont font = new BitmapFont();
     private DragAndDrop dragController = new DragAndDrop();
-    private Group slots = new Group();
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
@@ -48,7 +46,7 @@ public class InventoryStage extends Stage {
 
             if (i < inventory.size()) {
                 addStackedItemToStage(inventory.getStack(i), coords);
-                addItemCount(inventory.getStack(i), coords);
+//                addItemCount(inventory.getStack(i), coords);
             }
         }
 
@@ -62,12 +60,25 @@ public class InventoryStage extends Stage {
         item.setBounds(position[0],position[1], SIZE, SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
+
         dragController.addSource(new DragAndDrop.Source(item) {
             @Override
             public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                payload.setObject("Item payload");
+                Texture texture = ((Item)this.getActor()).getBaseTexture();
+                int spriteX = ((Item)this.getActor()).getSpriteX();
+                int spriteY = ((Item)this.getActor()).getSpriteY();
+
+
+
+                payload.setDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
+                payload.setValidDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
+                payload.setInvalidDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
+                return payload;
             }
         });
+
         this.addActor(item);
     }
 
@@ -95,12 +106,12 @@ public class InventoryStage extends Stage {
         dragController.addTarget(new DragAndDrop.Target(frameActor) {
             @Override
             public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                return true;
             }
 
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                ((Item)payload.getObject()).setBounds(this.getActor().getX(), this.getActor().getY(), SIZE, SIZE);
             }
         });
         this.addActor(frameActor);
