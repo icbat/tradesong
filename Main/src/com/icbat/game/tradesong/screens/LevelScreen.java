@@ -133,6 +133,18 @@ public class LevelScreen extends AbstractScreen {
     }
 
     @Override
+    public void hide() {
+        super.hide();
+        itemSpawnTimer.stop();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        itemSpawnTimer.start();
+    }
+
+    @Override
     public void resume() {
         super.resume();
         itemSpawnTimer.start();
