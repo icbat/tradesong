@@ -28,10 +28,6 @@ public class InventoryStage extends Stage {
     private BitmapFont font = new BitmapFont();
     private DragAndDrop dragController = new DragAndDrop();
 
-    private Group counterGroup = new Group();
-    private Group frameGroup = new Group();
-    private Group itemGroup = new Group();
-
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
@@ -66,27 +62,6 @@ public class InventoryStage extends Stage {
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
 
-        dragController.addSource(new DragAndDrop.Source(item) {
-            @Override
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject(this.getActor());
-                Texture texture = ((Item)this.getActor()).getBaseTexture();
-                int spriteX = ((Item)this.getActor()).getSpriteX() * SIZE;
-                int spriteY = ((Item)this.getActor()).getSpriteY() * SIZE;
-
-
-
-                payload.setDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
-                payload.setValidDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
-                payload.setInvalidDragActor(new Image(new TextureRegion(texture, spriteX, spriteY, SIZE, SIZE)));
-                return payload;
-            }
-        });
-
-        // Name it by it's i position to easily call back to where this was.
-        item.setName(((Integer)position[2]).toString());
-
         this.addActor(item);
     }
 
@@ -101,9 +76,6 @@ public class InventoryStage extends Stage {
         text.setVisible(true);
         text.setBounds(position[0], position[1], SIZE, SIZE);
 
-        // Name it by it's i position to easily call back to where this was.
-        text.setName(((Integer)position[2]).toString());
-
         this.addActor(text);
 
 
@@ -115,20 +87,6 @@ public class InventoryStage extends Stage {
         frameActor.setBounds(position[0],position[1], SIZE, SIZE);
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
-        dragController.addTarget(new DragAndDrop.Target(frameActor) {
-            @Override
-            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                return true;
-            }
-
-            @Override
-            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                ((Item)payload.getObject()).setBounds(this.getActor().getX(), this.getActor().getY(), SIZE, SIZE);
-            }
-        });
-
-        // Name it by it's i position to easily call back to where this was.
-        frameActor.setName(((Integer)position[2]).toString());
 
         this.addActor(frameActor);
 
@@ -157,12 +115,9 @@ public class InventoryStage extends Stage {
         x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
         //TODO center on y-axis
 
-        int[] out = new int[3];
+        int[] out = new int[2];
         out[0] = x;
         out[1] = y;
-
-        // Return the initial position
-        out[2] = position;
 
         return out;
     }
