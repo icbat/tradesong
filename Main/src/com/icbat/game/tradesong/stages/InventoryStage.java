@@ -65,10 +65,10 @@ public class InventoryStage extends Stage {
             @Override
             public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject("Item payload");
+                payload.setObject(this.getActor());
                 Texture texture = ((Item)this.getActor()).getBaseTexture();
-                int spriteX = ((Item)this.getActor()).getSpriteX();
-                int spriteY = ((Item)this.getActor()).getSpriteY();
+                int spriteX = ((Item)this.getActor()).getSpriteX() * SIZE;
+                int spriteY = ((Item)this.getActor()).getSpriteY() * SIZE;
 
 
 
