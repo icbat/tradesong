@@ -16,17 +16,19 @@ import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends Stage {
-    String itemSpriteFilename = "sprites/items.png";
-    int dimension = 34;
+    public static final String ITEM_SPRITE_FILENAME = "sprites/items.png";
+    public static final int SPACER = 10;
+    public static final int ICON_SIZE = 34;
+
     Texture texture;
     Tradesong gameInstance;
     private TextButton capacityCounter;
 
     public HUDStage(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
-        gameInstance.assets.load(itemSpriteFilename, Texture.class);
+        gameInstance.assets.load(ITEM_SPRITE_FILENAME, Texture.class);
         gameInstance.assets.finishLoading();
-        texture = gameInstance.assets.get(itemSpriteFilename);
+        texture = gameInstance.assets.get(ITEM_SPRITE_FILENAME);
 
         addInventoryButton();
         addWorkshopsButton();
@@ -38,7 +40,7 @@ public class HUDStage extends Stage {
         // Add the default actors for the UI
         int x = 7;
         int y = 29;
-        Image inventoryButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
+        Image inventoryButton = new Image(new TextureRegion(texture, x* ICON_SIZE, y* ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
@@ -53,13 +55,13 @@ public class HUDStage extends Stage {
         int y = 9;
 
 
-        Image workshopButton = new Image(new TextureRegion(texture, x*dimension, y*dimension, dimension, dimension));
+        Image workshopButton = new Image(new TextureRegion(texture, x* ICON_SIZE, y* ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
         workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));
 
         int maxX = (int)this.getWidth();
-        workshopButton.setBounds(maxX - dimension, 0, dimension, dimension);
+        workshopButton.setBounds(maxX - ICON_SIZE, 0, ICON_SIZE, ICON_SIZE);
 
         workshopButton.setVisible(true);
         this.addActor(workshopButton);
@@ -98,7 +100,7 @@ public class HUDStage extends Stage {
 
         capacityCounter.setVisible(true);
         capacityCounter.setTouchable(Touchable.disabled);
-        capacityCounter.setBounds(dimension, 0, dimension, dimension);
+        capacityCounter.setBounds(ICON_SIZE, 0, ICON_SIZE, ICON_SIZE);
 
 
 

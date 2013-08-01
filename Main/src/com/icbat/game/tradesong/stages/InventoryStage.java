@@ -118,5 +118,4 @@ public class InventoryStage extends Stage {
         return out;
     }
 
-
 }
