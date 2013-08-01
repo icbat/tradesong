@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -27,6 +28,10 @@ public class InventoryStage extends Stage {
     private BitmapFont font = new BitmapFont();
     private DragAndDrop dragController = new DragAndDrop();
 
+    private Group counterGroup = new Group();
+    private Group frameGroup = new Group();
+    private Group itemGroup = new Group();
+
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
@@ -46,7 +51,7 @@ public class InventoryStage extends Stage {
 
             if (i < inventory.size()) {
                 addStackedItemToStage(inventory.getStack(i), coords);
-//                addItemCount(inventory.getStack(i), coords);
+                addItemCount(inventory.getStack(i), coords);
             }
         }
 
@@ -79,6 +84,9 @@ public class InventoryStage extends Stage {
             }
         });
 
+        // Name it by it's i position to easily call back to where this was.
+        item.setName(((Integer)position[2]).toString());
+
         this.addActor(item);
     }
 
@@ -92,6 +100,10 @@ public class InventoryStage extends Stage {
         text.setTouchable(Touchable.disabled);
         text.setVisible(true);
         text.setBounds(position[0], position[1], SIZE, SIZE);
+
+        // Name it by it's i position to easily call back to where this was.
+        text.setName(((Integer)position[2]).toString());
+
         this.addActor(text);
 
 
@@ -114,6 +126,10 @@ public class InventoryStage extends Stage {
                 ((Item)payload.getObject()).setBounds(this.getActor().getX(), this.getActor().getY(), SIZE, SIZE);
             }
         });
+
+        // Name it by it's i position to easily call back to where this was.
+        frameActor.setName(((Integer)position[2]).toString());
+
         this.addActor(frameActor);
 
     }
@@ -141,9 +157,12 @@ public class InventoryStage extends Stage {
         x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
         //TODO center on y-axis
 
-        int[] out = new int[2];
+        int[] out = new int[3];
         out[0] = x;
         out[1] = y;
+
+        // Return the initial position
+        out[2] = position;
 
         return out;
     }
