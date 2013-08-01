@@ -3,19 +3,19 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.StackedItem;
 import com.icbat.game.tradesong.Tradesong;
 
 import static com.badlogic.gdx.math.MathUtils.floor;
-
-// TODO make them clickable/draggable
-// TODO show stack count
 
 public class InventoryStage extends Stage {
 
@@ -25,13 +25,14 @@ public class InventoryStage extends Stage {
     public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
     public static final int COLUMNS_PER_ROW = 5;
 
-    private BitmapFont font;
+    private BitmapFont font = new BitmapFont();
+    private DragAndDrop dragController = new DragAndDrop();
+    private Group slots = new Group();
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
         // Initialize assets
-        font = new BitmapFont();
         gameInstance.assets.load(SPRITES_FRAME_PNG, Texture.class);
         gameInstance.assets.finishLoading();
 
@@ -50,19 +51,23 @@ public class InventoryStage extends Stage {
                 addItemCount(inventory.getStack(i), coords);
             }
         }
+
+
     }
-
-
-
-
 
     private void addStackedItemToStage(StackedItem stack, int[] position) {
 
-        Item item = stack.getBaseItem(); // Item is an Actor and meant to be representative, just like this
+        Item item = stack.getBaseItem();
 
         item.setBounds(position[0],position[1], SIZE, SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
+        dragController.addSource(new DragAndDrop.Source(item) {
+            @Override
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
         this.addActor(item);
     }
 
@@ -87,7 +92,19 @@ public class InventoryStage extends Stage {
         frameActor.setBounds(position[0],position[1], SIZE, SIZE);
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
+        dragController.addTarget(new DragAndDrop.Target(frameActor) {
+            @Override
+            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
         this.addActor(frameActor);
+
     }
 
     /** Utility to take a list slot and take it to a 2d coordinate */
