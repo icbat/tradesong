@@ -13,7 +13,7 @@ public class GameStateManager {
     private ArrayList<Recipe> allKnownRecipes = new ArrayList<Recipe>();
 
     public static final String PATH_ITEMS = "items.csv";
-//    public static final String PATH_RECIPES = "recipes.csv";
+    public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
 
@@ -25,6 +25,7 @@ public class GameStateManager {
 
         // Load data and initialize
         loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
+        loadRecipes();
 
 
     }
@@ -85,7 +86,50 @@ public class GameStateManager {
 
 
 
-        // TODO see about loading from all from a folder to allow for modding/end-user-adding
+        // TODO extendable-system
+        return false;
+    }
+
+    /** Must be run after load items! */
+    public boolean loadRecipes() {
+
+        // Load the main file
+        String itemBlob = new FileHandle(PATH_RECIPES).readString();
+        String[] lineOfSpec = itemBlob.split("\n");
+
+        // Declaring for memory usage
+        String[] properties;
+        String outputString, workshop, inputTemp;
+        Item output;
+        ArrayList<Item> recipe = new ArrayList<Item>();
+
+
+        for (String line : lineOfSpec) {
+            properties = line.split(",");
+
+            if (!properties[0].equals("output item")) {
+
+                // output item, workshop, in1, [in2], [in3]
+                outputString = properties[0];
+                output = getItemByName(outputString);
+
+                workshop = properties[1];
+
+                for (int i = 2; i < properties.length; ++i) {
+                    inputTemp = properties[i];
+                    recipe.add(getItemByName(inputTemp));
+
+                }
+
+                allKnownRecipes.add( new Recipe(output, workshop, recipe) );
+                recipe.clear();
+
+            }
+
+        }
+
+        // TODO error-checking
+        // TODO extendable-system
         return false;
     }
 

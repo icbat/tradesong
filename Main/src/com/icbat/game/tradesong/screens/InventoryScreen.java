@@ -11,7 +11,7 @@ public class InventoryScreen extends AbstractScreen {
 
     HUDStage hud;
     InventoryStage inventoryStage;
-    private final InputMultiplexer inputMultiplexer;
+    final InputMultiplexer inputMultiplexer;
 
     public InventoryScreen(Tradesong instance) {
 		super(instance);
