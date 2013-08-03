@@ -86,7 +86,7 @@ public class GameStateManager {
 
 
 
-        // TODO extendable-system
+        // TODO extensible-system
         return false;
     }
 
@@ -129,16 +129,12 @@ public class GameStateManager {
         }
 
         // TODO error-checking
-        // TODO extendable-system
+        // TODO extensible-system
         return false;
     }
 
     public Inventory getInventory() {
         return inventory;
-    }
-
-    public ArrayList<Item> getAllKnownItems() {
-        return allKnownItems;
     }
 
     public Item getItemByName(String name) {
@@ -150,7 +146,4 @@ public class GameStateManager {
         return null;
     }
 
-    public ArrayList<Recipe> getAllKnownRecipes() {
-        return allKnownRecipes;
-    }
 }
