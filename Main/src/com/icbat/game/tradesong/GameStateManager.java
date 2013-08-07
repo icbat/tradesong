@@ -4,16 +4,18 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 /** Class to keep track of game state data. */
 public class GameStateManager {
     private Inventory inventory = new Inventory();
-    private ArrayList<Item> allKnownItems = new ArrayList<Item>();
-    private ArrayList<Recipe> allKnownRecipes = new ArrayList<Recipe>();
+    private HashSet<Item> allKnownItems = new HashSet<Item>();
+    private HashSet<Recipe> allKnownRecipes = new HashSet<Recipe>();
+    private HashSet<Workshop> allWorkshops = new HashSet<Workshop>();
 
     public static final String PATH_ITEMS = "items.csv";
-//    public static final String PATH_RECIPES = "recipes.csv";
+    public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
 
@@ -25,11 +27,11 @@ public class GameStateManager {
 
         // Load data and initialize
         loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
+        loadRecipes();
+        findWorkshops();
 
 
     }
-
-
 
     /** Saves to a file.
      *
@@ -85,28 +87,90 @@ public class GameStateManager {
 
 
 
-        // TODO see about loading from all from a folder to allow for modding/end-user-adding
+        // TODO extensible-system
         return false;
+    }
+
+    /** Must be run after load items! */
+    public boolean loadRecipes() {
+
+        // Load the main file
+        String itemBlob = new FileHandle(PATH_RECIPES).readString();
+        String[] lineOfSpec = itemBlob.split("\n");
+
+        // Declaring for memory usage
+        String[] properties;
+        String outputString, workshop, inputTemp;
+        Item output;
+        ArrayList<Item> recipe = new ArrayList<Item>();
+
+
+        for (String line : lineOfSpec) {
+            properties = line.split(",");
+
+            // Trim all the properties
+            for (int j = 0; j < properties.length; ++j) {
+                properties[j] = properties[j].trim();
+
+            }
+
+            if (!properties[0].equals("output item")) {
+
+                // output item, workshop, in1, [in2], [in3]
+                outputString = properties[0];
+                output = getItemByName(outputString);
+
+                workshop = properties[1];
+
+                for (int i = 2; i < properties.length; ++i) {
+                    inputTemp = properties[i];
+                    recipe.add(getItemByName(inputTemp));
+
+                }
+
+                allKnownRecipes.add( new Recipe(output, workshop, recipe) );
+                recipe.clear();
+
+            }
+
+        }
+
+        // TODO error-checking
+        // TODO extensible-system
+        return false;
+    }
+
+    private void findWorkshops() {
+        for (Recipe recipe : allKnownRecipes) {
+            allWorkshops.add( new Workshop(recipe.workshop) );
+        }
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
-    public ArrayList<Item> getAllKnownItems() {
-        return allKnownItems;
-    }
-
+    /** @return A new copy of the item by name or null if it was not found */
     public Item getItemByName(String name) {
         for (Item item : allKnownItems) {
             if (item.getItemName().equals(name))
-                return item;
+                return new Item(item);
         }
 
         return null;
     }
 
-    public ArrayList<Recipe> getAllKnownRecipes() {
-        return allKnownRecipes;
+    /** @return A new copy of the workshop by name or null if it was not found */
+    public Workshop getWorkshopByName(String name) {
+        for (Workshop workshop : allWorkshops) {
+            if (workshop.getType().equals(name))
+                return new Workshop(workshop);
+        }
+        return null;
     }
+
+    public HashSet<Workshop> getAllWorkshops() {
+        return allWorkshops;
+    }
+
 }

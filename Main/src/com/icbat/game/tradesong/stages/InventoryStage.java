@@ -14,28 +14,20 @@ import com.icbat.game.tradesong.Tradesong;
 
 import static com.badlogic.gdx.math.MathUtils.floor;
 
-// TODO make them clickable/draggable
-// TODO show stack count
-
 public class InventoryStage extends Stage {
 
-    public static final int SIZE = 34;
+    public static final int ICON_SIZE = 34;
     public static final int SLOT_SIZE = 32;
     public static final int SLOT_SPACING = 8;
-    public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
     public static final int COLUMNS_PER_ROW = 5;
 
-    private BitmapFont font;
+    private BitmapFont font = new BitmapFont();
+    private final Texture frameTexture;
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
-        // Initialize assets
-        font = new BitmapFont();
-        gameInstance.assets.load(SPRITES_FRAME_PNG, Texture.class);
-        gameInstance.assets.finishLoading();
-
-        Texture frame = gameInstance.assets.get(SPRITES_FRAME_PNG);
+        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
 
         // Add items
         for (int i = 0; i < inventory.capacity(); ++i) {
@@ -43,26 +35,25 @@ public class InventoryStage extends Stage {
             int[] coords = positionToCoords(i);
 
             // Slot frames
-            addSlotFrame(frame, coords);
+            addSlotFrame(coords);
 
             if (i < inventory.size()) {
                 addStackedItemToStage(inventory.getStack(i), coords);
                 addItemCount(inventory.getStack(i), coords);
             }
         }
+
+
     }
-
-
-
-
 
     private void addStackedItemToStage(StackedItem stack, int[] position) {
 
-        Item item = stack.getBaseItem(); // Item is an Actor and meant to be representative, just like this
+        Item item = stack.getBaseItem();
 
-        item.setBounds(position[0],position[1], SIZE, SIZE);
+        item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
+
         this.addActor(item);
     }
 
@@ -75,19 +66,26 @@ public class InventoryStage extends Stage {
         TextButton text = new TextButton(stackSize.toString(), buttonStyle);
         text.setTouchable(Touchable.disabled);
         text.setVisible(true);
-        text.setBounds(position[0], position[1], SIZE, SIZE);
+        text.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
+
         this.addActor(text);
 
 
     }
 
-    private void addSlotFrame(Texture frame, int[] position) {
-        Image frameActor = new Image(new TextureRegion(frame));
+    private void addSlotFrame(int[] position) {
+        Image frameActor = makeSlotFrame();
 
-        frameActor.setBounds(position[0],position[1], SIZE, SIZE);
+        frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
+        this.addActor(frameActor);
+
+    }
+
+    private Image makeSlotFrame() {
+        Image frameActor = new Image( new TextureRegion(frameTexture));
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
-        this.addActor(frameActor);
+        return frameActor;
     }
 
     /** Utility to take a list slot and take it to a 2d coordinate */
@@ -119,6 +117,5 @@ public class InventoryStage extends Stage {
 
         return out;
     }
-
 
 }
