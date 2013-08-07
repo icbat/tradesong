@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -25,6 +26,8 @@ public class InventoryStage extends Stage {
     private BitmapFont font = new BitmapFont();
     private final Texture frameTexture;
     private Group frames = new Group();
+    private Group items = new Group();
+    private Group itemCounts = new Group();
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
@@ -37,50 +40,26 @@ public class InventoryStage extends Stage {
             int[] coords = positionToCoords(i);
 
             // Slot frames
-            addSlotFrame(coords);
+            addSlotFrame(i, coords);
 
             if (i < inventory.size()) {
-                addStackedItemToStage(inventory.getStack(i), coords);
-                addItemCount(inventory.getStack(i), coords);
+                addStackedItemToStage(i, inventory.getStack(i), coords);
+                addItemCount(i, inventory.getStack(i), coords);
             }
         }
 
         this.addActor(frames);
+        this.addActor(items);
+        this.addActor(itemCounts);
 
 
     }
 
-    private void addStackedItemToStage(StackedItem stack, int[] position) {
-
-        Item item = stack.getBaseItem();
-
-        item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
-        item.setVisible(true);
-        item.setTouchable(Touchable.enabled);
-
-        this.addActor(item);
-    }
-
-    private void addItemCount(StackedItem stack, int[] position) {
-        Integer stackSize = stack.getCount();
-
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font;
-
-        TextButton text = new TextButton(stackSize.toString(), buttonStyle);
-        text.setTouchable(Touchable.disabled);
-        text.setVisible(true);
-        text.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
-
-        this.addActor(text);
-
-
-    }
-
-    private void addSlotFrame(int[] position) {
+    private void addSlotFrame(Integer i, int[] position) {
         Image frameActor = makeSlotFrame();
 
         frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
+        frameActor.setName(i.toString());
         frames.addActor(frameActor);
 
     }
@@ -90,6 +69,35 @@ public class InventoryStage extends Stage {
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
         return frameActor;
+    }
+
+    private void addStackedItemToStage(Integer i, StackedItem stack, int[] position) {
+
+        Item item = stack.getBaseItem();
+
+        item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
+        item.setVisible(true);
+        item.setTouchable(Touchable.enabled);
+        item.setName(i.toString());
+
+        this.addActor(item);
+    }
+
+    private void addItemCount(Integer i, StackedItem stack, int[] position) {
+        Integer stackSize = stack.getCount();
+
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+
+        TextButton text = new TextButton(stackSize.toString(), buttonStyle);
+        text.setTouchable(Touchable.disabled);
+        text.setVisible(true);
+        text.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
+        text.setName(i.toString());
+
+        this.addActor(text);
+
+
     }
 
     /** Utility to take a list slot and take it to a 2d coordinate */
@@ -123,9 +131,11 @@ public class InventoryStage extends Stage {
     }
 
     // TODO find a cleaner way to do this
-//    public void setToWorkshop() {
-//        for
-//
-//    }
+    public void setToWorkshop() {
+        for (Actor frame : frames.getChildren()) {
+
+        }
+
+    }
 
 }
