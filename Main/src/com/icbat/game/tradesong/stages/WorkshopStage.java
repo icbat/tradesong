@@ -47,12 +47,14 @@ public class WorkshopStage extends Stage {
     }
     private void addFrames() {
         frames.clearChildren();
-        Image frame;
+
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
-            frame = makeIndividualFrame();
+            Image frame = makeIndividualFrame();
             layOutVertically(frame);
-            this.addActor(frame);
+            frames.addActor(frame);
         }
+
+        this.addActor(frames);
 
 
     }
@@ -91,6 +93,12 @@ public class WorkshopStage extends Stage {
         float lowestFound = this.getHeight() - 20;
         float check;
         for (Actor actor : this.getActors()) {
+            check = actor.getY() - actor.getHeight();
+            if (check < lowestFound)
+                lowestFound = check;
+        }
+
+        for (Actor actor : frames.getChildren()) {
             check = actor.getY() - actor.getHeight();
             if (check < lowestFound)
                 lowestFound = check;

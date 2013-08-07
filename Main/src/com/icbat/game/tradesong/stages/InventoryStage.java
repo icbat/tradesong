@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -23,6 +24,7 @@ public class InventoryStage extends Stage {
 
     private BitmapFont font = new BitmapFont();
     private final Texture frameTexture;
+    private Group frames = new Group();
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
@@ -42,6 +44,8 @@ public class InventoryStage extends Stage {
                 addItemCount(inventory.getStack(i), coords);
             }
         }
+
+        this.addActor(frames);
 
 
     }
@@ -77,7 +81,7 @@ public class InventoryStage extends Stage {
         Image frameActor = makeSlotFrame();
 
         frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
-        this.addActor(frameActor);
+        frames.addActor(frameActor);
 
     }
 
@@ -117,5 +121,11 @@ public class InventoryStage extends Stage {
 
         return out;
     }
+
+    // TODO find a cleaner way to do this
+//    public void setToWorkshop() {
+//        for
+//
+//    }
 
 }
