@@ -80,7 +80,7 @@ public class InventoryStage extends Stage {
         item.setTouchable(Touchable.enabled);
         item.setName(i.toString());
 
-        this.addActor(item);
+        items.addActor(item);
     }
 
     private void addItemCount(Integer i, StackedItem stack, int[] position) {
@@ -95,7 +95,7 @@ public class InventoryStage extends Stage {
         text.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
         text.setName(i.toString());
 
-        this.addActor(text);
+        itemCounts.addActor(text);
 
 
     }
