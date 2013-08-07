@@ -16,19 +16,17 @@ import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends Stage {
-    public static final String ITEM_SPRITE_FILENAME = "sprites/items.png";
     public static final int SPACER = 6;
     public static final int ICON_SIZE = 34;
 
-    Texture texture;
+    /** As of now, this is pulled from items.png */
+    Texture itemsTexture;
     Tradesong gameInstance;
     private TextButton capacityCounter;
 
     public HUDStage(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
-        gameInstance.assets.load(ITEM_SPRITE_FILENAME, Texture.class);
-        gameInstance.assets.finishLoading();
-        texture = gameInstance.assets.get(ITEM_SPRITE_FILENAME);
+        itemsTexture = gameInstance.assets.get(Tradesong.getItemsPath());
 
         addInventoryButton();
         addInventoryStats();
@@ -38,7 +36,7 @@ public class HUDStage extends Stage {
     private void addInventoryButton() {
         int x = 7;
         int y = 29;
-        Image inventoryButton = new Image(new TextureRegion(texture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
+        Image inventoryButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
@@ -53,7 +51,7 @@ public class HUDStage extends Stage {
         int y = 9;
 
 
-        Image workshopButton = new Image(new TextureRegion(texture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
+        Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
         workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));

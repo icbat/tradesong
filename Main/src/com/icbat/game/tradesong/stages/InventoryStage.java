@@ -19,19 +19,15 @@ public class InventoryStage extends Stage {
     public static final int ICON_SIZE = 34;
     public static final int SLOT_SIZE = 32;
     public static final int SLOT_SPACING = 8;
-    public static final String SPRITES_FRAME_PNG = "sprites/frame.png";
     public static final int COLUMNS_PER_ROW = 5;
 
     private BitmapFont font = new BitmapFont();
+    private final Texture frameTexture;
 
     public InventoryStage(Tradesong gameInstance) {
         Inventory inventory = gameInstance.gameState.getInventory();
 
-        // Initialize assets
-        gameInstance.assets.load(SPRITES_FRAME_PNG, Texture.class);
-        gameInstance.assets.finishLoading();
-
-        Texture frame = gameInstance.assets.get(SPRITES_FRAME_PNG);
+        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
 
         // Add items
         for (int i = 0; i < inventory.capacity(); ++i) {
@@ -39,7 +35,7 @@ public class InventoryStage extends Stage {
             int[] coords = positionToCoords(i);
 
             // Slot frames
-            addSlotFrame(frame, coords);
+            addSlotFrame(coords);
 
             if (i < inventory.size()) {
                 addStackedItemToStage(inventory.getStack(i), coords);
@@ -47,27 +43,8 @@ public class InventoryStage extends Stage {
             }
         }
 
-//        addCompressButton();
-
 
     }
-//
-//    private void addCompressButton() {
-//        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-//        buttonStyle.font = font;
-//
-//        TextButton compressButton = new TextButton("Compress!", buttonStyle);
-//
-//        // Start in the middle
-//        int x = floor(this.getWidth()/2);
-//        int y = floor(this.getHeight()/2);
-//        y -= ICON_SIZE;
-//
-//
-//
-//        compressButton.setBounds(x, y, compressButton.getWidth(), compressButton.getHeight());
-//        this.addActor(compressButton);
-//    }
 
     private void addStackedItemToStage(StackedItem stack, int[] position) {
 
@@ -96,15 +73,19 @@ public class InventoryStage extends Stage {
 
     }
 
-    private void addSlotFrame(Texture frame, int[] position) {
-        Image frameActor = new Image(new TextureRegion(frame));
+    private void addSlotFrame(int[] position) {
+        Image frameActor = makeSlotFrame();
 
         frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-
         this.addActor(frameActor);
 
+    }
+
+    private Image makeSlotFrame() {
+        Image frameActor = new Image( new TextureRegion(frameTexture));
+        frameActor.setVisible(true);
+        frameActor.setTouchable(Touchable.disabled);
+        return frameActor;
     }
 
     /** Utility to take a list slot and take it to a 2d coordinate */

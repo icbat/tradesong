@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -31,6 +32,7 @@ public class WorkshopStage extends Stage {
         header = new TextButton(workshop.getType(), style);
         header.setVisible(true);
         header.setTouchable(Touchable.disabled);
+        // Set this to the top-right corner (it's first, rest of this stage relative to this)
         header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
 
         this.addActor(header);
@@ -62,6 +64,19 @@ public class WorkshopStage extends Stage {
 
 
     }
+
+    private int findLowestY() {
+        float lowestFound = this.getHeight();
+
+        for (Actor actor : this.getActors()) {
+            if (actor.getY() < lowestFound)
+                lowestFound = actor.getY();
+        }
+
+        return (int) lowestFound;
+
+    }
+
 
 
 
