@@ -20,6 +20,7 @@ public class WorkshopStage extends Stage {
     private Texture frameTexture;
 
     private static final int SPACER = 10;
+    private Tradesong gameInstance;
 
     public WorkshopStage(Tradesong gameInstance) {
         this(gameInstance, new Workshop("Blacksmith"));
@@ -27,7 +28,8 @@ public class WorkshopStage extends Stage {
 
     public WorkshopStage(Tradesong gameInstance, Workshop workshop) {
         super();
-        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
+        this.gameInstance = gameInstance;
+        frameTexture = this.gameInstance.assets.get(Tradesong.getFramePath());
         setWorkshop(workshop); // Handles the standard setup
 
     }
@@ -110,7 +112,7 @@ public class WorkshopStage extends Stage {
     }
 
 
-    public boolean addIngredient(Item item) {
+    public boolean addIngredient(Item item, InventoryStage parent) {
 
         // Check to see if there's space to add more
         Integer size = ingredients.getChildren().size;
@@ -123,7 +125,7 @@ public class WorkshopStage extends Stage {
             item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
 
             // Add the listener to remove it
-            item.addListener(new BackToInventoryClickListener());
+            item.addListener(new BackToInventoryClickListener(item, parent));
 
             // Add the item
             ingredients.addActor(item);
@@ -136,15 +138,31 @@ public class WorkshopStage extends Stage {
 
     class BackToInventoryClickListener extends ClickListener {
 
-        BackToInventoryClickListener() {
+        private Item owner;
+        private InventoryStage inventoryStage;
 
+        BackToInventoryClickListener(Item owner, InventoryStage inventoryStage) {
+
+            this.owner = owner;
+            this.inventoryStage = inventoryStage;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            return true;
+            if (gameInstance.gameState.getInventory().add(owner)) {
+                owner.remove();
+                inventoryStage.update();
+
+                return true;
+            }
+            else {
+                return false;
+            }
+
+
+
 
 
         }

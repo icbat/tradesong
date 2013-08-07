@@ -33,29 +33,35 @@ public class InventoryStage extends Stage {
 
         frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
 
-        // Add items
-        for (int i = 0; i < inventory.capacity(); ++i) {
-
-            int[] coords = positionToCoords(i);
-
-            // Slot frames
-            addSlotFrame(i, coords);
-
-            if (i < inventory.size()) {
-                addStackedItemToStage(i, inventory.getStack(i), coords);
-                addItemCount(i, inventory.getStack(i), coords);
-            }
-        }
-
         this.addActor(frames);
         this.addActor(items);
         this.addActor(itemCounts);
 
+        update();
+
 
     }
 
-    private void addSlotFrame(Integer i, int[] position) {
+    public void update() {
+        // Clear out
+        frames.clearChildren();
+        items.clearChildren();
+        itemCounts.clearChildren();
+
+        // Add frames
+        for (int i = 0; i < inventory.capacity(); ++i) {
+            addSlotFrame(i);
+            // add items with counts
+            if (i < inventory.size()) {
+                addStackedItemToStage(i);
+                addItemCount(i);
+            }
+        }
+    }
+
+    private void addSlotFrame(Integer i) {
         Image frameActor = makeSlotFrame();
+        int[] position = positionToCoords(i);
 
         frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         frameActor.setName(i.toString());
@@ -70,9 +76,10 @@ public class InventoryStage extends Stage {
         return frameActor;
     }
 
-    private void addStackedItemToStage(Integer i, StackedItem stack, int[] position) {
+    private void addStackedItemToStage(Integer i) {
 
-        Item item = stack.getBaseItem();
+        Item item = inventory.getStack(i).getBaseItem();
+        int[] position = positionToCoords(i);
 
         item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         item.setVisible(true);
@@ -82,8 +89,9 @@ public class InventoryStage extends Stage {
         items.addActor(item);
     }
 
-    private void addItemCount(Integer i, StackedItem stack, int[] position) {
-        Integer stackSize = stack.getCount();
+    private void addItemCount(Integer i) {
+        Integer stackSize = inventory.getStack(i).getCount();
+        int[] position = positionToCoords(i);
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
@@ -137,7 +145,7 @@ public class InventoryStage extends Stage {
 
             StackedItem stack = inventory.getStack( new Integer(item.getName()) );
 
-            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage));
+            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage, this));
 
 
 
@@ -149,11 +157,13 @@ public class InventoryStage extends Stage {
         StackedItem stack;
         private Item item;
         private WorkshopStage target;
+        private InventoryStage parentStage;
 
-        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target) {
+        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target, InventoryStage parentStage) {
             this.stack = stack;
             this.item = item;
             this.target = target;
+            this.parentStage = parentStage;
         }
 
         @Override
@@ -161,7 +171,7 @@ public class InventoryStage extends Stage {
             super.touchDown(event, x, y, pointer, button);
 
             // Was there space in the workshop?
-            if (target.addIngredient( new Item(stack.getBaseItem()) )) {
+            if (target.addIngredient( new Item(stack.getBaseItem()), parentStage )) {
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
                     // Was that the last one?
