@@ -155,7 +155,7 @@ public class InventoryStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            target.addIngredient(owner);
+            target.addIngredient(new Item(owner));
 
 
             return true;

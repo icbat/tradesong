@@ -18,6 +18,7 @@ public class WorkshopStage extends Stage {
     private Workshop workshop;
     private TextButton header;
     private Group frames = new Group();
+    private Group ingredients = new Group();
     private Texture frameTexture;
 
     private static final int SPACER = 10;
@@ -52,6 +53,7 @@ public class WorkshopStage extends Stage {
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
             Image frame = makeIndividualFrame();
             layOutVertically(frame);
+            frame.setName(""+(Integer)i);
             frames.addActor(frame);
         }
 
@@ -76,6 +78,7 @@ public class WorkshopStage extends Stage {
         addWorkshopTitle();
         addFrames();
         addCraftButton();
+        this.addActor(ingredients);
 
     }
 
@@ -111,8 +114,32 @@ public class WorkshopStage extends Stage {
 
 
     public boolean addIngredient(Item item) {
-        // TODO
 
-        return false;
+        // Check to see if there's space to add more
+        Integer size = 0;
+        for (Actor ingredientHeld : ingredients.getChildren()) {
+            ++size;
+        }
+        if (size >= workshop.getNumberOfSlots()) {
+            return false;
+        }
+        else {
+
+            Actor frame = frames.findActor(size.toString());
+            item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
+
+
+            // Add the listener to remove it
+            // Add the item
+            ingredients.addActor(item);
+
+
+            return true;
+        }
+
+
+
+
+
     }
 }
