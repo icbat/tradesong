@@ -28,7 +28,13 @@ public class InventoryScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        super.render(delta, 0.431f, 0.659f, 0.278f, 1);
+        render(delta, 0.431f, 0.659f, 0.278f, 1);
+
+    }
+
+    @Override
+    public void render(float delta, float r, float g, float b, float a) {
+        super.render(delta, r, g, b, a);
         hud.act(delta);
         inventoryStage.act(delta);
         hud.draw();

@@ -23,6 +23,6 @@ public class WorkshopScreen extends InventoryScreen{
 
     @Override
     public void render(float delta) {
-        super.render(delta);    //To change body of overridden methods use File | Settings | File Templates.
+        super.render(delta, 0.98f, 0.639f, 0.008f, 1);
     }
 }
