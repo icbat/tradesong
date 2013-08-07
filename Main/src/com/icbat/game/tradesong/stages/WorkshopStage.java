@@ -3,12 +3,10 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
@@ -41,7 +39,6 @@ public class WorkshopStage extends Stage {
         header = new TextButton(workshop.getType(), style);
         header.setVisible(true);
         header.setTouchable(Touchable.disabled);
-//        header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
         layOutVertically(header);
 
         this.addActor(header);
@@ -116,10 +113,7 @@ public class WorkshopStage extends Stage {
     public boolean addIngredient(Item item) {
 
         // Check to see if there's space to add more
-        Integer size = 0;
-        for (Actor ingredientHeld : ingredients.getChildren()) {
-            ++size;
-        }
+        Integer size = ingredients.getChildren().size;
         if (size >= workshop.getNumberOfSlots()) {
             return false;
         }
@@ -128,18 +122,31 @@ public class WorkshopStage extends Stage {
             Actor frame = frames.findActor(size.toString());
             item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
 
-
             // Add the listener to remove it
+            item.addListener(new BackToInventoryClickListener());
+
             // Add the item
             ingredients.addActor(item);
-
 
             return true;
         }
 
+    }
 
 
+    class BackToInventoryClickListener extends ClickListener {
+
+        BackToInventoryClickListener() {
+
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            super.touchDown(event, x, y, pointer, button);
+
+            return true;
 
 
+        }
     }
 }
