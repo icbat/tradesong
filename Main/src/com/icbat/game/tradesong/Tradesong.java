@@ -58,8 +58,8 @@ public class Tradesong extends Game {
     public void goToInventory() {
         goToScreen(new InventoryScreen(this));
     }
-    public void goToLevel(String levelname) {
-        goToScreen(new LevelScreen(levelname, this));
+    public void goToLevel(String levelName) {
+        goToScreen(new LevelScreen(levelName, this));
     }
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
