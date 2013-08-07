@@ -88,7 +88,7 @@ public class WorkshopStage extends Stage {
     }
 
     private int findLowestY() {
-        float lowestFound = this.getHeight();
+        float lowestFound = this.getHeight() - 20;
         float check;
         for (Actor actor : this.getActors()) {
             check = actor.getY() - actor.getHeight();
