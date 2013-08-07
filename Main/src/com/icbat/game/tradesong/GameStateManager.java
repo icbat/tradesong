@@ -1,12 +1,10 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 
 /** Class to keep track of game state data. */
@@ -34,9 +32,6 @@ public class GameStateManager {
 
 
     }
-
-
-
 
     /** Saves to a file.
      *
@@ -148,10 +143,7 @@ public class GameStateManager {
     private void findWorkshops() {
         for (Recipe recipe : allKnownRecipes) {
             allWorkshops.add( new Workshop(recipe.workshop) );
-
-
         }
-        Gdx.app.log("", "" + (Integer)allWorkshops.size());
     }
 
     public Inventory getInventory() {
@@ -171,7 +163,6 @@ public class GameStateManager {
     /** @return A new copy of the workshop by name or null if it was not found */
     public Workshop getWorkshopByName(String name) {
         for (Workshop workshop : allWorkshops) {
-            Gdx.app.log("", workshop.getType());
             if (workshop.getType().equals(name))
                 return new Workshop(workshop);
         }

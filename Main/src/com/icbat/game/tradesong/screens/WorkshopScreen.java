@@ -10,7 +10,7 @@ public class WorkshopScreen extends InventoryScreen{
     public WorkshopScreen(Tradesong gameInstance) {
         super(gameInstance);
 
-        workshopStage = new WorkshopStage();
+        workshopStage = new WorkshopStage(gameInstance);
         inputMultiplexer.addProcessor(workshopStage);
 
     }
