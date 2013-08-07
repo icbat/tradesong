@@ -4,13 +4,15 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 /** Class to keep track of game state data. */
 public class GameStateManager {
     private Inventory inventory = new Inventory();
-    private ArrayList<Item> allKnownItems = new ArrayList<Item>();
-    private ArrayList<Recipe> allKnownRecipes = new ArrayList<Recipe>();
+    private HashSet<Item> allKnownItems = new HashSet<Item>();
+    private HashSet<Recipe> allKnownRecipes = new HashSet<Recipe>();
+    private HashSet<Workshop> allWorkshops = new HashSet<Workshop>();
 
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
@@ -26,9 +28,11 @@ public class GameStateManager {
         // Load data and initialize
         loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
         loadRecipes();
+//        findWorkshops();
 
 
     }
+
 
 
 
@@ -132,6 +136,15 @@ public class GameStateManager {
         // TODO extensible-system
         return false;
     }
+
+//    private void findWorkshops() {
+//        for (Recipe recipe : allKnownRecipes) {
+//            for (Workshop shop : allWorkshops) {
+//                if (shop.)
+//            }
+//                    recipe.workshop
+//        }
+//    }
 
     public Inventory getInventory() {
         return inventory;
