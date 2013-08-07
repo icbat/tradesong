@@ -28,7 +28,7 @@ public class StackedItem {
      * */
     public boolean add(int i) {
         int newTotal = count + i;
-        if (newTotal <= baseItem.getMaxStack() && newTotal >= 0) {
+        if (newTotal <= baseItem.getMaxStack()) {
             count = newTotal;
             return true;
         }
@@ -46,6 +46,13 @@ public class StackedItem {
     }
 
     public boolean remove(int i) {
-        return add(-1 * i);
+        int newTotal = count - i;
+        if (newTotal > 0) {
+            count = newTotal;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
