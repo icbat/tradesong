@@ -29,4 +29,26 @@ public class Recipe {
     public Item getOutput() {
         return output;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Recipe recipe = (Recipe) o;
+
+        if (!output.equals(recipe.output)) return false;
+        if (!recipeBySlot.equals(recipe.recipeBySlot)) return false;
+        if (!workshop.equals(recipe.workshop)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = output.hashCode();
+        result = 31 * result + workshop.hashCode();
+        result = 31 * result + recipeBySlot.hashCode();
+        return result;
+    }
 }

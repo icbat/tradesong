@@ -28,7 +28,7 @@ public class GameStateManager {
         // Load data and initialize
         loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
         loadRecipes();
-//        findWorkshops();
+        findWorkshops();
 
 
     }
@@ -137,14 +137,11 @@ public class GameStateManager {
         return false;
     }
 
-//    private void findWorkshops() {
-//        for (Recipe recipe : allKnownRecipes) {
-//            for (Workshop shop : allWorkshops) {
-//                if (shop.)
-//            }
-//                    recipe.workshop
-//        }
-//    }
+    private void findWorkshops() {
+        for (Recipe recipe : allKnownRecipes) {
+            allWorkshops.add( new Workshop(recipe.workshop) );
+        }
+    }
 
     public Inventory getInventory() {
         return inventory;

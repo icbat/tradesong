@@ -67,4 +67,34 @@ public class Item extends Image {
     public int getSpriteY() {
         return spriteY;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (maxStack != item.maxStack) return false;
+        if (rarity != item.rarity) return false;
+        if (spriteX != item.spriteX) return false;
+        if (spriteY != item.spriteY) return false;
+        if (!baseTexture.equals(item.baseTexture)) return false;
+        if (!description.equals(item.description)) return false;
+        if (!itemName.equals(item.itemName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = itemName.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + maxStack;
+        result = 31 * result + rarity;
+        result = 31 * result + baseTexture.hashCode();
+        result = 31 * result + spriteX;
+        result = 31 * result + spriteY;
+        return result;
+    }
 }
