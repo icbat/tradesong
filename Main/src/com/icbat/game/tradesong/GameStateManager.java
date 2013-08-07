@@ -1,10 +1,12 @@
 package com.icbat.game.tradesong;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 /** Class to keep track of game state data. */
@@ -111,6 +113,12 @@ public class GameStateManager {
         for (String line : lineOfSpec) {
             properties = line.split(",");
 
+            // Trim all the properties
+            for (int j = 0; j < properties.length; ++j) {
+                properties[j] = properties[j].trim();
+
+            }
+
             if (!properties[0].equals("output item")) {
 
                 // output item, workshop, in1, [in2], [in3]
@@ -140,20 +148,38 @@ public class GameStateManager {
     private void findWorkshops() {
         for (Recipe recipe : allKnownRecipes) {
             allWorkshops.add( new Workshop(recipe.workshop) );
+
+
         }
+        Gdx.app.log("", "" + (Integer)allWorkshops.size());
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
+    /** @return A new copy of the item by name or null if it was not found */
     public Item getItemByName(String name) {
         for (Item item : allKnownItems) {
             if (item.getItemName().equals(name))
-                return item;
+                return new Item(item);
         }
 
         return null;
+    }
+
+    /** @return A new copy of the workshop by name or null if it was not found */
+    public Workshop getWorkshopByName(String name) {
+        for (Workshop workshop : allWorkshops) {
+            Gdx.app.log("", workshop.getType());
+            if (workshop.getType().equals(name))
+                return new Workshop(workshop);
+        }
+        return null;
+    }
+
+    public HashSet<Workshop> getAllWorkshops() {
+        return allWorkshops;
     }
 
 }
