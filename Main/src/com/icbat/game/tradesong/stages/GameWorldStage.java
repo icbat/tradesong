@@ -156,7 +156,7 @@ public class GameWorldStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            if ( gameInstance.gameState.getInventory().add(owner) ) {
+            if ( gameInstance.gameState.getInventory().add(new Item(owner)) ) {
                 removeItemCount();
                 owner.remove();
             }
