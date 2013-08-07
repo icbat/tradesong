@@ -26,9 +26,10 @@ public class InventoryStage extends Stage {
     private Group frames = new Group();
     private Group items = new Group();
     private Group itemCounts = new Group();
+    private Inventory inventory;
 
     public InventoryStage(Tradesong gameInstance) {
-        Inventory inventory = gameInstance.gameState.getInventory();
+        inventory = gameInstance.gameState.getInventory();
 
         frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
 
@@ -134,7 +135,9 @@ public class InventoryStage extends Stage {
         for (Actor actor : items.getChildren()) {
             item = (Item)actor;
 
-            item.addListener(new InventoryToWorkshopClickListener(item, targetStage));
+            StackedItem stack = inventory.getStack( new Integer(item.getName()) );
+
+            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage));
 
 
 
@@ -143,11 +146,13 @@ public class InventoryStage extends Stage {
     }
 
     private class InventoryToWorkshopClickListener extends ClickListener {
-        Item owner;
+        StackedItem stack;
+        private Item item;
         private WorkshopStage target;
 
-        InventoryToWorkshopClickListener(Item owner, WorkshopStage target) {
-            this.owner = owner;
+        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target) {
+            this.stack = stack;
+            this.item = item;
             this.target = target;
         }
 
@@ -155,7 +160,26 @@ public class InventoryStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            target.addIngredient(new Item(owner));
+            // Was there space in the workshop?
+            if (target.addIngredient( new Item(stack.getBaseItem()) )) {
+                // Can we remove it? (I'd hope so...)
+                if (stack.remove()) {
+                    // Was that the last one?
+                    String i = item.getName();
+                    if (stack.getCount() == 0) {
+                        items.removeActor(items.findActor(i));
+                        itemCounts.removeActor(itemCounts.findActor(i));
+                        inventory.remove(stack);
+
+                    }
+                    else {
+                        // Update the count
+                        ((TextButton)itemCounts.findActor(i)).setText(Integer.toString(stack.getCount()));
+
+                    }
+                }
+
+            }
 
 
             return true;

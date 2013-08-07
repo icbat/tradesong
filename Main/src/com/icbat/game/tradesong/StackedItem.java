@@ -42,12 +42,13 @@ public class StackedItem {
     }
 
     public boolean remove() {
-        return add(-1);
+        return remove(1);
     }
 
+    // TODO DOES NOT ACCOUNT FOR REMOVAL AT 0
     public boolean remove(int i) {
         int newTotal = count - i;
-        if (newTotal > 0) {
+        if (newTotal >= 0) {
             count = newTotal;
             return true;
         }

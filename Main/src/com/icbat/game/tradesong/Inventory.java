@@ -58,6 +58,10 @@ public class Inventory {
         return stacks;
     }
 
+    public void remove(StackedItem stack) {
+        stacks.remove(stack);
+    }
+
     // TODO remove item methods!
 
 }
