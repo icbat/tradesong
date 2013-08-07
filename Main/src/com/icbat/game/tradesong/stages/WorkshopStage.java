@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -11,6 +12,7 @@ public class WorkshopStage extends Stage {
 
     private Workshop workshop;
     private TextButton header;
+    private Group frames = new Group();
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -27,7 +29,6 @@ public class WorkshopStage extends Stage {
         style.font = new BitmapFont();
 
         header = new TextButton(workshop.getType(), style);
-
         header.setVisible(true);
         header.setTouchable(Touchable.disabled);
         header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
@@ -36,6 +37,7 @@ public class WorkshopStage extends Stage {
 
     }
     private void addFrames() {
+        frames.clearChildren();
         makeIndividualFrame();
 
     }
@@ -47,7 +49,9 @@ public class WorkshopStage extends Stage {
 
     public void setWorkshop(Workshop newWorkshop) {
         workshop = newWorkshop;
-        header.remove();
+
+        if (header != null)
+            header.remove();
         addWorkshopTitle();
         addFrames();
         addCraftButton();
@@ -58,6 +62,8 @@ public class WorkshopStage extends Stage {
 
 
     }
+
+
 
 
 }
