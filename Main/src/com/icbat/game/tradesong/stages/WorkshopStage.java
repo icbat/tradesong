@@ -1,12 +1,15 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
 
 public class WorkshopStage extends Stage {
@@ -14,13 +17,17 @@ public class WorkshopStage extends Stage {
     private Workshop workshop;
     private TextButton header;
     private Group frames = new Group();
+    private Texture frameTexture;
 
-    public WorkshopStage() {
-        this(new Workshop("Blacksmith"));
+    private static final int SPACER = 10;
+
+    public WorkshopStage(Tradesong gameInstance) {
+        this(gameInstance, new Workshop("Blacksmith"));
     }
 
-    public WorkshopStage(Workshop workshop) {
+    public WorkshopStage(Tradesong gameInstance, Workshop workshop) {
         super();
+        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
         setWorkshop(workshop); // Handles the standard setup
 
     }
@@ -32,20 +39,29 @@ public class WorkshopStage extends Stage {
         header = new TextButton(workshop.getType(), style);
         header.setVisible(true);
         header.setTouchable(Touchable.disabled);
-        // Set this to the top-right corner (it's first, rest of this stage relative to this)
-        header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
+//        header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
+        layOutVertically(header);
 
         this.addActor(header);
 
     }
     private void addFrames() {
         frames.clearChildren();
-        makeIndividualFrame();
+        Image frame;
+        for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
+            frame = makeIndividualFrame();
+            layOutVertically(frame);
+            this.addActor(frame);
+        }
+
 
     }
 
     private Image makeIndividualFrame() {
-        return null;
+        Image frameActor = new Image( new TextureRegion(frameTexture) );
+        frameActor.setVisible(true);
+        frameActor.setTouchable(Touchable.disabled);
+        return frameActor;
 
     }
 
@@ -65,17 +81,26 @@ public class WorkshopStage extends Stage {
 
     }
 
+    /** Sets the bounds of the param to the next spot in a vertically descending pattern
+     * @param   actor   actor on which to calculate bounds */
+    private void layOutVertically(Actor actor) {
+        actor.setBounds(this.getWidth() - actor.getWidth() - SPACER, findLowestY() - SPACER, actor.getWidth(), actor.getHeight());
+    }
+
     private int findLowestY() {
         float lowestFound = this.getHeight();
-
+        float check;
         for (Actor actor : this.getActors()) {
-            if (actor.getY() < lowestFound)
-                lowestFound = actor.getY();
+            check = actor.getY() - actor.getHeight();
+            if (check < lowestFound)
+                lowestFound = check;
         }
 
         return (int) lowestFound;
 
     }
+
+
 
 
 
