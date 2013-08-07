@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Inventory {
     // TODO this needs a lot of error-checking for things like shrinking inventory, etc.
-    private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>();
+
     int capacity = 15;
+    private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>(capacity);
 
     Inventory() {}
 
