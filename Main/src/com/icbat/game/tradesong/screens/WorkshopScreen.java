@@ -20,4 +20,9 @@ public class WorkshopScreen extends InventoryScreen{
         super.show();
         inputMultiplexer.addProcessor(workshopStage);
     }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }
