@@ -37,6 +37,7 @@ public class WorkshopStage extends Stage {
         header.setTouchable(Touchable.disabled);
         header.setBounds(this.getWidth() - header.getWidth() - 20, this.getHeight() - header.getHeight(), header.getWidth(), header.getHeight());
 
+        this.addActor(header);
 
     }
     private void addFrames() {
