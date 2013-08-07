@@ -6,7 +6,13 @@ public class Workshop {
     private int numberOfSlots;
 
     public Workshop(String workshop) {
+        type = workshop;
+        numberOfSlots = 3; // arbitrary default, not even sure if this should ever change
+    }
 
+    /** Copy constructor */
+    public Workshop(Workshop old) {
+        this(old.getType());
     }
 
     public int getNumberOfSlots() {
