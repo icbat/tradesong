@@ -3,12 +3,10 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.StackedItem;
@@ -131,11 +129,36 @@ public class InventoryStage extends Stage {
     }
 
     // TODO find a cleaner way to do this
-    public void setToWorkshop() {
-        for (Actor frame : frames.getChildren()) {
+    public void connectToWorkshop(WorkshopStage targetStage) {
+        Item item;
+        for (Actor actor : items.getChildren()) {
+            item = (Item)actor;
+
+            item.addListener(new InventoryToWorkshopClickListener(item, targetStage));
+
+
 
         }
 
     }
 
+    private class InventoryToWorkshopClickListener extends ClickListener {
+        Item owner;
+        private WorkshopStage target;
+
+        InventoryToWorkshopClickListener(Item owner, WorkshopStage target) {
+            this.owner = owner;
+            this.target = target;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            super.touchDown(event, x, y, pointer, button);
+
+            target.addIngredient(owner);
+
+
+            return true;
+        }
+    }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
 
@@ -109,9 +110,9 @@ public class WorkshopStage extends Stage {
     }
 
 
+    public boolean addIngredient(Item item) {
+        // TODO
 
-
-
-
-
+        return false;
+    }
 }
