@@ -21,6 +21,7 @@ public class WorkshopStage extends Stage {
 
     private static final int SPACER = 10;
     private Tradesong gameInstance;
+    private Image resultFrame;
 
     public WorkshopStage(Tradesong gameInstance) {
         this(gameInstance, new Workshop("Blacksmith"));
@@ -46,6 +47,7 @@ public class WorkshopStage extends Stage {
         this.addActor(header);
 
     }
+
     private void addFrames() {
         frames.clearChildren();
 
@@ -57,8 +59,6 @@ public class WorkshopStage extends Stage {
         }
 
         this.addActor(frames);
-
-
     }
 
     private Image makeIndividualFrame() {
@@ -66,11 +66,18 @@ public class WorkshopStage extends Stage {
         frameActor.setVisible(true);
         frameActor.setTouchable(Touchable.disabled);
         return frameActor;
-
     }
 
     private void addArrowAndResultFrame() {
+        Texture arrowTexture = this.gameInstance.assets.get(Tradesong.getPathSpriteArrow());
+        Image arrowImage = new Image( arrowTexture );
+        layOutVertically(arrowImage);
+        gameInstance.log.info(Integer.toString((int)arrowImage.getY()));
+        this.addActor(arrowImage);
 
+        resultFrame = makeIndividualFrame();
+        layOutVertically(resultFrame);
+        this.addActor(resultFrame);
     }
 
     /** Called when the workshop changes, including at startup. */
@@ -81,9 +88,9 @@ public class WorkshopStage extends Stage {
             header.remove();
         addWorkshopTitle();
         addFrames();
+
         addArrowAndResultFrame();
         this.addActor(ingredients);
-
     }
 
     /** Sets the bounds of the param to the next spot in a vertically descending pattern
@@ -96,9 +103,12 @@ public class WorkshopStage extends Stage {
         float lowestFound = this.getHeight() - 20;
         float check;
         for (Actor actor : this.getActors()) {
-            check = actor.getY() - actor.getHeight();
-            if (check < lowestFound)
-                lowestFound = check;
+            if (!actor.getClass().equals(Group.class)) {
+                check = actor.getY() - actor.getHeight();
+                if (check < lowestFound)
+                    lowestFound = check;
+            }
+
         }
 
         for (Actor actor : frames.getChildren()) {

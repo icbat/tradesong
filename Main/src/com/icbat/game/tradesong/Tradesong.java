@@ -102,4 +102,8 @@ public class Tradesong extends Game {
     public static String getFramePath() {
         return PATH_SPRITE_FRAME;
     }
+
+    public static String getPathSpriteArrow() {
+        return PATH_SPRITE_ARROW;
+    }
 }
