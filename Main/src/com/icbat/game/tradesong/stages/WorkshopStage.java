@@ -69,6 +69,11 @@ public class WorkshopStage extends Stage {
 
     }
 
+    private void addArrowAndResultFrame() {
+
+    }
+
+    /** Called when the workshop changes, including at startup. */
     public void setWorkshop(Workshop newWorkshop) {
         workshop = newWorkshop;
 
@@ -76,13 +81,8 @@ public class WorkshopStage extends Stage {
             header.remove();
         addWorkshopTitle();
         addFrames();
-        addCraftButton();
+        addArrowAndResultFrame();
         this.addActor(ingredients);
-
-    }
-
-    private void addCraftButton() {
-
 
     }
 
