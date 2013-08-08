@@ -22,6 +22,7 @@ public class Tradesong extends Game {
 
     private static final String PATH_SPRITE_ITEMS = "sprites/items.png";
     private static final String PATH_SPRITE_FRAME = "sprites/frame.png";
+    private static final String PATH_SPRITE_ARROW = "sprites/arrow.png";
     public GameStateManager gameState;
 	public LJ log = new LJ("", this.getClass().getSimpleName());
     public AssetManager assets = new AssetManager();
@@ -56,6 +57,8 @@ public class Tradesong extends Game {
 
         // Frame PNG used in inventory/workshops
         this.assets.load(PATH_SPRITE_FRAME, Texture.class);
+
+        this.assets.load(PATH_SPRITE_ARROW, Texture.class);
 
         this.assets.finishLoading(); // Blocks until finished
     }
