@@ -133,10 +133,10 @@ public class WorkshopStage extends Stage {
         Item output = checkIngredientsForOutput();
         if (output != null) {
             addOutput(output);
-
         }
         else {
-            this.output.remove();
+            if (this.output != null)
+                this.output.remove();
         }
     }
 

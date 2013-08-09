@@ -27,6 +27,7 @@ public class InventoryStage extends Stage {
     private Group items = new Group();
     private Group itemCounts = new Group();
     private Inventory inventory;
+    private WorkshopStage linkedWorkshop = null;
 
     public InventoryStage(Tradesong gameInstance) {
         inventory = gameInstance.gameState.getInventory();
@@ -38,8 +39,6 @@ public class InventoryStage extends Stage {
         this.addActor(itemCounts);
 
         update();
-
-
     }
 
     public void update() {
@@ -56,6 +55,10 @@ public class InventoryStage extends Stage {
                 addStackedItemToStage(i);
                 addItemCount(i);
             }
+        }
+
+        if (linkedWorkshop != null) {
+            connectItemsToWorkshop();
         }
     }
 
@@ -138,14 +141,14 @@ public class InventoryStage extends Stage {
     }
 
     // TODO find a cleaner way to do this
-    public void connectToWorkshop(WorkshopStage targetStage) {
+    public void connectItemsToWorkshop() {
         Item item;
         for (Actor actor : items.getChildren()) {
             item = (Item)actor;
 
             StackedItem stack = inventory.getStack( new Integer(item.getName()) );
 
-            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage));
+            item.addListener(new InventoryToWorkshopClickListener(stack, item));
 
 
 
@@ -153,15 +156,17 @@ public class InventoryStage extends Stage {
 
     }
 
+    public void setLinkedWorkshop(WorkshopStage target) {
+        linkedWorkshop = target;
+    }
+
     private class InventoryToWorkshopClickListener extends ClickListener {
         StackedItem stack;
         private Item item;
-        private WorkshopStage target;
 
-        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target) {
+        InventoryToWorkshopClickListener(StackedItem stack, Item item) {
             this.stack = stack;
             this.item = item;
-            this.target = target;
         }
 
         @Override
@@ -169,7 +174,7 @@ public class InventoryStage extends Stage {
             super.touchDown(event, x, y, pointer, button);
 
             // Was there space in the workshop?
-            if (target.addIngredient( new Item(stack.getBaseItem()) )) {
+            if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
                     // Was that the last one?

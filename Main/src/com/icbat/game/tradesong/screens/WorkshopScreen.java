@@ -11,7 +11,8 @@ public class WorkshopScreen extends InventoryScreen{
         super(gameInstance);
 
         workshopStage = new WorkshopStage(gameInstance, inventoryStage);
-        inventoryStage.connectToWorkshop(workshopStage);
+        inventoryStage.setLinkedWorkshop(workshopStage);
+        inventoryStage.connectItemsToWorkshop();
         inputMultiplexer.addProcessor(workshopStage);
 
     }
