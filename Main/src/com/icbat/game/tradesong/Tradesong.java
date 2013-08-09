@@ -64,12 +64,19 @@ public class Tradesong extends Game {
     }
 
     public void goToScreen(AbstractScreen newScreen) {
+        AbstractScreen top = screenStack.peek();
+
+        // These two errors are a bug in IDEA and not actually wrong
+        if (top.getClass().equals(InventoryScreen.class) || top.getClass().equals(WorkshopScreen.class))
+            screenStack.pop();
         screenStack.push(newScreen);
         setScreen(screenStack.peek());
     }
 
     public void goToMainMenu() {
-        goToScreen(new MainMenuScreen(this));
+        screenStack.clear();
+        screenStack.push(new MainMenuScreen(this));
+        setScreen(screenStack.peek());
     }
 
     public void goToInventory() {
