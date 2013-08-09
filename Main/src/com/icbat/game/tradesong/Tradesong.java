@@ -22,6 +22,7 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_ITEMS = "sprites/items.png";
     private static final String PATH_SPRITE_FRAME = "sprites/frame.png";
     private static final String PATH_SPRITE_ARROW = "sprites/arrow.png";
+    private static final String PATH_SPRITE_CHAR = "sprites/character.png";
     public static GameStateManager gameState;
     public static AssetManager assets = new AssetManager();
     private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
@@ -47,6 +48,8 @@ public class Tradesong extends Game {
     private void initializeAssets() {
         // Item sheet used by all/most icons, items, buttons, etc.
         assets.load(PATH_SPRITE_ITEMS, Texture.class);
+
+        assets.load(PATH_SPRITE_CHAR, Texture.class);
 
         // Frame PNG used in inventory/workshops
         assets.load(PATH_SPRITE_FRAME, Texture.class);
