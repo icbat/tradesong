@@ -107,4 +107,8 @@ public class Tradesong extends Game {
     public static String getPathSpriteArrow() {
         return PATH_SPRITE_ARROW;
     }
+
+    public static Texture getCharacterTexture() {
+        return assets.get(PATH_SPRITE_CHAR);
+    }
 }

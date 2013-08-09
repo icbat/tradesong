@@ -32,6 +32,7 @@ public class HUDStage extends Stage {
         addInventoryButton();
         addCapacityCounter();
         addWorkshopsButton();
+        addCharacterPortrait();
     }
 
     private void addInventoryButton() {
@@ -93,8 +94,13 @@ public class HUDStage extends Stage {
 
         layoutHorizontally(workshopButton);
 
-        workshopButton.setVisible(true);
         this.addActor(workshopButton);
+    }
+
+    private void addCharacterPortrait() {
+        Image character = new Image(  new TextureRegion(Tradesong.getCharacterTexture(), 100, 70)  );
+        character.setPosition(this.getWidth() - character.getWidth() - SPACER,0);
+        this.addActor(character);
     }
 
 
