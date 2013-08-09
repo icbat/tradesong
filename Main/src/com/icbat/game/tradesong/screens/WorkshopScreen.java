@@ -28,4 +28,10 @@ public class WorkshopScreen extends InventoryScreen{
         workshopStage.act(delta);
         workshopStage.draw();
     }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        workshopStage.setViewport(width, height, false);
+    }
 }
