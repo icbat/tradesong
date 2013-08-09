@@ -129,6 +129,7 @@ public class HUDStage extends Stage {
 
                 }
             }
+
             return true;
         }
     }
