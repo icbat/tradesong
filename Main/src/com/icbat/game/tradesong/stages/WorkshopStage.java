@@ -23,23 +23,19 @@ public class WorkshopStage extends Stage {
     private Texture frameTexture;
 
     private static final int SPACER = 10;
-    private Tradesong gameInstance;
     private Image resultFrame;
 
-    private InventoryStage linkedInventoryStage;
     private Item output;
 
-    public WorkshopStage(Tradesong gameInstance, InventoryStage linkedInventoryStage) {
-        this(gameInstance, linkedInventoryStage, new Workshop("Blacksmith"));
+    public WorkshopStage() {
+        this(new Workshop("Blacksmith"));
     }
 
-    public WorkshopStage(Tradesong gameInstance, InventoryStage linkedInventoryStage, Workshop workshop) {
+    public WorkshopStage(Workshop workshop) {
         super();
-        this.linkedInventoryStage = linkedInventoryStage;
-        this.gameInstance = gameInstance;
-        frameTexture = this.gameInstance.assets.get(Tradesong.getFramePath());
-        setWorkshop(workshop); // Handles the standard setup
 
+        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
+        setWorkshop(workshop); // Handles the standard setup
     }
 
     /** Called when the workshop changes, including at startup. */
@@ -82,7 +78,7 @@ public class WorkshopStage extends Stage {
     }
 
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = this.gameInstance.assets.get(Tradesong.getPathSpriteArrow());
+        Texture arrowTexture = Tradesong.assets.get(Tradesong.getPathSpriteArrow());
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
@@ -103,7 +99,6 @@ public class WorkshopStage extends Stage {
     }
 
     public boolean addIngredient(Item item) {
-
         // Check to see if there's space to add more
         Integer size = ingredients.getChildren().size;
         if (size >= workshop.getNumberOfSlots()) {
@@ -120,14 +115,13 @@ public class WorkshopStage extends Stage {
             // Add the item
             ingredients.addActor(item);
 
-            this.update();
-
             return true;
         }
 
     }
 
-    public void update() {
+    @Override
+    public void act() {
 
         // Run the check to see if there's a product! If there is, add the picture
         Item output = checkIngredientsForOutput();
@@ -139,18 +133,18 @@ public class WorkshopStage extends Stage {
                 this.output.remove();
         }
 
-        linkedInventoryStage.update();
+        super.act();
+
+
     }
 
     public Item checkIngredientsForOutput() {
-        gameInstance.log.info("Checking!");
 
-        Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
+        Set<Recipe> allRecipes = Tradesong.gameState.getAllKnownRecipes();
         for (Recipe recipe : allRecipes) {
             if (recipe.getWorkshop().equals(this.workshop.getType())) {
 
                 if (recipe.check(ingredients.getChildren())) {
-                    gameInstance.log.info("Found it!");
                     return recipe.getOutput();
                 }
 
@@ -163,11 +157,8 @@ public class WorkshopStage extends Stage {
 
     public void clearIngredients(boolean returnToInventory) {
         for (Actor ingredient : ingredients.getChildren()) {
-            gameInstance.log.info("Removing Ingredient: " + ingredient);
-
             if (returnToInventory) {
-                gameInstance.log.info("Putting back to inventory: " + ingredient);
-                gameInstance.gameState.getInventory().add(new Item(ingredient));
+                Tradesong.gameState.getInventory().add(new Item(ingredient));
             }
 
             ingredient.remove();
@@ -231,22 +222,11 @@ public class WorkshopStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            gameInstance.log.info(gameInstance.gameState.getInventory().getStacks().toString());
-
-            if (gameInstance.gameState.getInventory().add(new Item(owner))) {
+            if (Tradesong.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
                 if (isResult) {
                     clearIngredients(false);
                 }
-                else {
-                    update();
-                }
-
-                gameInstance.log.info(gameInstance.gameState.getInventory().getStacks().toString());
-
-
-
-                linkedInventoryStage.update();
 
                 return true;
             }

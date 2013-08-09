@@ -10,7 +10,7 @@ public class WorkshopScreen extends InventoryScreen{
     public WorkshopScreen(Tradesong gameInstance) {
         super(gameInstance);
 
-        workshopStage = new WorkshopStage(gameInstance, inventoryStage);
+        workshopStage = new WorkshopStage();
         inventoryStage.setLinkedWorkshop(workshopStage);
         inventoryStage.connectItemsToWorkshop();
         inputMultiplexer.addProcessor(workshopStage);
@@ -26,7 +26,7 @@ public class WorkshopScreen extends InventoryScreen{
     @Override
     public void render(float delta) {
         super.render(delta, 0.98f, 0.639f, 0.008f, 1);
-        workshopStage.act(delta);
+        workshopStage.act();
         workshopStage.draw();
     }
 

@@ -21,13 +21,12 @@ public class HUDStage extends Stage {
 
     /** As of now, this is pulled from items.png */
     Texture itemsTexture;
-    Tradesong gameInstance;
     private TextButton capacityCounter;
+    private Tradesong gameInstance;
 
     public HUDStage(Tradesong gameInstance) {
+        this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
         this.gameInstance = gameInstance;
-        itemsTexture = gameInstance.assets.get(Tradesong.getItemsPath());
-
         addInventoryButton();
         addInventoryStats();
         addWorkshopsButton();
@@ -39,7 +38,7 @@ public class HUDStage extends Stage {
         Image inventoryButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
-        inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class));
+        inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class, gameInstance));
         // No need to set bounds; this is the bottom-left corner
 
         inventoryButton.setVisible(true);
@@ -54,7 +53,7 @@ public class HUDStage extends Stage {
         Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class));
+        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class, gameInstance));
 
         int maxX = (int)this.getWidth();
         workshopButton.setBounds(maxX - ICON_SIZE, 0, ICON_SIZE, ICON_SIZE);
@@ -65,8 +64,8 @@ public class HUDStage extends Stage {
 
     private void addInventoryStats() {
 
-        Integer capacity = gameInstance.gameState.getInventory().capacity();
-        Integer size = gameInstance.gameState.getInventory().size();
+        Integer capacity = Tradesong.gameState.getInventory().capacity();
+        Integer size = Tradesong.gameState.getInventory().size();
 
         TextButton.TextButtonStyle textStyle = new TextButton.TextButtonStyle();
         BitmapFont font = new BitmapFont();
@@ -85,8 +84,8 @@ public class HUDStage extends Stage {
         capacityCounter = new TextButton(size.toString() + " / " + capacity.toString(), textStyle) {
             @Override
             public void draw(SpriteBatch batch, float parentAlpha) {
-                Integer size = gameInstance.gameState.getInventory().size();
-                Integer capacity = gameInstance.gameState.getInventory().capacity();
+                Integer size = Tradesong.gameState.getInventory().size();
+                Integer capacity = Tradesong.gameState.getInventory().capacity();
                 capacityCounter.setText(size.toString() + " / " + capacity.toString());
 
                 super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.
@@ -103,27 +102,29 @@ public class HUDStage extends Stage {
 
     class InterfaceButtonListener extends ClickListener {
         private Class landingPage;
+        private Tradesong gameInststance;
 
-        InterfaceButtonListener(Class landingPage) {
+        InterfaceButtonListener(Class landingPage, Tradesong gameInststance) {
             super();
             this.landingPage = landingPage;
+            this.gameInststance = gameInststance;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             // Following error is a known bug in IDEA, not an actual problem
-            if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
+            if (gameInststance.getCurrentScreen().getClass().equals(landingPage)) {
                 // If we're already on that screen
-                gameInstance.goBack();
+                gameInststance.goBack();
             }
             else {
                 // Find the screen to go to based on landing
                 if (landingPage.equals(InventoryScreen.class)) {
-                    gameInstance.goToInventory();
+                    gameInststance.goToInventory();
                 }
                 else if (landingPage.equals(WorkshopScreen.class)) {
-                    gameInstance.goToWorkshop();
+                    gameInststance.goToWorkshop();
 
                 }
             }

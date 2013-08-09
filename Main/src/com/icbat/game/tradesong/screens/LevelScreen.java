@@ -34,21 +34,20 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer;
 
 	private OrthoCamera rendererCamera;
-    private OrthoCamera gameWorldCamera;
     private final InputMultiplexer inputMultiplexer;
 
     public LevelScreen(String level, Tradesong gameInstance) {
-        super(gameInstance);
+        super();
 
 
         // Load the map
-        gameInstance.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        Tradesong.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
 
-        gameInstance.assets.load(mapName, TiledMap.class);
-        gameInstance.assets.finishLoading();
+        Tradesong.assets.load(mapName, TiledMap.class);
+        Tradesong.assets.finishLoading();
 
-        this.map = gameInstance.assets.get(mapName);
+        this.map = Tradesong.assets.get(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
 
 
@@ -56,12 +55,12 @@ public class LevelScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        worldStage = new GameWorldStage(this.gameInstance, map.getProperties());
-        hud = new HUDStage(this.gameInstance);
+        worldStage = new GameWorldStage(map.getProperties());
+        hud = new HUDStage(gameInstance);
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);
-        gameWorldCamera = new OrthoCamera(width, height);
+        OrthoCamera gameWorldCamera = new OrthoCamera(width, height);
 
 
         worldStage.setCamera(gameWorldCamera);
@@ -109,7 +108,6 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
         worldStage.setViewport(width, height, false);
         hud.setViewport(width,height, false);
         worldStage.getBackgroundActor().setBounds(0, 0, width, height);
@@ -141,7 +139,6 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        super.show();
         itemSpawnTimer.start();
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
@@ -194,4 +191,8 @@ public class LevelScreen extends AbstractScreen {
         }
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "." + this.mapName;    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }

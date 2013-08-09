@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -29,19 +30,18 @@ public class InventoryStage extends Stage {
     private Inventory inventory;
     private WorkshopStage linkedWorkshop = null;
 
-    public InventoryStage(Tradesong gameInstance) {
-        inventory = gameInstance.gameState.getInventory();
+    public InventoryStage() {
+        inventory = Tradesong.gameState.getInventory();
 
-        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
+        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
 
         this.addActor(frames);
         this.addActor(items);
         this.addActor(itemCounts);
-
-        update();
     }
 
-    public void update() {
+    @Override
+    public void act() {
         // Clear out
         frames.clearChildren();
         items.clearChildren();
@@ -60,6 +60,8 @@ public class InventoryStage extends Stage {
         if (linkedWorkshop != null) {
             connectItemsToWorkshop();
         }
+
+        super.act();
     }
 
     private void addSlotFrame(Integer i) {
@@ -148,7 +150,10 @@ public class InventoryStage extends Stage {
 
             StackedItem stack = inventory.getStack( new Integer(item.getName()) );
 
-            item.addListener(new InventoryToWorkshopClickListener(stack, item));
+            if (item.getListeners().size == 0)
+                item.addListener(new InventoryToWorkshopClickListener(stack, item));
+
+
 
 
 
@@ -173,6 +178,7 @@ public class InventoryStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
+            Gdx.app.log("","pressed an inventory item!");
             // Was there space in the workshop?
             if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
                 // Can we remove it? (I'd hope so...)
