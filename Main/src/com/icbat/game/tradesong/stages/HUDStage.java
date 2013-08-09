@@ -1,10 +1,12 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -28,7 +30,7 @@ public class HUDStage extends Stage {
         this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
         this.gameInstance = gameInstance;
         addInventoryButton();
-        addInventoryStats();
+        addCapacityCounter();
         addWorkshopsButton();
     }
 
@@ -40,29 +42,11 @@ public class HUDStage extends Stage {
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class, gameInstance));
         // No need to set bounds; this is the bottom-left corner
-
         inventoryButton.setVisible(true);
         this.addActor(inventoryButton);
     }
 
-    private void addWorkshopsButton() {
-        int x = 3;
-        int y = 9;
-
-
-        Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
-
-        workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class, gameInstance));
-
-        int maxX = (int)this.getWidth();
-        workshopButton.setBounds(maxX - ICON_SIZE, 0, ICON_SIZE, ICON_SIZE);
-
-        workshopButton.setVisible(true);
-        this.addActor(workshopButton);
-    }
-
-    private void addInventoryStats() {
+    private void addCapacityCounter() {
 
         Integer capacity = Tradesong.gameState.getInventory().capacity();
         Integer size = Tradesong.gameState.getInventory().size();
@@ -92,12 +76,39 @@ public class HUDStage extends Stage {
             }
         };
 
-
-        capacityCounter.setVisible(true);
-        capacityCounter.setTouchable(Touchable.disabled);
-        capacityCounter.setBounds(ICON_SIZE + SPACER, 0, ICON_SIZE, ICON_SIZE);
+        layoutHorizontally(capacityCounter);
 
         this.addActor(capacityCounter);
+    }
+
+    private void addWorkshopsButton() {
+        int x = 3;
+        int y = 9;
+
+
+        Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
+
+        workshopButton.setTouchable(Touchable.enabled);
+        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class, gameInstance));
+
+        layoutHorizontally(workshopButton);
+
+        workshopButton.setVisible(true);
+        this.addActor(workshopButton);
+    }
+
+
+
+    private void layoutHorizontally(Actor actorToLayout) {
+        int furthestX = 0;
+        for (Actor actor : this.getActors()) {
+            Gdx.app.log("layoutHoriz","" + actor.getRight());
+            if (actor.getRight() > furthestX)
+                furthestX += actor.getRight();
+        }
+
+        actorToLayout.setPosition(furthestX + SPACER, 0);
+
     }
 
     class InterfaceButtonListener extends ClickListener {
