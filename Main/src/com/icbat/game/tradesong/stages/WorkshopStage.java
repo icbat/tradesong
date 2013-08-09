@@ -91,16 +91,16 @@ public class WorkshopStage extends Stage {
         this.addActor(resultFrame);
     }
 
-    private void addOutput(Item output, InventoryStage destination) {
+    private void addOutput(Item output) {
         output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
         output.setTouchable(Touchable.enabled);
-        output.addListener(new BackToInventoryClickListener(output, destination, false));
+        output.addListener(new BackToInventoryClickListener(output, true));
         this.addActor(output);
 
 
     }
 
-    public boolean addIngredient(Item item, InventoryStage parent) {
+    public boolean addIngredient(Item item) {
 
         // Check to see if there's space to add more
         Integer size = ingredients.getChildren().size;
@@ -113,7 +113,7 @@ public class WorkshopStage extends Stage {
             item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
 
             // Add the listener to remove it
-            item.addListener(new BackToInventoryClickListener(item, parent, false));
+            item.addListener(new BackToInventoryClickListener(item, false));
 
             // Add the item
             ingredients.addActor(item);
@@ -121,7 +121,7 @@ public class WorkshopStage extends Stage {
             // Run the check to see if there's a product! If there is, add the picture
             Item output = checkIngredientsForOutput();
             if (output != null) {
-                addOutput(output, parent);
+                addOutput(output);
 
             }
 
@@ -129,8 +129,6 @@ public class WorkshopStage extends Stage {
         }
 
     }
-
-
 
     public Item checkIngredientsForOutput() {
         Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
@@ -196,13 +194,12 @@ public class WorkshopStage extends Stage {
     class BackToInventoryClickListener extends ClickListener {
 
         private Item owner;
-        private InventoryStage inventoryStage;
+
         private boolean isResult;
 
-        BackToInventoryClickListener(Item owner, InventoryStage inventoryStage, boolean isResult) {
+        BackToInventoryClickListener(Item owner, boolean isResult) {
 
             this.owner = owner;
-            this.inventoryStage = inventoryStage;
             this.isResult = isResult;
         }
 
@@ -216,7 +213,7 @@ public class WorkshopStage extends Stage {
                 owner.remove();
                 if (isResult)
                     clearIngredients();
-                inventoryStage.update();
+                linkedInventoryStage.update();
 
                 return true;
             }

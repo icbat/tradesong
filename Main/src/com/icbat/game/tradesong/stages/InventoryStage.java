@@ -145,7 +145,7 @@ public class InventoryStage extends Stage {
 
             StackedItem stack = inventory.getStack( new Integer(item.getName()) );
 
-            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage, this));
+            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage));
 
 
 
@@ -157,13 +157,11 @@ public class InventoryStage extends Stage {
         StackedItem stack;
         private Item item;
         private WorkshopStage target;
-        private InventoryStage parentStage;
 
-        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target, InventoryStage parentStage) {
+        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target) {
             this.stack = stack;
             this.item = item;
             this.target = target;
-            this.parentStage = parentStage;
         }
 
         @Override
@@ -171,7 +169,7 @@ public class InventoryStage extends Stage {
             super.touchDown(event, x, y, pointer, button);
 
             // Was there space in the workshop?
-            if (target.addIngredient( new Item(stack.getBaseItem()), parentStage )) {
+            if (target.addIngredient( new Item(stack.getBaseItem()) )) {
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
                     // Was that the last one?
