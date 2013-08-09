@@ -103,7 +103,7 @@ public class GameWorldStage extends Stage {
 
         }
 
-        return null; // TODO this should never return; if it does, mess with math
+        return null;
     }
 
     /** Performs common steps for Items being added to the stage randomly */

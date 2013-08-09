@@ -20,12 +20,11 @@ public class WorkshopStage extends Stage {
     private TextButton header;
     private Group frames = new Group();
     private Group ingredients = new Group();
+    private Group product = new Group();
     private Texture frameTexture;
 
     private static final int SPACER = 10;
     private Image resultFrame;
-
-    private Item output;
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -48,6 +47,7 @@ public class WorkshopStage extends Stage {
         addIngredientFrames();
         addArrowAndResultFrame();
         this.addActor(ingredients);
+        this.addActor(product);
     }
 
     private void addWorkshopTitle() {
@@ -88,16 +88,6 @@ public class WorkshopStage extends Stage {
         this.addActor(resultFrame);
     }
 
-    private void addOutput(Item output) {
-        this.output = output;
-        this.output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
-        output.setTouchable(Touchable.enabled);
-        output.addListener(new BackToInventoryClickListener(output, true));
-        this.addActor(output);
-
-
-    }
-
     public boolean addIngredient(Item item) {
         // Check to see if there's space to add more
         Integer size = ingredients.getChildren().size;
@@ -124,13 +114,19 @@ public class WorkshopStage extends Stage {
     public void act() {
 
         // Run the check to see if there's a product! If there is, add the picture
-        Item output = checkIngredientsForOutput();
-        if (output != null) {
-            addOutput(output);
+        Item potentialProduct = getProduct();
+        if (potentialProduct != null) {
+
+            potentialProduct.setPosition(resultFrame.getX(), resultFrame.getY());
+            potentialProduct.setTouchable(Touchable.enabled);
+            potentialProduct.addListener(new BackToInventoryClickListener(potentialProduct, true));
+            product.addActor(potentialProduct);
         }
         else {
-            if (this.output != null)
-                this.output.remove();
+            if (product.getChildren().size != 0) {
+                product.clearChildren();
+            }
+
         }
 
         super.act();
@@ -138,7 +134,7 @@ public class WorkshopStage extends Stage {
 
     }
 
-    public Item checkIngredientsForOutput() {
+    public Item getProduct() {
 
         Set<Recipe> allRecipes = Tradesong.gameState.getAllKnownRecipes();
         for (Recipe recipe : allRecipes) {
@@ -151,6 +147,7 @@ public class WorkshopStage extends Stage {
 
             }
         }
+
         return null;
 
     }
@@ -162,6 +159,7 @@ public class WorkshopStage extends Stage {
             }
 
             ingredient.remove();
+            product.clearChildren();
         }
     }
 
