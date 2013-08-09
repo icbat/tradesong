@@ -102,29 +102,30 @@ public class HUDStage extends Stage {
 
     class InterfaceButtonListener extends ClickListener {
         private Class landingPage;
-        private Tradesong gameInststance;
+        private Tradesong gameInstance;
 
-        InterfaceButtonListener(Class landingPage, Tradesong gameInststance) {
+        InterfaceButtonListener(Class landingPage, Tradesong gameInstance) {
             super();
             this.landingPage = landingPage;
-            this.gameInststance = gameInststance;
+            this.gameInstance = gameInstance;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
             // Following error is a known bug in IDEA, not an actual problem
-            if (gameInststance.getCurrentScreen().getClass().equals(landingPage)) {
+            if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
                 // If we're already on that screen
-                gameInststance.goBack();
+                gameInstance.goBack();
             }
             else {
                 // Find the screen to go to based on landing
                 if (landingPage.equals(InventoryScreen.class)) {
-                    gameInststance.goToInventory();
+
+                    gameInstance.goToInventory();
                 }
                 else if (landingPage.equals(WorkshopScreen.class)) {
-                    gameInststance.goToWorkshop();
+                    gameInstance.goToWorkshop();
 
                 }
             }
