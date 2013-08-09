@@ -36,7 +36,7 @@ public class LevelScreen extends AbstractScreen {
 	private OrthoCamera rendererCamera;
     private final InputMultiplexer inputMultiplexer;
 
-    public LevelScreen(String level, Tradesong gameInstance) {
+    public LevelScreen(String level, HUDStage hud) {
         super();
 
 
@@ -56,7 +56,7 @@ public class LevelScreen extends AbstractScreen {
 
         // Load the stages
         worldStage = new GameWorldStage(map.getProperties());
-        hud = new HUDStage(gameInstance);
+        this.hud = hud;
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);

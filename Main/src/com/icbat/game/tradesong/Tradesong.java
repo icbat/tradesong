@@ -4,6 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.icbat.game.tradesong.screens.*;
+import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.stages.InventoryStage;
+import com.icbat.game.tradesong.stages.WorkshopStage;
 
 import java.util.Stack;
 
@@ -23,14 +26,20 @@ public class Tradesong extends Game {
     public static AssetManager assets = new AssetManager();
     private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
 
+    private HUDStage hud;
+    private InventoryStage inventoryStage;
+    private WorkshopStage workshopStage;
 
-
-	@Override
+    @Override
 	public void create() {
         initializeAssets();
 
         gameState = new GameStateManager();
 		goToMainMenu();
+
+        hud = new HUDStage(this);
+        inventoryStage = new InventoryStage();
+        workshopStage = new WorkshopStage();
 
 
 	}
@@ -64,17 +73,17 @@ public class Tradesong extends Game {
     }
 
     public void goToInventory() {
-        goToScreen(new InventoryScreen(this));
+        goToScreen(new InventoryScreen(hud, inventoryStage));
     }
     public void goToLevel(String levelName) {
-        goToScreen(new LevelScreen(levelName, this));
+        goToScreen(new LevelScreen(levelName, hud));
     }
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
     }
 
     public void goToWorkshop() {
-        goToScreen(new WorkshopScreen(this));
+        goToScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
     }
 
     public static String getItemsPath() {
