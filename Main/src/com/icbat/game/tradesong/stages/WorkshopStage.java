@@ -27,6 +27,7 @@ public class WorkshopStage extends Stage {
     private Image resultFrame;
 
     private InventoryStage linkedInventoryStage;
+    private Item output;
 
     public WorkshopStage(Tradesong gameInstance, InventoryStage linkedInventoryStage) {
         this(gameInstance, linkedInventoryStage, new Workshop("Blacksmith"));
@@ -92,7 +93,8 @@ public class WorkshopStage extends Stage {
     }
 
     private void addOutput(Item output) {
-        output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
+        this.output = output;
+        this.output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
         output.setTouchable(Touchable.enabled);
         output.addListener(new BackToInventoryClickListener(output, true));
         this.addActor(output);
@@ -118,25 +120,38 @@ public class WorkshopStage extends Stage {
             // Add the item
             ingredients.addActor(item);
 
-            // Run the check to see if there's a product! If there is, add the picture
-            Item output = checkIngredientsForOutput();
-            if (output != null) {
-                addOutput(output);
-
-            }
+            this.update();
 
             return true;
         }
 
     }
 
+    public void update() {
+
+        // Run the check to see if there's a product! If there is, add the picture
+        Item output = checkIngredientsForOutput();
+        if (output != null) {
+            addOutput(output);
+
+        }
+        else {
+            this.output.remove();
+        }
+    }
+
     public Item checkIngredientsForOutput() {
+        gameInstance.log.info("Checking!");
+
         Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
         for (Recipe recipe : allRecipes) {
             if (recipe.getWorkshop().equals(this.workshop.getType())) {
 
-                if (recipe.check(ingredients.getChildren()))
+                if (recipe.check(ingredients.getChildren())) {
+                    gameInstance.log.info("Found it!");
                     return recipe.getOutput();
+                }
+
 
             }
         }
@@ -213,8 +228,13 @@ public class WorkshopStage extends Stage {
 
             if (gameInstance.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
-                if (isResult)
+                if (isResult) {
                     clearIngredients(false);
+                }
+                else {
+                    update();
+                }
+
                 linkedInventoryStage.update();
 
                 return true;
