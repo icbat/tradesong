@@ -144,8 +144,10 @@ public class WorkshopStage extends Stage {
 
     }
 
-    public void clearIngredients() {
+    public void clearIngredients(boolean returnToInventory) {
         for (Actor ingredient : ingredients.getChildren()) {
+            if (returnToInventory)
+                gameInstance.gameState.getInventory().add(new Item(ingredient));
             ingredient.remove();
         }
     }
@@ -212,7 +214,7 @@ public class WorkshopStage extends Stage {
             if (gameInstance.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
                 if (isResult)
-                    clearIngredients();
+                    clearIngredients(false);
                 linkedInventoryStage.update();
 
                 return true;

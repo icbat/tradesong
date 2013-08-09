@@ -34,4 +34,10 @@ public class WorkshopScreen extends InventoryScreen{
         super.resize(width, height);
         workshopStage.setViewport(width, height, false);
     }
+
+    @Override
+    public void hide() {
+        super.hide();
+        workshopStage.clearIngredients(true);
+    }
 }
