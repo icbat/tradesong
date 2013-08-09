@@ -26,19 +26,35 @@ public class WorkshopStage extends Stage {
     private Tradesong gameInstance;
     private Image resultFrame;
 
-    public WorkshopStage(Tradesong gameInstance) {
-        this(gameInstance, new Workshop("Blacksmith"));
+    private InventoryStage linkedInventoryStage;
+
+    public WorkshopStage(Tradesong gameInstance, InventoryStage linkedInventoryStage) {
+        this(gameInstance, linkedInventoryStage, new Workshop("Blacksmith"));
     }
 
-    public WorkshopStage(Tradesong gameInstance, Workshop workshop) {
+    public WorkshopStage(Tradesong gameInstance, InventoryStage linkedInventoryStage, Workshop workshop) {
         super();
+        this.linkedInventoryStage = linkedInventoryStage;
         this.gameInstance = gameInstance;
         frameTexture = this.gameInstance.assets.get(Tradesong.getFramePath());
         setWorkshop(workshop); // Handles the standard setup
 
     }
 
+    /** Called when the workshop changes, including at startup. */
+    public void setWorkshop(Workshop newWorkshop) {
+        workshop = newWorkshop;
+
+        if (header != null)
+            header.remove();
+        addWorkshopTitle();
+        addIngredientFrames();
+        addArrowAndResultFrame();
+        this.addActor(ingredients);
+    }
+
     private void addWorkshopTitle() {
+        // TODO make this dropdown for switching
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = new BitmapFont();
 
@@ -51,7 +67,7 @@ public class WorkshopStage extends Stage {
 
     }
 
-    private void addFrames() {
+    private void addIngredientFrames() {
         frames.clearChildren();
 
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
@@ -62,13 +78,6 @@ public class WorkshopStage extends Stage {
         }
 
         this.addActor(frames);
-    }
-
-    private Image makeIndividualFrame() {
-        Image frameActor = new Image( new TextureRegion(frameTexture) );
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-        return frameActor;
     }
 
     private void addArrowAndResultFrame() {
@@ -82,47 +91,6 @@ public class WorkshopStage extends Stage {
         this.addActor(resultFrame);
     }
 
-    /** Called when the workshop changes, including at startup. */
-    public void setWorkshop(Workshop newWorkshop) {
-        workshop = newWorkshop;
-
-        if (header != null)
-            header.remove();
-        addWorkshopTitle();
-        addFrames();
-
-        addArrowAndResultFrame();
-        this.addActor(ingredients);
-    }
-
-    /** Sets the bounds of the param to the next spot in a vertically descending pattern
-     * @param   actor   actor on which to calculate bounds */
-    private void layOutVertically(Actor actor) {
-        actor.setBounds(this.getWidth() - actor.getWidth() - SPACER, findLowestY() - SPACER, actor.getWidth(), actor.getHeight());
-    }
-
-    private int findLowestY() {
-        float lowestFound = this.getHeight() - 20;
-        float check;
-        for (Actor actor : this.getActors()) {
-            if (!actor.getClass().equals(Group.class)) {  //TODO find a less-hacky way to do this.
-                check = actor.getY() - actor.getHeight();
-                if (check < lowestFound)
-                    lowestFound = check;
-            }
-
-        }
-
-        for (Actor actor : frames.getChildren()) {
-            check = actor.getY() - actor.getHeight();
-            if (check < lowestFound)
-                lowestFound = check;
-        }
-
-        return (int) lowestFound;
-
-    }
-
     private void addOutput(Item output, InventoryStage destination) {
         output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
         output.setTouchable(Touchable.enabled);
@@ -131,7 +99,6 @@ public class WorkshopStage extends Stage {
 
 
     }
-
 
     public boolean addIngredient(Item item, InventoryStage parent) {
 
@@ -163,11 +130,7 @@ public class WorkshopStage extends Stage {
 
     }
 
-    public void clearIngredients() {
-        for (Actor ingredient : ingredients.getChildren()) {
-            ingredient.remove();
-        }
-    }
+
 
     public Item checkIngredientsForOutput() {
         Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
@@ -183,7 +146,51 @@ public class WorkshopStage extends Stage {
 
     }
 
+    public void clearIngredients() {
+        for (Actor ingredient : ingredients.getChildren()) {
+            ingredient.remove();
+        }
+    }
 
+    /**
+     * Makes it so there's only one reference to frameTexture for cleanliness. Sets up global defaults
+     *
+     * @return returns a Frame image */
+    private Image makeIndividualFrame() {
+        Image frameActor = new Image( new TextureRegion(frameTexture) );
+        frameActor.setVisible(true);
+        frameActor.setTouchable(Touchable.disabled);
+        return frameActor;
+    }
+
+    /** Sets the bounds of the param to the next spot in a vertically descending pattern
+     * @param   actor   actor on which to calculate bounds */
+    private void layOutVertically(Actor actor) {
+        actor.setBounds(this.getWidth() - actor.getWidth() - SPACER, findLowestY() - SPACER, actor.getWidth(), actor.getHeight());
+    }
+
+    /** Helper function to find the next valid Y pos to put an actor in the layout */
+    private int findLowestY() {
+        float lowestFound = this.getHeight() - 20;
+        float check;
+        for (Actor actor : this.getActors()) {
+            if (!actor.getClass().equals(Group.class)) {  //TODO find a less-hacky way to do this.
+                check = actor.getY() - actor.getHeight();
+                if (check < lowestFound)
+                    lowestFound = check;
+            }
+
+        }
+
+        for (Actor actor : frames.getChildren()) {
+            check = actor.getY() - actor.getHeight();
+            if (check < lowestFound)
+                lowestFound = check;
+        }
+
+        return (int) lowestFound;
+
+    }
 
 
     class BackToInventoryClickListener extends ClickListener {
