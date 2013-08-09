@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,22 +28,20 @@ public class InventoryStage extends Stage {
     private Group items = new Group();
     private Group itemCounts = new Group();
     private Inventory inventory;
+    private WorkshopStage linkedWorkshop = null;
 
-    public InventoryStage(Tradesong gameInstance) {
-        inventory = gameInstance.gameState.getInventory();
+    public InventoryStage() {
+        inventory = Tradesong.gameState.getInventory();
 
-        frameTexture = gameInstance.assets.get(Tradesong.getFramePath());
+        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
 
         this.addActor(frames);
         this.addActor(items);
         this.addActor(itemCounts);
-
-        update();
-
-
     }
 
-    public void update() {
+    @Override
+    public void act() {
         // Clear out
         frames.clearChildren();
         items.clearChildren();
@@ -57,6 +56,12 @@ public class InventoryStage extends Stage {
                 addItemCount(i);
             }
         }
+
+        if (linkedWorkshop != null) {
+            connectItemsToWorkshop();
+        }
+
+        super.act();
     }
 
     private void addSlotFrame(Integer i) {
@@ -138,14 +143,17 @@ public class InventoryStage extends Stage {
     }
 
     // TODO find a cleaner way to do this
-    public void connectToWorkshop(WorkshopStage targetStage) {
+    public void connectItemsToWorkshop() {
         Item item;
         for (Actor actor : items.getChildren()) {
             item = (Item)actor;
 
             StackedItem stack = inventory.getStack( new Integer(item.getName()) );
 
-            item.addListener(new InventoryToWorkshopClickListener(stack, item, targetStage, this));
+            if (item.getListeners().size == 0)
+                item.addListener(new InventoryToWorkshopClickListener(stack, item));
+
+
 
 
 
@@ -153,25 +161,26 @@ public class InventoryStage extends Stage {
 
     }
 
+    public void setLinkedWorkshop(WorkshopStage target) {
+        linkedWorkshop = target;
+    }
+
     private class InventoryToWorkshopClickListener extends ClickListener {
         StackedItem stack;
         private Item item;
-        private WorkshopStage target;
-        private InventoryStage parentStage;
 
-        InventoryToWorkshopClickListener(StackedItem stack, Item item, WorkshopStage target, InventoryStage parentStage) {
+        InventoryToWorkshopClickListener(StackedItem stack, Item item) {
             this.stack = stack;
             this.item = item;
-            this.target = target;
-            this.parentStage = parentStage;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
+            Gdx.app.log("","pressed an inventory item!");
             // Was there space in the workshop?
-            if (target.addIngredient( new Item(stack.getBaseItem()), parentStage )) {
+            if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
                     // Was that the last one?

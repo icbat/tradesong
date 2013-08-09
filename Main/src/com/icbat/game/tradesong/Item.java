@@ -2,6 +2,7 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -38,6 +39,10 @@ public class Item extends Image {
     public Item(Item old) {
         this(old.getItemName(), old.getDescription(), old.getBaseTexture(), old.getMaxStack(), old.getRarity(), old.getSpriteX(), old.getSpriteY());
 
+    }
+
+    public Item(Actor old) {
+        this((Item) old);
     }
 
     public String getItemName() {
@@ -96,5 +101,13 @@ public class Item extends Image {
         result = 31 * result + spriteX;
         result = 31 * result + spriteY;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                itemName + ", " +
+                description +
+                '}';
     }
 }

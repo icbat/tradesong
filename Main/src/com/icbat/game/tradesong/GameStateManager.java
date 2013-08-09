@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -20,36 +19,36 @@ public class GameStateManager {
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
 
-    public GameStateManager(Tradesong gameInstance) {
+    public GameStateManager() {
         // Load sprites and other assets
-        gameInstance.assets.load(PATH_SPRITE_ITEMS, Texture.class);
-        gameInstance.assets.finishLoading();
+        Tradesong.assets.load(PATH_SPRITE_ITEMS, Texture.class);
+        Tradesong.assets.finishLoading();
 
 
         // Load data and initialize
-        loadItems( (Texture)gameInstance.assets.get(PATH_SPRITE_ITEMS) );
+        loadItems( (Texture)Tradesong.assets.get(PATH_SPRITE_ITEMS) );
         loadRecipes();
         findWorkshops();
 
 
     }
 
-    /** Saves to a file.
-     *
-     * @param filename of saveGame
-     * @return true if saveGame seems successful*/
-    public boolean saveGame(FileHandle filename) {
-        return false;
-    }
-
-    /** Loads from a file.
-     *
-     * @param filename of saveGame.
-     * @return true if loadGame seems successful
-     * */
-    public boolean loadGame(FileHandle filename){
-        return false;
-    }
+//    /** Saves to a file.
+//     *
+//     * @param filename of saveGame
+//     * @return true if saveGame seems successful*/
+//    public boolean saveGame(FileHandle filename) {
+//        return false;
+//    }
+//
+//    /** Loads from a file.
+//     *
+//     * @param filename of saveGame.
+//     * @return true if loadGame seems successful
+//     * */
+//    public boolean loadGame(FileHandle filename){
+//        return false;
+//    }
 
     /** Load in items from XML file assets
      *
@@ -130,11 +129,7 @@ public class GameStateManager {
 
                 }
 
-                Gdx.app.log("",outputString + ":  " + recipe.size());
-
                 allKnownRecipes.add( new Recipe(output, workshop, recipe) );
-
-
 
                 recipe.clear();
 
@@ -142,10 +137,6 @@ public class GameStateManager {
 
 
 
-        }
-
-        for (Recipe rec : allKnownRecipes) {
-            Gdx.app.log("0", rec.getOutput().getItemName() + ":  " + rec.recipeBySlot.size());
         }
 
         // TODO error-checking
@@ -171,19 +162,6 @@ public class GameStateManager {
         }
 
         return null;
-    }
-
-    /** @return A new copy of the workshop by name or null if it was not found */
-    public Workshop getWorkshopByName(String name) {
-        for (Workshop workshop : allWorkshops) {
-            if (workshop.getType().equals(name))
-                return new Workshop(workshop);
-        }
-        return null;
-    }
-
-    public HashSet<Workshop> getAllWorkshops() {
-        return allWorkshops;
     }
 
     public HashSet<Recipe> getAllKnownRecipes() {

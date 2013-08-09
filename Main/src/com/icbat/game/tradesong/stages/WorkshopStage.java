@@ -20,25 +20,38 @@ public class WorkshopStage extends Stage {
     private TextButton header;
     private Group frames = new Group();
     private Group ingredients = new Group();
+    private Group product = new Group();
     private Texture frameTexture;
 
     private static final int SPACER = 10;
-    private Tradesong gameInstance;
     private Image resultFrame;
 
-    public WorkshopStage(Tradesong gameInstance) {
-        this(gameInstance, new Workshop("Blacksmith"));
+    public WorkshopStage() {
+        this(new Workshop("Blacksmith"));
     }
 
-    public WorkshopStage(Tradesong gameInstance, Workshop workshop) {
+    public WorkshopStage(Workshop workshop) {
         super();
-        this.gameInstance = gameInstance;
-        frameTexture = this.gameInstance.assets.get(Tradesong.getFramePath());
-        setWorkshop(workshop); // Handles the standard setup
 
+        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
+        setWorkshop(workshop); // Handles the standard setup
+    }
+
+    /** Called when the workshop changes, including at startup. */
+    public void setWorkshop(Workshop newWorkshop) {
+        workshop = newWorkshop;
+
+        if (header != null)
+            header.remove();
+        addWorkshopTitle();
+        addIngredientFrames();
+        addArrowAndResultFrame();
+        this.addActor(ingredients);
+        this.addActor(product);
     }
 
     private void addWorkshopTitle() {
+        // TODO make this dropdown for switching
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = new BitmapFont();
 
@@ -51,7 +64,7 @@ public class WorkshopStage extends Stage {
 
     }
 
-    private void addFrames() {
+    private void addIngredientFrames() {
         frames.clearChildren();
 
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
@@ -64,15 +77,8 @@ public class WorkshopStage extends Stage {
         this.addActor(frames);
     }
 
-    private Image makeIndividualFrame() {
-        Image frameActor = new Image( new TextureRegion(frameTexture) );
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-        return frameActor;
-    }
-
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = this.gameInstance.assets.get(Tradesong.getPathSpriteArrow());
+        Texture arrowTexture = Tradesong.assets.get(Tradesong.getPathSpriteArrow());
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
@@ -82,17 +88,90 @@ public class WorkshopStage extends Stage {
         this.addActor(resultFrame);
     }
 
-    /** Called when the workshop changes, including at startup. */
-    public void setWorkshop(Workshop newWorkshop) {
-        workshop = newWorkshop;
+    public boolean addIngredient(Item item) {
+        // Check to see if there's space to add more
+        Integer size = ingredients.getChildren().size;
+        if (size >= workshop.getNumberOfSlots()) {
+            return false;
+        }
+        else {
 
-        if (header != null)
-            header.remove();
-        addWorkshopTitle();
-        addFrames();
+            Actor frame = frames.findActor(size.toString());
+            item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
 
-        addArrowAndResultFrame();
-        this.addActor(ingredients);
+            // Add the listener to remove it
+            item.addListener(new BackToInventoryClickListener(item, false));
+
+            // Add the item
+            ingredients.addActor(item);
+
+            return true;
+        }
+
+    }
+
+    @Override
+    public void act() {
+
+        // Run the check to see if there's a product! If there is, add the picture
+        Item potentialProduct = getProduct();
+        if (potentialProduct != null) {
+
+            potentialProduct.setPosition(resultFrame.getX(), resultFrame.getY());
+            potentialProduct.setTouchable(Touchable.enabled);
+            potentialProduct.addListener(new BackToInventoryClickListener(potentialProduct, true));
+            product.addActor(potentialProduct);
+        }
+        else {
+            if (product.getChildren().size != 0) {
+                product.clearChildren();
+            }
+
+        }
+
+        super.act();
+
+
+    }
+
+    public Item getProduct() {
+
+        Set<Recipe> allRecipes = Tradesong.gameState.getAllKnownRecipes();
+        for (Recipe recipe : allRecipes) {
+            if (recipe.getWorkshop().equals(this.workshop.getType())) {
+
+                if (recipe.check(ingredients.getChildren())) {
+                    return recipe.getOutput();
+                }
+
+
+            }
+        }
+
+        return null;
+
+    }
+
+    public void clearIngredients(boolean returnToInventory) {
+        for (Actor ingredient : ingredients.getChildren()) {
+            if (returnToInventory) {
+                Tradesong.gameState.getInventory().add(new Item(ingredient));
+            }
+
+            ingredient.remove();
+            product.clearChildren();
+        }
+    }
+
+    /**
+     * Makes it so there's only one reference to frameTexture for cleanliness. Sets up global defaults
+     *
+     * @return returns a Frame image */
+    private Image makeIndividualFrame() {
+        Image frameActor = new Image( new TextureRegion(frameTexture) );
+        frameActor.setVisible(true);
+        frameActor.setTouchable(Touchable.disabled);
+        return frameActor;
     }
 
     /** Sets the bounds of the param to the next spot in a vertically descending pattern
@@ -101,6 +180,7 @@ public class WorkshopStage extends Stage {
         actor.setBounds(this.getWidth() - actor.getWidth() - SPACER, findLowestY() - SPACER, actor.getWidth(), actor.getHeight());
     }
 
+    /** Helper function to find the next valid Y pos to put an actor in the layout */
     private int findLowestY() {
         float lowestFound = this.getHeight() - 20;
         float check;
@@ -123,79 +203,16 @@ public class WorkshopStage extends Stage {
 
     }
 
-    private void addOutput(Item output, InventoryStage destination) {
-        output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
-        output.setTouchable(Touchable.enabled);
-        output.addListener(new BackToInventoryClickListener(output, destination, false));
-        this.addActor(output);
-
-
-    }
-
-
-    public boolean addIngredient(Item item, InventoryStage parent) {
-
-        // Check to see if there's space to add more
-        Integer size = ingredients.getChildren().size;
-        if (size >= workshop.getNumberOfSlots()) {
-            return false;
-        }
-        else {
-
-            Actor frame = frames.findActor(size.toString());
-            item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
-
-            // Add the listener to remove it
-            item.addListener(new BackToInventoryClickListener(item, parent, false));
-
-            // Add the item
-            ingredients.addActor(item);
-
-            // Run the check to see if there's a product! If there is, add the picture
-            Item output = checkIngredientsForOutput();
-            if (output != null) {
-                addOutput(output, parent);
-
-            }
-
-            return true;
-        }
-
-    }
-
-    public void clearIngredients() {
-        for (Actor ingredient : ingredients.getChildren()) {
-            ingredient.remove();
-        }
-    }
-
-    public Item checkIngredientsForOutput() {
-        Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
-        for (Recipe recipe : allRecipes) {
-            if (recipe.getWorkshop().equals(this.workshop.getType())) {
-
-                if (recipe.check(ingredients.getChildren()))
-                    return recipe.getOutput();
-
-            }
-        }
-        return null;
-
-    }
-
-
-
 
     class BackToInventoryClickListener extends ClickListener {
 
         private Item owner;
-        private InventoryStage inventoryStage;
+
         private boolean isResult;
 
-        BackToInventoryClickListener(Item owner, InventoryStage inventoryStage, boolean isResult) {
+        BackToInventoryClickListener(Item owner, boolean isResult) {
 
             this.owner = owner;
-            this.inventoryStage = inventoryStage;
             this.isResult = isResult;
         }
 
@@ -203,19 +220,19 @@ public class WorkshopStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-
-
-            if (gameInstance.gameState.getInventory().add(new Item(owner))) {
+            if (Tradesong.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
-                if (isResult)
-                    clearIngredients();
-                inventoryStage.update();
+                if (isResult) {
+                    clearIngredients(false);
+                }
 
                 return true;
             }
             else {
                 return false;
             }
+
+
         }
     }
 
