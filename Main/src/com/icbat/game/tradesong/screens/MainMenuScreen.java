@@ -23,9 +23,10 @@ public class MainMenuScreen extends AbstractScreen {
 
     protected Stage stage;
 
-    public MainMenuScreen(final Tradesong game) {
+    public MainMenuScreen(final Tradesong gameInstance) {
         // TODO Refactor this to its own stage class!
-		super(game);
+        // TODO Refactor this in general for cleanliness
+		super();
 		batch = new SpriteBatch();
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -69,8 +70,7 @@ public class MainMenuScreen extends AbstractScreen {
 		// revert the checked state.
 		newButton.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
-					log("Starting a new game!");
-					game.goToLevel("test");
+                    gameInstance.goToLevel("test");
 				}
 			}
 		
@@ -78,7 +78,6 @@ public class MainMenuScreen extends AbstractScreen {
 		
 		exitButton.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
-					log("Exiting!");
 					Gdx.app.exit();
 			}
 		});
@@ -96,7 +95,6 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
         stage.setViewport(width, height, false);
     }
 

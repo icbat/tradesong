@@ -23,7 +23,6 @@ public class GameWorldStage extends Stage {
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
     public static final String PROPERTY_SPAWNABLE_ITEMS = "spawnableItems";
 
-    private Tradesong gameInstance;
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
     private int mapX = 0;
     private int mapY = 0;
@@ -35,8 +34,8 @@ public class GameWorldStage extends Stage {
     int itemCount;
     int maxSpawnedPerMap;
 
-    public GameWorldStage(Tradesong gameInstance, MapProperties properties) {
-        this.gameInstance = gameInstance;
+    public GameWorldStage(MapProperties properties) {
+
 
         // Get coords for setting bounds
         mapX = (Integer)properties.get("width");
@@ -54,7 +53,7 @@ public class GameWorldStage extends Stage {
 
         // Figure out what spawns here and what the total rarity is
         for (String itemName : itemsArray) {
-            possibleItemSpawns.add( gameInstance.gameState.getItemByName(itemName) );
+            possibleItemSpawns.add( Tradesong.gameState.getItemByName(itemName) );
         }
 
 
@@ -96,7 +95,6 @@ public class GameWorldStage extends Stage {
 
         for (int i = 0; i < possibleItemSpawns.size(); ++i) {
             if (n < scaledRarities.get(i)) {
-                gameInstance.log.info("Spawning: " + possibleItemSpawns.get(i).getItemName());
                 return new Item(possibleItemSpawns.get(i));
             }
             else {
@@ -105,7 +103,7 @@ public class GameWorldStage extends Stage {
 
         }
 
-        return null; // TODO this should never return; if it does, mess with math
+        return null;
     }
 
     /** Performs common steps for Items being added to the stage randomly */
@@ -156,7 +154,7 @@ public class GameWorldStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            if ( gameInstance.gameState.getInventory().add(owner) ) {
+            if ( Tradesong.gameState.getInventory().add(new Item(owner)) ) {
                 removeItemCount();
                 owner.remove();
             }
