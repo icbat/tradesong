@@ -1,15 +1,14 @@
 package com.icbat.game.tradesong;
 
-import java.util.Date;
-import java.util.Stack;
-
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.icbat.game.LJ;
 import com.icbat.game.tradesong.screens.*;
+import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.stages.InventoryStage;
+import com.icbat.game.tradesong.stages.WorkshopStage;
+
+import java.util.Stack;
 
 
 /**
@@ -22,74 +21,76 @@ public class Tradesong extends Game {
 
     private static final String PATH_SPRITE_ITEMS = "sprites/items.png";
     private static final String PATH_SPRITE_FRAME = "sprites/frame.png";
-    public GameStateManager gameState;
-	public LJ log = new LJ("", this.getClass().getSimpleName());
-    public AssetManager assets = new AssetManager();
-    private Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
-	
-	@Override
+    private static final String PATH_SPRITE_ARROW = "sprites/arrow.png";
+    public static GameStateManager gameState;
+    public static AssetManager assets = new AssetManager();
+    private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
+
+    private HUDStage hud;
+    private InventoryStage inventoryStage;
+    private WorkshopStage workshopStage;
+
+    @Override
 	public void create() {
-        loggingSetup();
         initializeAssets();
 
-        gameState = new GameStateManager(this);
+        gameState = new GameStateManager();
 		goToMainMenu();
+
+        hud = new HUDStage(this);
+        inventoryStage = new InventoryStage();
+        workshopStage = new WorkshopStage();
 
 
 	}
 
-    private void loggingSetup() {
-        log.setLevel( Application.LOG_DEBUG );
-        log.info( "Creating game" );
-        // Some initial logging (type and version)
-        log.info( new Date().toString() );
-        log.info( "App Type" + Gdx.app.getType().toString() );
-        log.info( "Device Version" + Gdx.app.getVersion() );
-
-    }
-
     private void initializeAssets() {
-        log.info("Initializing Assets");
-
         // Item sheet used by all/most icons, items, buttons, etc.
-        this.assets.load(PATH_SPRITE_ITEMS, Texture.class);
+        assets.load(PATH_SPRITE_ITEMS, Texture.class);
 
         // Frame PNG used in inventory/workshops
-        this.assets.load(PATH_SPRITE_FRAME, Texture.class);
+        assets.load(PATH_SPRITE_FRAME, Texture.class);
 
-        this.assets.finishLoading(); // Blocks until finished
+        assets.load(PATH_SPRITE_ARROW, Texture.class);
+
+        assets.finishLoading(); // Blocks until finished
     }
 
     public void goBack() {
         if (screenStack.size() > 0) {
-            log.info("Popping screens");
             screenStack.pop();
             setScreen(screenStack.peek());
         }
     }
 
     public void goToScreen(AbstractScreen newScreen) {
-        log.info("Going to new screen");
+        AbstractScreen top = screenStack.peek();
+
+        // These two errors are a bug in IDEA and not actually wrong
+        if (top.getClass().equals(InventoryScreen.class) || top.getClass().equals(WorkshopScreen.class))
+            screenStack.pop();
         screenStack.push(newScreen);
         setScreen(screenStack.peek());
     }
 
     public void goToMainMenu() {
-        goToScreen(new MainMenuScreen(this));
+        screenStack.clear();
+        screenStack.push(new MainMenuScreen(this));
+        setScreen(screenStack.peek());
     }
 
     public void goToInventory() {
-        goToScreen(new InventoryScreen(this));
+        goToScreen(new InventoryScreen(hud, inventoryStage));
     }
     public void goToLevel(String levelName) {
-        goToScreen(new LevelScreen(levelName, this));
+        goToScreen(new LevelScreen(levelName, hud));
     }
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
     }
 
     public void goToWorkshop() {
-        goToScreen(new WorkshopScreen(this));
+        goToScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
     }
 
     public static String getItemsPath() {
@@ -98,5 +99,9 @@ public class Tradesong extends Game {
 
     public static String getFramePath() {
         return PATH_SPRITE_FRAME;
+    }
+
+    public static String getPathSpriteArrow() {
+        return PATH_SPRITE_ARROW;
     }
 }
