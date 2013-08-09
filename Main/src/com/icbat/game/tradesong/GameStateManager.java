@@ -130,11 +130,7 @@ public class GameStateManager {
 
                 }
 
-                Gdx.app.log("",outputString + ":  " + recipe.size());
-
                 allKnownRecipes.add( new Recipe(output, workshop, recipe) );
-
-
 
                 recipe.clear();
 
@@ -142,10 +138,6 @@ public class GameStateManager {
 
 
 
-        }
-
-        for (Recipe rec : allKnownRecipes) {
-            Gdx.app.log("0", rec.getOutput().getItemName() + ":  " + rec.recipeBySlot.size());
         }
 
         // TODO error-checking
