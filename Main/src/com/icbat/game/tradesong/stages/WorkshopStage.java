@@ -138,6 +138,8 @@ public class WorkshopStage extends Stage {
             if (this.output != null)
                 this.output.remove();
         }
+
+        linkedInventoryStage.update();
     }
 
     public Item checkIngredientsForOutput() {
@@ -161,8 +163,13 @@ public class WorkshopStage extends Stage {
 
     public void clearIngredients(boolean returnToInventory) {
         for (Actor ingredient : ingredients.getChildren()) {
-            if (returnToInventory)
+            gameInstance.log.info("Removing Ingredient: " + ingredient);
+
+            if (returnToInventory) {
+                gameInstance.log.info("Putting back to inventory: " + ingredient);
                 gameInstance.gameState.getInventory().add(new Item(ingredient));
+            }
+
             ingredient.remove();
         }
     }
@@ -224,7 +231,7 @@ public class WorkshopStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-
+            gameInstance.log.info(gameInstance.gameState.getInventory().getStacks().toString());
 
             if (gameInstance.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
@@ -235,6 +242,10 @@ public class WorkshopStage extends Stage {
                     update();
                 }
 
+                gameInstance.log.info(gameInstance.gameState.getInventory().getStacks().toString());
+
+
+
                 linkedInventoryStage.update();
 
                 return true;
@@ -242,6 +253,8 @@ public class WorkshopStage extends Stage {
             else {
                 return false;
             }
+
+
         }
     }
 
