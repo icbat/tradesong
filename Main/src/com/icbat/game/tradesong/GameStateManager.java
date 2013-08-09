@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -102,7 +103,7 @@ public class GameStateManager {
         String[] properties;
         String outputString, workshop, inputTemp;
         Item output;
-        ArrayList<Item> recipe = new ArrayList<Item>();
+        ArrayList<Item> recipe;
 
 
         for (String line : lineOfSpec) {
@@ -115,6 +116,7 @@ public class GameStateManager {
             }
 
             if (!properties[0].equals("output item")) {
+                recipe = new ArrayList<Item>();
 
                 // output item, workshop, in1, [in2], [in3]
                 outputString = properties[0];
@@ -128,11 +130,22 @@ public class GameStateManager {
 
                 }
 
+                Gdx.app.log("",outputString + ":  " + recipe.size());
+
                 allKnownRecipes.add( new Recipe(output, workshop, recipe) );
+
+
+
                 recipe.clear();
 
             }
 
+
+
+        }
+
+        for (Recipe rec : allKnownRecipes) {
+            Gdx.app.log("0", rec.getOutput().getItemName() + ":  " + rec.recipeBySlot.size());
         }
 
         // TODO error-checking
@@ -173,4 +186,7 @@ public class GameStateManager {
         return allWorkshops;
     }
 
+    public HashSet<Recipe> getAllKnownRecipes() {
+        return allKnownRecipes;
+    }
 }

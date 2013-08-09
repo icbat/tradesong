@@ -8,8 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
+import com.icbat.game.tradesong.Recipe;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
+
+import java.util.Set;
 
 public class WorkshopStage extends Stage {
 
@@ -72,7 +75,6 @@ public class WorkshopStage extends Stage {
         Texture arrowTexture = this.gameInstance.assets.get(Tradesong.getPathSpriteArrow());
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
-        gameInstance.log.info(Integer.toString((int)arrowImage.getY()));
         this.addActor(arrowImage);
 
         resultFrame = makeIndividualFrame();
@@ -103,7 +105,7 @@ public class WorkshopStage extends Stage {
         float lowestFound = this.getHeight() - 20;
         float check;
         for (Actor actor : this.getActors()) {
-            if (!actor.getClass().equals(Group.class)) {
+            if (!actor.getClass().equals(Group.class)) {  //TODO find a less-hacky way to do this.
                 check = actor.getY() - actor.getHeight();
                 if (check < lowestFound)
                     lowestFound = check;
@@ -121,6 +123,15 @@ public class WorkshopStage extends Stage {
 
     }
 
+    private void addOutput(Item output, InventoryStage destination) {
+        output.setBounds(resultFrame.getX(), resultFrame.getY(), output.getWidth(), output.getHeight());
+        output.setTouchable(Touchable.enabled);
+        output.addListener(new BackToInventoryClickListener(output, destination, false));
+        this.addActor(output);
+
+
+    }
+
 
     public boolean addIngredient(Item item, InventoryStage parent) {
 
@@ -135,34 +146,69 @@ public class WorkshopStage extends Stage {
             item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
 
             // Add the listener to remove it
-            item.addListener(new BackToInventoryClickListener(item, parent));
+            item.addListener(new BackToInventoryClickListener(item, parent, false));
 
             // Add the item
             ingredients.addActor(item);
+
+            // Run the check to see if there's a product! If there is, add the picture
+            Item output = checkIngredientsForOutput();
+            if (output != null) {
+                addOutput(output, parent);
+
+            }
 
             return true;
         }
 
     }
 
+    public void clearIngredients() {
+        for (Actor ingredient : ingredients.getChildren()) {
+            ingredient.remove();
+        }
+    }
+
+    public Item checkIngredientsForOutput() {
+        Set<Recipe> allRecipes = gameInstance.gameState.getAllKnownRecipes();
+        for (Recipe recipe : allRecipes) {
+            if (recipe.getWorkshop().equals(this.workshop.getType())) {
+
+                if (recipe.check(ingredients.getChildren()))
+                    return recipe.getOutput();
+
+            }
+        }
+        return null;
+
+    }
+
+
+
 
     class BackToInventoryClickListener extends ClickListener {
 
         private Item owner;
         private InventoryStage inventoryStage;
+        private boolean isResult;
 
-        BackToInventoryClickListener(Item owner, InventoryStage inventoryStage) {
+        BackToInventoryClickListener(Item owner, InventoryStage inventoryStage, boolean isResult) {
 
             this.owner = owner;
             this.inventoryStage = inventoryStage;
+            this.isResult = isResult;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            if (gameInstance.gameState.getInventory().add(owner)) {
+
+
+            if (gameInstance.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
+                if (isResult)
+                    clearIngredients();
                 inventoryStage.update();
 
                 return true;
@@ -170,11 +216,7 @@ public class WorkshopStage extends Stage {
             else {
                 return false;
             }
-
-
-
-
-
         }
     }
+
 }
