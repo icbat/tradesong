@@ -102,4 +102,12 @@ public class Item extends Image {
         result = 31 * result + spriteY;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                itemName + ", " +
+                description +
+                '}';
+    }
 }
