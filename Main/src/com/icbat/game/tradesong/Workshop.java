@@ -1,9 +1,13 @@
 package com.icbat.game.tradesong;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 /** Abstraction/data structure for what a workshop can do/knows */
 public class Workshop {
     private String type;
     private int numberOfSlots;
+    private Image workshopIcon;
+
 
     public Workshop(String workshop) {
         type = workshop;
