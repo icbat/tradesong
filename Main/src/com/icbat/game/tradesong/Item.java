@@ -20,11 +20,12 @@ public class Item extends Image {
     private Texture baseTexture;
     private int spriteX;
     private int spriteY;
+    private int basePrice;
 
     public static final int ICON_SIZE = 34;
 
     // name, description, texture, maxStack, rarity, x, y
-    public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY) {
+    public Item(String itemName, String description, Texture texture,  int maxStack, int rarity, int spriteX, int spriteY, int basePrice) {
         super( new TextureRegion(texture, spriteX * ICON_SIZE, spriteY * ICON_SIZE, ICON_SIZE, ICON_SIZE) );
         this.itemName = itemName;
         this.description = description;
@@ -33,11 +34,12 @@ public class Item extends Image {
         this.rarity = rarity;
         this.spriteX = spriteX;
         this.spriteY = spriteY;
+        this.basePrice = basePrice;
     }
 
     /** Copy constructor */
     public Item(Item old) {
-        this(old.getItemName(), old.getDescription(), old.getBaseTexture(), old.getMaxStack(), old.getRarity(), old.getSpriteX(), old.getSpriteY());
+        this(old.getItemName(), old.getDescription(), old.getBaseTexture(), old.getMaxStack(), old.getRarity(), old.getSpriteX(), old.getSpriteY(), old.getBasePrice());
 
     }
 
@@ -71,6 +73,10 @@ public class Item extends Image {
 
     public int getSpriteY() {
         return spriteY;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
     }
 
     @Override

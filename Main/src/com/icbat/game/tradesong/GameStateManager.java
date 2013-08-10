@@ -65,7 +65,7 @@ public class GameStateManager {
         // Declaring for memory usage
         String[] properties;
         String name, description;
-        int x, y, rarity, maxStack;
+        int x, y, rarity, maxStack, basePrice;
 
         for (String line : lineOfSpec) {
             properties = line.split(",");
@@ -79,8 +79,9 @@ public class GameStateManager {
                 y =  Integer.parseInt(properties[5].trim());
                 rarity =  Integer.parseInt(properties[3].trim());
                 maxStack =  Integer.parseInt(properties[2].trim());
+                basePrice = Integer.parseInt(properties[6].trim());
 
-                allKnownItems.add( new Item(name, description, texture, maxStack, rarity, x, y) );
+                allKnownItems.add( new Item(name, description, texture, maxStack, rarity, x, y, basePrice) );
 
             }
 
