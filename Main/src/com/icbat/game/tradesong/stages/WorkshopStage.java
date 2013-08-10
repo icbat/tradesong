@@ -40,6 +40,7 @@ public class WorkshopStage extends Stage {
     /** Called when the workshop changes, including at startup. */
     public void setWorkshop(Workshop newWorkshop) {
         this.clear();
+        frames.clear();
         workshop = newWorkshop;
 
         if (header != null)
