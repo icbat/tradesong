@@ -19,6 +19,8 @@ public class GameStateManager {
     public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
+    public static int money = 0;
+
 
     public GameStateManager() {
         // Load sprites and other assets

@@ -41,7 +41,7 @@ public class InventoryStage extends AbstractStage {
 
     @Override
     public void layout() {
-
+        // TODO impl
     }
 
     @Override

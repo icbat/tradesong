@@ -91,7 +91,7 @@ public class HUDStage extends AbstractStage {
                 Integer capacity = Tradesong.gameState.getInventory().capacity();
                 capacityCounter.setText(size.toString() + " / " + capacity.toString());
 
-                super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.
+                super.draw(batch, parentAlpha);
             }
         };
 
