@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
@@ -17,7 +16,7 @@ import java.util.Random;
  *  - the draggable, clear background
  *  - it's also a nice encapsulation of adding/removing items
  *  */
-public class GameWorldStage extends Stage {
+public class GameWorldStage extends AbstractStage {
 
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
@@ -60,6 +59,11 @@ public class GameWorldStage extends Stage {
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
         }
+    }
+
+    @Override
+    public void layout() {
+        // TODO impl
     }
 
     public boolean spawnItem() {

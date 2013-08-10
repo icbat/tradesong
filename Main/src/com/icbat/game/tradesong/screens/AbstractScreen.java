@@ -5,6 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.icbat.game.tradesong.stages.AbstractStage;
+
+import java.util.ArrayList;
 
 /**
  * Generic abstraction of things shared by all screens
@@ -13,6 +16,7 @@ public abstract class AbstractScreen implements Screen {
 
 	protected Skin skin;
     protected SpriteBatch batch;
+    protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
 
     public AbstractScreen() {
 	}
@@ -59,7 +63,9 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        for (AbstractStage stage : stages) {
+            stage.layout();
+        }
     }
 
     @Override

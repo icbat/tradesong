@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,7 +16,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.WorkshopScreen;
 
-public class HUDStage extends Stage {
+public class HUDStage extends AbstractStage {
     public static final int SPACER = 6;
     public static final int ICON_SIZE = 34;
 
@@ -38,7 +37,19 @@ public class HUDStage extends Stage {
         addInventoryButton();
         addCapacityCounter();
         addWorkshopsButton();
+        addMoney();
+
         addCharacterPortrait();
+
+
+    }
+
+    private void addMoney() {
+        Image coin = new Image(Tradesong.getCoinTexture());
+
+        layoutHorizontally(coin);
+
+        this.addActor(coin);
 
     }
 

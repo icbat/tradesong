@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,7 +14,7 @@ import com.icbat.game.tradesong.Tradesong;
 
 import static com.badlogic.gdx.math.MathUtils.floor;
 
-public class InventoryStage extends Stage {
+public class InventoryStage extends AbstractStage {
 
     public static final int ICON_SIZE = 34;
     public static final int SLOT_SIZE = 32;
@@ -38,6 +37,11 @@ public class InventoryStage extends Stage {
         this.addActor(frames);
         this.addActor(items);
         this.addActor(itemCounts);
+    }
+
+    @Override
+    public void layout() {
+
     }
 
     @Override

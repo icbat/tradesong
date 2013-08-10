@@ -25,8 +25,8 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_ICON_HAMMER = "sprites/hammer-drop.png";
     private static final String PATH_SPRITE_ICON_WRENCH = "sprites/auto-repair.png";
     private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
-    private static final String PATH_SPRITE_ICON_SCALES = "sprites/scales.png";
     private static final String PATH_SPRITE_CHAR = "sprites/character.png";
+    private static final String PATH_SPRITE_COIN = "sprites/goldCoin5.png";
     public static GameStateManager gameState;
     public static AssetManager assets = new AssetManager();
     private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
@@ -55,6 +55,7 @@ public class Tradesong extends Game {
 
         // Character sprite!
         assets.load(PATH_SPRITE_CHAR, Texture.class);
+        assets.load(PATH_SPRITE_COIN, Texture.class);
 
         // Frame PNG used in inventory/workshops
         assets.load(PATH_SPRITE_FRAME, Texture.class);
@@ -63,7 +64,6 @@ public class Tradesong extends Game {
         assets.load(PATH_SPRITE_ICON_BOOK, Texture.class);
         assets.load(PATH_SPRITE_ICON_HAMMER, Texture.class);
         assets.load(PATH_SPRITE_ICON_WRENCH, Texture.class);
-        assets.load(PATH_SPRITE_ICON_SCALES, Texture.class);
 
         assets.finishLoading(); // Blocks until finished
     }
@@ -129,11 +129,11 @@ public class Tradesong extends Game {
         return assets.get(PATH_SPRITE_ICON_BOOK);
     }
 
-    public static Texture getPathSpriteIconScales() {
-        return assets.get(PATH_SPRITE_ICON_SCALES);
-    }
-
     public static Texture getCharacterTexture() {
         return assets.get(PATH_SPRITE_CHAR);
+    }
+
+    public static Texture getCoinTexture() {
+        return assets.get(PATH_SPRITE_COIN);
     }
 }
