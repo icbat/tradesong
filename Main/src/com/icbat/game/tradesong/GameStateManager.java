@@ -171,19 +171,4 @@ public class GameStateManager {
     public HashSet<Recipe> getAllKnownRecipes() {
         return allKnownRecipes;
     }
-
-    public String[] getAllWorkshopNames() {
-        String[] workshopNames = new String[allWorkshops.size()];
-        Object[] workshops = allWorkshops.toArray();
-
-        for (int i = 0; i < allWorkshops.size(); ++i) {
-            workshopNames[i] = ((Workshop)workshops[i]).getType();
-        }
-
-        for (String name : workshopNames) {
-            Gdx.app.log("", name);
-        }
-
-        return workshopNames;
-    }
 }
