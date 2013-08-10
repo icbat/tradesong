@@ -111,6 +111,7 @@ public class LevelScreen extends AbstractScreen {
         worldStage.setViewport(width, height, false);
         hud.setViewport(width,height, false);
         worldStage.getBackgroundActor().setBounds(0, 0, width, height);
+        hud.layout();
     }
 
 	@Override

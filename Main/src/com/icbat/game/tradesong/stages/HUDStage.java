@@ -29,10 +29,17 @@ public class HUDStage extends Stage {
     public HUDStage(Tradesong gameInstance) {
         this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
         this.gameInstance = gameInstance;
+
+        layout();
+    }
+
+    public void layout() {
+        this.clear();
         addInventoryButton();
         addCapacityCounter();
         addWorkshopsButton();
         addCharacterPortrait();
+
     }
 
     private void addInventoryButton() {
