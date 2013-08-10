@@ -39,11 +39,13 @@ public class WorkshopStage extends Stage {
 
     /** Called when the workshop changes, including at startup. */
     public void setWorkshop(Workshop newWorkshop) {
+        this.clear();
         workshop = newWorkshop;
 
         if (header != null)
             header.remove();
         addWorkshopTitle();
+        addWorkshopChangers();
         addIngredientFrames();
         addArrowAndResultFrame();
         this.addActor(ingredients);
@@ -61,6 +63,35 @@ public class WorkshopStage extends Stage {
         layOutVertically(header);
 
         this.addActor(header);
+
+    }
+
+    private void addWorkshopChangers() {
+        Image blacksmithButton = new Image(Tradesong.getSpriteIconHammer());
+        Image tinkerButton = new Image(Tradesong.getSpriteIconWrench());
+        Image scribeButton = new Image(Tradesong.getSpriteIconBook());
+
+        int left = (int) header.getX();
+
+        left -= blacksmithButton.getWidth() + SPACER;
+        blacksmithButton.setPosition(left, header.getY());
+        left -= tinkerButton.getWidth() + SPACER ;
+        tinkerButton.setPosition(left, header.getY());
+        left -= scribeButton.getWidth() + SPACER;
+        scribeButton.setPosition(left, header.getY());
+
+        blacksmithButton.setTouchable(Touchable.enabled);
+        tinkerButton.setTouchable(Touchable.enabled);
+        scribeButton.setTouchable(Touchable.enabled);
+
+        blacksmithButton.addListener(new ChangeWorkshopClickListener("Blacksmith"));
+        tinkerButton.addListener(new ChangeWorkshopClickListener("Tinker"));
+        scribeButton.addListener(new ChangeWorkshopClickListener("Scribe"));
+
+
+        this.addActor(blacksmithButton);
+        this.addActor(tinkerButton);
+        this.addActor(scribeButton);
 
     }
 
@@ -233,6 +264,21 @@ public class WorkshopStage extends Stage {
             }
 
 
+        }
+    }
+
+    class ChangeWorkshopClickListener extends ClickListener {
+        private String targetName;
+
+        ChangeWorkshopClickListener(String targetWorkshopName) {
+            targetName = targetWorkshopName;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            setWorkshop(new Workshop(targetName));
+
+            return super.touchDown(event, x, y, pointer, button);
         }
     }
 

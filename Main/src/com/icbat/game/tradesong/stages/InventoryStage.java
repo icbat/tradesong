@@ -178,7 +178,6 @@ public class InventoryStage extends Stage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             super.touchDown(event, x, y, pointer, button);
 
-            Gdx.app.log("","pressed an inventory item!");
             // Was there space in the workshop?
             if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
                 // Can we remove it? (I'd hope so...)
