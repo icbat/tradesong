@@ -26,6 +26,7 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_ICON_WRENCH = "sprites/auto-repair.png";
     private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
     private static final String PATH_SPRITE_ICON_SCALES = "sprites/scales.png";
+    private static final String PATH_SPRITE_CHAR = "sprites/character.png";
     public static GameStateManager gameState;
     public static AssetManager assets = new AssetManager();
     private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
@@ -52,8 +53,12 @@ public class Tradesong extends Game {
         // Item sheet used by all/most icons, items, buttons, etc.
         assets.load(PATH_SPRITE_ITEMS, Texture.class);
 
-        // PNGs used in the workshop/inventory
+        // Character sprite!
+        assets.load(PATH_SPRITE_CHAR, Texture.class);
+
+        // Frame PNG used in inventory/workshops
         assets.load(PATH_SPRITE_FRAME, Texture.class);
+
         assets.load(PATH_SPRITE_ARROW, Texture.class);
         assets.load(PATH_SPRITE_ICON_BOOK, Texture.class);
         assets.load(PATH_SPRITE_ICON_HAMMER, Texture.class);
@@ -126,5 +131,9 @@ public class Tradesong extends Game {
 
     public static Texture getPathSpriteIconScales() {
         return assets.get(PATH_SPRITE_ICON_SCALES);
+    }
+
+    public static Texture getCharacterTexture() {
+        return assets.get(PATH_SPRITE_CHAR);
     }
 }
