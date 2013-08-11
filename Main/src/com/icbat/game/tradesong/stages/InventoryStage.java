@@ -1,10 +1,12 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -152,7 +154,6 @@ public class InventoryStage extends AbstractStage {
         return out;
     }
 
-    // TODO find a cleaner way to do this
     public void connectItemsToWorkshop() {
         Item item;
         for (Actor actor : items.getChildren()) {
@@ -168,9 +169,7 @@ public class InventoryStage extends AbstractStage {
 
     public void connectToStore() {
         Item item;
-        Gdx.app.log("connect", "called!");
         for (Actor actor : items.getChildren()) {
-            Gdx.app.log("connect", "actor");
 
             item = (Item)actor;
 
@@ -179,7 +178,6 @@ public class InventoryStage extends AbstractStage {
             if (actor.getListeners().size == 0)
                 actor.addListener(new StoreClickListener(stack, item));
         }
-        Gdx.app.log("","");
 
     }
 
