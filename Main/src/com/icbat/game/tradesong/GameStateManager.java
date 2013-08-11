@@ -39,6 +39,11 @@ public class GameStateManager {
         return money;
     }
 
+    public void addMoney(int income) {
+        money += income;
+
+    }
+
 //    /** Saves to a file.
 //     *
 //     * @param filename of saveGame

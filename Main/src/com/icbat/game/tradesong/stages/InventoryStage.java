@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,6 +29,7 @@ public class InventoryStage extends AbstractStage {
     private Group itemCounts = new Group();
     private Inventory inventory;
     private WorkshopStage linkedWorkshop = null;
+    private Boolean isInStore = false;
 
     public InventoryStage() {
         inventory = Tradesong.gameState.getInventory();
@@ -46,11 +48,12 @@ public class InventoryStage extends AbstractStage {
     @Override
     public void layout() {
         this.clear();
-        frames.clearChildren();
-        items.clearChildren();
-        itemCounts.clearChildren();
-
-
+        this.addActor(frames);
+        this.addActor(items);
+        this.addActor(itemCounts);
+        frames.clear();
+        items.clear();
+        itemCounts.clear();
 
         // Add frames
         for (int i = 0; i < inventory.capacity(); ++i) {
@@ -64,11 +67,17 @@ public class InventoryStage extends AbstractStage {
 
         if (linkedWorkshop != null) {
             connectItemsToWorkshop();
+        } else if (isInStore) {
+
+            connectToStore();
+        } else {
+
+            for (Actor actor : items.getChildren()) {
+                actor.clearListeners();
+            }
         }
 
-        this.addActor(frames);
-        this.addActor(items);
-        this.addActor(itemCounts);
+
     }
 
     private void addSlotFrame(Integer i) {
@@ -163,8 +172,29 @@ public class InventoryStage extends AbstractStage {
 
     }
 
+    public void connectToStore() {
+        Item item;
+        Gdx.app.log("connect", "called!");
+        for (Actor actor : items.getChildren()) {
+            Gdx.app.log("connect", "actor");
+
+            item = (Item)actor;
+
+            StackedItem stack = inventory.getStack( Integer.parseInt(actor.getName()));
+
+            if (actor.getListeners().size == 0)
+                actor.addListener(new StoreClickListener(stack, item));
+        }
+        Gdx.app.log("","");
+
+    }
+
     public void setLinkedWorkshop(WorkshopStage target) {
         linkedWorkshop = target;
+    }
+
+    public void setIsInStore(boolean inStore) {
+        isInStore = inStore;
     }
 
     private class InventoryToWorkshopClickListener extends ClickListener {
@@ -204,6 +234,34 @@ public class InventoryStage extends AbstractStage {
 
 
             return true;
+        }
+    }
+
+    private class StoreClickListener extends ClickListener {
+
+        private StackedItem owner;
+        private Item item;
+
+        private StoreClickListener(StackedItem stack, Item item) {
+            owner = stack;
+            this.item = item;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            if(owner.getCount() > 0) {
+                int price = owner.getBaseItem().getBasePrice();
+                Tradesong.gameState.addMoney(price);
+
+                owner.remove();
+                if (owner.getCount() <= 0) {
+                    item.remove();
+                    Tradesong.gameState.getInventory().remove(owner);
+//                    layout();
+                }
+            }
+
+            return super.touchDown(event, x, y, pointer, button);    //To change body of overridden methods use File | Settings | File Templates.
         }
     }
 }

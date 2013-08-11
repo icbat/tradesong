@@ -35,6 +35,7 @@ public class Tradesong extends Game {
     private InventoryStage inventoryStage;
     private WorkshopStage workshopStage;
 
+
     @Override
 	public void create() {
         initializeAssets();

@@ -29,7 +29,8 @@ public class MainMenuScreen extends AbstractScreen {
 		super();
 		batch = new SpriteBatch();
 		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+
+        inputMultiplexer.addProcessor(stage);
 	
 		// A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
 		// recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.

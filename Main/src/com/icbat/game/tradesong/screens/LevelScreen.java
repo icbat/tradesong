@@ -31,7 +31,6 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer;
 
 	private OrthoCamera rendererCamera;
-    private final InputMultiplexer inputMultiplexer;
 
     public LevelScreen(String level, HUDStage hud) {
         super();
@@ -71,7 +70,7 @@ public class LevelScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(hud);
         inputMultiplexer.addProcessor(stages.get(0));
 
-        Gdx.input.setInputProcessor(inputMultiplexer);
+
 
 
         // Set up timers
@@ -133,8 +132,8 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        super.show();
         itemSpawnTimer.start();
-        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override

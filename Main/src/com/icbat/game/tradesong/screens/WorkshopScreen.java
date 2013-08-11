@@ -17,12 +17,6 @@ public class WorkshopScreen extends InventoryScreen{
     }
 
     @Override
-    public void show() {
-        super.show();
-        inputMultiplexer.addProcessor(stages.get(2));
-    }
-
-    @Override
     public void render(float delta) {
         super.render(delta, 0.98f, 0.639f, 0.008f, 1);
     }
@@ -36,5 +30,6 @@ public class WorkshopScreen extends InventoryScreen{
     public void hide() {
         super.hide();
         ((WorkshopStage)stages.get(2)).clearIngredients(true);
+        ((InventoryStage)stages.get(1)).setLinkedWorkshop(null);
     }
 }

@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,9 +18,12 @@ public abstract class AbstractScreen implements Screen {
 	protected Skin skin;
     protected SpriteBatch batch;
     protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
+    InputMultiplexer inputMultiplexer;
 
     public AbstractScreen() {
-	}
+        inputMultiplexer = new InputMultiplexer();
+
+    }
 	
 	@Override
 	public void render( float delta ) {
@@ -79,6 +83,7 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 }
