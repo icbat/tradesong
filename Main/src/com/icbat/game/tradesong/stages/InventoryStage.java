@@ -40,12 +40,6 @@ public class InventoryStage extends AbstractStage {
     }
 
     @Override
-    public void draw() {
-        super.draw();
-        layout();
-    }
-
-    @Override
     public void layout() {
         this.clear();
         this.addActor(frames);
@@ -257,8 +251,9 @@ public class InventoryStage extends AbstractStage {
                 if (owner.getCount() <= 0) {
                     item.remove();
                     Tradesong.gameState.getInventory().remove(owner);
-//                    layout();
+
                 }
+                layout();
             }
 
             return super.touchDown(event, x, y, pointer, button);    //To change body of overridden methods use File | Settings | File Templates.
