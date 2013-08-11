@@ -56,6 +56,11 @@ public class InventoryStage extends AbstractStage {
         this.addActor(items);
         this.addActor(itemCounts);
         frames.clear();
+
+        for (Actor actor : items.getChildren()) {
+            actor.clearListeners();
+        }
+
         items.clear();
         itemCounts.clear();
 
