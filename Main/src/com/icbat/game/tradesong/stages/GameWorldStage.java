@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,7 +28,7 @@ public class GameWorldStage extends AbstractStage {
     private int mapX = 0;
     private int mapY = 0;
 
-    Sound gatherSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hammering.ogg"));
+    Sound gatherSound = Tradesong.getGatherSound();
 
     Timer gatherTimer = new Timer();
 

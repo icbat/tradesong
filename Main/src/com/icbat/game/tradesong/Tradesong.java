@@ -1,9 +1,9 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.icbat.game.tradesong.screens.*;
 import com.icbat.game.tradesong.stages.HUDStage;
@@ -30,6 +30,9 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_CHAR = "sprites/character.png";
     private static final String PATH_SPRITE_COIN = "sprites/goldCoin5.png";
 
+    private static final String PATH_SOUNDS_GATHER = "sounds/hammering.ogg";
+    private static final String PATH_MUSIC_GENERAL = "music/Thatched Villagers.mp3";
+
     private static Music generalMusic;
 
     public static GameStateManager gameState;
@@ -45,6 +48,7 @@ public class Tradesong extends Game {
 	public void create() {
         initializeAssets();
 
+        generalMusic = assets.get(PATH_MUSIC_GENERAL);
         generalMusic.play();
         generalMusic.setLooping(true);
 
@@ -60,7 +64,9 @@ public class Tradesong extends Game {
 
     private void initializeAssets() {
 
-        generalMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Thatched Villagers.mp3"));
+        // Music and sounds
+        assets.load(PATH_SOUNDS_GATHER, Sound.class);
+        assets.load(PATH_MUSIC_GENERAL, Music.class);
 
         // Item sheet used by all/most icons, items, buttons, etc.
         assets.load(PATH_SPRITE_ITEMS, Texture.class);
@@ -149,5 +155,13 @@ public class Tradesong extends Game {
 
     public static Texture getCoinTexture() {
         return assets.get(PATH_SPRITE_COIN);
+    }
+
+    public static Sound getGatherSound() {
+        return assets.get(PATH_SOUNDS_GATHER);
+    }
+
+    public static Music getGeneralMusic() {
+        return generalMusic;
     }
 }
