@@ -27,6 +27,7 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
     private static final String PATH_SPRITE_CHAR = "sprites/character.png";
     private static final String PATH_SPRITE_COIN = "sprites/goldCoin5.png";
+
     public static GameStateManager gameState;
     public static AssetManager assets = new AssetManager();
     private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();

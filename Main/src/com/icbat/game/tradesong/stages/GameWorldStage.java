@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,6 +28,8 @@ public class GameWorldStage extends AbstractStage {
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
     private int mapX = 0;
     private int mapY = 0;
+
+    Sound gatherSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hammering.ogg"));
 
     Timer gatherTimer = new Timer();
 
@@ -160,6 +164,8 @@ public class GameWorldStage extends AbstractStage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+            gatherSound.stop();
+            gatherSound.play();
 
             gatherTimer.stop();
             gatherTimer.clear();
@@ -167,7 +173,8 @@ public class GameWorldStage extends AbstractStage {
 
                 @Override
                 public void run() {
-                    if ( Tradesong.gameState.getInventory().add(new Item(owner)) ) {
+                    if (Tradesong.gameState.getInventory().add(new Item(owner))) {
+                        gatherSound.stop();
                         removeItemCount();
                         owner.remove();
                     }
