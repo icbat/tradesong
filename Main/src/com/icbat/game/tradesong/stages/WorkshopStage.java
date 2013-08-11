@@ -252,6 +252,7 @@ public class WorkshopStage extends AbstractStage {
                     addProduct();
                 }
 
+
                 return true;
             }
             else {

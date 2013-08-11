@@ -38,6 +38,12 @@ public class InventoryStage extends AbstractStage {
     }
 
     @Override
+    public void draw() {
+        super.draw();
+        layout();
+    }
+
+    @Override
     public void layout() {
         this.clear();
         frames.clearChildren();
