@@ -1,10 +1,12 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -25,6 +27,10 @@ public class GameWorldStage extends AbstractStage {
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
     private int mapX = 0;
     private int mapY = 0;
+
+    Sound gatherSound = Tradesong.getGatherSound();
+
+    Timer gatherTimer = new Timer();
 
 
     private Actor backgroundActor = new Actor();
@@ -156,13 +162,27 @@ public class GameWorldStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchDown(event, x, y, pointer, button);
 
-            if ( Tradesong.gameState.getInventory().add(new Item(owner)) ) {
-                removeItemCount();
-                owner.remove();
-            }
-            return true;
+            gatherSound.stop();
+            gatherSound.play();
+
+            gatherTimer.stop();
+            gatherTimer.clear();
+            gatherTimer.scheduleTask(new Timer.Task() {
+
+                @Override
+                public void run() {
+                    if (Tradesong.gameState.getInventory().add(new Item(owner))) {
+                        gatherSound.stop();
+                        removeItemCount();
+                        owner.remove();
+                    }
+                }
+            }, Tradesong.gameState.getGatherDelay());
+            gatherTimer.start();
+
+
+            return super.touchDown(event, x, y, pointer, button);
         }
     }
 

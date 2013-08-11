@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -39,6 +42,7 @@ public class InventoryStage extends AbstractStage {
         layout();
     }
 
+    /** Little hack to get the screen to update even when its been interacted with and doesn't know it */
     @Override
     public void draw() {
         super.draw();
@@ -52,6 +56,11 @@ public class InventoryStage extends AbstractStage {
         this.addActor(items);
         this.addActor(itemCounts);
         frames.clear();
+
+        for (Actor actor : items.getChildren()) {
+            actor.clearListeners();
+        }
+
         items.clear();
         itemCounts.clear();
 
@@ -72,9 +81,7 @@ public class InventoryStage extends AbstractStage {
             connectToStore();
         } else {
 
-            for (Actor actor : items.getChildren()) {
-                actor.clearListeners();
-            }
+            connectToUseCases();
         }
 
 
@@ -158,7 +165,6 @@ public class InventoryStage extends AbstractStage {
         return out;
     }
 
-    // TODO find a cleaner way to do this
     public void connectItemsToWorkshop() {
         Item item;
         for (Actor actor : items.getChildren()) {
@@ -174,9 +180,7 @@ public class InventoryStage extends AbstractStage {
 
     public void connectToStore() {
         Item item;
-        Gdx.app.log("connect", "called!");
         for (Actor actor : items.getChildren()) {
-            Gdx.app.log("connect", "actor");
 
             item = (Item)actor;
 
@@ -185,8 +189,17 @@ public class InventoryStage extends AbstractStage {
             if (actor.getListeners().size == 0)
                 actor.addListener(new StoreClickListener(stack, item));
         }
-        Gdx.app.log("","");
 
+    }
+
+    public void connectToUseCases() {
+        for (Actor actor : items.getChildren()) {
+            Item item = (Item) actor;
+            StackedItem stack = inventory.getStack( Integer.parseInt(actor.getName()));
+
+            if (actor.getListeners().size == 0)
+                actor.addListener(new UseClickListener(stack, item));
+        }
     }
 
     public void setLinkedWorkshop(WorkshopStage target) {
@@ -197,7 +210,7 @@ public class InventoryStage extends AbstractStage {
         isInStore = inStore;
     }
 
-    private class InventoryToWorkshopClickListener extends ClickListener {
+    class InventoryToWorkshopClickListener extends ClickListener {
         StackedItem stack;
         private Item item;
 
@@ -237,31 +250,51 @@ public class InventoryStage extends AbstractStage {
         }
     }
 
-    private class StoreClickListener extends ClickListener {
+    class StoreClickListener extends ClickListener {
 
-        private StackedItem owner;
+        private StackedItem stack;
         private Item item;
 
         private StoreClickListener(StackedItem stack, Item item) {
-            owner = stack;
+            this.stack = stack;
             this.item = item;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            if(owner.getCount() > 0) {
-                int price = owner.getBaseItem().getBasePrice();
+            if(stack.getCount() > 0) {
+                int price = stack.getBaseItem().getBasePrice();
                 Tradesong.gameState.addMoney(price);
 
-                owner.remove();
-                if (owner.getCount() <= 0) {
+                stack.remove();
+                if (stack.getCount() <= 0) {
                     item.remove();
-                    Tradesong.gameState.getInventory().remove(owner);
-//                    layout();
+                    Tradesong.gameState.getInventory().remove(stack);
+
                 }
+                layout();
             }
 
             return super.touchDown(event, x, y, pointer, button);    //To change body of overridden methods use File | Settings | File Templates.
+        }
+    }
+
+    class UseClickListener extends ClickListener {
+        private StackedItem stack;
+        private Item item;
+
+        UseClickListener(StackedItem stack, Item item) {
+            this.stack = stack;
+            this.item = item;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+            Gdx.app.log("use","clicked");
+
+
+            return super.touchDown(event, x, y, pointer, button);
         }
     }
 }
