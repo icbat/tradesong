@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -117,7 +116,6 @@ public class HUDStage extends AbstractStage {
             }
         };
 
-        Gdx.app.log("cap", ""+capacityCounter.getWidth());
         capacityCounter.setWidth(36);
 
         layoutHorizontally(capacityCounter);
@@ -149,20 +147,12 @@ public class HUDStage extends AbstractStage {
 
 
     private void layoutHorizontally(Actor actorToLayout) {
-
-        Gdx.app.log("actor", actorToLayout.toString());
-        Gdx.app.log("size", ""+ this.getActors().size);
         int furthestX = 0;
         for (Actor actor : this.getActors()) {
-            Gdx.app.log("comparing:", actor.getRight()+" > " + furthestX);
             if (actor.getRight() > furthestX)
                 furthestX = (int)actor.getRight();
         }
-
-        Gdx.app.log("furthestX", ""+furthestX);
-
         actorToLayout.setPosition(furthestX + SPACER, 0);
-        Gdx.app.log("result", actorToLayout.getX() + " to right at " + actorToLayout.getRight() +"\n\n");
 
     }
 
