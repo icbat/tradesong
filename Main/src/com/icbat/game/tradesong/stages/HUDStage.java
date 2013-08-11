@@ -34,9 +34,10 @@ public class HUDStage extends AbstractStage {
 
     public void layout() {
         this.clear();
+        addWorkshopsButton();
         addInventoryButton();
         addCapacityCounter();
-        addWorkshopsButton();
+
         addMoney();
 
         addCharacterPortrait();

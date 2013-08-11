@@ -34,22 +34,17 @@ public class InventoryStage extends AbstractStage {
 
         frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
 
-        this.addActor(frames);
-        this.addActor(items);
-        this.addActor(itemCounts);
+        layout();
     }
 
     @Override
     public void layout() {
-        // TODO impl
-    }
-
-    @Override
-    public void act() {
-        // Clear out
+        this.clear();
         frames.clearChildren();
         items.clearChildren();
         itemCounts.clearChildren();
+
+
 
         // Add frames
         for (int i = 0; i < inventory.capacity(); ++i) {
@@ -65,7 +60,9 @@ public class InventoryStage extends AbstractStage {
             connectItemsToWorkshop();
         }
 
-        super.act();
+        this.addActor(frames);
+        this.addActor(items);
+        this.addActor(itemCounts);
     }
 
     private void addSlotFrame(Integer i) {
@@ -156,11 +153,6 @@ public class InventoryStage extends AbstractStage {
 
             if (item.getListeners().size == 0)
                 item.addListener(new InventoryToWorkshopClickListener(stack, item));
-
-
-
-
-
         }
 
     }
@@ -184,6 +176,7 @@ public class InventoryStage extends AbstractStage {
 
             // Was there space in the workshop?
             if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
+                linkedWorkshop.addProduct();
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
                     // Was that the last one?

@@ -1,11 +1,13 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Recipe;
@@ -14,13 +16,13 @@ import com.icbat.game.tradesong.Workshop;
 
 import java.util.Set;
 
-public class WorkshopStage extends Stage {
+public class WorkshopStage extends AbstractStage {
 
     private Workshop workshop;
     private TextButton header;
     private Group frames = new Group();
     private Group ingredients = new Group();
-    private Group product = new Group();
+    private Group productGroup = new Group();
     private Texture frameTexture;
 
     private static final int SPACER = 10;
@@ -32,9 +34,14 @@ public class WorkshopStage extends Stage {
 
     public WorkshopStage(Workshop workshop) {
         super();
-
         frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
         setWorkshop(workshop); // Handles the standard setup
+    }
+
+    @Override
+    public void layout() {
+
+        setWorkshop(this.workshop);
     }
 
     /** Called when the workshop changes, including at startup. */
@@ -43,6 +50,8 @@ public class WorkshopStage extends Stage {
         frames.clear();
         workshop = newWorkshop;
 
+
+
         if (header != null)
             header.remove();
         addWorkshopTitle();
@@ -50,7 +59,11 @@ public class WorkshopStage extends Stage {
         addIngredientFrames();
         addArrowAndResultFrame();
         this.addActor(ingredients);
-        this.addActor(product);
+
+        addProduct();
+        this.addActor(productGroup);
+
+
     }
 
     private void addWorkshopTitle() {
@@ -142,45 +155,23 @@ public class WorkshopStage extends Stage {
 
     }
 
-    @Override
-    public void act() {
-
-        // Run the check to see if there's a product! If there is, add the picture
-        Item potentialProduct = getProduct();
-        if (potentialProduct != null) {
-
-            potentialProduct.setPosition(resultFrame.getX(), resultFrame.getY());
-            potentialProduct.setTouchable(Touchable.enabled);
-            potentialProduct.addListener(new BackToInventoryClickListener(potentialProduct, true));
-            product.addActor(potentialProduct);
-        }
-        else {
-            if (product.getChildren().size != 0) {
-                product.clearChildren();
-            }
-
-        }
-
-        super.act();
-
-
-    }
-
-    public Item getProduct() {
+    public void addProduct() {
+        productGroup.clearChildren();
 
         Set<Recipe> allRecipes = Tradesong.gameState.getAllKnownRecipes();
         for (Recipe recipe : allRecipes) {
             if (recipe.getWorkshop().equals(this.workshop.getType())) {
 
                 if (recipe.check(ingredients.getChildren())) {
-                    return recipe.getOutput();
+                    Item potentialProduct = recipe.getOutput();
+                    potentialProduct.setPosition(resultFrame.getX(), resultFrame.getY());
+                    potentialProduct.setTouchable(Touchable.enabled);
+                    potentialProduct.addListener(new BackToInventoryClickListener(potentialProduct, true));
+                    productGroup.addActor(potentialProduct);
                 }
-
-
             }
         }
 
-        return null;
 
     }
 
@@ -191,7 +182,7 @@ public class WorkshopStage extends Stage {
             }
 
             ingredient.remove();
-            product.clearChildren();
+            productGroup.clearChildren();
         }
     }
 
@@ -256,6 +247,9 @@ public class WorkshopStage extends Stage {
                 owner.remove();
                 if (isResult) {
                     clearIngredients(false);
+                }
+                else {
+                    addProduct();
                 }
 
                 return true;

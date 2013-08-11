@@ -31,12 +31,20 @@ public abstract class AbstractScreen implements Screen {
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+        for (AbstractStage stage : stages) {
+            stage.act(delta);
+            stage.draw();
+        }
+
     }
 
 
 	@Override
 	public void dispose() {
         skin.dispose();
+        for (AbstractStage stage : stages) {
+            stage.dispose();
+        }
 
 	}
 
@@ -64,6 +72,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         for (AbstractStage stage : stages) {
+            stage.setViewport(width,height, false);
             stage.layout();
         }
     }

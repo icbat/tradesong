@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.stages.AbstractStage;
 import com.icbat.game.tradesong.stages.GameWorldStage;
 import com.icbat.game.tradesong.stages.HUDStage;
 
@@ -24,11 +25,7 @@ public class LevelScreen extends AbstractScreen {
 
 	public String mapName = "";
 
-    GameWorldStage worldStage;
-    HUDStage hud;
-
     Timer itemSpawnTimer;
-
 
     private TiledMap map;
 	private TiledMapRenderer renderer;
@@ -38,7 +35,6 @@ public class LevelScreen extends AbstractScreen {
 
     public LevelScreen(String level, HUDStage hud) {
         super();
-
 
         // Load the map
         Tradesong.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -55,25 +51,25 @@ public class LevelScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        worldStage = new GameWorldStage(map.getProperties());
-        this.hud = hud;
+        stages.add(new GameWorldStage(map.getProperties()));
+        stages.add(hud);
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);
         OrthoCamera gameWorldCamera = new OrthoCamera(width, height);
 
 
-        worldStage.setCamera(gameWorldCamera);
+        stages.get(0).setCamera(gameWorldCamera);
 
 
         // DualCamController
-        worldStage.getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+        ((GameWorldStage)stages.get(0)).getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
 
 
         // Setup an input Multiplexer
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud);
-        inputMultiplexer.addProcessor(worldStage);
+        inputMultiplexer.addProcessor(stages.get(0));
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -87,7 +83,7 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                    worldStage.spawnItem();
+                    ((GameWorldStage)stages.get(0)).spawnItem();
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds
@@ -96,22 +92,20 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
 	public void render(float delta) {
-		super.render(delta);
+        super.render(delta);
         rendererCamera.update();
         renderer.setView(rendererCamera);
 		renderer.render();
-        worldStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        hud.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		worldStage.draw();
-        hud.draw();
+        for (AbstractStage stage : stages) {
+            stage.act(delta);
+            stage.draw();
+        }
 	}
 
     @Override
     public void resize(int width, int height) {
-        worldStage.setViewport(width, height, false);
-        hud.setViewport(width,height, false);
-        worldStage.getBackgroundActor().setBounds(0, 0, width, height);
-        hud.layout();
+        super.resize(width, height);
+        ((GameWorldStage)stages.get(0)).getBackgroundActor().setBounds(0, 0, width, height);
     }
 
 	@Override
@@ -120,7 +114,6 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.clear(); // Cancels all tasks
 
 		this.map.dispose();
-        this.worldStage.dispose();
 
         super.dispose(); // Likely needs to be called last
 

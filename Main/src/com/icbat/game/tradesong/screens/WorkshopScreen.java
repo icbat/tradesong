@@ -6,12 +6,10 @@ import com.icbat.game.tradesong.stages.WorkshopStage;
 
 public class WorkshopScreen extends InventoryScreen{
 
-    private WorkshopStage workshopStage;
-
     public WorkshopScreen(HUDStage hud, InventoryStage inventoryStage, WorkshopStage workshopStage) {
         super(hud, inventoryStage);
 
-        this.workshopStage = workshopStage;
+        stages.add(workshopStage);
         inventoryStage.setLinkedWorkshop(workshopStage);
         inventoryStage.connectItemsToWorkshop();
         inputMultiplexer.addProcessor(workshopStage);
@@ -21,25 +19,22 @@ public class WorkshopScreen extends InventoryScreen{
     @Override
     public void show() {
         super.show();
-        inputMultiplexer.addProcessor(workshopStage);
+        inputMultiplexer.addProcessor(stages.get(2));
     }
 
     @Override
     public void render(float delta) {
         super.render(delta, 0.98f, 0.639f, 0.008f, 1);
-        workshopStage.act();
-        workshopStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        workshopStage.setViewport(width, height, false);
     }
 
     @Override
     public void hide() {
         super.hide();
-        workshopStage.clearIngredients(true);
+        ((WorkshopStage)stages.get(2)).clearIngredients(true);
     }
 }

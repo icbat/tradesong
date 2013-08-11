@@ -7,14 +7,12 @@ import com.icbat.game.tradesong.stages.InventoryStage;
 
 public class InventoryScreen extends AbstractScreen {
 
-    HUDStage hud;
-    InventoryStage inventoryStage;
     final InputMultiplexer inputMultiplexer;
 
     public InventoryScreen(HUDStage hud, InventoryStage inventoryStage) {
 		super();
-        this.hud = hud;
-        this.inventoryStage = inventoryStage;
+        stages.add(hud);
+        stages.add(inventoryStage);
 
         inventoryStage.setLinkedWorkshop(null); // The equivalent of unsetting this var
 
@@ -29,22 +27,7 @@ public class InventoryScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        render(delta, 0.431f, 0.659f, 0.278f, 1);
-    }
-
-    @Override
-    public void render(float delta, float r, float g, float b, float a) {
-        super.render(delta, r, g, b, a);
-        hud.act();
-        inventoryStage.act();
-        hud.draw();
-        inventoryStage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        inventoryStage.setViewport(width, height, false);
-        hud.setViewport(width, height, false); //TODO probably a way to put all of this in to abstractScreen later
+        super.render(delta, 0.431f, 0.659f, 0.278f, 1);
     }
 
     @Override
