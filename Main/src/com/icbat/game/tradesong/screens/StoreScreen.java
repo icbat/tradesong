@@ -12,4 +12,9 @@ public class StoreScreen extends AbstractScreen {
         stages.add(inventoryStage);
 
     }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta, 0.25f, 0.33f, 1, 1);
+    }
 }

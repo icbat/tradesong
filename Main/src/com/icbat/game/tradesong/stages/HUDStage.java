@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.InventoryScreen;
+import com.icbat.game.tradesong.screens.StoreScreen;
 import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends AbstractStage {
@@ -53,7 +54,7 @@ public class HUDStage extends AbstractStage {
         Image coin = new Image(Tradesong.getCoinTexture());
 
         layoutHorizontally(coin);
-
+        coin.addListener(new InterfaceButtonListener(StoreScreen.class, gameInstance));
         this.addActor(coin);
 
         Label.LabelStyle style = new Label.LabelStyle();
@@ -194,6 +195,8 @@ public class HUDStage extends AbstractStage {
                 else if (landingPage.equals(WorkshopScreen.class)) {
                     gameInstance.goToWorkshop();
 
+                } else if (landingPage.equals(StoreScreen.class)) {
+                    gameInstance.goToStore();
                 }
             }
 
