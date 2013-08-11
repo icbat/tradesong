@@ -18,6 +18,8 @@ public class GameStateManager {
     public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
+    public static float gatherDelay = 5;
+
     public static int money = 0;
 
 
@@ -44,7 +46,11 @@ public class GameStateManager {
 
     }
 
-//    /** Saves to a file.
+    public float getGatherDelay() {
+        return gatherDelay;
+    }
+
+    //    /** Saves to a file.
 //     *
 //     * @param filename of saveGame
 //     * @return true if saveGame seems successful*/
