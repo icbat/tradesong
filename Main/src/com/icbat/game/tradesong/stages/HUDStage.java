@@ -10,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.WorkshopScreen;
@@ -22,8 +24,10 @@ public class HUDStage extends AbstractStage {
 
     /** As of now, this is pulled from items.png */
     Texture itemsTexture;
-    private TextButton capacityCounter;
+
     private Tradesong gameInstance;
+    private Label capacityCounter;
+    private Label.LabelStyle textStyle;
 
     public HUDStage(Tradesong gameInstance) {
         this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
@@ -52,6 +56,23 @@ public class HUDStage extends AbstractStage {
 
         this.addActor(coin);
 
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = new BitmapFont();
+        Label moneyCounter = new Label("-1", style) {
+            @Override
+            public void draw(SpriteBatch batch, float parentAlpha) {
+
+                this.setText(Tradesong.gameState.getMoney()+"");
+
+                super.draw(batch, parentAlpha);
+            }
+        };
+
+        layoutHorizontally(moneyCounter);
+        this.addActor(moneyCounter);
+
+
+
     }
 
     private void addInventoryButton() {
@@ -61,7 +82,7 @@ public class HUDStage extends AbstractStage {
 
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class, gameInstance));
-        // No need to set bounds; this is the bottom-left corner
+        layoutHorizontally(inventoryButton);
         inventoryButton.setVisible(true);
         this.addActor(inventoryButton);
     }
@@ -71,33 +92,37 @@ public class HUDStage extends AbstractStage {
         Integer capacity = Tradesong.gameState.getInventory().capacity();
         Integer size = Tradesong.gameState.getInventory().size();
 
-        TextButton.TextButtonStyle textStyle = new TextButton.TextButtonStyle();
-        BitmapFont font = new BitmapFont();
-        if (size.equals(capacity)) {
-            font.setColor(Color.RED);
-        }
-        else if (size.equals(capacity - 3)) {
-            font.setColor(Color.ORANGE);
-        }
-        else {
-            font.setColor(Color.WHITE);
-        }
+        textStyle = new Label.LabelStyle();
 
-        textStyle.font = font;
+        textStyle.font = new BitmapFont();
 
-        capacityCounter = new TextButton(size.toString() + " / " + capacity.toString(), textStyle) {
+        capacityCounter = new Label(size.toString() + " / " + capacity.toString(), textStyle) {
             @Override
             public void draw(SpriteBatch batch, float parentAlpha) {
-                Integer size = Tradesong.gameState.getInventory().size();
                 Integer capacity = Tradesong.gameState.getInventory().capacity();
+                Integer size = Tradesong.gameState.getInventory().size();
+
+                if (size.equals(capacity)) {
+                    textStyle.font.setColor(Color.RED);
+                }
+                else if (size.equals(capacity - 3)) {
+                    textStyle.font.setColor(Color.ORANGE);
+                }
+                else {
+                    textStyle.font.setColor(Color.WHITE);
+                }
+
                 capacityCounter.setText(size.toString() + " / " + capacity.toString());
 
                 super.draw(batch, parentAlpha);
             }
         };
 
-        layoutHorizontally(capacityCounter);
+        Gdx.app.log("cap", ""+capacityCounter.getWidth());
+        capacityCounter.setWidth(36);
 
+        layoutHorizontally(capacityCounter);
+        capacityCounter.layout();
         this.addActor(capacityCounter);
     }
 
@@ -125,14 +150,20 @@ public class HUDStage extends AbstractStage {
 
 
     private void layoutHorizontally(Actor actorToLayout) {
+
+        Gdx.app.log("actor", actorToLayout.toString());
+        Gdx.app.log("size", ""+ this.getActors().size);
         int furthestX = 0;
         for (Actor actor : this.getActors()) {
-            Gdx.app.log("layoutHoriz","" + actor.getRight());
+            Gdx.app.log("comparing:", actor.getRight()+" > " + furthestX);
             if (actor.getRight() > furthestX)
-                furthestX += actor.getRight();
+                furthestX = (int)actor.getRight();
         }
 
+        Gdx.app.log("furthestX", ""+furthestX);
+
         actorToLayout.setPosition(furthestX + SPACER, 0);
+        Gdx.app.log("result", actorToLayout.getX() + " to right at " + actorToLayout.getRight() +"\n\n");
 
     }
 

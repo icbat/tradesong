@@ -100,9 +100,11 @@ public class Tradesong extends Game {
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
     }
-
     public void goToWorkshop() {
         goToScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
+    }
+    public void goToStore() {
+        goToScreen(new StoreScreen(hud, inventoryStage));
     }
 
     public static String getItemsPath() {

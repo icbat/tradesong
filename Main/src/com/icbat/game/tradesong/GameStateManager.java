@@ -35,6 +35,10 @@ public class GameStateManager {
 
     }
 
+    public int getMoney() {
+        return money;
+    }
+
 //    /** Saves to a file.
 //     *
 //     * @param filename of saveGame
