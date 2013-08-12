@@ -18,7 +18,8 @@ public class GameStateManager {
     public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
-    public static float gatherDelay = 5;
+    public static LeveledParameter gatherDelay = new LeveledParameter("gatherDelay", 3);
+    public static LeveledParameter craftDelay = new LeveledParameter("craftDelay", 3);
 
     public static int money = 0;
 
@@ -46,7 +47,7 @@ public class GameStateManager {
 
     }
 
-    public float getGatherDelay() {
+    public LeveledParameter getGatherDelay() {
         return gatherDelay;
     }
 

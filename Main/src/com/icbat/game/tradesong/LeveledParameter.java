@@ -7,12 +7,12 @@ public class LeveledParameter {
     private float currentValue;
     private String parameterName;
 
-    public LeveledParameter(float currentValue, String parameterName) {
+    public LeveledParameter(String parameterName, float currentValue) {
         this.currentValue = currentValue;
         this.parameterName = parameterName;
     }
 
-    public LeveledParameter(int level, int maxLevel, float currentValue, String parameterName) {
+    public LeveledParameter(String parameterName, float currentValue, int level, int maxLevel ) {
         this.level = level;
         this.maxLevel = maxLevel;
         this.currentValue = currentValue;
