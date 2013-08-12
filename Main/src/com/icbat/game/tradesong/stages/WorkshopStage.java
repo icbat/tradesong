@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,12 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Recipe;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class WorkshopStage extends AbstractStage {
@@ -178,15 +181,31 @@ public class WorkshopStage extends AbstractStage {
 
     }
 
+    /** Called to remove all the ingredients and the result (if any)
+     *
+     * @param returnToInventory should these ingredients be added back to the inventory?*/
     public void clearIngredients(boolean returnToInventory) {
-        for (Actor ingredient : ingredients.getChildren()) {
+
+        Gdx.app.log("clear",ingredients.getChildren().size + "");
+
+        ArrayList<Actor> ingredientsSnapshot = new ArrayList<Actor>();
+
+        for (Actor actor : ingredients.getChildren()) {
+            ingredientsSnapshot.add(actor);
+        }
+
+
+        for (Actor ingredient : ingredientsSnapshot) {
             if (returnToInventory) {
                 Tradesong.gameState.getInventory().add(new Item(ingredient));
             }
 
+            Gdx.app.log("clear", ingredient.toString());
+
             ingredient.remove();
             productGroup.clearChildren();
         }
+
     }
 
     /**
