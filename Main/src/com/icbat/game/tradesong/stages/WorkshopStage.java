@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Recipe;
 import com.icbat.game.tradesong.Tradesong;
@@ -25,6 +26,8 @@ public class WorkshopStage extends AbstractStage {
     private Group ingredients = new Group();
     private Group productGroup = new Group();
     private Texture frameTexture;
+
+    private Timer craftTimer = new Timer();
 
     private static final int SPACER = 10;
     private Image resultFrame;
@@ -241,25 +244,33 @@ public class WorkshopStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchDown(event, x, y, pointer, button);
+            //TODO if this is overtaking anything, mess with returns
+            if (isResult) {
+                // Can we even add this?
+                if (Tradesong.gameState.getInventory().canAdd(owner)) {
+                    craftTimer.stop();
+                    craftTimer.clear();
+                    craftTimer.scheduleTask(new Timer.Task() {
 
-            if (Tradesong.gameState.getInventory().add(new Item(owner))) {
+                        @Override
+                        public void run() {
+                            if (Tradesong.gameState.getInventory().add(new Item(owner))) {
+                                clearIngredients(false);
+                            }
+                        }
+                    }, Tradesong.gameState.getParameterByName(Tradesong.getParamDelayCraft()).getCurrentValue());
+                    craftTimer.start();
+                }
+
+
+            } else if (Tradesong.gameState.getInventory().add(new Item(owner))) {
                 owner.remove();
-                if (isResult) {
-                    clearIngredients(false);
-                }
-                else {
-                    addProduct();
-                }
+                addProduct();
 
-
-                return true;
-            }
-            else {
-                return false;
             }
 
 
+            return super.touchDown(event, x, y, pointer, button);
         }
     }
 

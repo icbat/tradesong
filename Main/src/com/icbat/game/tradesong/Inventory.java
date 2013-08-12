@@ -10,9 +10,26 @@ public class Inventory {
 
     Inventory() {}
 
+    public boolean canAdd(Item newItem) {
+        for(StackedItem stackedItem : stacks) {
+            // If we found a stack of that item
+            if (stackedItem.getBaseItem().getItemName().equals(newItem.getItemName())) {
+                // See if we can add to it
+                if (stackedItem.getCount() == stackedItem.getBaseItem().getMaxStack()) {
+                    // Note: this needs to be return true; and not return stackedItem.add();
+                    //       This is because if it's false, we don't want to quit looking, we want to check the next stack, and so on.
+                    return true;
+                }
+            }
+        }
+
+        // We didn't find a stack. Can we make a new one?
+        return stacks.size() < capacity;
+    }
+
     public boolean add(Item newItem) {
         for(StackedItem stackedItem : stacks) {
-            // If we found a non-full stack
+            // If we found a stack of that item
             if (stackedItem.getBaseItem().getItemName().equals(newItem.getItemName())) {
                 // See if we can add to it
                 if (stackedItem.add()) {

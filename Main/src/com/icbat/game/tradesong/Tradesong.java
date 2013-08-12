@@ -33,6 +33,9 @@ public class Tradesong extends Game {
     private static final String PATH_SOUNDS_GATHER = "sounds/hammering.ogg";
     private static final String PATH_MUSIC_GENERAL = "music/Thatched Villagers.mp3";
 
+    private static final String PARAM_DELAY_GATHER = "gatherDelay";
+    private static final String PARAM_DELAY_CRAFT = "craftDelay";
+
     private static Music generalMusic;
 
     public static GameStateManager gameState;
@@ -163,5 +166,13 @@ public class Tradesong extends Game {
 
     public static Music getGeneralMusic() {
         return generalMusic;
+    }
+
+    public static String getParamDelayGather() {
+        return PARAM_DELAY_GATHER;
+    }
+
+    public static String getParamDelayCraft() {
+        return PARAM_DELAY_CRAFT;
     }
 }

@@ -290,8 +290,18 @@ public class InventoryStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Gdx.app.log("onUse",item.getItemName());
+            if (item.getOnUse() != null) {
+                Gdx.app.log("onUse",item.getOnUse().toString());
+                if (item.getOnUse().use()) {
+                    item.remove();
+                    stack.remove(1);
+                    Tradesong.gameState.getInventory().remove(stack);
+                    layout();
+                }
+            }
 
-            Gdx.app.log("use","clicked");
+
 
 
             return super.touchDown(event, x, y, pointer, button);

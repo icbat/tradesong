@@ -178,7 +178,7 @@ public class GameWorldStage extends AbstractStage {
                         owner.remove();
                     }
                 }
-            }, Tradesong.gameState.getGatherDelay());
+            }, Tradesong.gameState.getParameterByName(Tradesong.getParamDelayGather()).getCurrentValue());
             gatherTimer.start();
 
 
