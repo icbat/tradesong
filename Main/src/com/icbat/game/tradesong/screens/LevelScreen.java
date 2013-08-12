@@ -23,9 +23,9 @@ import com.icbat.game.tradesong.stages.HUDStage;
  * */
 public class LevelScreen extends AbstractScreen {
 
-	public String mapName = "";
+	public String mapName;
 
-    Timer itemSpawnTimer;
+    Timer itemSpawnTimer = new Timer();
 
     private TiledMap map;
 	private TiledMapRenderer renderer;
@@ -43,7 +43,7 @@ public class LevelScreen extends AbstractScreen {
         Tradesong.assets.finishLoading();
 
         this.map = Tradesong.assets.get(mapName);
-        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f);
+        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f); // TODO read about this class
 
 
         int width = Gdx.graphics.getWidth();
@@ -64,18 +64,10 @@ public class LevelScreen extends AbstractScreen {
         // DualCamController
         ((GameWorldStage)stages.get(0)).getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
 
-
         // Setup an input Multiplexer
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud);
         inputMultiplexer.addProcessor(stages.get(0));
-
-
-
-
-        // Set up timers
-        itemSpawnTimer = new Timer();
-
 
         int spawnInitialDelay = 5;
         int spawnIntervalSeconds = 6;
@@ -109,7 +101,6 @@ public class LevelScreen extends AbstractScreen {
 
 	@Override
 	public void dispose() {
-		// TODO dispose ALL the things
         itemSpawnTimer.clear(); // Cancels all tasks
 
 		this.map.dispose();
