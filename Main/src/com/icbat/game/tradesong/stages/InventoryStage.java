@@ -295,7 +295,8 @@ public class InventoryStage extends AbstractStage {
                 Gdx.app.log("onUse",item.getOnUse().toString());
                 if (item.getOnUse().use()) {
                     item.remove();
-                    stack.remove();
+                    stack.remove(1);
+                    Tradesong.gameState.getInventory().remove(stack);
                     layout();
                 }
             }
