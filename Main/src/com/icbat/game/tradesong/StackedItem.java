@@ -53,6 +53,7 @@ public class StackedItem {
             return true;
         }
         else {
+            Tradesong.gameState.getInventory().remove(this);
             return false;
         }
     }
