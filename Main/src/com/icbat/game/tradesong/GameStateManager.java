@@ -18,13 +18,16 @@ public class GameStateManager {
     public static final String PATH_RECIPES = "recipes.csv";
     public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
-    public static LeveledParameter gatherDelay = new LeveledParameter("gatherDelay", 3);
-    public static LeveledParameter craftDelay = new LeveledParameter("craftDelay", 3);
+    private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
     public static int money = 0;
 
 
     public GameStateManager() {
+        // Set up default parameters
+        leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayGather(), 3));
+        leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
+
         // Load sprites and other assets
         Tradesong.assets.load(PATH_SPRITE_ITEMS, Texture.class);
         Tradesong.assets.finishLoading();
@@ -47,8 +50,13 @@ public class GameStateManager {
 
     }
 
-    public LeveledParameter getGatherDelay() {
-        return gatherDelay;
+    public LeveledParameter getParameterByName(String name) {
+        for (LeveledParameter param : leveledParameters) {
+            if (param.getParameterName().equals(name))
+                return param;
+        }
+
+        return null;
     }
 
     //    /** Saves to a file.
