@@ -167,12 +167,12 @@ public class GameWorldStage extends AbstractStage {
             do {
                 n = rand.nextInt(right);
             } while (n < originX);
-            randCoords[0] = n * 34;
+            randCoords[0] = n * 32;
 
             do {
                 n = rand.nextInt(bottom);
             } while (n < originY);
-            randCoords[1] = n * 34;
+            randCoords[1] = n * 32;
 
             return randCoords;
         }

@@ -31,6 +31,8 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer;
 
 	private OrthoCamera rendererCamera;
+    private final int mapWidth;
+    private final int mapHeight;
 
     public LevelScreen(String level, HUDStage hud) {
         super();
@@ -43,7 +45,11 @@ public class LevelScreen extends AbstractScreen {
         Tradesong.assets.finishLoading();
 
         this.map = Tradesong.assets.get(mapName);
-        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f / 64f); // TODO read about this class
+        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1); // TODO read about this class
+
+        mapWidth = (Integer)map.getProperties().get("width");
+        mapHeight = (Integer)map.getProperties().get("height");
+
 
 
         int width = Gdx.graphics.getWidth();
@@ -84,7 +90,9 @@ public class LevelScreen extends AbstractScreen {
     @Override
 	public void render(float delta) {
         super.render(delta);
+
         rendererCamera.update();
+
         renderer.setView(rendererCamera);
 		renderer.render();
         for (AbstractStage stage : stages) {
@@ -97,6 +105,9 @@ public class LevelScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         ((GameWorldStage)stages.get(0)).getBackgroundActor().setBounds(0, 0, width, height);
+        rendererCamera.setToOrtho(false, width, height);
+//        rendererCamera.position.set(mapHeight/2, mapWidth/2, 0);
+        rendererCamera.update();
     }
 
 	@Override
@@ -161,9 +172,11 @@ public class LevelScreen extends AbstractScreen {
                 // Still use camera 1 as the latest; this time as change
                 camera1.unproject(delta.set(last.x, last.y, 0));
                 delta.sub(curr);
-                camera1.position.add(delta.x, delta.y * -1, 0);
+                camera1.position.add(delta.x / 32, delta.y * -32, 0);
                 camera2.position.add(delta.x * 32, delta.y * -32, 0);
             }
+
+//            camera1.update();
 
             last.set(x, y, 0);
         }
