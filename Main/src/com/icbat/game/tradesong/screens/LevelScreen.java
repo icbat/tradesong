@@ -50,8 +50,8 @@ public class LevelScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        stages.add(hud);
         stages.add(new GameWorldStage(map.getProperties()));
+        stages.add(hud);
 
 
         // Set up cameras
@@ -59,11 +59,11 @@ public class LevelScreen extends AbstractScreen {
         gameWorldCamera = new OrthoCamera(width, height);
 
 
-        stages.get(1).setCamera(gameWorldCamera);
+        stages.get(0).setCamera(gameWorldCamera);
 
         // Setup an input Multiplexer
         inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(hud);
+        inputMultiplexer.addProcessor(stages.get(0));
         inputMultiplexer.addProcessor(stages.get(1));
 
         int spawnInitialDelay = 5;
@@ -71,7 +71,7 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                    ((GameWorldStage)stages.get(1)).spawnItem();
+                    ((GameWorldStage)stages.get(0)).spawnItem();
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds
@@ -120,7 +120,7 @@ public class LevelScreen extends AbstractScreen {
     public void hide() {
         super.hide();
         itemSpawnTimer.stop();
-        ((HUDStage)stages.get(0)).getDragCatcher().clearListeners();
+        ((HUDStage)stages.get(1)).getDragCatcher().clearListeners();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class LevelScreen extends AbstractScreen {
         super.show();
         itemSpawnTimer.start();
         // DualCamController
-        ((HUDStage)stages.get(0)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+        ((HUDStage)stages.get(1)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
     }
 
     @Override

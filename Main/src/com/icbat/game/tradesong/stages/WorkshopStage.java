@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Recipe;
@@ -34,6 +34,7 @@ public class WorkshopStage extends AbstractStage {
 
     private static final int SPACER = 10;
     private Image resultFrame;
+    private Sound craftSound = Tradesong.getGatherSound();
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -267,6 +268,10 @@ public class WorkshopStage extends AbstractStage {
             if (isResult) {
                 // Can we even add this?
                 if (Tradesong.gameState.getInventory().canAdd(owner)) {
+
+                    craftSound.stop();
+                    craftSound.play();
+
                     craftTimer.stop();
                     craftTimer.clear();
                     craftTimer.scheduleTask(new Timer.Task() {
@@ -275,6 +280,7 @@ public class WorkshopStage extends AbstractStage {
                         public void run() {
                             if (Tradesong.gameState.getInventory().add(new Item(owner))) {
                                 clearIngredients(false);
+                                craftSound.stop();
                             }
                         }
                     }, Tradesong.gameState.getParameterByName(Tradesong.getParamDelayCraft()).getCurrentValue());
