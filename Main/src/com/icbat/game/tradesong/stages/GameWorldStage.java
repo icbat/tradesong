@@ -40,6 +40,7 @@ public class GameWorldStage extends AbstractStage {
     int initialItemCount;
     int itemCount;
     int maxSpawnedPerMap;
+    private final int mapHeight;
 
     public GameWorldStage(MapProperties properties) {
 
@@ -59,6 +60,9 @@ public class GameWorldStage extends AbstractStage {
         }
 
         // Set up knowledge of where things can spawn
+        mapHeight = (Integer)properties.get("height");
+
+
         String validSpawnsBlob = (String)properties.get(PROPERTY_VALID_SPAWN_AREA);
         String[] VSA = validSpawnsBlob.split(",");
 
@@ -147,16 +151,20 @@ public class GameWorldStage extends AbstractStage {
 
     /** Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust */
     class Area {
-        int originX;
-        int originY;
+        int left;
+        int top;
         int right;
         int bottom;
 
-        Area(int originX, int originY, int right, int bottom) {
-            this.originX = originX;
-            this.originY = originY;
+        Area(int left, int top, int right, int bottom) {
+            this.left = left;
             this.right = right;
-            this.bottom = bottom;
+
+            // Reflect around mapHeight as the map's coords are top-left and the stage's are bottom-left
+            this.bottom = mapHeight - bottom;
+            this.top = mapHeight - top;
+
+
         }
 
         int[] getRandomCoordsInside() {
@@ -164,14 +172,15 @@ public class GameWorldStage extends AbstractStage {
             int[] randCoords = new int[2];
 
             int n;
+
             do {
                 n = rand.nextInt(right);
-            } while (n < originX);
+            } while (n < left);
             randCoords[0] = n * 32;
 
             do {
-                n = rand.nextInt(bottom);
-            } while (n < originY);
+                n = rand.nextInt(top);
+            } while (n < bottom);
             randCoords[1] = n * 32;
 
             return randCoords;
