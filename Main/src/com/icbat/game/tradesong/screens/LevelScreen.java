@@ -31,8 +31,7 @@ public class LevelScreen extends AbstractScreen {
 	private TiledMapRenderer renderer;
 
 	private OrthoCamera rendererCamera;
-    private final int mapWidth;
-    private final int mapHeight;
+    private final OrthoCamera gameWorldCamera;
 
     public LevelScreen(String level, HUDStage hud) {
         super();
@@ -45,42 +44,34 @@ public class LevelScreen extends AbstractScreen {
         Tradesong.assets.finishLoading();
 
         this.map = Tradesong.assets.get(mapName);
-        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1); // TODO read about this class
-
-        mapWidth = (Integer)map.getProperties().get("width");
-        mapHeight = (Integer)map.getProperties().get("height");
-
-
+        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1);
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        stages.add(new GameWorldStage(map.getProperties()));
         stages.add(hud);
+        stages.add(new GameWorldStage(map.getProperties()));
+
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);
-        OrthoCamera gameWorldCamera = new OrthoCamera(width, height);
+        gameWorldCamera = new OrthoCamera(width, height);
 
 
-        stages.get(0).setCamera(gameWorldCamera);
-
-
-        // DualCamController
-        ((GameWorldStage)stages.get(0)).getBackgroundActor().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+        stages.get(1).setCamera(gameWorldCamera);
 
         // Setup an input Multiplexer
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud);
-        inputMultiplexer.addProcessor(stages.get(0));
+        inputMultiplexer.addProcessor(stages.get(1));
 
         int spawnInitialDelay = 5;
         int spawnIntervalSeconds = 6;
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                    ((GameWorldStage)stages.get(0)).spawnItem();
+                    ((GameWorldStage)stages.get(1)).spawnItem();
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds
@@ -92,9 +83,10 @@ public class LevelScreen extends AbstractScreen {
         super.render(delta);
 
         rendererCamera.update();
-
         renderer.setView(rendererCamera);
 		renderer.render();
+
+        // This happens in Super, but must happen here as well or it will be behind the map
         for (AbstractStage stage : stages) {
             stage.act(delta);
             stage.draw();
@@ -104,9 +96,7 @@ public class LevelScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        ((GameWorldStage)stages.get(0)).getBackgroundActor().setBounds(0, 0, width, height);
         rendererCamera.setToOrtho(false, width, height);
-//        rendererCamera.position.set(mapHeight/2, mapWidth/2, 0);
         rendererCamera.update();
     }
 
@@ -130,12 +120,15 @@ public class LevelScreen extends AbstractScreen {
     public void hide() {
         super.hide();
         itemSpawnTimer.stop();
+        ((HUDStage)stages.get(0)).getDragCatcher().clearListeners();
     }
 
     @Override
     public void show() {
         super.show();
         itemSpawnTimer.start();
+        // DualCamController
+        ((HUDStage)stages.get(0)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
     }
 
     @Override
@@ -154,6 +147,7 @@ public class LevelScreen extends AbstractScreen {
         final Vector3 curr = new Vector3();
         final Vector3 last = new Vector3(-1, -1, -1);
         final Vector3 delta = new Vector3();
+        private float VARIANT = 0.7f;
 
         public DualCamController(OrthographicCamera camera1, OrthographicCamera camera2) {
             this.camera1 = camera1;
@@ -164,6 +158,8 @@ public class LevelScreen extends AbstractScreen {
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             super.touchDragged(event, x, y, pointer);
 
+
+
             // Use Camera1 as the last point
             camera1.unproject(curr.set(x, y, 0));
 
@@ -172,11 +168,9 @@ public class LevelScreen extends AbstractScreen {
                 // Still use camera 1 as the latest; this time as change
                 camera1.unproject(delta.set(last.x, last.y, 0));
                 delta.sub(curr);
-                camera1.position.add(delta.x / 32, delta.y * -32, 0);
-                camera2.position.add(delta.x * 32, delta.y * -32, 0);
+                camera1.position.add(delta.x * VARIANT, delta.y *  -VARIANT, 0);
+                camera2.position.add(delta.x * VARIANT, delta.y *  -VARIANT, 0);
             }
-
-//            camera1.update();
 
             last.set(x, y, 0);
         }

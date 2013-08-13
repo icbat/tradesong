@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,6 +28,8 @@ public class HUDStage extends AbstractStage {
     private Label capacityCounter;
     private Label.LabelStyle textStyle;
 
+    private Actor dragCatcher = new Actor();
+
     public HUDStage(Tradesong gameInstance) {
         this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
         this.gameInstance = gameInstance;
@@ -44,7 +47,15 @@ public class HUDStage extends AbstractStage {
 
         addCharacterPortrait();
 
+        dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        dragCatcher.setTouchable(Touchable.enabled);
+        this.addActor(dragCatcher);
 
+
+    }
+
+    public Actor getDragCatcher() {
+        return dragCatcher;
     }
 
     private void addMoney() {

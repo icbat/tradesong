@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -34,20 +33,12 @@ public class GameWorldStage extends AbstractStage {
 
     Timer gatherTimer = new Timer();
 
-
-    private Actor backgroundActor = new Actor();
-
     int initialItemCount;
     int itemCount;
     int maxSpawnedPerMap;
     private final int mapHeight;
 
     public GameWorldStage(MapProperties properties) {
-
-        //    // Actor for dragging map around. Covers all the ground but doesn't have an image
-        backgroundActor.setTouchable(Touchable.enabled);
-        backgroundActor.setVisible(true);
-        this.addActor(backgroundActor);
 
         // Use the Map properties to get some good stuff
         initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
@@ -143,11 +134,6 @@ public class GameWorldStage extends AbstractStage {
     public void removeItemCount(int i) {
         itemCount -= i;
     }
-
-    public Actor getBackgroundActor() {
-        return backgroundActor;
-    }
-
 
     /** Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust */
     class Area {
