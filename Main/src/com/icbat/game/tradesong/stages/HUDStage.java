@@ -50,8 +50,7 @@ public class HUDStage extends AbstractStage {
         dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dragCatcher.setTouchable(Touchable.enabled);
         this.addActor(dragCatcher);
-
-
+        dragCatcher.setZIndex(0);
     }
 
     public Actor getDragCatcher() {
