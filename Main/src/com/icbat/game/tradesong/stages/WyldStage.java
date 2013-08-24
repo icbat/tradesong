@@ -18,7 +18,7 @@ import java.util.Random;
  *  - the draggable, clear background
  *  - it's also a nice encapsulation of adding/removing items
  *  */
-public class GameWorldStage extends AbstractStage {
+public class WyldStage extends AbstractStage {
 
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
@@ -38,7 +38,7 @@ public class GameWorldStage extends AbstractStage {
     int maxSpawnedPerMap;
     private final int mapHeight;
 
-    public GameWorldStage(MapProperties properties) {
+    public WyldStage(MapProperties properties) {
 
         // Use the Map properties to get some good stuff
         initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));

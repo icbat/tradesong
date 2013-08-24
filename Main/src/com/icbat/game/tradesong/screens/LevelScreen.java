@@ -15,7 +15,8 @@ import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
-import com.icbat.game.tradesong.stages.GameWorldStage;
+import com.icbat.game.tradesong.stages.TownStage;
+import com.icbat.game.tradesong.stages.WyldStage;
 import com.icbat.game.tradesong.stages.HUDStage;
 
 /**
@@ -50,7 +51,14 @@ public class LevelScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        stages.add(new GameWorldStage(map.getProperties()));
+        if (map.getProperties().get("type").equals("town")) {
+            stages.add(new TownStage(map.getProperties()));
+        }
+        else {
+            stages.add(new WyldStage(map.getProperties()));
+        }
+
+
         stages.add(hud);
 
 
@@ -71,7 +79,7 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.scheduleTask(
             new Timer.Task() {
                 public void run() {
-                    ((GameWorldStage)stages.get(0)).spawnItem();
+                    ((WyldStage)stages.get(0)).spawnItem();
                 }
 
             }, spawnInitialDelay, spawnIntervalSeconds
