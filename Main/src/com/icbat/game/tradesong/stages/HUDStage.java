@@ -178,7 +178,7 @@ public class HUDStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchDown(event, x, y, pointer, button);
+
             // Following error is a known bug in IDEA, not an actual problem
             if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
                 // If we're already on that screen
@@ -198,7 +198,7 @@ public class HUDStage extends AbstractStage {
                 }
             }
 
-            return true;
+            return super.touchDown(event, x, y, pointer, button);
         }
     }
 }
