@@ -56,6 +56,17 @@ public class LevelScreen extends AbstractScreen {
         }
         else {
             stages.add(new WyldStage(map.getProperties()));
+
+            int spawnInitialDelay = 5;
+            int spawnIntervalSeconds = 6;
+            itemSpawnTimer.scheduleTask(
+                    new Timer.Task() {
+                        public void run() {
+                            ((WyldStage)stages.get(0)).spawnItem();
+                        }
+
+                    }, spawnInitialDelay, spawnIntervalSeconds
+            );
         }
 
 
@@ -74,16 +85,7 @@ public class LevelScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(stages.get(0));
         inputMultiplexer.addProcessor(stages.get(1));
 
-        int spawnInitialDelay = 5;
-        int spawnIntervalSeconds = 6;
-        itemSpawnTimer.scheduleTask(
-            new Timer.Task() {
-                public void run() {
-                    ((WyldStage)stages.get(0)).spawnItem();
-                }
 
-            }, spawnInitialDelay, spawnIntervalSeconds
-        );
     }
 
     @Override

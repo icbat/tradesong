@@ -71,7 +71,7 @@ public class MainMenuScreen extends AbstractScreen {
 		// revert the checked state.
 		newButton.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
-                    gameInstance.goToLevel("test");
+                    gameInstance.goToTown();
 				}
 			}
 		

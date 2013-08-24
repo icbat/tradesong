@@ -118,6 +118,10 @@ public class Tradesong extends Game {
     public void goToLevel(String levelName) {
         goToScreen(new LevelScreen(levelName, hud));
     }
+    public void goToTown() {
+        goToLevel("town_hub");
+    }
+
     public AbstractScreen getCurrentScreen() {
         return screenStack.peek();
     }
