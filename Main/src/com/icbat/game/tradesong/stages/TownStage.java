@@ -6,10 +6,11 @@ public class TownStage extends LevelStage {
 
 
     public TownStage(MapProperties properties) {
+        super(properties);
     }
 
     @Override
     public void layout() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        //TODO impl
     }
 }

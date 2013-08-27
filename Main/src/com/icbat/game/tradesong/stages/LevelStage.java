@@ -1,9 +1,14 @@
 package com.icbat.game.tradesong.stages;
 
-public class LevelStage extends AbstractStage {
+import com.badlogic.gdx.maps.MapProperties;
 
-    @Override
-    public void layout() {
-        //To change body of implemented methods use File | Settings | File Templates.
+public abstract class LevelStage extends AbstractStage {
+
+    MapProperties properties;
+
+    public LevelStage(MapProperties properties) {
+        this.properties = properties;
+        layout();
+
     }
 }
