@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.InventoryScreen;
-import com.icbat.game.tradesong.screens.StoreScreen;
-import com.icbat.game.tradesong.screens.WorkshopScreen;
 
 public class HUDStage extends AbstractStage {
     public static final int SPACER = 6;
@@ -61,7 +58,7 @@ public class HUDStage extends AbstractStage {
         Image coin = new Image(Tradesong.getCoinTexture());
 
         layoutHorizontally(coin);
-        coin.addListener(new InterfaceButtonListener(StoreScreen.class, gameInstance));
+        coin.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.STORE, gameInstance));
         this.addActor(coin);
 
         Label.LabelStyle style = new Label.LabelStyle();
@@ -89,7 +86,7 @@ public class HUDStage extends AbstractStage {
         Image inventoryButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
-        inventoryButton.addListener(new InterfaceButtonListener(InventoryScreen.class, gameInstance));
+        inventoryButton.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.INVENTORY, gameInstance));
         layoutHorizontally(inventoryButton);
         inventoryButton.setVisible(true);
         this.addActor(inventoryButton);
@@ -141,7 +138,7 @@ public class HUDStage extends AbstractStage {
         Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.addListener(new InterfaceButtonListener(WorkshopScreen.class, gameInstance));
+        workshopButton.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.WORKSHOP, gameInstance));
 
         layoutHorizontally(workshopButton);
 
@@ -167,36 +164,19 @@ public class HUDStage extends AbstractStage {
     }
 
     class InterfaceButtonListener extends ClickListener {
-        private Class landingPage;
+        private Tradesong.ScreenTypes type;
         private Tradesong gameInstance;
 
-        InterfaceButtonListener(Class landingPage, Tradesong gameInstance) {
+        InterfaceButtonListener(Tradesong.ScreenTypes type, Tradesong gameInstance) {
             super();
-            this.landingPage = landingPage;
+            this.type = type;
             this.gameInstance = gameInstance;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-            // Following error is a known bug in IDEA, not an actual problem
-            if (gameInstance.getCurrentScreen().getClass().equals(landingPage)) {
-                // If we're already on that screen
-                gameInstance.goBack();
-            }
-            else {
-                // Find the screen to go to based on landing
-                if (landingPage.equals(InventoryScreen.class)) {
-
-                    gameInstance.goToInventory();
-                }
-                else if (landingPage.equals(WorkshopScreen.class)) {
-                    gameInstance.goToWorkshop();
-
-                } else if (landingPage.equals(StoreScreen.class)) {
-                    gameInstance.goToStore();
-                }
-            }
+            gameInstance.goToScreen(type);
 
             return super.touchDown(event, x, y, pointer, button);
         }

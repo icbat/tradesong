@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -41,7 +42,9 @@ public class Tradesong extends Game {
 
     public static GameStateManager gameState;
     public static AssetManager assets = new AssetManager();
-    private static final Stack<AbstractScreen> screenStack = new Stack<AbstractScreen>();
+
+    private static LevelScreen currentMap;
+    private static ScreenTypes currentScreenType;
 
     private HUDStage hud;
     private InventoryStage inventoryStage;
@@ -57,7 +60,7 @@ public class Tradesong extends Game {
         generalMusic.setLooping(true);
 
         gameState = new GameStateManager();
-		goToMainMenu();
+		goToScreen(ScreenTypes.MAIN_MENU);
 
         hud = new HUDStage(this);
         inventoryStage = new InventoryStage();
@@ -104,54 +107,67 @@ public class Tradesong extends Game {
 
         WORKSHOP,
         INVENTORY,
-        SHOP,
+        STORE,
     }
 
-    public void goBack() {
-        if (screenStack.size() > 0) {
-            screenStack.pop();
-            setScreen(screenStack.peek());
+    public void goToScreen(ScreenTypes screen) {
+
+
+        if (screen.equals(currentScreenType)) {
+
+            Gdx.app.log("", "found current screen");
+
+            if (screen.equals(ScreenTypes.LEVEL)) {
+                goToOverlap(new MainMenuScreen(this));
+                currentScreenType = ScreenTypes.MAIN_MENU;
+            } else {
+                leaveOverlap();
+                currentScreenType = ScreenTypes.LEVEL;
+            }
+
+        } else {
+
+            currentScreenType = screen;
+
+            switch(screen) {
+                case MAIN_MENU:
+                    goToOverlap(new MainMenuScreen(this));
+                    break;
+                case TOWN:
+                    goToMap("town_hub");
+                    break;
+                case WORKSHOP:
+                    goToOverlap(new WorkshopScreen(hud, inventoryStage, workshopStage));
+                    break;
+                case INVENTORY:
+                    goToOverlap(new InventoryScreen(hud, inventoryStage));
+                    break;
+                case STORE:
+                    goToOverlap(new StoreScreen(hud, inventoryStage));
+            }
         }
     }
 
-    public void goToScreen(AbstractScreen newScreen) {
-        AbstractScreen top = screenStack.peek();
+    public void goToMap(String mapName) {
+        Gdx.app.log("", "Going to map " + mapName);
 
-        // These errors are a bug in IDEA and not actually wrong
-        if (top.getClass().equals(InventoryScreen.class) || top.getClass().equals(WorkshopScreen.class) || top.getClass().equals(StoreScreen.class))
-            screenStack.pop();
-        screenStack.push(newScreen);
-        setScreen(screenStack.peek());
+        currentMap = new LevelScreen(mapName, hud);
+        setScreen(currentMap);
     }
 
-    public void goToMainMenu() {
-        screenStack.clear();
-        screenStack.push(new MainMenuScreen(this));
-        setScreen(screenStack.peek());
+    public void goToOverlap(AbstractScreen newScreen) {
+        setScreen(newScreen);
+
     }
 
-    public void goToInventory() {
-        goToScreen(new InventoryScreen(hud, inventoryStage));
-    }
-    public void goToLevel(String levelName) {
-        goToScreen(new LevelScreen(levelName, hud));
-    }
-    public void goToTown() {
-        goToLevel("town_hub");
+    public void leaveOverlap() {
+
+        setScreen(currentMap);
     }
 
-    public AbstractScreen getCurrentScreen() {
-        return screenStack.peek();
+    public static LevelScreen getCurrentMap() {
+        return currentMap;
     }
-    public void goToWorkshop() {
-        goToScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
-    }
-    public void goToStore() {
-        goToScreen(new StoreScreen(hud, inventoryStage));
-    }
-
-
-
 
     /* Block for static asset retrieval methods */
 
