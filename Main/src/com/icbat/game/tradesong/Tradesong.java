@@ -11,8 +11,6 @@ import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.InventoryStage;
 import com.icbat.game.tradesong.stages.WorkshopStage;
 
-import java.util.Stack;
-
 
 /**
  * This class:
@@ -163,10 +161,6 @@ public class Tradesong extends Game {
     public void leaveOverlap() {
 
         setScreen(currentMap);
-    }
-
-    public static LevelScreen getCurrentMap() {
-        return currentMap;
     }
 
     /* Block for static asset retrieval methods */
