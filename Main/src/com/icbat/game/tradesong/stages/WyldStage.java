@@ -18,7 +18,7 @@ import java.util.Random;
  *  - the draggable, clear background
  *  - it's also a nice encapsulation of adding/removing items
  *  */
-public class WyldStage extends AbstractStage {
+public class WyldStage extends LevelStage {
 
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
