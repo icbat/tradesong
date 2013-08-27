@@ -11,8 +11,7 @@ public class Point {
 
     /** Does the conversion using Integer.parseInt() */
     public Point(String x, String y) {
-        this.x = Integer.parseInt(x);
-        this.y = Integer.parseInt(y);
+        this(Integer.parseInt(x), Integer.parseInt(y));
     }
 
     public int getX() {
