@@ -31,7 +31,7 @@ public class HUDStage extends AbstractStage {
     private Actor dragCatcher = new Actor();
 
     public HUDStage(Tradesong gameInstance) {
-        this.itemsTexture = Tradesong.assets.get(Tradesong.getItemsPath());
+        this.itemsTexture = Tradesong.getItemsPath();
         this.gameInstance = gameInstance;
 
         layout();

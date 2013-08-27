@@ -42,7 +42,7 @@ public class WorkshopStage extends AbstractStage {
 
     public WorkshopStage(Workshop workshop) {
         super();
-        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
+        frameTexture = Tradesong.getFramePath();
         setWorkshop(workshop); // Handles the standard setup
     }
 
@@ -130,7 +130,7 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = Tradesong.assets.get(Tradesong.getPathSpriteArrow());
+        Texture arrowTexture = Tradesong.getPathSpriteArrow();
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);

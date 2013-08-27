@@ -155,16 +155,16 @@ public class Tradesong extends Game {
 
     /* Block for static asset retrieval methods */
 
-    public static String getItemsPath() {
-        return PATH_SPRITE_ITEMS;
+    public static Texture getItemsPath() {
+        return assets.get(PATH_SPRITE_ITEMS);
     }
 
-    public static String getFramePath() {
-        return PATH_SPRITE_FRAME;
+    public static Texture getFramePath() {
+        return assets.get(PATH_SPRITE_FRAME);
     }
 
-    public static String getPathSpriteArrow() {
-        return PATH_SPRITE_ARROW_INVENTORY;
+    public static Texture getPathSpriteArrow() {
+        return assets.get(PATH_SPRITE_ARROW_INVENTORY);
     }
 
     public static Texture getSpriteIconHammer() {
