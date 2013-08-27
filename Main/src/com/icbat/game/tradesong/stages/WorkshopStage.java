@@ -187,7 +187,6 @@ public class WorkshopStage extends AbstractStage {
      * @param returnToInventory should these ingredients be added back to the inventory?*/
     public void clearIngredients(boolean returnToInventory) {
 
-        Gdx.app.log("clear",ingredients.getChildren().size + "");
 
         ArrayList<Actor> ingredientsSnapshot = new ArrayList<Actor>();
 
@@ -200,8 +199,6 @@ public class WorkshopStage extends AbstractStage {
             if (returnToInventory) {
                 Tradesong.gameState.getInventory().add(new Item(ingredient));
             }
-
-            Gdx.app.log("clear", ingredient.toString());
 
             ingredient.remove();
             productGroup.clearChildren();
@@ -264,7 +261,7 @@ public class WorkshopStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            //TODO if this is overtaking anything, mess with returns
+
             if (isResult) {
                 // Can we even add this?
                 if (Tradesong.gameState.getInventory().canAdd(owner)) {

@@ -57,8 +57,6 @@ public class WyldStage extends LevelStage {
         String validSpawnsBlob = (String)properties.get(PROPERTY_VALID_SPAWN_AREA);
         String[] VSA = validSpawnsBlob.split(",");
 
-        Gdx.app.log("gameStage", validSpawnsBlob);
-
         validSpawn = new Area( Integer.parseInt(VSA[0]),Integer.parseInt(VSA[1]),Integer.parseInt(VSA[2]),Integer.parseInt(VSA[3]));
 
 
