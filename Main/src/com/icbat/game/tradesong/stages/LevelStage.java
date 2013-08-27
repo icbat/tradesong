@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -30,29 +29,16 @@ public abstract class LevelStage extends AbstractStage {
     @Override
     public void layout() {
         addExits();
-
-
     }
 
     private void addExits() {
-        String exitsBlob = (String)properties.get("exits"); //TODO constant this
-
-        Gdx.app.log("exits", exitsBlob);
+        String exitsBlob = (String)properties.get("exits");
 
         String[] exitInfoClumps = exitsBlob.split(";");
 
-        for (String s : exitInfoClumps) {
-            Gdx.app.log("exits", s);
-        }
-
-        Gdx.app.log("exits", exitInfoClumps.toString());
 
         for (String exitInfo : exitInfoClumps) {
-
-            Gdx.app.log("exits", exitInfo);
             String[] exitInfoExploded = exitInfo.split(",");
-
-
 
             Point coords = new Point(exitInfoExploded[0], exitInfoExploded[1]);
             coords.translateToMapStage((Integer)properties.get("height"));
@@ -114,10 +100,9 @@ public abstract class LevelStage extends AbstractStage {
 
         }
 
-
-
         Image getImage() {
             return image;
         }
+
     }
 }
