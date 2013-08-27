@@ -119,9 +119,9 @@ public class WyldStage extends LevelStage {
     /** Performs common steps for Items being added to the stage randomly */
     private void finalizeItemForView(Item item) {
 
-        item.addListener(new ItemClickListener(item));
+        item.addListener(new GatherClickListener(item));
         int[] coords = validSpawn.getRandomCoordsInside();
-        item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
+        item.setPosition(coords[0], coords[1]);
         item.setTouchable(Touchable.enabled);
         item.setVisible(true);
         this.addActor(item);
@@ -177,10 +177,10 @@ public class WyldStage extends LevelStage {
 
 
     /** Class to handle touching/clicking of items on levels.  */
-    class ItemClickListener extends ClickListener {
+    class GatherClickListener extends ClickListener {
         Item owner;
 
-        ItemClickListener(Item owner) {
+        GatherClickListener(Item owner) {
             this.owner = owner;
         }
 
