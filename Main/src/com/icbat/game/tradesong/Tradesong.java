@@ -91,6 +91,22 @@ public class Tradesong extends Game {
         assets.finishLoading(); // Blocks until finished
     }
 
+
+    /* Screen management methods */
+
+    /** Things that can be passed to goToScreen */
+    public static enum ScreenTypes {
+        MAIN_MENU,
+        SETTINGS,
+
+        LEVEL,
+        TOWN,
+
+        WORKSHOP,
+        INVENTORY,
+        SHOP,
+    }
+
     public void goBack() {
         if (screenStack.size() > 0) {
             screenStack.pop();
@@ -101,7 +117,7 @@ public class Tradesong extends Game {
     public void goToScreen(AbstractScreen newScreen) {
         AbstractScreen top = screenStack.peek();
 
-        // These two errors are a bug in IDEA and not actually wrong
+        // These errors are a bug in IDEA and not actually wrong
         if (top.getClass().equals(InventoryScreen.class) || top.getClass().equals(WorkshopScreen.class) || top.getClass().equals(StoreScreen.class))
             screenStack.pop();
         screenStack.push(newScreen);
@@ -133,6 +149,11 @@ public class Tradesong extends Game {
     public void goToStore() {
         goToScreen(new StoreScreen(hud, inventoryStage));
     }
+
+
+
+
+    /* Block for static asset retrieval methods */
 
     public static String getItemsPath() {
         return PATH_SPRITE_ITEMS;
@@ -168,10 +189,6 @@ public class Tradesong extends Game {
 
     public static Sound getGatherSound() {
         return assets.get(PATH_SOUNDS_GATHER);
-    }
-
-    public static Music getGeneralMusic() {
-        return generalMusic;
     }
 
     public static String getParamDelayGather() {
