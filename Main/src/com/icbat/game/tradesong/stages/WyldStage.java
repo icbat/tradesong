@@ -46,7 +46,7 @@ public class WyldStage extends LevelStage {
         maxSpawnedPerMap = Integer.parseInt((String) properties.get(PROPERTY_SPAWN_CAPACITY));
         String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
-        // Figure out what spawns here and what the total rarity is
+        // Figure out what spawns here
         for (String itemName : itemsArray) {
             possibleItemSpawns.add( Tradesong.gameState.getItemByName(itemName) );
         }
@@ -64,11 +64,13 @@ public class WyldStage extends LevelStage {
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
         }
+
+        layout();
     }
 
     @Override
     public void layout() {
-        // TODO impl
+        // Unsure if this needs anything, as opposed to the other stages that definitely need this.
     }
 
     public boolean spawnItem() {

@@ -23,7 +23,8 @@ public class Tradesong extends Game {
 
     private static final String PATH_SPRITE_ITEMS = "sprites/items.png";
     private static final String PATH_SPRITE_FRAME = "sprites/frame.png";
-    private static final String PATH_SPRITE_ARROW = "sprites/arrow.png";
+    private static final String PATH_SPRITE_ARROW_INVENTORY = "sprites/arrow-inventory.png";
+    private static final String PATH_SPRITE_ARROW_MAPS = "sprites/arrow-map.png";
     private static final String PATH_SPRITE_ICON_HAMMER = "sprites/hammer-drop.png";
     private static final String PATH_SPRITE_ICON_WRENCH = "sprites/auto-repair.png";
     private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
@@ -73,6 +74,7 @@ public class Tradesong extends Game {
 
         // Item sheet used by all/most icons, items, buttons, etc.
         assets.load(PATH_SPRITE_ITEMS, Texture.class);
+        assets.load(PATH_SPRITE_ARROW_MAPS, Texture.class);
 
         // Character sprite!
         assets.load(PATH_SPRITE_CHAR, Texture.class);
@@ -81,7 +83,7 @@ public class Tradesong extends Game {
         // Frame PNG used in inventory/workshops
         assets.load(PATH_SPRITE_FRAME, Texture.class);
 
-        assets.load(PATH_SPRITE_ARROW, Texture.class);
+        assets.load(PATH_SPRITE_ARROW_INVENTORY, Texture.class);
         assets.load(PATH_SPRITE_ICON_BOOK, Texture.class);
         assets.load(PATH_SPRITE_ICON_HAMMER, Texture.class);
         assets.load(PATH_SPRITE_ICON_WRENCH, Texture.class);
@@ -141,7 +143,7 @@ public class Tradesong extends Game {
     }
 
     public static String getPathSpriteArrow() {
-        return PATH_SPRITE_ARROW;
+        return PATH_SPRITE_ARROW_INVENTORY;
     }
 
     public static Texture getSpriteIconHammer() {
@@ -178,5 +180,9 @@ public class Tradesong extends Game {
 
     public static String getParamDelayCraft() {
         return PARAM_DELAY_CRAFT;
+    }
+
+    public static Texture getMapArrowTexture() {
+        return assets.get(PATH_SPRITE_ARROW_MAPS);
     }
 }
