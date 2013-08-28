@@ -1,19 +1,13 @@
 package com.icbat.game.tradesong.stages;
 
 import com.badlogic.gdx.maps.MapProperties;
+import com.icbat.game.tradesong.Tradesong;
 
 public class TownStage extends LevelStage {
 
-
-    public TownStage(MapProperties properties) {
-        super(properties);
+    public TownStage(Tradesong gameInstance, MapProperties properties) {
+        super(gameInstance, properties);
 
         layout();
-    }
-
-    @Override
-    public void layout() {
-        super.layout();
-
     }
 }

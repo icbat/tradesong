@@ -34,7 +34,7 @@ public class LevelScreen extends AbstractScreen {
 	private OrthoCamera rendererCamera;
     private final OrthoCamera gameWorldCamera;
 
-    public LevelScreen(String level, HUDStage hud) {
+    public LevelScreen(String level, HUDStage hud, Tradesong gameInstance) {
         super();
 
         // Load the map
@@ -52,10 +52,10 @@ public class LevelScreen extends AbstractScreen {
 
         // Load the stages
         if (map.getProperties().get("type").equals("town")) {
-            stages.add(new TownStage(map.getProperties()));
+            stages.add(new TownStage(gameInstance, map.getProperties()));
         }
         else {
-            stages.add(new WyldStage(map.getProperties()));
+            stages.add(new WyldStage(gameInstance, map.getProperties()));
 
             int spawnInitialDelay = 5;
             int spawnIntervalSeconds = 6;

@@ -149,17 +149,15 @@ public class Tradesong extends Game {
     public void goToMap(String mapName) {
         Gdx.app.log("", "Going to map " + mapName);
 
-        currentMap = new LevelScreen(mapName, hud);
+        currentMap = new LevelScreen(mapName, hud, this);
         setScreen(currentMap);
     }
 
     public void goToOverlap(AbstractScreen newScreen) {
         setScreen(newScreen);
-
     }
 
     public void leaveOverlap() {
-
         setScreen(currentMap);
     }
 

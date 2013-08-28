@@ -1,8 +1,11 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.Point;
@@ -19,11 +22,11 @@ public abstract class LevelStage extends AbstractStage {
     }
 
     MapProperties properties;
+    Tradesong gameInstance;
 
-    public LevelStage(MapProperties properties) {
+    public LevelStage(Tradesong gameInstance, MapProperties properties) {
+        this.gameInstance = gameInstance;
         this.properties = properties;
-//        layout(); This needs to happen after more properties have been messed with, or things will need to be much more verbose
-
     }
 
     @Override
@@ -36,6 +39,7 @@ public abstract class LevelStage extends AbstractStage {
 
         String[] exitInfoClumps = exitsBlob.split(";");
 
+        Gdx.app.log("exits", "Adding " + exitInfoClumps.length + "exits");
 
         for (String exitInfo : exitInfoClumps) {
             String[] exitInfoExploded = exitInfo.split(",");
@@ -43,21 +47,26 @@ public abstract class LevelStage extends AbstractStage {
             Point coords = new Point(exitInfoExploded[0], exitInfoExploded[1]);
             coords.translateToMapStage((Integer)properties.get("height"));
 
-            ExitArrow arrow = new ExitArrow(exitInfoExploded[2]);
+            ExitArrow arrow = new ExitArrow(exitInfoExploded[2], exitInfoExploded[3]);
             Image arrowImage = arrow.getImage();
 
             arrowImage.setPosition(coords.getX(), coords.getY());
-
+            arrowImage.addListener(new MapTransitionListener(gameInstance, arrow));
             this.addActor(arrowImage);
         }
     }
 
+    /** Class for the making exit arrows rotating to face as set */
     class ExitArrow {
 
         Direction facing = null;
         private Image image;
+        String destination;
 
-        ExitArrow(String directionString) {
+
+        ExitArrow(String directionString, String destinationMapName) {
+            this.destination = destinationMapName;
+
             directionString = directionString.toLowerCase();
             if (directionString.equals("left"))
                 facing = Direction.LEFT;
@@ -72,12 +81,6 @@ public abstract class LevelStage extends AbstractStage {
                 facing = Direction.DOWN;
 
 
-            makeImage();
-        }
-
-
-        ExitArrow(Direction facing) {
-            this.facing = facing;
             makeImage();
         }
 
@@ -106,5 +109,23 @@ public abstract class LevelStage extends AbstractStage {
 
     }
 
+    class MapTransitionListener extends ClickListener {
+
+        Tradesong gameInstance;
+        ExitArrow exit;
+
+        MapTransitionListener(Tradesong gameInstance, ExitArrow exit) {
+            this.gameInstance = gameInstance;
+            this.exit = exit;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+            gameInstance.goToMap(exit.destination);
+
+            return super.touchDown(event, x, y, pointer, button);
+        }
+    }
 
 }

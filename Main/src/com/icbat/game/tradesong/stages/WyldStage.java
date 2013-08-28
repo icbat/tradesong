@@ -38,8 +38,8 @@ public class WyldStage extends LevelStage {
     int maxSpawnedPerMap;
     private final int mapHeight;
 
-    public WyldStage(MapProperties properties) {
-        super(properties);
+    public WyldStage(Tradesong gameInstance, MapProperties properties) {
+        super(gameInstance, properties);
 
         // Use the Map properties to get some good stuff
         initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
@@ -54,7 +54,6 @@ public class WyldStage extends LevelStage {
         // Set up knowledge of where things can spawn
         mapHeight = (Integer)properties.get("height");
 
-
         String validSpawnsBlob = (String)properties.get(PROPERTY_VALID_SPAWN_AREA);
         String[] VSA = validSpawnsBlob.split(",");
 
@@ -66,11 +65,7 @@ public class WyldStage extends LevelStage {
         }
 
         layout();
-    }
 
-    @Override
-    public void layout() {
-        // Unsure if this needs anything, as opposed to the other stages that definitely need this.
     }
 
     public boolean spawnItem() {
