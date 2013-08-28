@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,7 +36,7 @@ public class InventoryStage extends AbstractStage {
     public InventoryStage() {
         inventory = Tradesong.gameState.getInventory();
 
-        frameTexture = Tradesong.assets.get(Tradesong.getFramePath());
+        frameTexture = Tradesong.getFramePath();
 
         layout();
     }
@@ -290,9 +289,9 @@ public class InventoryStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            Gdx.app.log("onUse",item.getItemName());
+
             if (item.getOnUse() != null) {
-                Gdx.app.log("onUse",item.getOnUse().toString());
+
                 if (item.getOnUse().use()) {
                     item.remove();
                     stack.remove(1);

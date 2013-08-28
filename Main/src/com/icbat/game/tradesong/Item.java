@@ -41,7 +41,7 @@ public class Item extends Image {
         this.basePrice = basePrice;
 
 
-        // Determine if there should be an action //TODO better way to do this?
+        // Determine if there should be an action
         if (itemName.equals("Gathering Speed")) {
             this.onUse = new SpeedUpgrade(Tradesong.getParamDelayGather(), 1);
         }
