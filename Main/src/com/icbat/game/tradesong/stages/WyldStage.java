@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,8 +17,9 @@ import java.util.Random;
  *  - the draggable, clear background
  *  - it's also a nice encapsulation of adding/removing items
  *  */
-public class GameWorldStage extends AbstractStage {
+public class WyldStage extends LevelStage {
 
+    // Constants for extracting map properties
     public static final String PROPERTY_INITIAL_SPAWN_COUNT = "initialSpawnCount";
     public static final String PROPERTY_SPAWN_CAPACITY = "maxSpawnCapacity";
     public static final String PROPERTY_SPAWNABLE_ITEMS = "spawnableItems";
@@ -38,14 +38,15 @@ public class GameWorldStage extends AbstractStage {
     int maxSpawnedPerMap;
     private final int mapHeight;
 
-    public GameWorldStage(MapProperties properties) {
+    public WyldStage(Tradesong gameInstance, MapProperties properties) {
+        super(gameInstance, properties);
 
         // Use the Map properties to get some good stuff
         initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
         maxSpawnedPerMap = Integer.parseInt((String) properties.get(PROPERTY_SPAWN_CAPACITY));
         String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
-        // Figure out what spawns here and what the total rarity is
+        // Figure out what spawns here
         for (String itemName : itemsArray) {
             possibleItemSpawns.add( Tradesong.gameState.getItemByName(itemName) );
         }
@@ -53,11 +54,8 @@ public class GameWorldStage extends AbstractStage {
         // Set up knowledge of where things can spawn
         mapHeight = (Integer)properties.get("height");
 
-
         String validSpawnsBlob = (String)properties.get(PROPERTY_VALID_SPAWN_AREA);
         String[] VSA = validSpawnsBlob.split(",");
-
-        Gdx.app.log("gameStage", validSpawnsBlob);
 
         validSpawn = new Area( Integer.parseInt(VSA[0]),Integer.parseInt(VSA[1]),Integer.parseInt(VSA[2]),Integer.parseInt(VSA[3]));
 
@@ -65,11 +63,9 @@ public class GameWorldStage extends AbstractStage {
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
         }
-    }
 
-    @Override
-    public void layout() {
-        // TODO impl
+        layout();
+
     }
 
     public boolean spawnItem() {
@@ -119,9 +115,9 @@ public class GameWorldStage extends AbstractStage {
     /** Performs common steps for Items being added to the stage randomly */
     private void finalizeItemForView(Item item) {
 
-        item.addListener(new ItemClickListener(item));
+        item.addListener(new GatherClickListener(item));
         int[] coords = validSpawn.getRandomCoordsInside();
-        item.setBounds(coords[0], coords[1], 34, 34);   // TODO constants
+        item.setPosition(coords[0], coords[1]);
         item.setTouchable(Touchable.enabled);
         item.setVisible(true);
         this.addActor(item);
@@ -177,10 +173,10 @@ public class GameWorldStage extends AbstractStage {
 
 
     /** Class to handle touching/clicking of items on levels.  */
-    class ItemClickListener extends ClickListener {
+    class GatherClickListener extends ClickListener {
         Item owner;
 
-        ItemClickListener(Item owner) {
+        GatherClickListener(Item owner) {
             this.owner = owner;
         }
 

@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 

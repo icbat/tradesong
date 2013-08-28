@@ -12,10 +12,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.OrthoCamera;
+import com.icbat.game.tradesong.utils.OrthoCamera;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
-import com.icbat.game.tradesong.stages.GameWorldStage;
+import com.icbat.game.tradesong.stages.TownStage;
+import com.icbat.game.tradesong.stages.WyldStage;
 import com.icbat.game.tradesong.stages.HUDStage;
 
 /**
@@ -33,7 +34,7 @@ public class LevelScreen extends AbstractScreen {
 	private OrthoCamera rendererCamera;
     private final OrthoCamera gameWorldCamera;
 
-    public LevelScreen(String level, HUDStage hud) {
+    public LevelScreen(String level, HUDStage hud, Tradesong gameInstance) {
         super();
 
         // Load the map
@@ -50,7 +51,25 @@ public class LevelScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         // Load the stages
-        stages.add(new GameWorldStage(map.getProperties()));
+        if (map.getProperties().get("type").equals("town")) {
+            stages.add(new TownStage(gameInstance, map.getProperties()));
+        }
+        else {
+            stages.add(new WyldStage(gameInstance, map.getProperties()));
+
+            int spawnInitialDelay = 5;
+            int spawnIntervalSeconds = 6;
+            itemSpawnTimer.scheduleTask(
+                    new Timer.Task() {
+                        public void run() {
+                            ((WyldStage)stages.get(0)).spawnItem();
+                        }
+
+                    }, spawnInitialDelay, spawnIntervalSeconds
+            );
+        }
+
+
         stages.add(hud);
 
 
@@ -66,16 +85,7 @@ public class LevelScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(stages.get(0));
         inputMultiplexer.addProcessor(stages.get(1));
 
-        int spawnInitialDelay = 5;
-        int spawnIntervalSeconds = 6;
-        itemSpawnTimer.scheduleTask(
-            new Timer.Task() {
-                public void run() {
-                    ((GameWorldStage)stages.get(0)).spawnItem();
-                }
 
-            }, spawnInitialDelay, spawnIntervalSeconds
-        );
     }
 
     @Override
