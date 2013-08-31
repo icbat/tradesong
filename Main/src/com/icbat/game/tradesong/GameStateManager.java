@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -84,7 +85,7 @@ public class GameStateManager {
     public boolean loadItems(Texture texture) {
 
         // Load the main file
-        String itemBlob = new FileHandle(PATH_ITEMS).readString();
+        String itemBlob = Gdx.files.internal(PATH_ITEMS).readString();
         String[] lineOfSpec = itemBlob.split("\n");
 
         // Declaring for memory usage
@@ -122,7 +123,7 @@ public class GameStateManager {
     public boolean loadRecipes() {
 
         // Load the main file
-        String itemBlob = new FileHandle(PATH_RECIPES).readString();
+        String itemBlob = Gdx.files.internal(PATH_RECIPES).readString();
         String[] lineOfSpec = itemBlob.split("\n");
 
         // Declaring for memory usage
