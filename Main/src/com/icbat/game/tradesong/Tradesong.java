@@ -118,8 +118,10 @@ public class Tradesong extends Game {
                     break;
                 case STORE:
                     goToOverlap(new StoreScreen(hud, inventoryStage));
+                    break;
                 case SETTINGS:
                     goToOverlap(new SettingsScreen(this));
+                    break;
             }
         }
     }
