@@ -15,20 +15,16 @@ import java.util.ArrayList;
  * */
 public abstract class AbstractScreen implements Screen {
 
-	protected Skin skin;
+	protected Skin mainMenuSkin;
     protected SpriteBatch batch;
     protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
-    InputMultiplexer inputMultiplexer;
+    InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    public AbstractScreen() {
-        inputMultiplexer = new InputMultiplexer();
-
-    }
+    public AbstractScreen() {}
 	
 	@Override
 	public void render( float delta ) {
         render(delta, 0.2f, 0.2f, 0.2f, 1);
-
 	}
 
     public void render (float delta, float r, float g, float b, float a) {
@@ -45,7 +41,7 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void dispose() {
-        skin.dispose();
+        mainMenuSkin.dispose();
         for (AbstractStage stage : stages) {
             stage.dispose();
         }
@@ -58,6 +54,7 @@ public abstract class AbstractScreen implements Screen {
         return ((Object) this).getClass().getSimpleName();
     }
 
+    //TODO can these be removed?
     @Override
     public void hide() {
 
@@ -83,7 +80,12 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        inputMultiplexer.clear();
 
+        for (AbstractStage stage : stages) {
+            inputMultiplexer.addProcessor(stage);
+        }
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 }
