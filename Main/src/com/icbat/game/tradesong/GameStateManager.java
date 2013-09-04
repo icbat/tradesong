@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
@@ -77,12 +76,11 @@ public class GameStateManager {
 //        return false;
 //    }
 
-    /** Load in items from XML file assets
+    /** Load in items from CSV file assets
      *
-     * @return true if loadedSuccessfully
      * @see assets/items.csv
      * */
-    public boolean loadItems(Texture texture) {
+    public void loadItems(Texture texture) {
 
         // Load the main file
         String itemBlob = Gdx.files.internal(PATH_ITEMS).readString();
@@ -112,15 +110,13 @@ public class GameStateManager {
             }
 
         }
-
-
-
-        // TODO extensible-system
-        return false;
     }
 
-    /** Must be run after load items! */
-    public boolean loadRecipes() {
+    /** Load in recipes from CSV file assets
+     *
+     * Depends on (and must be run AFTER) loadItems()
+     * */
+    public void loadRecipes() {
 
         // Load the main file
         String itemBlob = Gdx.files.internal(PATH_RECIPES).readString();
@@ -166,10 +162,6 @@ public class GameStateManager {
 
 
         }
-
-        // TODO error-checking
-        // TODO extensible-system
-        return false;
     }
 
     private void findWorkshops() {
