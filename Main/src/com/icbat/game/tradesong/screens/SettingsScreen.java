@@ -36,7 +36,6 @@ public class SettingsScreen extends AbstractScreen {
             this.gameInstance = gameInstance;
 
             this.table.setFillParent(true);
-            this.addActor(this.table);
 
             this.buttonStyle.font = new BitmapFont();
             this.buttonStyle.fontColor = Color.WHITE;
@@ -52,7 +51,10 @@ public class SettingsScreen extends AbstractScreen {
 
         @Override
         public void layout() {
-            this.table.clear();
+            this.clear();
+            table.clearChildren();
+
+            this.addActor(this.table);
 
             this.table.add();
             this.table.add(newSettingsHeader("Music Volume"));
@@ -79,24 +81,12 @@ public class SettingsScreen extends AbstractScreen {
 
 
             // Save and Exit button, Discard button
-            this.addActor(newSaveAndExitButton());
-            this.addActor(newDiscardButton());
+            addAcceptChangesButton();
+            addDiscardButton();
         }
 
-        private TextButton newDiscardButton() {
-            TextButton discardChangesButton = new TextButton("Discard changes", buttonStyle);
 
-            discardChangesButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goBackAScreen();
-                }
-            });
-
-            return discardChangesButton;
-        }
-
-        private TextButton newSaveAndExitButton() {
+        private void addAcceptChangesButton() {
             TextButton saveChangesButton = new TextButton("Accept changes", buttonStyle);
 
             saveChangesButton.addListener(new ChangeListener() {
@@ -107,9 +97,25 @@ public class SettingsScreen extends AbstractScreen {
                 }
             });
 
-            saveChangesButton.setPosition(this.getWidth() - saveChangesButton.getWidth(), this.getHeight());
+            Gdx.app.log("acceptChangesButton", "width: " + this.getWidth());
+            Gdx.app.log("acceptChangesButton", "theButton: " + saveChangesButton.getWidth());
 
-            return saveChangesButton;
+            saveChangesButton.setPosition(this.getWidth() - saveChangesButton.getWidth(), 0);
+
+            this.addActor(saveChangesButton);
+        }
+
+        private void addDiscardButton() {
+            TextButton discardChangesButton = new TextButton("Discard changes", buttonStyle);
+
+            discardChangesButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    gameInstance.goBackAScreen();
+                }
+            });
+
+            this.addActor(discardChangesButton);
         }
 
         private Label newNumericalIndicator(int indicatorStartingValue) {
