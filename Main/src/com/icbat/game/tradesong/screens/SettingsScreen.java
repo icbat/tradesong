@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,14 +23,23 @@ public class SettingsScreen extends AbstractScreen {
 
 
     class SettingsStage extends AbstractStage {
+        public static final String KEY_SFX_VOL = "sfx_volume";
+        public static final String KEY_MUSIC_VOL = "music_volume";
         Tradesong gameInstance;
         Preferences preferences = Gdx.app.getPreferences("General_Preferences");
 
         Table table = new Table();
+        Group indicators = new Group();
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
+
+        final Slider musicSlider;
+        final Label musicIndicator;
+        final Slider SFXSlider;
+        final Label SFXIndicator;
+
 
 
         SettingsStage(Tradesong gameInstance) {
@@ -46,6 +56,13 @@ public class SettingsScreen extends AbstractScreen {
             this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderHead() ) );
             this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderBG(), 100, 8 ) );
 
+            this.musicIndicator = newNumericalIndicator(KEY_MUSIC_VOL, preferences.getInteger(KEY_MUSIC_VOL, 50));
+            this.musicSlider = newSlider();
+            this.musicSlider.addListener(new SliderListener(musicSlider, musicIndicator));
+
+            this.SFXIndicator = newNumericalIndicator(KEY_SFX_VOL, preferences.getInteger(KEY_SFX_VOL, 50));
+            this.SFXSlider = newSlider();
+            this.SFXSlider.addListener(new SliderListener(SFXSlider, SFXIndicator));
 
         }
 
@@ -60,11 +77,11 @@ public class SettingsScreen extends AbstractScreen {
             this.table.add(newSettingsHeader("Music Volume"));
             this.table.row();
             this.table.add(newStringReferencePoint("0% "));
-            this.table.add(newSlider("music_volume"));
+            this.table.add(musicSlider);
             this.table.add(newStringReferencePoint(" 100%"));
             this.table.row();
             this.table.add();
-            this.table.add(newNumericalIndicator(preferences.getInteger("music_volume", 50)));
+            this.table.add(musicIndicator);
 
             this.table.row();
             this.table.row();
@@ -73,12 +90,11 @@ public class SettingsScreen extends AbstractScreen {
             this.table.add(newSettingsHeader("SFX Volume"));
             this.table.row();
             this.table.add(newStringReferencePoint("0% "));
-            this.table.add(newSlider("sfx_volume"));
+            this.table.add(SFXSlider);
             this.table.add(newStringReferencePoint(" 100%"));
             this.table.row();
             this.table.add();
-            this.table.add(newNumericalIndicator(preferences.getInteger("sfx_volume", 50)));
-
+            this.table.add(SFXIndicator);
 
             // Save and Exit button, Discard button
             addAcceptChangesButton();
@@ -96,9 +112,6 @@ public class SettingsScreen extends AbstractScreen {
                     //TODO actually save them
                 }
             });
-
-            Gdx.app.log("acceptChangesButton", "width: " + this.getWidth());
-            Gdx.app.log("acceptChangesButton", "theButton: " + saveChangesButton.getWidth());
 
             saveChangesButton.setPosition(this.getWidth() - saveChangesButton.getWidth(), 0);
 
@@ -118,29 +131,44 @@ public class SettingsScreen extends AbstractScreen {
             this.addActor(discardChangesButton);
         }
 
-        private Label newNumericalIndicator(int indicatorStartingValue) {
-            // TODO update this somehow!
-            return new Label(String.valueOf(indicatorStartingValue), labelStyle);
+        private Label newNumericalIndicator(String linkedKey, int indicatorStartingValue) {
+            Label indicator = new Label(String.valueOf(indicatorStartingValue), labelStyle);
+            indicator.setName(linkedKey);
+            indicators.addActor(indicator);
+            return indicator;
+        }
+
+        private Slider newSlider() {
+            Slider settingSlider = new Slider(0, 100, 5, false, sliderStyle);
+            settingSlider.setWidth(this.getWidth()/2);
+            settingSlider.setValue(preferences.getInteger(KEY_MUSIC_VOL, 50));
+
+            return settingSlider;
         }
 
         private Label newStringReferencePoint(String referenceValue) {
             return new Label(referenceValue, labelStyle);
         }
 
-
         private Label newSettingsHeader(String headerText) {
             return new Label(headerText, labelStyle);
         }
 
-        private Slider newSlider(String settingKey) {
-            Slider settingSlider = new Slider(0, 100, 5, false, sliderStyle);
 
-            settingSlider.setWidth(this.getWidth()/2);
+        class SliderListener extends ChangeListener {
 
-            // TODO set starting value
-            // TODO listener
+            Slider owner;
+            Label linkedTarget;
 
-            return settingSlider;
+            SliderListener(Slider owner, Label linkedTarget) {
+                this.linkedTarget = linkedTarget;
+                this.owner = owner;
+            }
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                linkedTarget.setText(String.valueOf((int)(owner.getValue())));
+            }
         }
     }
 }
