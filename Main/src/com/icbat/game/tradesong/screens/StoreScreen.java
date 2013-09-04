@@ -15,9 +15,6 @@ public class StoreScreen extends AbstractScreen {
         // Setup an input Multiplexer
         inputMultiplexer.addProcessor(hud);
         inputMultiplexer.addProcessor(inventoryStage);
-
-
-
     }
 
     @Override
