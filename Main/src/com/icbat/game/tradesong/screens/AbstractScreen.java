@@ -54,17 +54,19 @@ public abstract class AbstractScreen implements Screen {
         return ((Object) this).getClass().getSimpleName();
     }
 
-    //TODO can these be removed?
+    /** This method does nothing, but must be here to allow the children to not implement this. */
     @Override
     public void hide() {
 
     }
 
+    /** This method does nothing, but must be here to allow the children to not implement this. */
     @Override
     public void pause() {
 
     }
 
+    /** This method does nothing, but must be here to allow the children to not implement this. */
     @Override
     public void resume() {
 
