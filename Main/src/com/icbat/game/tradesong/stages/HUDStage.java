@@ -28,7 +28,7 @@ public class HUDStage extends AbstractStage {
     private Actor dragCatcher = new Actor();
 
     public HUDStage(Tradesong gameInstance) {
-        this.itemsTexture = Tradesong.getItemsPath();
+        this.itemsTexture = Tradesong.getTexture(Tradesong.TEXTURE.ITEMS);
         this.gameInstance = gameInstance;
     }
 
@@ -53,7 +53,7 @@ public class HUDStage extends AbstractStage {
     }
 
     private void addMoney() {
-        Image coin = new Image(Tradesong.getCoinTexture());
+        Image coin = new Image(Tradesong.getTexture(Tradesong.TEXTURE.COIN));
 
         layoutHorizontally(coin);
         coin.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.STORE, gameInstance));
@@ -144,7 +144,7 @@ public class HUDStage extends AbstractStage {
     }
 
     private void addCharacterPortrait() {
-        Image character = new Image(  new TextureRegion(Tradesong.getCharacterTexture(), 100, 70)  );
+        Image character = new Image(  new TextureRegion(Tradesong.getTexture(Tradesong.TEXTURE.CHAR), 100, 70)  );
         character.setPosition(this.getWidth() - character.getWidth() - SPACER,0);
         this.addActor(character);
     }

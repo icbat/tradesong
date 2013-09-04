@@ -85,7 +85,7 @@ public abstract class LevelStage extends AbstractStage {
         }
 
         private void makeImage() {
-            Sprite sprite = new Sprite(Tradesong.getMapArrowTexture());
+            Sprite sprite = new Sprite(Tradesong.getTexture(Tradesong.TEXTURE.MAP_ARROW));
 
             switch(facing) {
                 case LEFT:

@@ -20,28 +20,13 @@ import com.icbat.game.tradesong.stages.WorkshopStage;
  * */
 public class Tradesong extends Game {
 
-    private static final String PATH_SPRITE_ITEMS = "sprites/items.png";
-    private static final String PATH_SPRITE_FRAME = "sprites/frame.png";
-    private static final String PATH_SPRITE_ARROW_INVENTORY = "sprites/arrow-inventory.png";
-    private static final String PATH_SPRITE_ARROW_MAPS = "sprites/arrow-map.png";
-    private static final String PATH_SPRITE_ICON_HAMMER = "sprites/hammer-drop.png";
-    private static final String PATH_SPRITE_ICON_WRENCH = "sprites/auto-repair.png";
-    private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
-    private static final String PATH_SPRITE_CHAR = "sprites/character.png";
-    private static final String PATH_SPRITE_COIN = "sprites/goldCoin5.png";
-    private static final String PATH_SPRITE_SLIDER_HEAD = "sprites/slider-icon.png";
-    private static final String PATH_SPRITE_SLIDER_BG = "sprites/slider-bg.png";
 
-    private static final String PATH_SOUNDS_GATHER = "sounds/hammering.ogg";
-    private static final String PATH_MUSIC_GENERAL = "music/Thatched Villagers.mp3";
 
     private static final String PARAM_DELAY_GATHER = "gatherDelay";
     private static final String PARAM_DELAY_CRAFT = "craftDelay";
 
-    private static Music generalMusic;
-
     public static GameStateManager gameState;
-    public static AssetManager assets = new AssetManager();
+    public static AssetManager assetManager = new AssetManager();
 
     private static LevelScreen currentMap;
     private static ScreenTypes currentScreenType;
@@ -55,10 +40,6 @@ public class Tradesong extends Game {
 	public void create() {
         initializeAssets();
 
-        generalMusic = assets.get(PATH_MUSIC_GENERAL);
-        generalMusic.play();
-        generalMusic.setLooping(true);
-
         gameState = new GameStateManager();
 		goToScreen(ScreenTypes.MAIN_MENU);
 
@@ -66,40 +47,26 @@ public class Tradesong extends Game {
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
 
-
+        GameStateManager.updateMusic(getMusic(MUSIC.TITLE_THEME));
 	}
 
     private void initializeAssets() {
 
-        // Music and sounds
-        assets.load(PATH_SOUNDS_GATHER, Sound.class);
-        assets.load(PATH_MUSIC_GENERAL, Music.class);
+        for (TEXTURE texture : TEXTURE.values()) {
+            assetManager.load(texture.path, Texture.class);
+        }
 
-        // Item sheet used by all/most icons, items, buttons, etc.
-        assets.load(PATH_SPRITE_ITEMS, Texture.class);
-        assets.load(PATH_SPRITE_ARROW_MAPS, Texture.class);
+        for (SOUND sound : SOUND.values()) {
+            assetManager.load(sound.path, Sound.class);
+        }
 
-        // Character sprite!
-        assets.load(PATH_SPRITE_CHAR, Texture.class);
-        assets.load(PATH_SPRITE_COIN, Texture.class);
-
-        // Frame PNG used in inventory/workshops
-        assets.load(PATH_SPRITE_FRAME, Texture.class);
-
-        assets.load(PATH_SPRITE_ARROW_INVENTORY, Texture.class);
-        assets.load(PATH_SPRITE_ICON_BOOK, Texture.class);
-        assets.load(PATH_SPRITE_ICON_HAMMER, Texture.class);
-        assets.load(PATH_SPRITE_ICON_WRENCH, Texture.class);
-
-        assets.load(PATH_SPRITE_SLIDER_HEAD, Texture.class);
-        assets.load(PATH_SPRITE_SLIDER_BG, Texture.class);
-
-        assets.finishLoading(); // Blocks until finished
+        for (MUSIC music : MUSIC.values()) {
+            assetManager.load(music.path, Music.class);
+        }
+        assetManager.finishLoading(); // Blocks until finished
     }
 
-    public void goBackAScreen() {
-        //TODO impl
-    }
+
 
 
     /* Screen management methods */
@@ -172,42 +139,8 @@ public class Tradesong extends Game {
         setScreen(currentMap);
     }
 
-    /* Block for static asset retrieval methods */
-    // TODO this can be turned in to an enum!
-    public static Texture getItemsPath() {
-        return assets.get(PATH_SPRITE_ITEMS);
-    }
-
-    public static Texture getFramePath() {
-        return assets.get(PATH_SPRITE_FRAME);
-    }
-
-    public static Texture getPathSpriteArrow() {
-        return assets.get(PATH_SPRITE_ARROW_INVENTORY);
-    }
-
-    public static Texture getSpriteIconHammer() {
-        return assets.get(PATH_SPRITE_ICON_HAMMER);
-    }
-
-    public static Texture getSpriteIconWrench() {
-        return assets.get(PATH_SPRITE_ICON_WRENCH);
-    }
-
-    public static Texture getSpriteIconBook() {
-        return assets.get(PATH_SPRITE_ICON_BOOK);
-    }
-
-    public static Texture getCharacterTexture() {
-        return assets.get(PATH_SPRITE_CHAR);
-    }
-
-    public static Texture getCoinTexture() {
-        return assets.get(PATH_SPRITE_COIN);
-    }
-
-    public static Sound getGatherSound() {
-        return assets.get(PATH_SOUNDS_GATHER);
+    public void goBackAScreen() {
+        //TODO impl
     }
 
     public static String getParamDelayGather() {
@@ -218,15 +151,64 @@ public class Tradesong extends Game {
         return PARAM_DELAY_CRAFT;
     }
 
-    public static Texture getMapArrowTexture() {
-        return assets.get(PATH_SPRITE_ARROW_MAPS);
+
+    /** All the assets */
+    public static enum TEXTURE {
+        ITEMS("items"),
+        FRAME("frame"),
+        WORKSHOP_ARROW("workshop-arrow"),
+        MAP_ARROW("map-arrow"),
+        ICON_HAMMER("hammer-drop"),
+        ICON_WRENCH("auto-repair"),
+        ICON_BOOK("burning-book"),
+        CHAR("character"),
+        COIN("goldCoin5"),
+        SLIDER_HEAD("slider-icon"),
+        SLIDER_BG("slider-bg"),;
+
+        private String path;
+
+        private TEXTURE(String pathVal) {
+            this.path = "sprites/" + pathVal + ".png";
+        }
+    }
+    
+    public static enum SOUND {
+        GATHER_CLINK("hammering");
+
+        private String path;
+
+        private SOUND(String pathVal) {
+            this.path = "sounds/" + pathVal + ".ogg";
+        }
+
     }
 
-    public static Texture getSliderHead() {
-        return assets.get(PATH_SPRITE_SLIDER_HEAD);
+    public static enum MUSIC {
+        TITLE_THEME("Thatched Villagers");
+
+        private String path;
+
+        private MUSIC(String pathVal) {
+            this.path = "music/" + pathVal + ".mp3";
+        }
     }
 
-    public static Texture getSliderBG() {
-        return assets.get(PATH_SPRITE_SLIDER_BG);
+    /** Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @throws Error if the file could not be found
+     * @return the object in assetManager by that name
+     * */
+
+    public static Texture getTexture(TEXTURE toFind) {
+        return assetManager.get(toFind.path);
+    }
+
+    public static Sound getSound(SOUND toFind) {
+        return assetManager.get(toFind.path);
+    }
+
+    public static Music getMusic(MUSIC toFind) {
+        return assetManager.get(toFind.path);
     }
 }

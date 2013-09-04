@@ -17,16 +17,20 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 
 public class SettingsScreen extends AbstractScreen {
+
+    public static final String PREFERENCES = "general_prefs";
+    public static final String KEY_SFX_VOL = "sfx_volume";
+    public static final String KEY_MUSIC_VOL = "music_volume";
+
     public SettingsScreen(Tradesong gameInstance) {
         stages.add(new SettingsStage(gameInstance));
     }
 
 
     class SettingsStage extends AbstractStage {
-        public static final String KEY_SFX_VOL = "sfx_volume";
-        public static final String KEY_MUSIC_VOL = "music_volume";
+
         Tradesong gameInstance;
-        Preferences preferences = Gdx.app.getPreferences("General_Preferences");
+        Preferences preferences = Gdx.app.getPreferences(PREFERENCES);
 
         Table table = new Table();
         Group indicators = new Group();
@@ -54,8 +58,8 @@ public class SettingsScreen extends AbstractScreen {
             this.labelStyle.font = new BitmapFont();
             this.labelStyle.fontColor = Color.WHITE;
 
-            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderHead() ) );
-            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderBG(), 100, 8 ) );
+            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(Tradesong.TEXTURE.SLIDER_HEAD) ) );
+            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(Tradesong.TEXTURE.SLIDER_BG), 100, 8 ) );
 
             // Set up some caching in case things are cancelled
             int cachedMusicVol = preferences.getInteger(KEY_MUSIC_VOL, 50);

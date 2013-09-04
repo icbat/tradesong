@@ -29,7 +29,7 @@ public class WyldStage extends LevelStage {
 
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
 
-    Sound gatherSound = Tradesong.getGatherSound();
+    Sound gatherSound = Tradesong.getSound(Tradesong.SOUND.GATHER_CLINK);
 
     Timer gatherTimer = new Timer();
 

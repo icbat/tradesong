@@ -1,7 +1,10 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.icbat.game.tradesong.screens.SettingsScreen;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,29 +19,38 @@ public class GameStateManager {
 
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
-    public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
     private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
     public static int money = 0;
 
+    public static Music currentMusic;
 
     public GameStateManager() {
         // Set up default parameters
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayGather(), 3));
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
 
-        // Load sprites and other assets
-        Tradesong.assets.load(PATH_SPRITE_ITEMS, Texture.class);
-        Tradesong.assets.finishLoading();
-
-
         // Load data and initialize
-        loadItems( (Texture)Tradesong.assets.get(PATH_SPRITE_ITEMS) );
+        loadItems( Tradesong.getTexture(Tradesong.TEXTURE.ITEMS) );
         loadRecipes();
         findWorkshops();
 
 
+    }
+
+    public static void updateMusic(Music newSong) {
+        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
+
+        currentMusic = newSong;
+
+        currentMusic.setVolume(preferences.getInteger(SettingsScreen.KEY_MUSIC_VOL, 50));
+        currentMusic.play();
+        currentMusic.setLooping(true);
+    }
+
+    public static void updateMusic() {
+        updateMusic(currentMusic);
     }
 
     public int getMoney() {

@@ -36,7 +36,7 @@ public class InventoryStage extends AbstractStage {
     public InventoryStage() {
         inventory = Tradesong.gameState.getInventory();
 
-        frameTexture = Tradesong.getFramePath();
+        frameTexture = Tradesong.getTexture(Tradesong.TEXTURE.FRAME);
 
     }
 

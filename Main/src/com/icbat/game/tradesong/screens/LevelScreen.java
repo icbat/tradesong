@@ -38,13 +38,13 @@ public class LevelScreen extends AbstractScreen {
         super();
 
         // Load the map
-        Tradesong.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
 
-        Tradesong.assets.load(mapName, TiledMap.class);
-        Tradesong.assets.finishLoading();
+        Tradesong.assetManager.load(mapName, TiledMap.class);
+        Tradesong.assetManager.finishLoading();
 
-        this.map = Tradesong.assets.get(mapName);
+        this.map = Tradesong.assetManager.get(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1);
 
         int width = Gdx.graphics.getWidth();

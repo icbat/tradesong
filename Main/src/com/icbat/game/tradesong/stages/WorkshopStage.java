@@ -33,7 +33,7 @@ public class WorkshopStage extends AbstractStage {
 
     private static final int SPACER = 10;
     private Image resultFrame;
-    private Sound craftSound = Tradesong.getGatherSound();
+    private Sound craftSound = Tradesong.getSound(Tradesong.SOUND.GATHER_CLINK);
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -41,7 +41,7 @@ public class WorkshopStage extends AbstractStage {
 
     public WorkshopStage(Workshop workshop) {
         super();
-        frameTexture = Tradesong.getFramePath();
+        frameTexture = Tradesong.getTexture(Tradesong.TEXTURE.FRAME);
         setWorkshop(workshop); // Handles the standard setup
     }
 
@@ -87,9 +87,9 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addWorkshopChangers() {
-        Image blacksmithButton = new Image(Tradesong.getSpriteIconHammer());
-        Image tinkerButton = new Image(Tradesong.getSpriteIconWrench());
-        Image scribeButton = new Image(Tradesong.getSpriteIconBook());
+        Image blacksmithButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_HAMMER));
+        Image tinkerButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_WRENCH));
+        Image scribeButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_BOOK));
 
         int left = (int) header.getX();
 
@@ -129,7 +129,7 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = Tradesong.getPathSpriteArrow();
+        Texture arrowTexture = Tradesong.getTexture(Tradesong.TEXTURE.WORKSHOP_ARROW);
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
