@@ -43,6 +43,7 @@ public class SettingsScreen extends AbstractScreen {
 
 
         SettingsStage(Tradesong gameInstance) {
+
             this.gameInstance = gameInstance;
 
             this.table.setFillParent(true);
@@ -56,12 +57,16 @@ public class SettingsScreen extends AbstractScreen {
             this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderHead() ) );
             this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderBG(), 100, 8 ) );
 
-            this.musicIndicator = newNumericalIndicator(KEY_MUSIC_VOL, preferences.getInteger(KEY_MUSIC_VOL, 50));
-            this.musicSlider = newSlider();
+            // Set up some caching in case things are cancelled
+            int cachedMusicVol = preferences.getInteger(KEY_MUSIC_VOL, 50);
+            int cachedSFXVol = preferences.getInteger(KEY_SFX_VOL, 50);
+
+            this.musicIndicator = newNumericalIndicator(KEY_MUSIC_VOL, cachedMusicVol);
+            this.musicSlider = newSlider(cachedMusicVol);
             this.musicSlider.addListener(new SliderListener(musicSlider, musicIndicator));
 
-            this.SFXIndicator = newNumericalIndicator(KEY_SFX_VOL, preferences.getInteger(KEY_SFX_VOL, 50));
-            this.SFXSlider = newSlider();
+            this.SFXIndicator = newNumericalIndicator(KEY_SFX_VOL, cachedSFXVol);
+            this.SFXSlider = newSlider(cachedSFXVol);
             this.SFXSlider.addListener(new SliderListener(SFXSlider, SFXIndicator));
 
         }
@@ -138,10 +143,11 @@ public class SettingsScreen extends AbstractScreen {
             return indicator;
         }
 
-        private Slider newSlider() {
+        /***/
+        private Slider newSlider(int startingVal) {
             Slider settingSlider = new Slider(0, 100, 5, false, sliderStyle);
             settingSlider.setWidth(this.getWidth()/2);
-            settingSlider.setValue(preferences.getInteger(KEY_MUSIC_VOL, 50));
+            settingSlider.setValue(startingVal);
 
             return settingSlider;
         }
