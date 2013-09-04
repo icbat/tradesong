@@ -7,7 +7,5 @@ public class TownStage extends LevelStage {
 
     public TownStage(Tradesong gameInstance, MapProperties properties) {
         super(gameInstance, properties);
-
-        layout();
     }
 }

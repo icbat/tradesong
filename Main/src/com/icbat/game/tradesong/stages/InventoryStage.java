@@ -38,10 +38,10 @@ public class InventoryStage extends AbstractStage {
 
         frameTexture = Tradesong.getFramePath();
 
-        layout();
     }
 
     /** Little hack to get the screen to update even when its been interacted with and doesn't know it */
+    // TODO wat
     @Override
     public void draw() {
         super.draw();

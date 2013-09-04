@@ -64,8 +64,6 @@ public class WyldStage extends LevelStage {
             spawnItem();
         }
 
-        layout();
-
     }
 
     public boolean spawnItem() {

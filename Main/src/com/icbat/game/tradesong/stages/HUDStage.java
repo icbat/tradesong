@@ -30,8 +30,6 @@ public class HUDStage extends AbstractStage {
     public HUDStage(Tradesong gameInstance) {
         this.itemsTexture = Tradesong.getItemsPath();
         this.gameInstance = gameInstance;
-
-        layout();
     }
 
     public void layout() {

@@ -35,7 +35,6 @@ public class MainMenuScreen extends AbstractScreen {
             this.table.setFillParent(true);
             this.addActor(this.table);
 
-            layout();
         }
 
         @Override
