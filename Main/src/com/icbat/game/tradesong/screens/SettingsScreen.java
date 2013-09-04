@@ -2,8 +2,16 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 
@@ -16,68 +24,117 @@ public class SettingsScreen extends AbstractScreen {
     class SettingsStage extends AbstractStage {
         Tradesong gameInstance;
         Preferences preferences = Gdx.app.getPreferences("General_Preferences");
+
         Table table = new Table();
+
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
 
 
         SettingsStage(Tradesong gameInstance) {
             this.gameInstance = gameInstance;
 
             this.table.setFillParent(true);
+            this.addActor(this.table);
+
+            this.buttonStyle.font = new BitmapFont();
+            this.buttonStyle.fontColor = Color.WHITE;
+
+            this.labelStyle.font = new BitmapFont();
+            this.labelStyle.fontColor = Color.WHITE;
+
+            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderHead() ) );
+            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getSliderBG(), 100, 8 ) );
+
+
         }
 
         @Override
         public void layout() {
             this.table.clear();
 
+            this.table.add();
             this.table.add(newSettingsHeader("Music Volume"));
             this.table.row();
-            this.table.add(newStringReferencePoint("0%"));
-            this.table.add(newMusicVolumeBar());
-            this.table.add(newStringReferencePoint("100%"));
+            this.table.add(newStringReferencePoint("0% "));
+            this.table.add(newSlider("music_volume"));
+            this.table.add(newStringReferencePoint(" 100%"));
             this.table.row();
+            this.table.add();
             this.table.add(newNumericalIndicator(preferences.getInteger("music_volume", 50)));
 
-
-            // TODO cleaner way to say this?
             this.table.row();
             this.table.row();
 
+            this.table.add();
             this.table.add(newSettingsHeader("SFX Volume"));
             this.table.row();
-            this.table.add(newStringReferencePoint("0%"));
-            this.table.add(newSFXVolumeBar());
-            this.table.add(newStringReferencePoint("100%"));
+            this.table.add(newStringReferencePoint("0% "));
+            this.table.add(newSlider("sfx_volume"));
+            this.table.add(newStringReferencePoint(" 100%"));
             this.table.row();
+            this.table.add();
             this.table.add(newNumericalIndicator(preferences.getInteger("sfx_volume", 50)));
 
 
-
-
-
-
+            // Save and Exit button, Discard button
+            this.addActor(newSaveAndExitButton());
+            this.addActor(newDiscardButton());
         }
 
-        private Actor newNumericalIndicator(int indicatorStartingValue) {
-            return null;  //To change body of created methods use File | Settings | File Templates.
+        private TextButton newDiscardButton() {
+            TextButton discardChangesButton = new TextButton("Discard changes", buttonStyle);
+
+            discardChangesButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    gameInstance.goBackAScreen();
+                }
+            });
+
+            return discardChangesButton;
         }
 
-        private Actor newStringReferencePoint(String referenceValue) {
-            return null;  //To change body of created methods use File | Settings | File Templates.
+        private TextButton newSaveAndExitButton() {
+            TextButton saveChangesButton = new TextButton("Accept changes", buttonStyle);
+
+            saveChangesButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    gameInstance.goBackAScreen();
+                    //TODO actually save them
+                }
+            });
+
+            saveChangesButton.setPosition(this.getWidth() - saveChangesButton.getWidth(), this.getHeight());
+
+            return saveChangesButton;
+        }
+
+        private Label newNumericalIndicator(int indicatorStartingValue) {
+            // TODO update this somehow!
+            return new Label(String.valueOf(indicatorStartingValue), labelStyle);
+        }
+
+        private Label newStringReferencePoint(String referenceValue) {
+            return new Label(referenceValue, labelStyle);
         }
 
 
-        private Actor newSettingsHeader(String headerText) {
-            return null;  //To change body of created methods use File | Settings | File Templates.
+        private Label newSettingsHeader(String headerText) {
+            return new Label(headerText, labelStyle);
         }
 
-        private Actor newMusicVolumeBar() {
-            return null;  //To change body of created methods use File | Settings | File Templates.
+        private Slider newSlider(String settingKey) {
+            Slider settingSlider = new Slider(0, 100, 5, false, sliderStyle);
+
+            settingSlider.setWidth(this.getWidth()/2);
+
+            // TODO set starting value
+            // TODO listener
+
+            return settingSlider;
         }
-
-        private Actor newSFXVolumeBar() {
-            return null;  //To change body of created methods use File | Settings | File Templates.
-        }
-
-
     }
 }

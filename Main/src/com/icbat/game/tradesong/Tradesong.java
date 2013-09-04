@@ -29,6 +29,8 @@ public class Tradesong extends Game {
     private static final String PATH_SPRITE_ICON_BOOK = "sprites/burning-book.png";
     private static final String PATH_SPRITE_CHAR = "sprites/character.png";
     private static final String PATH_SPRITE_COIN = "sprites/goldCoin5.png";
+    private static final String PATH_SPRITE_SLIDER_HEAD = "sprites/slider-icon.png";
+    private static final String PATH_SPRITE_SLIDER_BG = "sprites/slider-bg.png";
 
     private static final String PATH_SOUNDS_GATHER = "sounds/hammering.ogg";
     private static final String PATH_MUSIC_GENERAL = "music/Thatched Villagers.mp3";
@@ -89,7 +91,14 @@ public class Tradesong extends Game {
         assets.load(PATH_SPRITE_ICON_HAMMER, Texture.class);
         assets.load(PATH_SPRITE_ICON_WRENCH, Texture.class);
 
+        assets.load(PATH_SPRITE_SLIDER_HEAD, Texture.class);
+        assets.load(PATH_SPRITE_SLIDER_BG, Texture.class);
+
         assets.finishLoading(); // Blocks until finished
+    }
+
+    public void goBackAScreen() {
+        //TODO impl
     }
 
 
@@ -164,7 +173,7 @@ public class Tradesong extends Game {
     }
 
     /* Block for static asset retrieval methods */
-
+    // TODO this can be turned in to an enum!
     public static Texture getItemsPath() {
         return assets.get(PATH_SPRITE_ITEMS);
     }
@@ -211,5 +220,13 @@ public class Tradesong extends Game {
 
     public static Texture getMapArrowTexture() {
         return assets.get(PATH_SPRITE_ARROW_MAPS);
+    }
+
+    public static Texture getSliderHead() {
+        return assets.get(PATH_SPRITE_SLIDER_HEAD);
+    }
+
+    public static Texture getSliderBG() {
+        return assets.get(PATH_SPRITE_SLIDER_BG);
     }
 }
