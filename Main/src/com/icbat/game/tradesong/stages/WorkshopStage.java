@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +15,7 @@ import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Recipe;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
+import com.icbat.game.tradesong.utils.ItemFrame;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -27,7 +27,6 @@ public class WorkshopStage extends AbstractStage {
     private Group frames = new Group();
     private Group ingredients = new Group();
     private Group productGroup = new Group();
-    private Texture frameTexture;
 
     private Timer craftTimer = new Timer();
 
@@ -41,7 +40,6 @@ public class WorkshopStage extends AbstractStage {
 
     public WorkshopStage(Workshop workshop) {
         super();
-        frameTexture = Tradesong.getTexture(Tradesong.TEXTURE.FRAME);
         setWorkshop(workshop); // Handles the standard setup
     }
 
@@ -119,7 +117,7 @@ public class WorkshopStage extends AbstractStage {
         frames.clearChildren();
 
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
-            Image frame = makeIndividualFrame();
+            Image frame = new ItemFrame();
             layOutVertically(frame);
             frame.setName(""+(Integer)i);
             frames.addActor(frame);
@@ -134,7 +132,7 @@ public class WorkshopStage extends AbstractStage {
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
 
-        resultFrame = makeIndividualFrame();
+        resultFrame = new ItemFrame();
         layOutVertically(resultFrame);
         this.addActor(resultFrame);
     }
@@ -203,17 +201,6 @@ public class WorkshopStage extends AbstractStage {
             productGroup.clearChildren();
         }
 
-    }
-
-    /**
-     * Makes it so there's only one reference to frameTexture for cleanliness. Sets up global defaults
-     *
-     * @return returns a Frame image */
-    private Image makeIndividualFrame() {
-        Image frameActor = new Image( new TextureRegion(frameTexture) );
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-        return frameActor;
     }
 
     /** Sets the bounds of the param to the next spot in a vertically descending pattern

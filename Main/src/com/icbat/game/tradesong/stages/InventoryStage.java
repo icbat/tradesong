@@ -1,8 +1,6 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,6 +12,7 @@ import com.icbat.game.tradesong.Inventory;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.StackedItem;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.ItemFrame;
 
 import static com.badlogic.gdx.math.MathUtils.floor;
 
@@ -25,7 +24,6 @@ public class InventoryStage extends AbstractStage {
     public static final int COLUMNS_PER_ROW = 5;
 
     private BitmapFont font = new BitmapFont();
-    private final Texture frameTexture;
     private Group frames = new Group();
     private Group items = new Group();
     private Group itemCounts = new Group();
@@ -35,9 +33,6 @@ public class InventoryStage extends AbstractStage {
 
     public InventoryStage() {
         inventory = Tradesong.gameState.getInventory();
-
-        frameTexture = Tradesong.getTexture(Tradesong.TEXTURE.FRAME);
-
     }
 
     /** Little hack to get the screen to update even when its been interacted with and doesn't know it */
@@ -87,20 +82,13 @@ public class InventoryStage extends AbstractStage {
     }
 
     private void addSlotFrame(Integer i) {
-        Image frameActor = makeSlotFrame();
+        Image frameActor = new ItemFrame();
         int[] position = positionToCoords(i);
 
         frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
         frameActor.setName(i.toString());
         frames.addActor(frameActor);
 
-    }
-
-    private Image makeSlotFrame() {
-        Image frameActor = new Image( new TextureRegion(frameTexture));
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-        return frameActor;
     }
 
     private void addStackedItemToStage(Integer i) {
