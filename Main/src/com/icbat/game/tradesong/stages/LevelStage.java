@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
