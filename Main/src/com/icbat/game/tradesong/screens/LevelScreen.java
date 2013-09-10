@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -99,11 +98,8 @@ public class LevelScreen extends AbstractScreen {
 	public void render(float delta) {
         super.render(delta);
 
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-
         batch.begin();
-        batch.draw(background, 0, 0, width, height);
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
         rendererCamera.update();
