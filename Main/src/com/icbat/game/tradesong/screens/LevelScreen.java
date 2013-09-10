@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -18,6 +21,7 @@ import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.TownStage;
 import com.icbat.game.tradesong.stages.WyldStage;
 import com.icbat.game.tradesong.utils.OrthoCamera;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -33,6 +37,9 @@ public class LevelScreen extends AbstractScreen {
 
 	private OrthoCamera rendererCamera;
     private final OrthoCamera gameWorldCamera;
+
+    private SpriteBatch batch = new SpriteBatch();
+    private Texture background = Tradesong.getTexture(TextureAssets.SKY);
 
     public LevelScreen(String level, HUDStage hud, Tradesong gameInstance) {
         super();
@@ -91,6 +98,13 @@ public class LevelScreen extends AbstractScreen {
     @Override
 	public void render(float delta) {
         super.render(delta);
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+
+        batch.begin();
+        batch.draw(background, 0, 0, width, height);
+        batch.end();
 
         rendererCamera.update();
         renderer.setView(rendererCamera);
