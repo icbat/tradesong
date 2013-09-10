@@ -11,7 +11,8 @@ package com.icbat.game.tradesong.utils;
         CHAR("character"),
         COIN("goldCoin5"),
         SLIDER_HEAD("slider-icon"),
-        SLIDER_BG("slider-bg"),;
+        SLIDER_BG("slider-bg"),
+        SKY("sky"),;
 
         private String path;
 

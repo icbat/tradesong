@@ -76,14 +76,12 @@ public class Tradesong extends Game {
 
         if (screen.equals(currentScreenType)) {
 
-
-
-            if (screen.equals(com.icbat.game.tradesong.utils.ScreenTypes.LEVEL)) {
+            if (screen.equals(ScreenTypes.LEVEL)) {
                 goToOverlap(new MainMenuScreen(this));
                 currentScreenType = ScreenTypes.MAIN_MENU;
             } else {
                 leaveOverlap();
-                currentScreenType = com.icbat.game.tradesong.utils.ScreenTypes.LEVEL;
+                currentScreenType = ScreenTypes.LEVEL;
             }
 
         } else {
@@ -145,15 +143,22 @@ public class Tradesong extends Game {
      * @throws Error if the file could not be found
      * @return the object in assetManager by that name
      * */
-
     public static Texture getTexture(TextureAssets toFind) {
         return assetManager.get(toFind.getPath());
     }
-
+    /** Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @throws Error if the file could not be found
+     * @return the object in assetManager by that name
+     * */
     public static Sound getSound(SoundAssets toFind) {
         return assetManager.get(toFind.getPath());
     }
-
+    /** Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @throws Error if the file could not be found
+     * @return the object in assetManager by that name
+     * */
     public static Music getMusic(MusicAsset toFind) {
         return assetManager.get(toFind.getPath());
     }
