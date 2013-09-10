@@ -288,9 +288,6 @@ public class InventoryStage extends AbstractStage {
                 }
             }
 
-
-
-
             return super.touchDown(event, x, y, pointer, button);
         }
     }

@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.ScreenTypes;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 public class HUDStage extends AbstractStage {
     public static final int SPACER = 6;
@@ -28,7 +30,7 @@ public class HUDStage extends AbstractStage {
     private Actor dragCatcher = new Actor();
 
     public HUDStage(Tradesong gameInstance) {
-        this.itemsTexture = Tradesong.getTexture(Tradesong.TEXTURE.ITEMS);
+        this.itemsTexture = Tradesong.getTexture(TextureAssets.ITEMS);
         this.gameInstance = gameInstance;
     }
 
@@ -53,10 +55,10 @@ public class HUDStage extends AbstractStage {
     }
 
     private void addMoney() {
-        Image coin = new Image(Tradesong.getTexture(Tradesong.TEXTURE.COIN));
+        Image coin = new Image(Tradesong.getTexture(TextureAssets.COIN));
 
         layoutHorizontally(coin);
-        coin.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.STORE, gameInstance));
+        coin.addListener(new InterfaceButtonListener(ScreenTypes.STORE, gameInstance));
         this.addActor(coin);
 
         Label.LabelStyle style = new Label.LabelStyle();
@@ -84,7 +86,7 @@ public class HUDStage extends AbstractStage {
         Image inventoryButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
-        inventoryButton.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.INVENTORY, gameInstance));
+        inventoryButton.addListener(new InterfaceButtonListener(ScreenTypes.INVENTORY, gameInstance));
         layoutHorizontally(inventoryButton);
         inventoryButton.setVisible(true);
         this.addActor(inventoryButton);
@@ -136,7 +138,7 @@ public class HUDStage extends AbstractStage {
         Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.addListener(new InterfaceButtonListener(Tradesong.ScreenTypes.WORKSHOP, gameInstance));
+        workshopButton.addListener(new InterfaceButtonListener(ScreenTypes.WORKSHOP, gameInstance));
 
         layoutHorizontally(workshopButton);
 
@@ -144,7 +146,7 @@ public class HUDStage extends AbstractStage {
     }
 
     private void addCharacterPortrait() {
-        Image character = new Image(  new TextureRegion(Tradesong.getTexture(Tradesong.TEXTURE.CHAR), 100, 70)  );
+        Image character = new Image(  new TextureRegion(Tradesong.getTexture(TextureAssets.CHAR), 100, 70)  );
         character.setPosition(this.getWidth() - character.getWidth() - SPACER,0);
         this.addActor(character);
     }
@@ -162,10 +164,10 @@ public class HUDStage extends AbstractStage {
     }
 
     class InterfaceButtonListener extends ClickListener {
-        private Tradesong.ScreenTypes type;
+        private ScreenTypes type;
         private Tradesong gameInstance;
 
-        InterfaceButtonListener(Tradesong.ScreenTypes type, Tradesong gameInstance) {
+        InterfaceButtonListener(ScreenTypes type, Tradesong gameInstance) {
             super();
             this.type = type;
             this.gameInstance = gameInstance;

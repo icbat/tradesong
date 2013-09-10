@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.icbat.game.tradesong.screens.SettingsScreen;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class GameStateManager {
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
 
         // Load data and initialize
-        loadItems( Tradesong.getTexture(Tradesong.TEXTURE.ITEMS) );
+        loadItems( Tradesong.getTexture(TextureAssets.ITEMS) );
         loadRecipes();
         findWorkshops();
 

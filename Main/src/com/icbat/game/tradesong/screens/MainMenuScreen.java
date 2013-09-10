@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
+import com.icbat.game.tradesong.utils.ScreenTypes;
 
 /**
  * Screen shown first, directs user to other screens/functions
@@ -55,7 +56,7 @@ public class MainMenuScreen extends AbstractScreen {
             startButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goToScreen(Tradesong.ScreenTypes.TOWN);
+                    gameInstance.goToScreen(ScreenTypes.TOWN);
                 }
             });
 
@@ -68,7 +69,7 @@ public class MainMenuScreen extends AbstractScreen {
             settingsButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goToScreen(Tradesong.ScreenTypes.SETTINGS);
+                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
                 }
             });
 

@@ -194,6 +194,6 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public String toString() {
-        return super.toString() + "." + this.mapName;    //To change body of overridden methods use File | Settings | File Templates.
+        return super.toString() + "." + this.mapName;
     }
 }

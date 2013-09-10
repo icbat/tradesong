@@ -10,6 +10,10 @@ import com.icbat.game.tradesong.screens.*;
 import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.InventoryStage;
 import com.icbat.game.tradesong.stages.WorkshopStage;
+import com.icbat.game.tradesong.utils.MusicAsset;
+import com.icbat.game.tradesong.utils.ScreenTypes;
+import com.icbat.game.tradesong.utils.SoundAssets;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 
 /**
@@ -30,6 +34,7 @@ public class Tradesong extends Game {
 
     private static LevelScreen currentMap;
     private static ScreenTypes currentScreenType;
+    private static AbstractScreen lastScreen;
 
     private HUDStage hud;
     private InventoryStage inventoryStage;
@@ -47,56 +52,39 @@ public class Tradesong extends Game {
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
 
-        GameStateManager.updateMusic(getMusic(MUSIC.TITLE_THEME));
+        GameStateManager.updateMusic(getMusic(MusicAsset.TITLE_THEME));
 	}
 
     private void initializeAssets() {
 
-        for (TEXTURE texture : TEXTURE.values()) {
-            assetManager.load(texture.path, Texture.class);
+        for (TextureAssets texture : TextureAssets.values()) {
+            assetManager.load(texture.getPath(), Texture.class);
         }
 
-        for (SOUND sound : SOUND.values()) {
-            assetManager.load(sound.path, Sound.class);
+        for (SoundAssets sound : SoundAssets.values()) {
+            assetManager.load(sound.getPath(), Sound.class);
         }
 
-        for (MUSIC music : MUSIC.values()) {
-            assetManager.load(music.path, Music.class);
+        for (MusicAsset music : MusicAsset.values()) {
+            assetManager.load(music.getPath(), Music.class);
         }
         assetManager.finishLoading(); // Blocks until finished
     }
 
-
-
-
     /* Screen management methods */
-
-    /** Things that can be passed to goToScreen */
-    public static enum ScreenTypes {
-        MAIN_MENU,
-        SETTINGS,
-
-        LEVEL,
-        TOWN,
-
-        WORKSHOP,
-        INVENTORY,
-        STORE,
-    }
 
     public void goToScreen(ScreenTypes screen) {
 
-
         if (screen.equals(currentScreenType)) {
 
-            Gdx.app.log("", "found current screen");
 
-            if (screen.equals(ScreenTypes.LEVEL)) {
+
+            if (screen.equals(com.icbat.game.tradesong.utils.ScreenTypes.LEVEL)) {
                 goToOverlap(new MainMenuScreen(this));
                 currentScreenType = ScreenTypes.MAIN_MENU;
             } else {
                 leaveOverlap();
-                currentScreenType = ScreenTypes.LEVEL;
+                currentScreenType = com.icbat.game.tradesong.utils.ScreenTypes.LEVEL;
             }
 
         } else {
@@ -127,7 +115,6 @@ public class Tradesong extends Game {
     }
 
     public void goToMap(String mapName) {
-        Gdx.app.log("", "Going to map " + mapName);
 
         currentMap = new LevelScreen(mapName, hud, this);
         setScreen(currentMap);
@@ -154,63 +141,21 @@ public class Tradesong extends Game {
     }
 
 
-    /** All the assets */
-    public static enum TEXTURE {
-        ITEMS("items"),
-        FRAME("frame"),
-        WORKSHOP_ARROW("workshop-arrow"),
-        MAP_ARROW("map-arrow"),
-        ICON_HAMMER("hammer-drop"),
-        ICON_WRENCH("auto-repair"),
-        ICON_BOOK("burning-book"),
-        CHAR("character"),
-        COIN("goldCoin5"),
-        SLIDER_HEAD("slider-icon"),
-        SLIDER_BG("slider-bg"),;
-
-        private String path;
-
-        private TEXTURE(String pathVal) {
-            this.path = "sprites/" + pathVal + ".png";
-        }
-    }
-    
-    public static enum SOUND {
-        GATHER_CLINK("hammering");
-
-        private String path;
-
-        private SOUND(String pathVal) {
-            this.path = "sounds/" + pathVal + ".ogg";
-        }
-
-    }
-
-    public static enum MUSIC {
-        TITLE_THEME("Thatched Villagers");
-
-        private String path;
-
-        private MUSIC(String pathVal) {
-            this.path = "music/" + pathVal + ".mp3";
-        }
-    }
-
     /** Convenience method to prevent having to call assetManager.get(longConstantName)
      *
      * @throws Error if the file could not be found
      * @return the object in assetManager by that name
      * */
 
-    public static Texture getTexture(TEXTURE toFind) {
-        return assetManager.get(toFind.path);
+    public static Texture getTexture(TextureAssets toFind) {
+        return assetManager.get(toFind.getPath());
     }
 
-    public static Sound getSound(SOUND toFind) {
-        return assetManager.get(toFind.path);
+    public static Sound getSound(SoundAssets toFind) {
+        return assetManager.get(toFind.getPath());
     }
 
-    public static Music getMusic(MUSIC toFind) {
-        return assetManager.get(toFind.path);
+    public static Music getMusic(MusicAsset toFind) {
+        return assetManager.get(toFind.getPath());
     }
 }

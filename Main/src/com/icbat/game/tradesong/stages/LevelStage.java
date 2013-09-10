@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.Point;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 public abstract class LevelStage extends AbstractStage {
 
@@ -38,8 +39,6 @@ public abstract class LevelStage extends AbstractStage {
         String exitsBlob = (String)properties.get("exits");
 
         String[] exitInfoClumps = exitsBlob.split(";");
-
-        Gdx.app.log("exits", "Adding " + exitInfoClumps.length + "exits");
 
         for (String exitInfo : exitInfoClumps) {
             String[] exitInfoExploded = exitInfo.split(",");
@@ -85,7 +84,7 @@ public abstract class LevelStage extends AbstractStage {
         }
 
         private void makeImage() {
-            Sprite sprite = new Sprite(Tradesong.getTexture(Tradesong.TEXTURE.MAP_ARROW));
+            Sprite sprite = new Sprite(Tradesong.getTexture(TextureAssets.MAP_ARROW));
 
             switch(facing) {
                 case LEFT:

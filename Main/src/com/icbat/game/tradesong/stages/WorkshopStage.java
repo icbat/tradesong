@@ -16,6 +16,8 @@ import com.icbat.game.tradesong.Recipe;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.Workshop;
 import com.icbat.game.tradesong.utils.ItemFrame;
+import com.icbat.game.tradesong.utils.SoundAssets;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -32,7 +34,7 @@ public class WorkshopStage extends AbstractStage {
 
     private static final int SPACER = 10;
     private Image resultFrame;
-    private Sound craftSound = Tradesong.getSound(Tradesong.SOUND.GATHER_CLINK);
+    private Sound craftSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -85,9 +87,9 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addWorkshopChangers() {
-        Image blacksmithButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_HAMMER));
-        Image tinkerButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_WRENCH));
-        Image scribeButton = new Image(Tradesong.getTexture(Tradesong.TEXTURE.ICON_BOOK));
+        Image blacksmithButton = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
+        Image tinkerButton = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
+        Image scribeButton = new Image(Tradesong.getTexture(TextureAssets.ICON_BOOK));
 
         int left = (int) header.getX();
 
@@ -127,7 +129,7 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = Tradesong.getTexture(Tradesong.TEXTURE.WORKSHOP_ARROW);
+        Texture arrowTexture = Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW);
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);

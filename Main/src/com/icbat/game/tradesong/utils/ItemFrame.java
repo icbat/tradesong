@@ -10,7 +10,7 @@ import com.icbat.game.tradesong.Tradesong;
 public class ItemFrame extends Image{
 
     public ItemFrame () {
-        super(Tradesong.getTexture(Tradesong.TEXTURE.FRAME));
+        super(Tradesong.getTexture(TextureAssets.FRAME));
     }
 
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 public class SettingsScreen extends AbstractScreen {
 
@@ -58,8 +59,8 @@ public class SettingsScreen extends AbstractScreen {
             this.labelStyle.font = new BitmapFont();
             this.labelStyle.fontColor = Color.WHITE;
 
-            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(Tradesong.TEXTURE.SLIDER_HEAD) ) );
-            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(Tradesong.TEXTURE.SLIDER_BG), 100, 8 ) );
+            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_HEAD) ) );
+            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
 
             // Set up some caching in case things are cancelled
             int cachedMusicVol = preferences.getInteger(KEY_MUSIC_VOL, 50);
@@ -118,7 +119,11 @@ public class SettingsScreen extends AbstractScreen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     gameInstance.goBackAScreen();
-                    //TODO actually save them
+
+                    // TODO find a way to make this whole process cleaner, including layout
+                    preferences.putInteger(KEY_MUSIC_VOL, (int)musicSlider.getValue());
+                    preferences.putInteger(KEY_SFX_VOL, (int)SFXSlider.getValue());
+
                 }
             });
 

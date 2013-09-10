@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.SoundAssets;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,7 +30,7 @@ public class WyldStage extends LevelStage {
 
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
 
-    Sound gatherSound = Tradesong.getSound(Tradesong.SOUND.GATHER_CLINK);
+    Sound gatherSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
 
     Timer gatherTimer = new Timer();
 
