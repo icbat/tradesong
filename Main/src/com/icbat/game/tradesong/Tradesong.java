@@ -1,8 +1,6 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -11,10 +9,7 @@ import com.icbat.game.tradesong.screens.*;
 import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.InventoryStage;
 import com.icbat.game.tradesong.stages.WorkshopStage;
-import com.icbat.game.tradesong.utils.MusicAsset;
-import com.icbat.game.tradesong.utils.ScreenTypes;
-import com.icbat.game.tradesong.utils.SoundAssets;
-import com.icbat.game.tradesong.utils.TextureAssets;
+import com.icbat.game.tradesong.utils.*;
 
 
 /**
@@ -38,14 +33,10 @@ public class Tradesong extends Game {
     private InventoryStage inventoryStage;
     private WorkshopStage workshopStage;
 
-    public static ScreenTypes getCurrentScreenType() {
-        return currentScreenType;
-    }
-
     @Override
 	public void create() {
         initializeAssets();
-
+        GameStateManager.updateMusic(getMusic(MusicAsset.TITLE_THEME));
         gameState = new GameStateManager();
 		goToScreen(ScreenTypes.MAIN_MENU);
 
@@ -53,7 +44,7 @@ public class Tradesong extends Game {
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
 
-        GameStateManager.updateMusic(getMusic(MusicAsset.TITLE_THEME));
+
 	}
 
     private void initializeAssets() {
@@ -76,11 +67,9 @@ public class Tradesong extends Game {
 
     public void goToScreen(ScreenTypes screen) {
 
-        Gdx.app.log("goTo", "compare:  " + screen + " " + currentScreenType);
+        GameStateManager.updateMusic();
 
         if (screen.equals(currentScreenType)) {
-
-            Gdx.app.log("goTo", "leaving!");
 
             if (screen.equals(ScreenTypes.LEVEL)) {
                 goToOverlap(new MainMenuScreen(this));

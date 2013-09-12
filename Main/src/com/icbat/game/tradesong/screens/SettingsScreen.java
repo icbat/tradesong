@@ -16,13 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 import com.icbat.game.tradesong.utils.ScreenTypes;
+import com.icbat.game.tradesong.utils.Settings;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
 public class SettingsScreen extends AbstractScreen {
 
     public static final String PREFERENCES = "general_prefs";
-    public static final String KEY_SFX_VOL = "sfx_volume";
-    public static final String KEY_MUSIC_VOL = "music_volume";
 
     public SettingsScreen(Tradesong gameInstance) {
         stages.add(new SettingsStage(gameInstance));
@@ -64,14 +63,14 @@ public class SettingsScreen extends AbstractScreen {
             this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
 
             // Set up some caching in case things are cancelled
-            int cachedMusicVol = preferences.getInteger(KEY_MUSIC_VOL, 50);
-            int cachedSFXVol = preferences.getInteger(KEY_SFX_VOL, 50);
+            int cachedMusicVol = preferences.getInteger(Settings.MUSIC_VOLUME.name(), 50);
+            int cachedSFXVol = preferences.getInteger(Settings.SFX_VOLUME.name(), 50);
 
-            this.musicIndicator = newNumericalIndicator(KEY_MUSIC_VOL, cachedMusicVol);
+            this.musicIndicator = newNumericalIndicator(Settings.MUSIC_VOLUME.name(), cachedMusicVol);
             this.musicSlider = newSlider(cachedMusicVol);
             this.musicSlider.addListener(new SliderListener(musicSlider, musicIndicator));
 
-            this.SFXIndicator = newNumericalIndicator(KEY_SFX_VOL, cachedSFXVol);
+            this.SFXIndicator = newNumericalIndicator(Settings.SFX_VOLUME.name(), cachedSFXVol);
             this.SFXSlider = newSlider(cachedSFXVol);
             this.SFXSlider.addListener(new SliderListener(SFXSlider, SFXIndicator));
 
@@ -121,8 +120,8 @@ public class SettingsScreen extends AbstractScreen {
                 public void changed(ChangeEvent event, Actor actor) {
 
                     // TODO find a way to make this whole process cleaner, including layout
-                    preferences.putInteger(KEY_MUSIC_VOL, (int)musicSlider.getValue());
-                    preferences.putInteger(KEY_SFX_VOL, (int)SFXSlider.getValue());
+                    preferences.putInteger(Settings.MUSIC_VOLUME.name(), (int)musicSlider.getValue());
+                    preferences.putInteger(Settings.SFX_VOLUME.name(), (int)SFXSlider.getValue());
 
                     gameInstance.goToScreen(ScreenTypes.SETTINGS);
 

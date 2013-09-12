@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.icbat.game.tradesong.screens.SettingsScreen;
+import com.icbat.game.tradesong.utils.Settings;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class GameStateManager {
 
     public static int money = 0;
 
-    public static Music currentMusic;
+    public static Music currentMusic = null;
 
     public GameStateManager() {
         // Set up default parameters
@@ -41,13 +42,15 @@ public class GameStateManager {
     }
 
     public static void updateMusic(Music newSong) {
-        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
-
         currentMusic = newSong;
-
-        currentMusic.setVolume(preferences.getInteger(SettingsScreen.KEY_MUSIC_VOL, 50));
-        currentMusic.play();
         currentMusic.setLooping(true);
+        if (!currentMusic.isPlaying()) {
+            currentMusic.play();
+        }
+
+
+        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
+        currentMusic.setVolume(((preferences.getInteger(Settings.MUSIC_VOLUME.name(), 50))) / 100f);
     }
 
     public static void updateMusic() {
