@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.GameStateManager;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.SoundAssets;
@@ -183,7 +184,8 @@ public class WyldStage extends LevelStage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
             gatherSound.stop();
-            gatherSound.play();
+            long id = gatherSound.play();
+            gatherSound.setVolume(id ,GameStateManager.getSFXVolume());
 
             gatherTimer.stop();
             gatherTimer.clear();

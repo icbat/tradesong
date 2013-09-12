@@ -11,10 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.Item;
-import com.icbat.game.tradesong.Recipe;
-import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.Workshop;
+import com.icbat.game.tradesong.*;
 import com.icbat.game.tradesong.utils.ItemFrame;
 import com.icbat.game.tradesong.utils.SoundAssets;
 import com.icbat.game.tradesong.utils.TextureAssets;
@@ -256,6 +253,8 @@ public class WorkshopStage extends AbstractStage {
 
                     craftSound.stop();
                     craftSound.play();
+                    long id = craftSound.play();
+                    craftSound.setVolume(id , GameStateManager.getSFXVolume());
 
                     craftTimer.stop();
                     craftTimer.clear();
