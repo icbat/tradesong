@@ -57,6 +57,12 @@ public class GameStateManager {
         updateMusic(currentMusic);
     }
 
+    public static float getSFXVolume() {
+        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
+        return (preferences.getInteger(Settings.SFX_VOLUME.name(), 50) / 100f);
+
+    }
+
     public int getMoney() {
         return money;
     }

@@ -11,7 +11,6 @@ import com.icbat.game.tradesong.stages.InventoryStage;
 import com.icbat.game.tradesong.stages.WorkshopStage;
 import com.icbat.game.tradesong.utils.*;
 
-
 /**
  * This class:
  *  - sets up the game initially
