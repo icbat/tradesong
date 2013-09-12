@@ -1,6 +1,8 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -23,8 +25,6 @@ import com.icbat.game.tradesong.utils.TextureAssets;
  * */
 public class Tradesong extends Game {
 
-
-
     private static final String PARAM_DELAY_GATHER = "gatherDelay";
     private static final String PARAM_DELAY_CRAFT = "craftDelay";
 
@@ -33,12 +33,14 @@ public class Tradesong extends Game {
 
     private static LevelScreen currentMap;
     private static ScreenTypes currentScreenType;
-    private static AbstractScreen lastScreen;
 
     private HUDStage hud;
     private InventoryStage inventoryStage;
     private WorkshopStage workshopStage;
 
+    public static ScreenTypes getCurrentScreenType() {
+        return currentScreenType;
+    }
 
     @Override
 	public void create() {
@@ -74,7 +76,11 @@ public class Tradesong extends Game {
 
     public void goToScreen(ScreenTypes screen) {
 
+        Gdx.app.log("goTo", "compare:  " + screen + " " + currentScreenType);
+
         if (screen.equals(currentScreenType)) {
+
+            Gdx.app.log("goTo", "leaving!");
 
             if (screen.equals(ScreenTypes.LEVEL)) {
                 goToOverlap(new MainMenuScreen(this));
@@ -122,11 +128,13 @@ public class Tradesong extends Game {
     }
 
     public void leaveOverlap() {
-        setScreen(currentMap);
-    }
+        if (currentMap != null) {
+            setScreen(currentMap);
+        }
+        else {
+            goToScreen(ScreenTypes.MAIN_MENU);
+        }
 
-    public void goBackAScreen() {
-        //TODO impl
     }
 
     public static String getParamDelayGather() {

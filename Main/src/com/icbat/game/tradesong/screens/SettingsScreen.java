@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
+import com.icbat.game.tradesong.utils.ScreenTypes;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
 public class SettingsScreen extends AbstractScreen {
@@ -118,11 +119,12 @@ public class SettingsScreen extends AbstractScreen {
             saveChangesButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goBackAScreen();
 
                     // TODO find a way to make this whole process cleaner, including layout
                     preferences.putInteger(KEY_MUSIC_VOL, (int)musicSlider.getValue());
                     preferences.putInteger(KEY_SFX_VOL, (int)SFXSlider.getValue());
+
+                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
 
                 }
             });
@@ -138,7 +140,7 @@ public class SettingsScreen extends AbstractScreen {
             discardChangesButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goBackAScreen();
+                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
                 }
             });
 
