@@ -183,6 +183,8 @@ public class WyldStage extends LevelStage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+
+
             gatherSound.stop();
             long id = gatherSound.play();
             gatherSound.setVolume(id ,GameStateManager.getSFXVolume());
