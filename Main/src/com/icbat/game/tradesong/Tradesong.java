@@ -31,7 +31,7 @@ public class Tradesong extends Game {
     private HUDStage hud;
     private InventoryStage inventoryStage;
     private WorkshopStage workshopStage;
-    private static InputHandler keyHandler = new InputHandler();
+    private static KeyboardHandler keyHandler;
 
 
 
@@ -40,11 +40,16 @@ public class Tradesong extends Game {
         initializeAssets();
         GameStateManager.updateMusic(getMusic(MusicAsset.TITLE_THEME));
         gameState = new GameStateManager();
-		goToScreen(ScreenTypes.MAIN_MENU);
+
+        keyHandler = new KeyboardHandler(this);
 
         hud = new HUDStage(this);
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
+
+		goToScreen(ScreenTypes.MAIN_MENU);
+
+
 
 
 	}
@@ -65,8 +70,12 @@ public class Tradesong extends Game {
         assetManager.finishLoading(); // Blocks until finished
     }
 
-    public static InputHandler getKeyHandler() {
+    public static KeyboardHandler getKeyHandler() {
         return keyHandler;
+    }
+
+    public static ScreenTypes getCurrentScreenType() {
+        return currentScreenType;
     }
 
     /* Screen management methods */
@@ -115,6 +124,7 @@ public class Tradesong extends Game {
     public void goToMap(String mapName) {
 
         currentMap = new LevelScreen(mapName, hud, this);
+        currentScreenType = ScreenTypes.LEVEL;
         setScreen(currentMap);
     }
 

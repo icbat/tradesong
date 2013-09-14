@@ -90,6 +90,8 @@ public abstract class AbstractScreen implements Screen {
             inputMultiplexer.addProcessor(stage);
         }
 
+
+
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 }
