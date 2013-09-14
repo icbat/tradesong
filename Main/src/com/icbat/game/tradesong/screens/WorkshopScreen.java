@@ -12,7 +12,6 @@ public class WorkshopScreen extends InventoryScreen{
         stages.add(workshopStage);
         inventoryStage.setLinkedWorkshop(workshopStage);
         inventoryStage.connectItemsToWorkshop();
-        inputMultiplexer.addProcessor(workshopStage);
 
     }
 

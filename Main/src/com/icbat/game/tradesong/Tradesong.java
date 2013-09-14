@@ -31,6 +31,9 @@ public class Tradesong extends Game {
     private HUDStage hud;
     private InventoryStage inventoryStage;
     private WorkshopStage workshopStage;
+    private static InputHandler keyHandler = new InputHandler();
+
+
 
     @Override
 	public void create() {
@@ -60,6 +63,10 @@ public class Tradesong extends Game {
             assetManager.load(music.getPath(), Music.class);
         }
         assetManager.finishLoading(); // Blocks until finished
+    }
+
+    public static InputHandler getKeyHandler() {
+        return keyHandler;
     }
 
     /* Screen management methods */

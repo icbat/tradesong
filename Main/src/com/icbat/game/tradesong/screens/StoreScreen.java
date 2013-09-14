@@ -11,10 +11,6 @@ public class StoreScreen extends AbstractScreen {
         stages.add(hud);
         stages.add(inventoryStage);
         ((InventoryStage)stages.get(1)).setIsInStore(false);
-
-        // Setup an input Multiplexer
-        inputMultiplexer.addProcessor(hud);
-        inputMultiplexer.addProcessor(inventoryStage);
     }
 
     @Override

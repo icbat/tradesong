@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -85,12 +84,6 @@ public class LevelScreen extends AbstractScreen {
 
 
         stages.get(0).setCamera(gameWorldCamera);
-
-        // Setup an input Multiplexer
-        inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stages.get(0));
-        inputMultiplexer.addProcessor(stages.get(1));
-
 
     }
 

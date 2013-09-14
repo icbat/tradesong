@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public abstract class AbstractScreen implements Screen {
 	}
 
     public void render (float delta, float r, float g, float b, float a) {
+
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -83,7 +85,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void show() {
         inputMultiplexer.clear();
-
+        inputMultiplexer.addProcessor(Tradesong.getKeyHandler());
         for (AbstractStage stage : stages) {
             inputMultiplexer.addProcessor(stage);
         }
