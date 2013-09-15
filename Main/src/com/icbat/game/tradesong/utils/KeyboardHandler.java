@@ -18,7 +18,7 @@ public class KeyboardHandler extends InputAdapter {
 
         if (current == null) {
             // There is no overlay, we're looking at a map.
-            gameInstance.goToOverlay(ScreenTypes.MAIN_MENU);
+            gameInstance.goToOverlay(ScreenTypes.SETTINGS);
         } else {
             gameInstance.goBack();
         }
