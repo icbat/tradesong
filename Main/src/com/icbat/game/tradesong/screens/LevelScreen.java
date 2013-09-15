@@ -1,9 +1,10 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -18,6 +19,7 @@ import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.TownStage;
 import com.icbat.game.tradesong.stages.WyldStage;
 import com.icbat.game.tradesong.utils.OrthoCamera;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 /**
  * Generic level screen. The way maps are shown.
@@ -34,17 +36,20 @@ public class LevelScreen extends AbstractScreen {
 	private OrthoCamera rendererCamera;
     private final OrthoCamera gameWorldCamera;
 
+    private SpriteBatch batch = new SpriteBatch();
+    private Texture background = Tradesong.getTexture(TextureAssets.SKY);
+
     public LevelScreen(String level, HUDStage hud, Tradesong gameInstance) {
         super();
 
         // Load the map
-        Tradesong.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         this.mapName = "maps/" + level + ".tmx";  // "Internal" relative address. What the asset loader wants. Is there a better way to do this?
 
-        Tradesong.assets.load(mapName, TiledMap.class);
-        Tradesong.assets.finishLoading();
+        Tradesong.assetManager.load(mapName, TiledMap.class);
+        Tradesong.assetManager.finishLoading();
 
-        this.map = Tradesong.assets.get(mapName);
+        this.map = Tradesong.assetManager.get(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1);
 
         int width = Gdx.graphics.getWidth();
@@ -80,17 +85,15 @@ public class LevelScreen extends AbstractScreen {
 
         stages.get(0).setCamera(gameWorldCamera);
 
-        // Setup an input Multiplexer
-        inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stages.get(0));
-        inputMultiplexer.addProcessor(stages.get(1));
-
-
     }
 
     @Override
 	public void render(float delta) {
         super.render(delta);
+
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         rendererCamera.update();
         renderer.setView(rendererCamera);
@@ -194,6 +197,6 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public String toString() {
-        return super.toString() + "." + this.mapName;    //To change body of overridden methods use File | Settings | File Templates.
+        return super.toString() + "." + this.mapName;
     }
 }

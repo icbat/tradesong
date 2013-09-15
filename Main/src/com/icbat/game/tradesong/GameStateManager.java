@@ -1,8 +1,12 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.icbat.game.tradesong.screens.SettingsScreen;
+import com.icbat.game.tradesong.utils.Settings;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,28 +21,49 @@ public class GameStateManager {
 
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
-    public static final String PATH_SPRITE_ITEMS = "sprites/items.png";
 
     private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
     public static int money = 0;
 
+    public static Music currentMusic = null;
 
     public GameStateManager() {
         // Set up default parameters
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayGather(), 3));
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
 
-        // Load sprites and other assets
-        Tradesong.assets.load(PATH_SPRITE_ITEMS, Texture.class);
-        Tradesong.assets.finishLoading();
-
-
         // Load data and initialize
-        loadItems( (Texture)Tradesong.assets.get(PATH_SPRITE_ITEMS) );
+        loadItems( Tradesong.getTexture(TextureAssets.ITEMS) );
         loadRecipes();
         findWorkshops();
 
+
+    }
+
+    public static void update() {
+        updateMusic();
+    }
+
+    public static void updateMusic(Music newSong) {
+        currentMusic = newSong;
+        currentMusic.setLooping(true);
+        if (!currentMusic.isPlaying()) {
+            currentMusic.play();
+        }
+
+
+        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
+        currentMusic.setVolume(((preferences.getInteger(Settings.MUSIC_VOLUME.name(), 50))) / 100f);
+    }
+
+    public static void updateMusic() {
+        updateMusic(currentMusic);
+    }
+
+    public static float getSFXVolume() {
+        Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
+        return (preferences.getInteger(Settings.SFX_VOLUME.name(), 50) / 100f);
 
     }
 
@@ -77,12 +102,11 @@ public class GameStateManager {
 //        return false;
 //    }
 
-    /** Load in items from XML file assets
+    /** Load in items from CSV file assets
      *
-     * @return true if loadedSuccessfully
      * @see assets/items.csv
      * */
-    public boolean loadItems(Texture texture) {
+    public void loadItems(Texture texture) {
 
         // Load the main file
         String itemBlob = Gdx.files.internal(PATH_ITEMS).readString();
@@ -112,15 +136,13 @@ public class GameStateManager {
             }
 
         }
-
-
-
-        // TODO extensible-system
-        return false;
     }
 
-    /** Must be run after load items! */
-    public boolean loadRecipes() {
+    /** Load in recipes from CSV file assets
+     *
+     * Depends on (and must be run AFTER) loadItems()
+     * */
+    public void loadRecipes() {
 
         // Load the main file
         String itemBlob = Gdx.files.internal(PATH_RECIPES).readString();
@@ -166,10 +188,6 @@ public class GameStateManager {
 
 
         }
-
-        // TODO error-checking
-        // TODO extensible-system
-        return false;
     }
 
     private void findWorkshops() {

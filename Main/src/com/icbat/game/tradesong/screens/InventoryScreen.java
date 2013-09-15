@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.screens;
 
-import com.badlogic.gdx.InputMultiplexer;
 import com.icbat.game.tradesong.stages.HUDStage;
 import com.icbat.game.tradesong.stages.InventoryStage;
 
@@ -11,14 +10,7 @@ public class InventoryScreen extends AbstractScreen {
         stages.add(hud);
         stages.add(inventoryStage);
 
-        inventoryStage.setLinkedWorkshop(null); // The equivalent of unsetting this var
-
-
-        // Setup an input Multiplexer
-        inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(hud);
-        inputMultiplexer.addProcessor(inventoryStage);
-
+        inventoryStage.setLinkedWorkshop(null);
 	}
 
     @Override

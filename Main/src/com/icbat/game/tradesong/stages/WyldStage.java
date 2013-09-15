@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.GameStateManager;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.SoundAssets;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,7 +31,7 @@ public class WyldStage extends LevelStage {
 
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
 
-    Sound gatherSound = Tradesong.getGatherSound();
+    Sound gatherSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
 
     Timer gatherTimer = new Timer();
 
@@ -63,8 +65,6 @@ public class WyldStage extends LevelStage {
         for (int i = 0; i < initialItemCount; ++i) {
             spawnItem();
         }
-
-        layout();
 
     }
 
@@ -183,8 +183,11 @@ public class WyldStage extends LevelStage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+
+
             gatherSound.stop();
-            gatherSound.play();
+            long id = gatherSound.play();
+            gatherSound.setVolume(id ,GameStateManager.getSFXVolume());
 
             gatherTimer.stop();
             gatherTimer.clear();
