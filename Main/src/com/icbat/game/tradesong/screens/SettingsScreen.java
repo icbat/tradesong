@@ -123,7 +123,7 @@ public class SettingsScreen extends AbstractScreen {
                     preferences.putInteger(Settings.MUSIC_VOLUME.name(), (int)musicSlider.getValue());
                     preferences.putInteger(Settings.SFX_VOLUME.name(), (int)SFXSlider.getValue());
 
-                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
+                    gameInstance.goBack();
 
                 }
             });
@@ -139,7 +139,7 @@ public class SettingsScreen extends AbstractScreen {
             discardChangesButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
+                    gameInstance.goBack();
                 }
             });
 

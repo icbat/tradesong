@@ -41,6 +41,10 @@ public class GameStateManager {
 
     }
 
+    public static void update() {
+        updateMusic();
+    }
+
     public static void updateMusic(Music newSong) {
         currentMusic = newSong;
         currentMusic.setLooping(true);

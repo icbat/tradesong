@@ -56,7 +56,7 @@ public class MainMenuScreen extends AbstractScreen {
             startButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goToScreen(ScreenTypes.TOWN);
+                    gameInstance.changeMap("town_hub");
                 }
             });
 
@@ -69,7 +69,7 @@ public class MainMenuScreen extends AbstractScreen {
             settingsButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.goToScreen(ScreenTypes.SETTINGS);
+                    gameInstance.goToOverlay(ScreenTypes.SETTINGS);
                 }
             });
 

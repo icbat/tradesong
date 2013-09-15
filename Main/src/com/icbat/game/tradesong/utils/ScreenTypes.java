@@ -1,13 +1,9 @@
 package com.icbat.game.tradesong.utils;
 
-    /** Things that can be passed to goToScreen */
+    /** Things that can be passed to goToOverlay */
     public enum ScreenTypes {
         MAIN_MENU,
         SETTINGS,
-
-        LEVEL,
-        TOWN,
-
         WORKSHOP,
         INVENTORY,
         STORE,

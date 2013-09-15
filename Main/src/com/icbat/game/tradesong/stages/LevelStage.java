@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.Point;
+import com.icbat.game.tradesong.utils.ScreenTypes;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
 public abstract class LevelStage extends AbstractStage {
@@ -120,7 +121,7 @@ public abstract class LevelStage extends AbstractStage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-            gameInstance.goToMap(exit.destination);
+            gameInstance.changeMap(exit.destination);
 
             return super.touchDown(event, x, y, pointer, button);
         }

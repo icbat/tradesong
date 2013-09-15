@@ -36,6 +36,9 @@ public class HUDStage extends AbstractStage {
 
     public void layout() {
         this.clear();
+
+        addBackButton();
+
         addWorkshopsButton();
         addInventoryButton();
         addCapacityCounter();
@@ -48,6 +51,16 @@ public class HUDStage extends AbstractStage {
         dragCatcher.setTouchable(Touchable.enabled);
         this.addActor(dragCatcher);
         dragCatcher.setZIndex(0);
+    }
+
+    private void addBackButton() {
+        Image backButton = new Image(Tradesong.getTexture(TextureAssets.MAP_ARROW));
+
+        layoutHorizontally(backButton);
+        backButton.setTouchable(Touchable.enabled);
+        backButton.addListener(new BackButtonlistener(gameInstance));
+
+        this.addActor(backButton);
     }
 
     public Actor getDragCatcher() {
@@ -75,9 +88,6 @@ public class HUDStage extends AbstractStage {
 
         layoutHorizontally(moneyCounter);
         this.addActor(moneyCounter);
-
-
-
     }
 
     private void addInventoryButton() {
@@ -88,7 +98,6 @@ public class HUDStage extends AbstractStage {
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new InterfaceButtonListener(ScreenTypes.INVENTORY, gameInstance));
         layoutHorizontally(inventoryButton);
-        inventoryButton.setVisible(true);
         this.addActor(inventoryButton);
     }
 
@@ -176,7 +185,23 @@ public class HUDStage extends AbstractStage {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-            gameInstance.goToScreen(type);
+            gameInstance.goToOverlay(type);
+
+            return super.touchDown(event, x, y, pointer, button);
+        }
+    }
+
+    class BackButtonlistener extends ClickListener {
+        private Tradesong gameInstance;
+
+        BackButtonlistener(Tradesong gameInstance) {
+            this.gameInstance = gameInstance;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+            gameInstance.goBack();
 
             return super.touchDown(event, x, y, pointer, button);
         }

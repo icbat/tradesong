@@ -14,19 +14,15 @@ public class KeyboardHandler extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
 
-        ScreenTypes current = Tradesong.getCurrentScreenType();
+        ScreenTypes current = Tradesong.getCurrentOverlay();
 
-        switch(current) {
-            case LEVEL:
-                gameInstance.goToScreen(ScreenTypes.MAIN_MENU);
-                break;
-            case MAIN_MENU:
-                break;
-
-            default:
-                gameInstance.leaveOverlap();
-
+        if (current == null) {
+            // There is no overlay, we're looking at a map.
+            gameInstance.goToOverlay(ScreenTypes.MAIN_MENU);
+        } else {
+            gameInstance.goBack();
         }
+
 
         return true;
     }

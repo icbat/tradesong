@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -25,8 +26,8 @@ public class Tradesong extends Game {
     public static GameStateManager gameState;
     public static AssetManager assetManager = new AssetManager();
 
-    private static LevelScreen currentMap;
-    private static ScreenTypes currentScreenType;
+    private static LevelScreen lastMapScreen;
+    private static ScreenTypes currentOverlay;
 
     private HUDStage hud;
     private InventoryStage inventoryStage;
@@ -47,7 +48,7 @@ public class Tradesong extends Game {
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
 
-		goToScreen(ScreenTypes.MAIN_MENU);
+		goToOverlay(ScreenTypes.MAIN_MENU);
 
 
 
@@ -74,74 +75,11 @@ public class Tradesong extends Game {
         return keyHandler;
     }
 
-    public static ScreenTypes getCurrentScreenType() {
-        return currentScreenType;
+    public static ScreenTypes getCurrentOverlay() {
+        return currentOverlay;
     }
 
-    /* Screen management methods */
-
-    public void goToScreen(ScreenTypes screen) {
-
-        GameStateManager.updateMusic();
-
-        if (screen.equals(currentScreenType)) {
-
-            if (screen.equals(ScreenTypes.LEVEL)) {
-                goToOverlap(new MainMenuScreen(this));
-                currentScreenType = ScreenTypes.MAIN_MENU;
-            } else {
-                leaveOverlap();
-                currentScreenType = ScreenTypes.LEVEL;
-            }
-
-        } else {
-
-            currentScreenType = screen;
-
-            switch(screen) {
-                case MAIN_MENU:
-                    goToOverlap(new MainMenuScreen(this));
-                    break;
-                case TOWN:
-                    goToMap("town_hub");
-                    break;
-                case WORKSHOP:
-                    goToOverlap(new WorkshopScreen(hud, inventoryStage, workshopStage));
-                    break;
-                case INVENTORY:
-                    goToOverlap(new InventoryScreen(hud, inventoryStage));
-                    break;
-                case STORE:
-                    goToOverlap(new StoreScreen(hud, inventoryStage));
-                    break;
-                case SETTINGS:
-                    goToOverlap(new SettingsScreen(this));
-                    break;
-            }
-        }
-    }
-
-    public void goToMap(String mapName) {
-
-        currentMap = new LevelScreen(mapName, hud, this);
-        currentScreenType = ScreenTypes.LEVEL;
-        setScreen(currentMap);
-    }
-
-    public void goToOverlap(AbstractScreen newScreen) {
-        setScreen(newScreen);
-    }
-
-    public void leaveOverlap() {
-        if (currentMap != null) {
-            setScreen(currentMap);
-        }
-        else {
-            goToScreen(ScreenTypes.MAIN_MENU);
-        }
-
-    }
-
+    // TODO probably a cleaner way to do these two, especially as this expands
     public static String getParamDelayGather() {
         return PARAM_DELAY_GATHER;
     }
@@ -150,6 +88,79 @@ public class Tradesong extends Game {
         return PARAM_DELAY_CRAFT;
     }
 
+    /* Screen management methods */
+
+    /**
+     * Generic screen switching based off of what screen is given. Does not handle maps!
+     *
+     * Will goBack if passed the same screen!
+     * */
+    public void goToOverlay(ScreenTypes screen) {
+        GameStateManager.update();
+        if (!screen.equals(ScreenTypes.MAIN_MENU) && !screen.equals(ScreenTypes.SETTINGS)) {
+            Gdx.app.log("setting to", screen.name());
+
+            currentOverlay = screen;
+        }
+
+        switch (screen) {
+
+            case MAIN_MENU:
+                setScreen(new MainMenuScreen(this));
+                break;
+
+            case SETTINGS:
+                setScreen(new SettingsScreen(this));
+                break;
+
+            case INVENTORY:
+                setScreen(new InventoryScreen(hud, inventoryStage));
+                break;
+
+            case WORKSHOP:
+                setScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
+                break;
+
+            case STORE:
+                setScreen(new StoreScreen(hud, inventoryStage));
+                break;
+        }
+    }
+
+    /**
+     * Goes to the last screen, or exits if this was main menu.
+     *
+     * Doesn't work going back maps.
+     * */
+    public void goBack() {
+
+        if (currentOverlay == null) {
+            if (getScreen() instanceof MainMenuScreen) {
+                Gdx.app.exit();
+            } else {
+                goToOverlay(ScreenTypes.MAIN_MENU);
+            }
+        }
+        else {
+
+            Gdx.app.log("trying to back from", currentOverlay.name());
+
+            setScreen(lastMapScreen);
+            currentOverlay = null;
+        }
+    }
+
+    /**
+     * Goes to the specified map and updates references.
+     * */
+    public void changeMap(String mapName) {
+        lastMapScreen = new LevelScreen(mapName, hud, this);
+        setScreen(lastMapScreen);
+    }
+
+
+
+    /* Asset methods */
 
     /** Convenience method to prevent having to call assetManager.get(longConstantName)
      *
