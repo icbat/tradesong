@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.stages;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.Item;
-import com.icbat.game.tradesong.Recipe;
-import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.Workshop;
+import com.icbat.game.tradesong.*;
+import com.icbat.game.tradesong.utils.ItemFrame;
+import com.icbat.game.tradesong.utils.SoundAssets;
+import com.icbat.game.tradesong.utils.TextureAssets;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -27,13 +26,12 @@ public class WorkshopStage extends AbstractStage {
     private Group frames = new Group();
     private Group ingredients = new Group();
     private Group productGroup = new Group();
-    private Texture frameTexture;
 
     private Timer craftTimer = new Timer();
 
     private static final int SPACER = 10;
     private Image resultFrame;
-    private Sound craftSound = Tradesong.getGatherSound();
+    private Sound craftSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
 
     public WorkshopStage() {
         this(new Workshop("Blacksmith"));
@@ -41,7 +39,6 @@ public class WorkshopStage extends AbstractStage {
 
     public WorkshopStage(Workshop workshop) {
         super();
-        frameTexture = Tradesong.getFramePath();
         setWorkshop(workshop); // Handles the standard setup
     }
 
@@ -87,9 +84,9 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addWorkshopChangers() {
-        Image blacksmithButton = new Image(Tradesong.getSpriteIconHammer());
-        Image tinkerButton = new Image(Tradesong.getSpriteIconWrench());
-        Image scribeButton = new Image(Tradesong.getSpriteIconBook());
+        Image blacksmithButton = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
+        Image tinkerButton = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
+        Image scribeButton = new Image(Tradesong.getTexture(TextureAssets.ICON_BOOK));
 
         int left = (int) header.getX();
 
@@ -119,7 +116,7 @@ public class WorkshopStage extends AbstractStage {
         frames.clearChildren();
 
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
-            Image frame = makeIndividualFrame();
+            Image frame = new ItemFrame();
             layOutVertically(frame);
             frame.setName(""+(Integer)i);
             frames.addActor(frame);
@@ -129,12 +126,12 @@ public class WorkshopStage extends AbstractStage {
     }
 
     private void addArrowAndResultFrame() {
-        Texture arrowTexture = Tradesong.getPathSpriteArrow();
+        Texture arrowTexture = Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW);
         Image arrowImage = new Image( arrowTexture );
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
 
-        resultFrame = makeIndividualFrame();
+        resultFrame = new ItemFrame();
         layOutVertically(resultFrame);
         this.addActor(resultFrame);
     }
@@ -205,17 +202,6 @@ public class WorkshopStage extends AbstractStage {
 
     }
 
-    /**
-     * Makes it so there's only one reference to frameTexture for cleanliness. Sets up global defaults
-     *
-     * @return returns a Frame image */
-    private Image makeIndividualFrame() {
-        Image frameActor = new Image( new TextureRegion(frameTexture) );
-        frameActor.setVisible(true);
-        frameActor.setTouchable(Touchable.disabled);
-        return frameActor;
-    }
-
     /** Sets the bounds of the param to the next spot in a vertically descending pattern
      * @param   actor   actor on which to calculate bounds */
     private void layOutVertically(Actor actor) {
@@ -267,6 +253,8 @@ public class WorkshopStage extends AbstractStage {
 
                     craftSound.stop();
                     craftSound.play();
+                    long id = craftSound.play();
+                    craftSound.setVolume(id , GameStateManager.getSFXVolume());
 
                     craftTimer.stop();
                     craftTimer.clear();
