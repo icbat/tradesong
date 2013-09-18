@@ -131,6 +131,13 @@ public class WyldStage extends LevelStage {
         itemCount -= i;
     }
 
+    @Override
+    public void onHide() {
+        super.onHide();
+        gatherSound.stop();
+        gatherTimer.stop();
+    }
+
     /** Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust */
     class Area {
         int left;

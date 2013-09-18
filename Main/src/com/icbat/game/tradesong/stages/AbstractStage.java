@@ -9,4 +9,9 @@ public abstract class AbstractStage extends Stage {
     public String toString() {
         return this.getClass().getSimpleName();
     }
+
+    /**
+     * Universal handle for things that must happen on parent screen's hide. Defaults to nothing.
+     * */
+    public void onHide() {}
 }
