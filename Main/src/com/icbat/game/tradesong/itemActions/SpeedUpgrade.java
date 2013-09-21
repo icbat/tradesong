@@ -18,7 +18,7 @@ public class SpeedUpgrade extends AbstractItemAction {
         LeveledParameter param = Tradesong.gameState.getParameterByName(affectedParameter);
         if(param.getLevel() < level) {
             param.setLevel(level);
-            param.setCurrentValue(param.getCurrentValue() / 2); // TODO currently, level 1 is better than higher levels, change that
+            param.setCurrentValue(param.getCurrentValue() / 2);
 
             return true;
         }
