@@ -52,7 +52,7 @@ public class MainMenuScreen extends AbstractScreen {
             startButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.changeMap("town_hub");
+                    gameInstance.changeMap("guild_hall");
                 }
             });
 
