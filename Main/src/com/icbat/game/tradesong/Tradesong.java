@@ -29,9 +29,9 @@ public class Tradesong extends Game {
     private static LevelScreen lastMapScreen;
     private static ScreenTypes currentOverlay;
 
-    private HUDStage hud;
-    private InventoryStage inventoryStage;
-    private WorkshopStage workshopStage;
+    private static HUDStage hud;
+    private static InventoryStage inventoryStage;
+    private static WorkshopStage workshopStage;
     private static KeyboardHandler keyHandler;
 
 
@@ -113,15 +113,15 @@ public class Tradesong extends Game {
                 break;
 
             case INVENTORY:
-                setScreen(new InventoryScreen(hud, inventoryStage));
+                setScreen(new InventoryScreen());
                 break;
 
             case WORKSHOP:
-                setScreen(new WorkshopScreen(hud, inventoryStage, workshopStage));
+                setScreen(new WorkshopScreen());
                 break;
 
             case STORE:
-                setScreen(new StoreScreen(hud, inventoryStage));
+                setScreen(new StoreScreen());
                 break;
         }
     }
@@ -153,7 +153,7 @@ public class Tradesong extends Game {
      * Goes to the specified map and updates references.
      * */
     public void changeMap(String mapName) {
-        lastMapScreen = new LevelScreen(mapName, hud, this);
+        lastMapScreen = new LevelScreen(mapName, this);
         setScreen(lastMapScreen);
     }
 
@@ -184,5 +184,17 @@ public class Tradesong extends Game {
      * */
     public static Music getMusic(MusicAsset toFind) {
         return assetManager.get(toFind.getPath());
+    }
+
+    public static HUDStage getHud() {
+        return hud;
+    }
+
+    public static InventoryStage getInventoryStage() {
+        return inventoryStage;
+    }
+
+    public static WorkshopStage getWorkshopStage() {
+        return workshopStage;
     }
 }

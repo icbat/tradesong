@@ -17,6 +17,7 @@ import com.icbat.game.tradesong.utils.ScreenTypes;
 public class MainMenuScreen extends AbstractScreen {
 
     public MainMenuScreen(final Tradesong gameInstance) {
+        stages.clear();
 		stages.add(new MainMenuStage(gameInstance));
 	}
 
