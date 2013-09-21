@@ -39,8 +39,8 @@ public class LevelScreen extends AbstractScreen {
     private SpriteBatch batch = new SpriteBatch();
     private Texture background = Tradesong.getTexture(TextureAssets.SKY);
 
-    public LevelScreen(String level, HUDStage hud, Tradesong gameInstance) {
-        super();
+    public LevelScreen(String level, Tradesong gameInstance) {
+        stages.clear(); // Needs to have HUD added last.
 
         // Load the map
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -74,9 +74,7 @@ public class LevelScreen extends AbstractScreen {
             );
         }
 
-
-        stages.add(hud);
-
+        stages.add(Tradesong.getHud());
 
         // Set up cameras
         rendererCamera = new OrthoCamera(width, height);

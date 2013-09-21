@@ -1,16 +1,15 @@
 package com.icbat.game.tradesong.screens;
 
-import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.InventoryStage;
 
 public class InventoryScreen extends AbstractScreen {
 
-    public InventoryScreen(HUDStage hud, InventoryStage inventoryStage) {
+    public InventoryScreen() {
 		super();
-        stages.add(hud);
-        stages.add(inventoryStage);
+        stages.add(Tradesong.getInventoryStage());
 
-        inventoryStage.setLinkedWorkshop(null);
+        ((InventoryStage)stages.get(1)).setLinkedWorkshop(null);
 	}
 
     @Override

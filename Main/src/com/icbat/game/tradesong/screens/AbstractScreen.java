@@ -19,7 +19,9 @@ public abstract class AbstractScreen implements Screen {
     protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    public AbstractScreen() {}
+    public AbstractScreen() {
+        stages.add(Tradesong.getHud());
+    }
 	
 	@Override
 	public void render( float delta ) {
