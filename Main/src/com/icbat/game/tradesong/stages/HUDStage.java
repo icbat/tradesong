@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.ScreenMovingListener;
 import com.icbat.game.tradesong.utils.ScreenTypes;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
@@ -92,7 +93,7 @@ public class HUDStage extends AbstractStage {
         Image inventoryButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
 
         inventoryButton.setTouchable(Touchable.enabled);
-        inventoryButton.addListener(new InterfaceButtonListener(ScreenTypes.INVENTORY, gameInstance));
+        inventoryButton.addListener(new ScreenMovingListener(ScreenTypes.INVENTORY, gameInstance));
         layoutHorizontally(inventoryButton);
         this.addActor(inventoryButton);
     }
@@ -143,25 +144,6 @@ public class HUDStage extends AbstractStage {
                 furthestX = (int)actor.getRight();
         }
         actorToLayout.setPosition(furthestX + SPACER, 0);
-    }
-
-    class InterfaceButtonListener extends ClickListener {
-        private ScreenTypes type;
-        private Tradesong gameInstance;
-
-        InterfaceButtonListener(ScreenTypes type, Tradesong gameInstance) {
-            super();
-            this.type = type;
-            this.gameInstance = gameInstance;
-        }
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-            gameInstance.goToOverlay(type);
-
-            return super.touchDown(event, x, y, pointer, button);
-        }
     }
 
     class BackButtonListener extends ClickListener {
