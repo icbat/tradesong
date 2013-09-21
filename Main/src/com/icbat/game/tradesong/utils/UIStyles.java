@@ -18,6 +18,7 @@ public class UIStyles {
     public UIStyles() {
         this.textButtonStyle.font = new BitmapFont();
         this.textButtonStyle.fontColor = Color.WHITE;
+        this.textButtonStyle.overFontColor = Color.LIGHT_GRAY;
 
         this.labelStyle.font = new BitmapFont();
         this.labelStyle.fontColor = Color.WHITE;

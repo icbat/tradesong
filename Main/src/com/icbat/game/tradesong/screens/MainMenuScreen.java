@@ -24,15 +24,10 @@ public class MainMenuScreen extends AbstractScreen {
     public static class MainMenuStage extends AbstractStage {
 
         private final Tradesong gameInstance;
-        private TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         private Table table = new Table();
 
         public MainMenuStage(final Tradesong gameInstance) {
             this.gameInstance = gameInstance;
-
-            this.buttonStyle.font = new BitmapFont();
-            this.buttonStyle.fontColor = Color.WHITE;
-            this.buttonStyle.overFontColor = Color.BLUE;
 
             this.table.setFillParent(true);
             this.addActor(this.table);
@@ -52,7 +47,7 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private TextButton newStartButton() {
-            TextButton startButton = new TextButton("Start game", buttonStyle);
+            TextButton startButton = new TextButton("Start game", Tradesong.uiStyles.getTextButtonStyle());
 
             startButton.addListener(new ChangeListener() {
                 @Override
@@ -65,7 +60,7 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private TextButton newSettingsButton() {
-            TextButton settingsButton = new TextButton("Settings", buttonStyle);
+            TextButton settingsButton = new TextButton("Settings", Tradesong.uiStyles.getTextButtonStyle());
 
             settingsButton.addListener(new ChangeListener() {
                 @Override
@@ -78,7 +73,7 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private TextButton newExitButton() {
-            TextButton exitButton = new TextButton("Exit game", buttonStyle);
+            TextButton exitButton = new TextButton("Exit game", Tradesong.uiStyles.getTextButtonStyle());
 
             exitButton.addListener(new ChangeListener() {
                 @Override

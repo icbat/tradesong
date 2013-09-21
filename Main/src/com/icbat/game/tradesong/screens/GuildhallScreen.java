@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Tradesong;
@@ -27,15 +28,18 @@ public class GuildhallScreen extends AbstractScreen {
 
         @Override
         public void layout() {
+            this.clear();
             table.clearChildren();
-
-            table.add("The Guildhall");
+            this.table.setFillParent(true);
+            table.add(new Label("Guild hall", Tradesong.uiStyles.getLabelStyle()));
             table.row();
             table.add(newWorkshopButton());
             table.row();
             table.add(newShopButton());
             table.row();
             table.add(newRentButton());
+
+            this.addActor(table);
         }
 
         private Actor newWorkshopButton() {
