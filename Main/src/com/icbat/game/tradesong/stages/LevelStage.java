@@ -8,19 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.utils.Direction;
 import com.icbat.game.tradesong.utils.Point;
 import com.icbat.game.tradesong.utils.TextureAssets;
 
 public abstract class LevelStage extends AbstractStage {
-
-    // Doesn't entirely make sense for this to here, but it'll do for now
-    // Can't be in the inner class without it being static
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
 
     MapProperties properties;
     Tradesong gameInstance;
