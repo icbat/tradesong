@@ -1,8 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -52,7 +50,7 @@ public class MainMenuScreen extends AbstractScreen {
             startButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    gameInstance.changeMap("town_hub");
+                    gameInstance.changeMap("guild_hall");
                 }
             });
 
