@@ -3,7 +3,6 @@ package com.icbat.game.tradesong;
 import java.util.ArrayList;
 
 public class Inventory {
-    // TODO this needs a lot of error-checking for things like shrinking inventory, etc.
 
     int capacity = 15;
     private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>(capacity);
@@ -78,7 +77,5 @@ public class Inventory {
     public void remove(StackedItem stack) {
         stacks.remove(stack);
     }
-
-    // TODO remove item methods!
 
 }

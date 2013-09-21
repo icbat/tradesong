@@ -36,7 +36,6 @@ public class InventoryStage extends AbstractStage {
     }
 
     /** Little hack to get the screen to update even when its been interacted with and doesn't know it */
-    // TODO wat
     @Override
     public void draw() {
         super.draw();
@@ -143,7 +142,6 @@ public class InventoryStage extends AbstractStage {
         y += floor(this.getHeight()/2);
 
         x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
-        //TODO center on y-axis
 
         int[] out = new int[2];
         out[0] = x;

@@ -1,7 +1,9 @@
 package com.icbat.game.tradesong.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -30,6 +32,7 @@ public class WyldStage extends LevelStage {
     private Area validSpawn;
 
     private final ArrayList<Item> possibleItemSpawns = new ArrayList<Item>();
+    private final
 
     Sound gatherSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
 
@@ -116,11 +119,34 @@ public class WyldStage extends LevelStage {
     private void finalizeItemForView(Item item) {
 
         item.addListener(new GatherClickListener(item));
-        int[] coords = validSpawn.getRandomCoordsInside();
+
+        int[] coords;
+
+        do {
+            coords = validSpawn.getRandomCoordsInside();
+        } while (verifyEmptySpawnPoint(coords));
+
+
         item.setPosition(coords[0], coords[1]);
         item.setTouchable(Touchable.enabled);
         item.setVisible(true);
         this.addActor(item);
+    }
+
+    private boolean verifyEmptySpawnPoint(int[] coords) {
+
+        Gdx.app.log("\nInspecting:", coords[0] + " " + coords[1]);
+
+        for (Actor actor : this.getActors()) {
+            Gdx.app.log("Against:", actor.getX() + " " + actor.getY());
+            if (coords[0] == actor.getX() && coords[1] == actor.getY()) {
+                return true;
+            }
+        }
+
+
+
+        return false;
     }
 
     public void removeItemCount() {
@@ -129,6 +155,13 @@ public class WyldStage extends LevelStage {
 
     public void removeItemCount(int i) {
         itemCount -= i;
+    }
+
+    @Override
+    public void onHide() {
+        super.onHide();
+        gatherSound.stop();
+        gatherTimer.stop();
     }
 
     /** Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust */
