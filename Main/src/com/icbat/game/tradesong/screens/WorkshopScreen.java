@@ -1,17 +1,17 @@
 package com.icbat.game.tradesong.screens;
 
-import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.InventoryStage;
 import com.icbat.game.tradesong.stages.WorkshopStage;
 
 public class WorkshopScreen extends InventoryScreen{
 
-    public WorkshopScreen(HUDStage hud, InventoryStage inventoryStage, WorkshopStage workshopStage) {
-        super(hud, inventoryStage);
+    public WorkshopScreen() {
+        super();
 
-        stages.add(workshopStage);
-        inventoryStage.setLinkedWorkshop(workshopStage);
-        inventoryStage.connectItemsToWorkshop();
+        stages.add(Tradesong.getWorkshopStage());
+        ((InventoryStage)stages.get(1)).setLinkedWorkshop(((WorkshopStage)stages.get(2)));
+        ((InventoryStage)stages.get(1)).connectItemsToWorkshop();
 
     }
 

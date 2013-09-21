@@ -1,15 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
-import com.icbat.game.tradesong.stages.HUDStage;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.InventoryStage;
 
 public class StoreScreen extends AbstractScreen {
 
 
-    public StoreScreen(HUDStage hud, InventoryStage inventoryStage) {
+    public StoreScreen() {
         super();
-        stages.add(hud);
-        stages.add(inventoryStage);
+        stages.add(Tradesong.getInventoryStage());
         ((InventoryStage)stages.get(1)).setIsInStore(false);
     }
 
