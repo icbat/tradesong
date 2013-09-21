@@ -79,7 +79,6 @@ public class Tradesong extends Game {
         return currentOverlay;
     }
 
-    // TODO probably a cleaner way to do these two, especially as this expands
     public static String getParamDelayGather() {
         return PARAM_DELAY_GATHER;
     }

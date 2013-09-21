@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 public abstract class AbstractScreen implements Screen {
 
 	protected Skin mainMenuSkin;
-    protected SpriteBatch batch;
     protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
@@ -59,7 +57,9 @@ public abstract class AbstractScreen implements Screen {
     /** This method does nothing, but must be here to allow the children to not implement this. */
     @Override
     public void hide() {
-
+        for (AbstractStage stage : stages) {
+            stage.onHide();
+        }
     }
 
     /** This method does nothing, but must be here to allow the children to not implement this. */
@@ -89,8 +89,6 @@ public abstract class AbstractScreen implements Screen {
         for (AbstractStage stage : stages) {
             inputMultiplexer.addProcessor(stage);
         }
-
-
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 import java.util.ArrayList;
 
-// TODO timer for crafting
 public class Recipe {
     Item output;
     String workshop;

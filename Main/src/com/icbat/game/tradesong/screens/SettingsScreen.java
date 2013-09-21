@@ -119,7 +119,6 @@ public class SettingsScreen extends AbstractScreen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
 
-                    // TODO find a way to make this whole process cleaner, including layout
                     preferences.putInteger(Settings.MUSIC_VOLUME.name(), (int)musicSlider.getValue());
                     preferences.putInteger(Settings.SFX_VOLUME.name(), (int)SFXSlider.getValue());
 
