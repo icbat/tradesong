@@ -213,7 +213,7 @@ public class WorkshopStage extends AbstractStage {
         float lowestFound = this.getHeight() - 20;
         float check;
         for (Actor actor : this.getActors()) {
-            if (!actor.getClass().equals(Group.class)) {  //TODO find a less-hacky way to do this.
+            if (!actor.getClass().equals(Group.class)) {
                 check = actor.getY() - actor.getHeight();
                 if (check < lowestFound)
                     lowestFound = check;
