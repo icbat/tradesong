@@ -25,7 +25,7 @@ public class Tradesong extends Game {
 
     public static GameStateManager gameState;
     public static AssetManager assetManager = new AssetManager();
-    public static UIStyles uiStyles = new UIStyles();
+    public static UIStyles uiStyles;
 
     private static LevelScreen lastMapScreen;
     private static ScreenTypes currentOverlay;
@@ -46,6 +46,8 @@ public class Tradesong extends Game {
         hud = new HUDStage(this);
         inventoryStage = new InventoryStage();
         workshopStage = new WorkshopStage();
+
+        uiStyles = new UIStyles();
 
 		goToOverlay(ScreenTypes.MAIN_MENU);
 
@@ -121,6 +123,10 @@ public class Tradesong extends Game {
 
             case STORE:
                 setScreen(new StoreScreen());
+                break;
+
+            case GUILDHALL:
+                setScreen(new GuildhallScreen(this));
                 break;
         }
     }

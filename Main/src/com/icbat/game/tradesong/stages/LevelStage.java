@@ -8,9 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.utils.Direction;
-import com.icbat.game.tradesong.utils.Point;
-import com.icbat.game.tradesong.utils.TextureAssets;
+import com.icbat.game.tradesong.utils.*;
 
 public abstract class LevelStage extends AbstractStage {
 
@@ -28,7 +26,9 @@ public abstract class LevelStage extends AbstractStage {
     }
 
     private void addExits() {
-        String exitsBlob = (String)properties.get("exits");
+
+        // These go to different maps
+        String exitsBlob = (String)properties.get("mapExits");
 
         String[] exitInfoClumps = exitsBlob.split(";");
 
@@ -45,6 +45,28 @@ public abstract class LevelStage extends AbstractStage {
             arrowImage.addListener(new MapTransitionListener(gameInstance, arrow));
             this.addActor(arrowImage);
         }
+
+        // These go to Overlays
+        String overlaysBlob = (String)properties.get("overlayExits");
+        if (overlaysBlob != null) {
+            String[] overlayClumps = overlaysBlob.split(";");
+
+            for (String exit : overlayClumps) {
+                String[] overlayExploded = exit.split(",");
+
+                Point coords = new Point(overlayExploded[0], overlayExploded[1]);
+                coords.translateToMapStage((Integer)properties.get("height"));
+
+                ExitArrow arrow = new ExitArrow(overlayExploded[2], ScreenTypes.getTypeFromString(overlayExploded[3]));
+                Image arrowImage = arrow.getImage();
+
+                arrowImage.setPosition(coords.getX(), coords.getY());
+                arrowImage.addListener(new ScreenMovingListener(arrow.getOverlayDestination(), gameInstance));
+                this.addActor(arrowImage);
+
+            }
+        }
+
     }
 
     /** Class for the making exit arrows rotating to face as set */
@@ -53,26 +75,24 @@ public abstract class LevelStage extends AbstractStage {
         Direction facing = null;
         private Image image;
         String destination;
+        ScreenTypes overlayDestination;
 
+        private ExitArrow(String directionString) {
+            facing = Direction.getDirectionFromString(directionString);
+            makeImage();
+
+        }
+
+        ExitArrow (String directionString, ScreenTypes destination) {
+            this(directionString);
+            this.overlayDestination = destination;
+
+        }
 
         ExitArrow(String directionString, String destinationMapName) {
+            this(directionString);
             this.destination = destinationMapName;
-
-            directionString = directionString.toLowerCase();
-            if (directionString.equals("left"))
-                facing = Direction.LEFT;
-
-            if (directionString.equals("right"))
-                facing = Direction.RIGHT;
-
-            if (directionString.equals("up"))
-                facing = Direction.UP;
-
-            if (directionString.equals("down"))
-                facing = Direction.DOWN;
-
-
-            makeImage();
+            this.overlayDestination = ScreenTypes.LEVEL;
         }
 
         private void makeImage() {
@@ -92,6 +112,10 @@ public abstract class LevelStage extends AbstractStage {
 
             image = new Image(new SpriteDrawable(sprite));
 
+        }
+
+        ScreenTypes getOverlayDestination() {
+            return overlayDestination;
         }
 
         Image getImage() {
