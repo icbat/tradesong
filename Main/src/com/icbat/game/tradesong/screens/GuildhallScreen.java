@@ -5,16 +5,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
+import com.icbat.game.tradesong.utils.ScreenMovingListener;
+import com.icbat.game.tradesong.utils.ScreenTypes;
 
 public class GuildhallScreen extends AbstractScreen {
-    public GuildhallScreen() {
-        stages.add(new GuildhallStage());
+    public GuildhallScreen (Tradesong gameInstance) {
+        stages.add(new GuildhallStage(gameInstance));
     }
 
 
     class GuildhallStage extends AbstractStage {
 
         Table table = new Table();
+        Tradesong gameInstance;
+
+        GuildhallStage(Tradesong gameInstance) {
+            this.gameInstance = gameInstance;
+        }
+
+
 
         @Override
         public void layout() {
@@ -31,16 +40,20 @@ public class GuildhallScreen extends AbstractScreen {
 
         private Actor newWorkshopButton() {
             Actor textButton = new TextButton("Workshops", Tradesong.uiStyles.getTextButtonStyle());
-
+            textButton.addListener(new ScreenMovingListener(ScreenTypes.WORKSHOP, gameInstance));
             return textButton;
         }
 
         private Actor newRentButton() {
-            return null;
+            Actor textButton = new TextButton("Pay Rent", Tradesong.uiStyles.getTextButtonStyle());
+            // TODO add screen and do this
+            return textButton;
         }
 
         private Actor newShopButton() {
-            return null;
+            Actor textButton = new TextButton("Store", Tradesong.uiStyles.getTextButtonStyle());
+            textButton.addListener(new ScreenMovingListener(ScreenTypes.STORE, gameInstance));
+            return textButton;
         }
     }
 }
