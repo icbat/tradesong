@@ -2,6 +2,8 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 
 public class GuildhallScreen extends AbstractScreen {
@@ -28,7 +30,9 @@ public class GuildhallScreen extends AbstractScreen {
         }
 
         private Actor newWorkshopButton() {
-            return null;
+            Actor textButton = new TextButton("Workshops", Tradesong.uiStyles.getTextButtonStyle());
+
+            return textButton;
         }
 
         private Actor newRentButton() {

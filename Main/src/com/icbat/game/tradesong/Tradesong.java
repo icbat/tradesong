@@ -25,6 +25,7 @@ public class Tradesong extends Game {
 
     public static GameStateManager gameState;
     public static AssetManager assetManager = new AssetManager();
+    public static UIStyles uiStyles = new UIStyles();
 
     private static LevelScreen lastMapScreen;
     private static ScreenTypes currentOverlay;
@@ -33,8 +34,6 @@ public class Tradesong extends Game {
     private static InventoryStage inventoryStage;
     private static WorkshopStage workshopStage;
     private static KeyboardHandler keyHandler;
-
-
 
     @Override
 	public void create() {

@@ -2,9 +2,6 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,12 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
-import com.icbat.game.tradesong.utils.ScreenTypes;
 import com.icbat.game.tradesong.utils.Settings;
-import com.icbat.game.tradesong.utils.TextureAssets;
 
 public class SettingsScreen extends AbstractScreen {
 
@@ -36,10 +30,6 @@ public class SettingsScreen extends AbstractScreen {
         Table table = new Table();
         Group indicators = new Group();
 
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
-
         final Slider musicSlider;
         final Label musicIndicator;
         final Slider SFXSlider;
@@ -53,14 +43,7 @@ public class SettingsScreen extends AbstractScreen {
 
             this.table.setFillParent(true);
 
-            this.buttonStyle.font = new BitmapFont();
-            this.buttonStyle.fontColor = Color.WHITE;
 
-            this.labelStyle.font = new BitmapFont();
-            this.labelStyle.fontColor = Color.WHITE;
-
-            this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_HEAD) ) );
-            this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
 
             // Set up some caching in case things are cancelled
             int cachedMusicVol = preferences.getInteger(Settings.MUSIC_VOLUME.name(), 50);
@@ -113,7 +96,7 @@ public class SettingsScreen extends AbstractScreen {
 
 
         private void addAcceptChangesButton() {
-            TextButton saveChangesButton = new TextButton("Accept changes", buttonStyle);
+            TextButton saveChangesButton = new TextButton("Accept changes", Tradesong.uiStyles.getTextButtonStyle());
 
             saveChangesButton.addListener(new ChangeListener() {
                 @Override
@@ -133,7 +116,7 @@ public class SettingsScreen extends AbstractScreen {
         }
 
         private void addDiscardButton() {
-            TextButton discardChangesButton = new TextButton("Discard changes", buttonStyle);
+            TextButton discardChangesButton = new TextButton("Discard changes", Tradesong.uiStyles.getTextButtonStyle());
 
             discardChangesButton.addListener(new ChangeListener() {
                 @Override
@@ -146,7 +129,7 @@ public class SettingsScreen extends AbstractScreen {
         }
 
         private Label newNumericalIndicator(String linkedKey, int indicatorStartingValue) {
-            Label indicator = new Label(String.valueOf(indicatorStartingValue), labelStyle);
+            Label indicator = new Label(String.valueOf(indicatorStartingValue), Tradesong.uiStyles.getLabelStyle());
             indicator.setName(linkedKey);
             indicators.addActor(indicator);
             return indicator;
@@ -154,7 +137,7 @@ public class SettingsScreen extends AbstractScreen {
 
         /***/
         private Slider newSlider(int startingVal) {
-            Slider settingSlider = new Slider(0, 100, 5, false, sliderStyle);
+            Slider settingSlider = new Slider(0, 100, 5, false, Tradesong.uiStyles.getSliderStyle());
             settingSlider.setWidth(this.getWidth()/2);
             settingSlider.setValue(startingVal);
 
@@ -162,11 +145,11 @@ public class SettingsScreen extends AbstractScreen {
         }
 
         private Label newStringReferencePoint(String referenceValue) {
-            return new Label(referenceValue, labelStyle);
+            return new Label(referenceValue, Tradesong.uiStyles.getLabelStyle());
         }
 
         private Label newSettingsHeader(String headerText) {
-            return new Label(headerText, labelStyle);
+            return new Label(headerText, Tradesong.uiStyles.getLabelStyle());
         }
 
 
