@@ -39,13 +39,10 @@ public class HUDStage extends AbstractStage {
 
         addBackButton();
 
-        addWorkshopsButton();
         addInventoryButton();
         addCapacityCounter();
 
         addMoney();
-
-        addCharacterPortrait();
 
         dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dragCatcher.setTouchable(Touchable.enabled);
@@ -58,7 +55,7 @@ public class HUDStage extends AbstractStage {
 
         layoutHorizontally(backButton);
         backButton.setTouchable(Touchable.enabled);
-        backButton.addListener(new BackButtonlistener(gameInstance));
+        backButton.addListener(new BackButtonListener(gameInstance));
 
         this.addActor(backButton);
     }
@@ -71,7 +68,6 @@ public class HUDStage extends AbstractStage {
         Image coin = new Image(Tradesong.getTexture(TextureAssets.COIN));
 
         layoutHorizontally(coin);
-        coin.addListener(new InterfaceButtonListener(ScreenTypes.STORE, gameInstance));
         this.addActor(coin);
 
         Label.LabelStyle style = new Label.LabelStyle();
@@ -139,28 +135,6 @@ public class HUDStage extends AbstractStage {
         this.addActor(capacityCounter);
     }
 
-    private void addWorkshopsButton() {
-        int x = 3;
-        int y = 9;
-
-
-        Image workshopButton = new Image(new TextureRegion(itemsTexture, x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE));
-
-        workshopButton.setTouchable(Touchable.enabled);
-        workshopButton.addListener(new InterfaceButtonListener(ScreenTypes.WORKSHOP, gameInstance));
-
-        layoutHorizontally(workshopButton);
-
-        this.addActor(workshopButton);
-    }
-
-    private void addCharacterPortrait() {
-        Image character = new Image(  new TextureRegion(Tradesong.getTexture(TextureAssets.CHAR), 100, 70)  );
-        character.setPosition(this.getWidth() - character.getWidth() - SPACER,0);
-        this.addActor(character);
-    }
-
-
 
     private void layoutHorizontally(Actor actorToLayout) {
         int furthestX = 0;
@@ -169,7 +143,6 @@ public class HUDStage extends AbstractStage {
                 furthestX = (int)actor.getRight();
         }
         actorToLayout.setPosition(furthestX + SPACER, 0);
-
     }
 
     class InterfaceButtonListener extends ClickListener {
@@ -191,10 +164,10 @@ public class HUDStage extends AbstractStage {
         }
     }
 
-    class BackButtonlistener extends ClickListener {
+    class BackButtonListener extends ClickListener {
         private Tradesong gameInstance;
 
-        BackButtonlistener(Tradesong gameInstance) {
+        BackButtonListener(Tradesong gameInstance) {
             this.gameInstance = gameInstance;
         }
 
