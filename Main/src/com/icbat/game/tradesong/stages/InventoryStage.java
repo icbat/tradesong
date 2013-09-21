@@ -143,7 +143,6 @@ public class InventoryStage extends AbstractStage {
         y += floor(this.getHeight()/2);
 
         x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
-        //TODO center on y-axis
 
         int[] out = new int[2];
         out[0] = x;
