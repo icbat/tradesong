@@ -23,7 +23,7 @@ public class Tradesong extends Game {
     private static final String PARAM_DELAY_GATHER = "gatherDelay";
     private static final String PARAM_DELAY_CRAFT = "craftDelay";
 
-    public static GameStateManager gameState;
+    public static GameState gameState;
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
 
@@ -38,8 +38,8 @@ public class Tradesong extends Game {
     @Override
 	public void create() {
         initializeAssets();
-        GameStateManager.updateMusic(getMusic(MusicAsset.TITLE_THEME));
-        gameState = new GameStateManager();
+        GameState.updateMusic(getMusic(MusicAsset.TITLE_THEME));
+        gameState = new GameState();
 
         keyHandler = new KeyboardHandler(this);
 
@@ -96,7 +96,7 @@ public class Tradesong extends Game {
      * Will goBack if passed the same screen!
      * */
     public void goToOverlay(ScreenTypes screen) {
-        GameStateManager.update();
+        GameState.update();
         if (!screen.equals(ScreenTypes.MAIN_MENU) && !screen.equals(ScreenTypes.SETTINGS)) {
             Gdx.app.log("setting to", screen.name());
 

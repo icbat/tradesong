@@ -254,7 +254,7 @@ public class WorkshopStage extends AbstractStage {
                     craftSound.stop();
                     craftSound.play();
                     long id = craftSound.play();
-                    craftSound.setVolume(id , GameStateManager.getSFXVolume());
+                    craftSound.setVolume(id , GameState.getSFXVolume());
 
                     craftTimer.stop();
                     craftTimer.clear();

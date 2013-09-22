@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.screens.SettingsScreen;
 import com.icbat.game.tradesong.utils.Settings;
 import com.icbat.game.tradesong.utils.TextureAssets;
@@ -13,7 +14,7 @@ import java.util.HashSet;
 
 
 /** Class to keep track of game state data. */
-public class GameStateManager {
+public class GameState {
     private Inventory inventory = new Inventory();
     private HashSet<Item> allKnownItems = new HashSet<Item>();
     private HashSet<Recipe> allKnownRecipes = new HashSet<Recipe>();
@@ -22,13 +23,16 @@ public class GameStateManager {
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
 
+    private static Integer currentTime = 0;
+    private static Timer dayTimer = new Timer();
+
     private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
     public static int money = 0;
 
     public static Music currentMusic = null;
 
-    public GameStateManager() {
+    public GameState() {
         // Set up default parameters
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayGather(), 3));
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
@@ -83,6 +87,52 @@ public class GameStateManager {
         }
 
         return null;
+    }
+
+    public static Integer getCurrentTime() {
+        return currentTime;
+    }
+
+    /** Sets up the timer, and handles any day-scope initialization */
+    public static void startNewDay() {
+        dayTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                currentTime += 1;
+
+                if (currentTime == 719) {
+                    endOfDay();
+                }
+            }
+        }, 0, 1, 719); // Every other second count up, 12 * 60 times (one for each hour).
+
+
+
+    }
+
+    public static void endOfDay() {
+        currentTime = 0;
+        Gdx.app.log("time", "end of day");
+    }
+
+    public static String getCurrentTimeDisplay() {
+        Integer hours, min;
+
+
+        min = (currentTime % 60);
+        hours = currentTime / 60;
+        hours += 8;
+        hours = hours % 12;
+
+        String minutes;
+
+        if (min < 10) {
+            minutes = "0" + min;
+        } else {
+            minutes = min.toString();
+        }
+
+        return hours + ":" + minutes;
     }
 
     //    /** Saves to a file.
