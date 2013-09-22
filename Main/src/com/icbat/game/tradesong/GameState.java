@@ -100,11 +100,11 @@ public class GameState {
             public void run() {
                 currentTime += 1;
 
-                if (currentTime == 720) {
+                if (currentTime == 719) {
                     endOfDay();
                 }
             }
-        }, 0, 2, 720); // Every other second count up, 12 * 60 times (one for each hour).
+        }, 0, 1, 719); // Every other second count up, 12 * 60 times (one for each hour).
 
 
 
@@ -121,6 +121,8 @@ public class GameState {
 
         min = (currentTime % 60);
         hours = currentTime / 60;
+        hours += 8;
+        hours = hours % 12;
 
         String minutes;
 

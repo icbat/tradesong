@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.stages.AbstractStage;
 import com.icbat.game.tradesong.utils.ScreenTypes;
@@ -51,6 +52,7 @@ public class MainMenuScreen extends AbstractScreen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     gameInstance.changeMap("guild_hall");
+                    GameState.startNewDay();
                 }
             });
 
