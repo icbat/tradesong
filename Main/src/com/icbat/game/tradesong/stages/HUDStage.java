@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.ScreenMovingListener;
 import com.icbat.game.tradesong.utils.ScreenTypes;
@@ -26,7 +27,8 @@ public class HUDStage extends AbstractStage {
 
     private Tradesong gameInstance;
     private Label capacityCounter;
-    private Label.LabelStyle textStyle;
+    private Label.LabelStyle capacityStyle;
+    private Label clock;
 
     private Actor dragCatcher = new Actor();
 
@@ -44,6 +46,8 @@ public class HUDStage extends AbstractStage {
         addCapacityCounter();
 
         addMoney();
+
+        addClock();
 
         dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dragCatcher.setTouchable(Touchable.enabled);
@@ -103,24 +107,24 @@ public class HUDStage extends AbstractStage {
         Integer capacity = Tradesong.gameState.getInventory().capacity();
         Integer size = Tradesong.gameState.getInventory().size();
 
-        textStyle = new Label.LabelStyle();
+        capacityStyle = new Label.LabelStyle();
 
-        textStyle.font = new BitmapFont();
+        capacityStyle.font = new BitmapFont();
 
-        capacityCounter = new Label(size.toString() + " / " + capacity.toString(), textStyle) {
+        capacityCounter = new Label(size.toString() + " / " + capacity.toString(), capacityStyle) {
             @Override
             public void draw(SpriteBatch batch, float parentAlpha) {
                 Integer capacity = Tradesong.gameState.getInventory().capacity();
                 Integer size = Tradesong.gameState.getInventory().size();
 
                 if (size.equals(capacity)) {
-                    textStyle.font.setColor(Color.RED);
+                    capacityStyle.font.setColor(Color.RED);
                 }
                 else if (size.equals(capacity - 3)) {
-                    textStyle.font.setColor(Color.ORANGE);
+                    capacityStyle.font.setColor(Color.ORANGE);
                 }
                 else {
-                    textStyle.font.setColor(Color.WHITE);
+                    capacityStyle.font.setColor(Color.WHITE);
                 }
 
                 capacityCounter.setText(size.toString() + " / " + capacity.toString());
@@ -134,6 +138,20 @@ public class HUDStage extends AbstractStage {
         layoutHorizontally(capacityCounter);
         capacityCounter.layout();
         this.addActor(capacityCounter);
+    }
+
+    private void addClock() {
+        clock = new Label(GameState.getCurrentTimeDisplay(), Tradesong.uiStyles.getLabelStyle()) {
+            @Override
+            public void draw(SpriteBatch batch, float parentAlpha) {
+                this.setText(GameState.getCurrentTimeDisplay());
+                this.setPosition(Gdx.graphics.getWidth() - this.getWidth() - SPACER , 0);
+                super.draw(batch, parentAlpha);
+            }
+        };
+
+        this.addActor(clock);
+
     }
 
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.GameStateManager;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.utils.SoundAssets;
@@ -220,7 +220,7 @@ public class WyldStage extends LevelStage {
 
             gatherSound.stop();
             long id = gatherSound.play();
-            gatherSound.setVolume(id ,GameStateManager.getSFXVolume());
+            gatherSound.setVolume(id , GameState.getSFXVolume());
 
             gatherTimer.stop();
             gatherTimer.clear();
