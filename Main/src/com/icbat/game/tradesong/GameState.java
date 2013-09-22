@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 
 /** Class to keep track of game state data. */
-public class GameStateManager {
+public class GameState {
     private Inventory inventory = new Inventory();
     private HashSet<Item> allKnownItems = new HashSet<Item>();
     private HashSet<Recipe> allKnownRecipes = new HashSet<Recipe>();
@@ -28,7 +28,7 @@ public class GameStateManager {
 
     public static Music currentMusic = null;
 
-    public GameStateManager() {
+    public GameState() {
         // Set up default parameters
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayGather(), 3));
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
