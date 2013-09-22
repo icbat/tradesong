@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.screens.SettingsScreen;
 import com.icbat.game.tradesong.utils.Settings;
 import com.icbat.game.tradesong.utils.TextureAssets;
@@ -21,6 +22,9 @@ public class GameState {
 
     public static final String PATH_ITEMS = "items.csv";
     public static final String PATH_RECIPES = "recipes.csv";
+
+    private static Integer currentTime = 0;
+    private static Timer dayTimer = new Timer();
 
     private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
@@ -83,6 +87,50 @@ public class GameState {
         }
 
         return null;
+    }
+
+    public static Integer getCurrentTime() {
+        return currentTime;
+    }
+
+    /** Sets up the timer, and handles any day-scope initialization */
+    public static void startNewDay() {
+        dayTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                currentTime += 1;
+
+                if (currentTime == 720) {
+                    endOfDay();
+                }
+            }
+        }, 0, 2, 720); // Every other second count up, 12 * 60 times (one for each hour).
+
+
+
+    }
+
+    public static void endOfDay() {
+        currentTime = 0;
+        Gdx.app.log("time", "end of day");
+    }
+
+    public static String getCurrentTimeDisplay() {
+        Integer hours, min;
+
+
+        min = (currentTime % 60);
+        hours = currentTime / 60;
+
+        String minutes;
+
+        if (min < 10) {
+            minutes = "0" + min;
+        } else {
+            minutes = min.toString();
+        }
+
+        return hours + ":" + minutes;
     }
 
     //    /** Saves to a file.
