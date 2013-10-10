@@ -165,9 +165,6 @@ public class LevelScreen extends AbstractScreen {
             this.camera1 = camera1;
             this.camera2 = camera2;
 
-            moveCameraBy(300,300);
-            moveCameraBy(300,300);moveCameraBy(300,300);
-
         }
 
 
@@ -193,7 +190,7 @@ public class LevelScreen extends AbstractScreen {
                 // Still use camera 1 as the latest; this time as change
                 delta.set(last.x, last.y, 0);
                 delta.sub(curr);
-                camera1.translate(delta.x * DRAG_SPEED, delta.y * DRAG_SPEED, 0f);
+                camera1.translate(delta.x * DRAG_SPEED, delta.y * DRAG_SPEED);
                 camera2.position.set(camera1.position);
             }
 
