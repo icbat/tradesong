@@ -21,7 +21,7 @@ public class UIStyles {
         this.textButtonStyle.overFontColor = Color.LIGHT_GRAY;
 
         this.labelStyle.font = new BitmapFont();
-        this.labelStyle.fontColor = Color.WHITE;
+        this.labelStyle.fontColor = Color.CYAN;
 
         this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_HEAD) ) );
         this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
@@ -38,4 +38,6 @@ public class UIStyles {
     public Slider.SliderStyle getSliderStyle() {
         return sliderStyle;
     }
+
+
 }
