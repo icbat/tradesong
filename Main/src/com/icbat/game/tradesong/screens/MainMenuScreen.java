@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -38,11 +39,18 @@ public class MainMenuScreen extends AbstractScreen {
 
             table.clear();
 
+            table.add(newTitleLabel());
+            table.row();
+
             table.add(newStartButton());
             table.row();
             table.add(newSettingsButton());
             table.row();
             table.add(newExitButton());
+        }
+
+        private Actor newTitleLabel() {
+            return new Label("Tradesong", Tradesong.uiStyles.getLabelStyle());
         }
 
         private TextButton newStartButton() {
