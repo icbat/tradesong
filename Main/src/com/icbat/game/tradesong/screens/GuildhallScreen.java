@@ -45,13 +45,13 @@ public class GuildhallScreen extends AbstractScreen {
         }
 
         private Actor newContractsButton() {
-            Actor textButton = new TextButton("Contracts", Tradesong.uiStyles.getTextButtonStyle());
+            Actor textButton = new TextButton("Take and turn in Contracts", Tradesong.uiStyles.getTextButtonStyle());
             // TODO add screen and do this
             return textButton;
         }
 
         private Actor newWorkshopButton() {
-            Actor textButton = new TextButton("Workshops", Tradesong.uiStyles.getTextButtonStyle());
+            Actor textButton = new TextButton("Visit the Workshops", Tradesong.uiStyles.getTextButtonStyle());
             textButton.addListener(new ScreenMovingListener(ScreenTypes.WORKSHOP, gameInstance));
             return textButton;
         }
@@ -65,7 +65,7 @@ public class GuildhallScreen extends AbstractScreen {
         }
 
         private Actor newShopButton() {
-            Actor textButton = new TextButton("Store", Tradesong.uiStyles.getTextButtonStyle());
+            Actor textButton = new TextButton("Visit Store", Tradesong.uiStyles.getTextButtonStyle());
             textButton.addListener(new ScreenMovingListener(ScreenTypes.STORE, gameInstance));
             return textButton;
         }
