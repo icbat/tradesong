@@ -164,9 +164,9 @@ public class LevelScreen extends AbstractScreen {
         public DualCamController(OrthographicCamera camera1, OrthographicCamera camera2) {
             this.camera1 = camera1;
             this.camera2 = camera2;
-//
-//            moveCameraBy(300,300);
-//            moveCameraBy(300,300);
+
+            moveCameraBy(300,300);
+            moveCameraBy(300,300);moveCameraBy(300,300);
 
         }
 
@@ -186,14 +186,14 @@ public class LevelScreen extends AbstractScreen {
 
         public void moveCameraBy(float x, float y) {
             // Use Camera1 as the last point
-            camera1.unproject(curr.set(x, y, 0));
+            curr.set(x, y, 0);
 
             // If this isn't the first drag called
             if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
                 // Still use camera 1 as the latest; this time as change
-                camera1.unproject(delta.set(last.x, last.y, 0));
+                delta.set(last.x, last.y, 0);
                 delta.sub(curr);
-                camera1.position.add(delta.x * DRAG_SPEED, delta.y *  -DRAG_SPEED, 0);
+                camera1.translate(delta.x * DRAG_SPEED, delta.y * DRAG_SPEED, 0f);
                 camera2.position.set(camera1.position);
             }
 
