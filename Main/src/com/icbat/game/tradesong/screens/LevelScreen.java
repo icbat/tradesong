@@ -81,6 +81,7 @@ public class LevelScreen extends AbstractScreen {
         gameWorldCamera = new OrthoCamera(width, height);
 
 
+
         stages.get(0).setCamera(gameWorldCamera);
 
     }
@@ -139,6 +140,7 @@ public class LevelScreen extends AbstractScreen {
         super.show();
         itemSpawnTimer.start();
         // DualCamController
+
         ((HUDStage)stages.get(1)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
     }
 
@@ -149,8 +151,7 @@ public class LevelScreen extends AbstractScreen {
     }
 
     /**
-     * Input handling for moving rendererCamera on maps. Handles:
-     *  - touch-dragging
+     * Input handling for moving rendererCamera on maps. Handles moving both cameras simultaneously regardless of how it's needed.
      * */
     class DualCamController extends ClickListener {
         final OrthographicCamera camera1;
@@ -158,32 +159,20 @@ public class LevelScreen extends AbstractScreen {
         final Vector3 curr = new Vector3();
         final Vector3 last = new Vector3(-1, -1, -1);
         final Vector3 delta = new Vector3();
-        private float VARIANT = 0.7f;
+        private static final float DRAG_SPEED = 0.7f;
 
         public DualCamController(OrthographicCamera camera1, OrthographicCamera camera2) {
             this.camera1 = camera1;
             this.camera2 = camera2;
+
         }
+
 
         @Override
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             super.touchDragged(event, x, y, pointer);
 
-
-
-            // Use Camera1 as the last point
-            camera1.unproject(curr.set(x, y, 0));
-
-            // If this isn't the first drag called
-            if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
-                // Still use camera 1 as the latest; this time as change
-                camera1.unproject(delta.set(last.x, last.y, 0));
-                delta.sub(curr);
-                camera1.position.add(delta.x * VARIANT, delta.y *  -VARIANT, 0);
-                camera2.position.add(delta.x * VARIANT, delta.y *  -VARIANT, 0);
-            }
-
-            last.set(x, y, 0);
+            this.moveCameraBy(x, y);
         }
 
         @Override
@@ -191,6 +180,23 @@ public class LevelScreen extends AbstractScreen {
             super.touchUp(event, x, y, pointer, button);
             last.set(-1, -1, -1);
         }
+
+        public void moveCameraBy(float x, float y) {
+            // Use Camera1 as the last point
+            curr.set(x, y, 0);
+
+            // If this isn't the first drag called
+            if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
+                // Still use camera 1 as the latest; this time as change
+                delta.set(last.x, last.y, 0);
+                delta.sub(curr);
+                camera1.translate(delta.x * DRAG_SPEED, delta.y * DRAG_SPEED);
+                camera2.position.set(camera1.position);
+            }
+
+            last.set(x, y, 0);
+        }
+
     }
 
     @Override
