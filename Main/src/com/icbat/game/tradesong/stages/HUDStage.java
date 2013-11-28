@@ -22,7 +22,9 @@ public class HUDStage extends AbstractStage {
     public static final int SPACER = 6;
     public static final int ICON_SIZE = 34;
 
-    /** As of now, this is pulled from items.png */
+    /**
+     * As of now, this is pulled from items.png
+     */
     Texture itemsTexture;
 
     private Tradesong gameInstance;
@@ -49,7 +51,7 @@ public class HUDStage extends AbstractStage {
 
         addClock();
 
-        dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        dragCatcher.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dragCatcher.setTouchable(Touchable.enabled);
         this.addActor(dragCatcher);
         dragCatcher.setZIndex(0);
@@ -81,7 +83,7 @@ public class HUDStage extends AbstractStage {
             @Override
             public void draw(SpriteBatch batch, float parentAlpha) {
 
-                this.setText(Tradesong.gameState.getMoney()+"");
+                this.setText(Tradesong.gameState.getMoney() + "");
 
                 super.draw(batch, parentAlpha);
             }
@@ -119,11 +121,9 @@ public class HUDStage extends AbstractStage {
 
                 if (size.equals(capacity)) {
                     capacityStyle.font.setColor(Color.RED);
-                }
-                else if (size.equals(capacity - 3)) {
+                } else if (size.equals(capacity - 3)) {
                     capacityStyle.font.setColor(Color.ORANGE);
-                }
-                else {
+                } else {
                     capacityStyle.font.setColor(Color.WHITE);
                 }
 
@@ -145,7 +145,7 @@ public class HUDStage extends AbstractStage {
             @Override
             public void draw(SpriteBatch batch, float parentAlpha) {
                 this.setText(GameState.getCurrentTimeDisplay());
-                this.setPosition(Gdx.graphics.getWidth() - this.getWidth() - SPACER , 0);
+                this.setPosition(Gdx.graphics.getWidth() - this.getWidth() - SPACER, 0);
                 super.draw(batch, parentAlpha);
             }
         };
@@ -159,7 +159,7 @@ public class HUDStage extends AbstractStage {
         int furthestX = 0;
         for (Actor actor : this.getActors()) {
             if (actor.getRight() > furthestX)
-                furthestX = (int)actor.getRight();
+                furthestX = (int) actor.getRight();
         }
         actorToLayout.setPosition(furthestX + SPACER, 0);
     }

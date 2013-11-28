@@ -14,32 +14,32 @@ import com.icbat.game.tradesong.utils.*;
 
 /**
  * This class:
- *  - sets up the game initially
- *  - tracks/exposes game variables
- *  - loads common/global assets
- * */
+ * - sets up the game initially
+ * - tracks/exposes game variables
+ * - loads common/global assets
+ */
 public class Tradesong extends Game {
 
-    private static final String PARAM_DELAY_GATHER = "gatherDelay";
-    private static final String PARAM_DELAY_CRAFT = "craftDelay";
+    private final String PARAM_DELAY_GATHER = "gatherDelay";
+    private final String PARAM_DELAY_CRAFT = "craftDelay";
 
-    public static GameState gameState;
-    public static AssetManager assetManager = new AssetManager();
-    public static UIStyles uiStyles;
+    public GameState gameState;
+    public AssetManager assetManager = new AssetManager();
+    public UIStyles uiStyles;
 
-    private static LevelScreen lastMapScreen;
-    private static ScreenTypes currentOverlay;
+    private LevelScreen lastMapScreen;
+    private ScreenTypes currentOverlay;
 
-    private static HUDStage hud;
-    private static InventoryStage inventoryStage;
-    private static WorkshopStage workshopStage;
-    private static KeyboardHandler keyHandler;
+    private HUDStage hud;
+    private InventoryStage inventoryStage;
+    private WorkshopStage workshopStage;
+    private KeyboardHandler keyHandler;
 
     @Override
-	public void create() {
+    public void create() {
         initializeAssets();
-        GameState.updateMusic(getMusic(MusicAsset.TITLE_THEME));
         gameState = new GameState();
+        gameState.updateMusic(getMusic(MusicAsset.TITLE_THEME));
 
         keyHandler = new KeyboardHandler(this);
 
@@ -49,12 +49,10 @@ public class Tradesong extends Game {
 
         uiStyles = new UIStyles();
 
-		goToOverlay(ScreenTypes.MAIN_MENU);
+        goToOverlay(ScreenTypes.MAIN_MENU);
 
 
-
-
-	}
+    }
 
     private void initializeAssets() {
 
@@ -72,19 +70,19 @@ public class Tradesong extends Game {
         assetManager.finishLoading(); // Blocks until finished
     }
 
-    public static KeyboardHandler getKeyHandler() {
+    public KeyboardHandler getKeyHandler() {
         return keyHandler;
     }
 
-    public static ScreenTypes getCurrentOverlay() {
+    public ScreenTypes getCurrentOverlay() {
         return currentOverlay;
     }
 
-    public static String getParamDelayGather() {
+    public String getParamDelayGather() {
         return PARAM_DELAY_GATHER;
     }
 
-    public static String getParamDelayCraft() {
+    public String getParamDelayCraft() {
         return PARAM_DELAY_CRAFT;
     }
 
@@ -92,11 +90,11 @@ public class Tradesong extends Game {
 
     /**
      * Generic screen switching based off of what screen is given. Does not handle maps!
-     *
+     * <p/>
      * Will goBack if passed the same screen!
-     * */
+     */
     public void goToOverlay(ScreenTypes screen) {
-        GameState.update();
+        gameState.update();
         if (!screen.equals(ScreenTypes.MAIN_MENU) && !screen.equals(ScreenTypes.SETTINGS)) {
             Gdx.app.log("setting to", screen.name());
 
@@ -133,9 +131,9 @@ public class Tradesong extends Game {
 
     /**
      * Goes to the last screen, or exits if this was main menu.
-     *
+     * <p/>
      * Doesn't work going back maps.
-     * */
+     */
     public void goBack() {
 
         if (currentOverlay == null) {
@@ -144,8 +142,7 @@ public class Tradesong extends Game {
             } else {
                 goToOverlay(ScreenTypes.MAIN_MENU);
             }
-        }
-        else {
+        } else {
 
             Gdx.app.log("trying to back from", currentOverlay.name());
 
@@ -156,7 +153,7 @@ public class Tradesong extends Game {
 
     /**
      * Goes to the specified map and updates references.
-     * */
+     */
     public void changeMap(String mapName) {
         lastMapScreen = new LevelScreen(mapName, this);
         setScreen(lastMapScreen);
@@ -166,40 +163,45 @@ public class Tradesong extends Game {
 
     /* Asset methods */
 
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
      *
-     * @throws Error if the file could not be found
      * @return the object in assetManager by that name
-     * */
-    public static Texture getTexture(TextureAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
      * @throws Error if the file could not be found
-     * @return the object in assetManager by that name
-     * */
-    public static Sound getSound(SoundAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @throws Error if the file could not be found
-     * @return the object in assetManager by that name
-     * */
-    public static Music getMusic(MusicAsset toFind) {
+     */
+    public Texture getTexture(TextureAssets toFind) {
         return assetManager.get(toFind.getPath());
     }
 
-    public static HUDStage getHud() {
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public Sound getSound(SoundAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
+
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public Music getMusic(MusicAsset toFind) {
+        return assetManager.get(toFind.getPath());
+    }
+
+    public HUDStage getHud() {
         return hud;
     }
 
-    public static InventoryStage getInventoryStage() {
+    public InventoryStage getInventoryStage() {
         return inventoryStage;
     }
 
-    public static WorkshopStage getWorkshopStage() {
+    public WorkshopStage getWorkshopStage() {
         return workshopStage;
     }
 }

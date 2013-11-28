@@ -12,23 +12,23 @@ import java.util.ArrayList;
 
 /**
  * Generic abstraction of things shared by all screens
- * */
+ */
 public abstract class AbstractScreen implements Screen {
 
-	protected Skin mainMenuSkin;
+    protected Skin mainMenuSkin;
     protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
         stages.add(Tradesong.getHud());
     }
-	
-	@Override
-	public void render( float delta ) {
-        render(delta, 0.2f, 0.2f, 0.2f, 1);
-	}
 
-    public void render (float delta, float r, float g, float b, float a) {
+    @Override
+    public void render(float delta) {
+        render(delta, 0.2f, 0.2f, 0.2f, 1);
+    }
+
+    public void render(float delta, float r, float g, float b, float a) {
 
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -41,14 +41,14 @@ public abstract class AbstractScreen implements Screen {
     }
 
 
-	@Override
-	public void dispose() {
+    @Override
+    public void dispose() {
         mainMenuSkin.dispose();
         for (AbstractStage stage : stages) {
             stage.dispose();
         }
 
-	}
+    }
 
 
     @Override
@@ -56,7 +56,9 @@ public abstract class AbstractScreen implements Screen {
         return ((Object) this).getClass().getSimpleName();
     }
 
-    /** This method does nothing, but must be here to allow the children to not implement this. */
+    /**
+     * This method does nothing, but must be here to allow the children to not implement this.
+     */
     @Override
     public void hide() {
         for (AbstractStage stage : stages) {
@@ -64,13 +66,17 @@ public abstract class AbstractScreen implements Screen {
         }
     }
 
-    /** This method does nothing, but must be here to allow the children to not implement this. */
+    /**
+     * This method does nothing, but must be here to allow the children to not implement this.
+     */
     @Override
     public void pause() {
 
     }
 
-    /** This method does nothing, but must be here to allow the children to not implement this. */
+    /**
+     * This method does nothing, but must be here to allow the children to not implement this.
+     */
     @Override
     public void resume() {
 
@@ -79,7 +85,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         for (AbstractStage stage : stages) {
-            stage.setViewport(width,height, false);
+            stage.setViewport(width, height, false);
             stage.layout();
         }
     }

@@ -6,11 +6,11 @@ import com.icbat.game.tradesong.stages.InventoryStage;
 public class InventoryScreen extends AbstractScreen {
 
     public InventoryScreen() {
-		super();
+        super();
         stages.add(Tradesong.getInventoryStage());
 
-        ((InventoryStage)stages.get(1)).setLinkedWorkshop(null);
-	}
+        ((InventoryStage) stages.get(1)).setLinkedWorkshop(null);
+    }
 
     @Override
     public void render(float delta) {

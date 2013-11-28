@@ -36,13 +36,11 @@ public class SettingsScreen extends AbstractScreen {
         final Label SFXIndicator;
 
 
-
         SettingsStage(Tradesong gameInstance) {
 
             this.gameInstance = gameInstance;
 
             this.table.setFillParent(true);
-
 
 
             // Set up some caching in case things are cancelled
@@ -102,8 +100,8 @@ public class SettingsScreen extends AbstractScreen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
 
-                    preferences.putInteger(Settings.MUSIC_VOLUME.name(), (int)musicSlider.getValue());
-                    preferences.putInteger(Settings.SFX_VOLUME.name(), (int)SFXSlider.getValue());
+                    preferences.putInteger(Settings.MUSIC_VOLUME.name(), (int) musicSlider.getValue());
+                    preferences.putInteger(Settings.SFX_VOLUME.name(), (int) SFXSlider.getValue());
 
                     gameInstance.goBack();
 
@@ -138,7 +136,7 @@ public class SettingsScreen extends AbstractScreen {
         /***/
         private Slider newSlider(int startingVal) {
             Slider settingSlider = new Slider(0, 100, 5, false, Tradesong.uiStyles.getSliderStyle());
-            settingSlider.setWidth(this.getWidth()/2);
+            settingSlider.setWidth(this.getWidth() / 2);
             settingSlider.setValue(startingVal);
 
             return settingSlider;
@@ -165,7 +163,7 @@ public class SettingsScreen extends AbstractScreen {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                linkedTarget.setText(String.valueOf((int)(owner.getValue())));
+                linkedTarget.setText(String.valueOf((int) (owner.getValue())));
             }
         }
     }

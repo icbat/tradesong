@@ -35,7 +35,9 @@ public class InventoryStage extends AbstractStage {
         inventory = Tradesong.gameState.getInventory();
     }
 
-    /** Little hack to get the screen to update even when its been interacted with and doesn't know it */
+    /**
+     * Little hack to get the screen to update even when its been interacted with and doesn't know it
+     */
     @Override
     public void draw() {
         super.draw();
@@ -84,7 +86,7 @@ public class InventoryStage extends AbstractStage {
         Image frameActor = new ItemFrame();
         int[] position = positionToCoords(i);
 
-        frameActor.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
+        frameActor.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
         frameActor.setName(i.toString());
         frames.addActor(frameActor);
 
@@ -95,7 +97,7 @@ public class InventoryStage extends AbstractStage {
         Item item = inventory.getStack(i).getBaseItem();
         int[] position = positionToCoords(i);
 
-        item.setBounds(position[0],position[1], ICON_SIZE, ICON_SIZE);
+        item.setBounds(position[0], position[1], ICON_SIZE, ICON_SIZE);
         item.setVisible(true);
         item.setTouchable(Touchable.enabled);
         item.setName(i.toString());
@@ -121,7 +123,9 @@ public class InventoryStage extends AbstractStage {
 
     }
 
-    /** Utility to take a list slot and take it to a 2d coordinate */
+    /**
+     * Utility to take a list slot and take it to a 2d coordinate
+     */
     private int[] positionToCoords(int position) {
         //boundary math
         int x;
@@ -138,8 +142,8 @@ public class InventoryStage extends AbstractStage {
         y *= (totalSlotSize);
 
         // Start at the middle of the screen
-        x += floor(this.getWidth()/2);
-        y += floor(this.getHeight()/2);
+        x += floor(this.getWidth() / 2);
+        y += floor(this.getHeight() / 2);
 
         x -= (totalSlotSize * COLUMNS_PER_ROW / 2);
 
@@ -153,9 +157,9 @@ public class InventoryStage extends AbstractStage {
     public void connectItemsToWorkshop() {
         Item item;
         for (Actor actor : items.getChildren()) {
-            item = (Item)actor;
+            item = (Item) actor;
 
-            StackedItem stack = inventory.getStack( new Integer(item.getName()) );
+            StackedItem stack = inventory.getStack(new Integer(item.getName()));
 
             if (item.getListeners().size == 0)
                 item.addListener(new InventoryToWorkshopClickListener(stack, item));
@@ -167,9 +171,9 @@ public class InventoryStage extends AbstractStage {
         Item item;
         for (Actor actor : items.getChildren()) {
 
-            item = (Item)actor;
+            item = (Item) actor;
 
-            StackedItem stack = inventory.getStack( Integer.parseInt(actor.getName()));
+            StackedItem stack = inventory.getStack(Integer.parseInt(actor.getName()));
 
             if (actor.getListeners().size == 0)
                 actor.addListener(new StoreClickListener(stack, item));
@@ -180,7 +184,7 @@ public class InventoryStage extends AbstractStage {
     public void connectToUseCases() {
         for (Actor actor : items.getChildren()) {
             Item item = (Item) actor;
-            StackedItem stack = inventory.getStack( Integer.parseInt(actor.getName()));
+            StackedItem stack = inventory.getStack(Integer.parseInt(actor.getName()));
 
             if (actor.getListeners().size == 0)
                 actor.addListener(new UseClickListener(stack, item));
@@ -209,7 +213,7 @@ public class InventoryStage extends AbstractStage {
             super.touchDown(event, x, y, pointer, button);
 
             // Was there space in the workshop?
-            if (linkedWorkshop.addIngredient( new Item(stack.getBaseItem()) )) {
+            if (linkedWorkshop.addIngredient(new Item(stack.getBaseItem()))) {
                 linkedWorkshop.addProduct();
                 // Can we remove it? (I'd hope so...)
                 if (stack.remove()) {
@@ -220,10 +224,9 @@ public class InventoryStage extends AbstractStage {
                         itemCounts.removeActor(itemCounts.findActor(i));
                         inventory.remove(stack);
 
-                    }
-                    else {
+                    } else {
                         // Update the count
-                        ((TextButton)itemCounts.findActor(i)).setText(Integer.toString(stack.getCount()));
+                        ((TextButton) itemCounts.findActor(i)).setText(Integer.toString(stack.getCount()));
 
                     }
                 }
@@ -247,7 +250,7 @@ public class InventoryStage extends AbstractStage {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            if(stack.getCount() > 0) {
+            if (stack.getCount() > 0) {
                 int price = stack.getBaseItem().getBasePrice();
                 Tradesong.gameState.addMoney(price);
 

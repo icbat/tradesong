@@ -16,11 +16,12 @@ import com.icbat.game.tradesong.utils.SoundAssets;
 import java.util.ArrayList;
 import java.util.Random;
 
-/** This stage governs:
- *  - items
- *  - the draggable, clear background
- *  - it's also a nice encapsulation of adding/removing items
- *  */
+/**
+ * This stage governs:
+ * - items
+ * - the draggable, clear background
+ * - it's also a nice encapsulation of adding/removing items
+ */
 public class WyldStage extends LevelStage {
 
     // Constants for extracting map properties
@@ -47,22 +48,22 @@ public class WyldStage extends LevelStage {
         super(gameInstance, properties);
 
         // Use the Map properties to get some good stuff
-        initialItemCount = Integer.parseInt((String)properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
+        initialItemCount = Integer.parseInt((String) properties.get(PROPERTY_INITIAL_SPAWN_COUNT));
         maxSpawnedPerMap = Integer.parseInt((String) properties.get(PROPERTY_SPAWN_CAPACITY));
-        String[] itemsArray = ((String)properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
+        String[] itemsArray = ((String) properties.get(PROPERTY_SPAWNABLE_ITEMS)).split(",");
 
         // Figure out what spawns here
         for (String itemName : itemsArray) {
-            possibleItemSpawns.add( Tradesong.gameState.getItemByName(itemName) );
+            possibleItemSpawns.add(Tradesong.gameState.getItemByName(itemName));
         }
 
         // Set up knowledge of where things can spawn
-        mapHeight = (Integer)properties.get("height");
+        mapHeight = (Integer) properties.get("height");
 
-        String validSpawnsBlob = (String)properties.get(PROPERTY_VALID_SPAWN_AREA);
+        String validSpawnsBlob = (String) properties.get(PROPERTY_VALID_SPAWN_AREA);
         String[] VSA = validSpawnsBlob.split(",");
 
-        validSpawn = new Area( Integer.parseInt(VSA[0]),Integer.parseInt(VSA[1]),Integer.parseInt(VSA[2]),Integer.parseInt(VSA[3]));
+        validSpawn = new Area(Integer.parseInt(VSA[0]), Integer.parseInt(VSA[1]), Integer.parseInt(VSA[2]), Integer.parseInt(VSA[3]));
 
 
         for (int i = 0; i < initialItemCount; ++i) {
@@ -97,16 +98,15 @@ public class WyldStage extends LevelStage {
             int n = maxRarity + 1 - item.getRarity();
 
 
-            scaledRarities.add( n );
+            scaledRarities.add(n);
         }
 
-        int n = new Random().nextInt( totalRarity );
+        int n = new Random().nextInt(totalRarity);
 
         for (int i = 0; i < possibleItemSpawns.size(); ++i) {
             if (n < scaledRarities.get(i)) {
                 return new Item(possibleItemSpawns.get(i));
-            }
-            else {
+            } else {
                 n -= scaledRarities.get(i);
             }
 
@@ -115,7 +115,9 @@ public class WyldStage extends LevelStage {
         return null;
     }
 
-    /** Performs common steps for Items being added to the stage randomly */
+    /**
+     * Performs common steps for Items being added to the stage randomly
+     */
     private void finalizeItemForView(Item item) {
 
         item.addListener(new GatherClickListener(item));
@@ -145,7 +147,6 @@ public class WyldStage extends LevelStage {
         }
 
 
-
         return false;
     }
 
@@ -164,7 +165,9 @@ public class WyldStage extends LevelStage {
         gatherTimer.stop();
     }
 
-    /** Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust */
+    /**
+     * Simple class to represent a 2d space. Currently assumes map coordinate system (origin in top-left), may need to adjust
+     */
     class Area {
         int left;
         int top;
@@ -205,7 +208,9 @@ public class WyldStage extends LevelStage {
     }
 
 
-    /** Class to handle touching/clicking of items on levels.  */
+    /**
+     * Class to handle touching/clicking of items on levels.
+     */
     class GatherClickListener extends ClickListener {
         Item owner;
 
@@ -217,10 +222,9 @@ public class WyldStage extends LevelStage {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 
-
             gatherSound.stop();
             long id = gatherSound.play();
-            gatherSound.setVolume(id , GameState.getSFXVolume());
+            gatherSound.setVolume(id, GameState.getSFXVolume());
 
             gatherTimer.stop();
             gatherTimer.clear();

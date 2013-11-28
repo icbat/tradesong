@@ -1,6 +1,8 @@
 package com.icbat.game.tradesong;
 
-/** Very basic data structure to universalize parameters (originally gather/craft speed) */
+/**
+ * Very basic data structure to universalize parameters (originally gather/craft speed)
+ */
 public class LeveledParameter {
     private int level = 0;
     private int maxLevel = 3;
@@ -12,7 +14,7 @@ public class LeveledParameter {
         this.parameterName = parameterName;
     }
 
-    public LeveledParameter(String parameterName, float currentValue, int level, int maxLevel ) {
+    public LeveledParameter(String parameterName, float currentValue, int level, int maxLevel) {
         this.level = level;
         this.maxLevel = maxLevel;
         this.currentValue = currentValue;

@@ -10,7 +10,7 @@ import com.icbat.game.tradesong.utils.ScreenMovingListener;
 import com.icbat.game.tradesong.utils.ScreenTypes;
 
 public class GuildhallScreen extends AbstractScreen {
-    public GuildhallScreen (Tradesong gameInstance) {
+    public GuildhallScreen(Tradesong gameInstance) {
         stages.add(new GuildhallStage(gameInstance));
     }
 
@@ -23,7 +23,6 @@ public class GuildhallScreen extends AbstractScreen {
         GuildhallStage(Tradesong gameInstance) {
             this.gameInstance = gameInstance;
         }
-
 
 
         @Override
@@ -55,7 +54,6 @@ public class GuildhallScreen extends AbstractScreen {
             textButton.addListener(new ScreenMovingListener(ScreenTypes.WORKSHOP, gameInstance));
             return textButton;
         }
-
 
 
         private Actor newRentButton() {

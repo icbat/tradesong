@@ -7,10 +7,11 @@ public class Inventory {
     int capacity = 15;
     private ArrayList<StackedItem> stacks = new ArrayList<StackedItem>(capacity);
 
-    Inventory() {}
+    Inventory() {
+    }
 
     public boolean canAdd(Item newItem) {
-        for(StackedItem stackedItem : stacks) {
+        for (StackedItem stackedItem : stacks) {
             // If we found a stack of that item
             if (stackedItem.getBaseItem().getItemName().equals(newItem.getItemName())) {
                 // See if we can add to it
@@ -27,7 +28,7 @@ public class Inventory {
     }
 
     public boolean add(Item newItem) {
-        for(StackedItem stackedItem : stacks) {
+        for (StackedItem stackedItem : stacks) {
             // If we found a stack of that item
             if (stackedItem.getBaseItem().getItemName().equals(newItem.getItemName())) {
                 // See if we can add to it
@@ -43,8 +44,7 @@ public class Inventory {
         if (stacks.size() >= capacity) {
             // Nope. We're already full.
             return false;
-        }
-        else {
+        } else {
             // Sure! Add a new one.
             stacks.add(new StackedItem(newItem));
             return true;

@@ -9,7 +9,7 @@ public class StoreScreen extends AbstractScreen {
     public StoreScreen() {
         super();
         stages.add(Tradesong.getInventoryStage());
-        ((InventoryStage)stages.get(1)).setIsInStore(false);
+        ((InventoryStage) stages.get(1)).setIsInStore(false);
     }
 
     @Override
@@ -20,12 +20,12 @@ public class StoreScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-        ((InventoryStage)stages.get(1)).setIsInStore(true);
+        ((InventoryStage) stages.get(1)).setIsInStore(true);
     }
 
     @Override
     public void hide() {
         super.hide();
-        ((InventoryStage)stages.get(1)).setIsInStore(false);
+        ((InventoryStage) stages.get(1)).setIsInStore(false);
     }
 }

@@ -23,8 +23,8 @@ public class UIStyles {
         this.labelStyle.font = new BitmapFont();
         this.labelStyle.fontColor = Color.CYAN;
 
-        this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_HEAD) ) );
-        this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
+        this.sliderStyle.knob = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.SLIDER_HEAD)));
+        this.sliderStyle.background = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8));
     }
 
     public TextButton.TextButtonStyle getTextButtonStyle() {

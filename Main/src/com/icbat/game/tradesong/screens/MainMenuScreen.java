@@ -13,13 +13,13 @@ import com.icbat.game.tradesong.utils.ScreenTypes;
 
 /**
  * Screen shown first, directs user to other screens/functions
- * */
+ */
 public class MainMenuScreen extends AbstractScreen {
 
     public MainMenuScreen(final Tradesong gameInstance) {
         stages.clear();
-		stages.add(new MainMenuStage(gameInstance));
-	}
+        stages.add(new MainMenuStage(gameInstance));
+    }
 
     public static class MainMenuStage extends AbstractStage {
 

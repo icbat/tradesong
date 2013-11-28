@@ -6,10 +6,10 @@ import com.icbat.game.tradesong.Tradesong;
 /**
  * Class to handle the generic, reusable item frame and its behaviors. In particular, it should be able to change color
  * for rarity.
- * */
-public class ItemFrame extends Image{
+ */
+public class ItemFrame extends Image {
 
-    public ItemFrame () {
+    public ItemFrame() {
         super(Tradesong.getTexture(TextureAssets.FRAME));
     }
 

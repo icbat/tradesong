@@ -9,10 +9,11 @@ import com.icbat.game.tradesong.itemActions.SpeedUpgrade;
 
 /**
  * Basic class of all items/objects
- *
+ * <p/>
  * Abstract representation of the item. The actual "tangible" class is StackedItem.
+ *
  * @see StackedItem
- * */
+ */
 public class Item extends Image {
 
     private String itemName;
@@ -30,7 +31,7 @@ public class Item extends Image {
 
     // name, description, texture, maxStack, rarity, x, y
     public Item(String itemName, String description, Texture texture, int maxStack, int rarity, int spriteX, int spriteY, int basePrice) {
-        super( new TextureRegion(texture, spriteX * ICON_SIZE, spriteY * ICON_SIZE, ICON_SIZE, ICON_SIZE) );
+        super(new TextureRegion(texture, spriteX * ICON_SIZE, spriteY * ICON_SIZE, ICON_SIZE, ICON_SIZE));
         this.itemName = itemName;
         this.description = description;
         this.baseTexture = texture;
@@ -44,8 +45,7 @@ public class Item extends Image {
         // Determine if there should be an action
         if (itemName.equals("Gathering Speed")) {
             this.onUse = new SpeedUpgrade(Tradesong.getParamDelayGather(), 1);
-        }
-        else if (itemName.equals("Crafting Speed")) {
+        } else if (itemName.equals("Crafting Speed")) {
             this.onUse = new SpeedUpgrade(Tradesong.getParamDelayCraft(), 1);
         }
 

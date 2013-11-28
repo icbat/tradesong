@@ -13,24 +13,26 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-/** Class to keep track of game state data. */
+/**
+ * Class to keep track of game state data.
+ */
 public class GameState {
     private Inventory inventory = new Inventory();
     private HashSet<Item> allKnownItems = new HashSet<Item>();
     private HashSet<Recipe> allKnownRecipes = new HashSet<Recipe>();
     private HashSet<Workshop> allWorkshops = new HashSet<Workshop>();
 
-    public static final String PATH_ITEMS = "items.csv";
-    public static final String PATH_RECIPES = "recipes.csv";
+    public final String PATH_ITEMS = "items.csv";
+    public final String PATH_RECIPES = "recipes.csv";
 
-    private static Integer currentTime = 0;
-    private static Timer dayTimer = new Timer();
+    private Integer currentTime = 0;
+    private Timer dayTimer = new Timer();
 
     private HashSet<LeveledParameter> leveledParameters = new HashSet<LeveledParameter>();
 
-    public static int money = 0;
+    public int money = 0;
 
-    public static Music currentMusic = null;
+    public Music currentMusic = null;
 
     public GameState() {
         // Set up default parameters
@@ -38,18 +40,18 @@ public class GameState {
         leveledParameters.add(new LeveledParameter(Tradesong.getParamDelayCraft(), 3));
 
         // Load data and initialize
-        loadItems( Tradesong.getTexture(TextureAssets.ITEMS) );
+        loadItems(Tradesong.getTexture(TextureAssets.ITEMS));
         loadRecipes();
         findWorkshops();
 
 
     }
 
-    public static void update() {
+    public void update() {
         updateMusic();
     }
 
-    public static void updateMusic(Music newSong) {
+    public void updateMusic(Music newSong) {
         currentMusic = newSong;
         currentMusic.setLooping(true);
         if (!currentMusic.isPlaying()) {
@@ -61,11 +63,11 @@ public class GameState {
         currentMusic.setVolume(((preferences.getInteger(Settings.MUSIC_VOLUME.name(), 50))) / 100f);
     }
 
-    public static void updateMusic() {
+    public void updateMusic() {
         updateMusic(currentMusic);
     }
 
-    public static float getSFXVolume() {
+    public float getSFXVolume() {
         Preferences preferences = Gdx.app.getPreferences(SettingsScreen.PREFERENCES);
         return (preferences.getInteger(Settings.SFX_VOLUME.name(), 50) / 100f);
 
@@ -89,12 +91,14 @@ public class GameState {
         return null;
     }
 
-    public static Integer getCurrentTime() {
+    public Integer getCurrentTime() {
         return currentTime;
     }
 
-    /** Sets up the timer, and handles any day-scope initialization */
-    public static void startNewDay() {
+    /**
+     * Sets up the timer, and handles any day-scope initialization
+     */
+    public void startNewDay() {
         dayTimer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
@@ -107,15 +111,14 @@ public class GameState {
         }, 0, 1, 719); // Every other second count up, 12 * 60 times (one for each hour).
 
 
-
     }
 
-    public static void endOfDay() {
+    public void endOfDay() {
         currentTime = 0;
         Gdx.app.log("time", "end of day");
     }
 
-    public static String getCurrentTimeDisplay() {
+    public String getCurrentTimeDisplay() {
         Integer hours, min;
 
 
@@ -152,10 +155,9 @@ public class GameState {
 //        return false;
 //    }
 
-    /** Load in items from CSV file assets
-     *
-     * @see assets/items.csv
-     * */
+    /**
+     * Load in items from CSV file assets. Reference items.csv
+     */
     public void loadItems(Texture texture) {
 
         // Load the main file
@@ -176,22 +178,23 @@ public class GameState {
                 name = properties[0];
                 description = properties[1];
                 x = Integer.parseInt(properties[4].trim());
-                y =  Integer.parseInt(properties[5].trim());
-                rarity =  Integer.parseInt(properties[3].trim());
-                maxStack =  Integer.parseInt(properties[2].trim());
+                y = Integer.parseInt(properties[5].trim());
+                rarity = Integer.parseInt(properties[3].trim());
+                maxStack = Integer.parseInt(properties[2].trim());
                 basePrice = Integer.parseInt(properties[6].trim());
 
-                allKnownItems.add( new Item(name, description, texture, maxStack, rarity, x, y, basePrice) );
+                allKnownItems.add(new Item(name, description, texture, maxStack, rarity, x, y, basePrice));
 
             }
 
         }
     }
 
-    /** Load in recipes from CSV file assets
-     *
+    /**
+     * Load in recipes from CSV file assets
+     * <p/>
      * Depends on (and must be run AFTER) loadItems()
-     * */
+     */
     public void loadRecipes() {
 
         // Load the main file
@@ -229,12 +232,11 @@ public class GameState {
 
                 }
 
-                allKnownRecipes.add( new Recipe(output, workshop, recipe) );
+                allKnownRecipes.add(new Recipe(output, workshop, recipe));
 
                 recipe.clear();
 
             }
-
 
 
         }
@@ -242,7 +244,7 @@ public class GameState {
 
     private void findWorkshops() {
         for (Recipe recipe : allKnownRecipes) {
-            allWorkshops.add( new Workshop(recipe.workshop) );
+            allWorkshops.add(new Workshop(recipe.workshop));
         }
     }
 
@@ -250,7 +252,9 @@ public class GameState {
         return inventory;
     }
 
-    /** @return A new copy of the item by name or null if it was not found */
+    /**
+     * @return A new copy of the item by name or null if it was not found
+     */
     public Item getItemByName(String name) {
         for (Item item : allKnownItems) {
             if (item.getItemName().equals(name))

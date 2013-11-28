@@ -28,7 +28,7 @@ public abstract class LevelStage extends AbstractStage {
     private void addExits() {
 
         // These go to different maps
-        String exitsBlob = (String)properties.get("mapExits");
+        String exitsBlob = (String) properties.get("mapExits");
 
         String[] exitInfoClumps = exitsBlob.split(";");
 
@@ -36,7 +36,7 @@ public abstract class LevelStage extends AbstractStage {
             String[] exitInfoExploded = exitInfo.split(",");
 
             Point coords = new Point(exitInfoExploded[0], exitInfoExploded[1]);
-            coords.translateToMapStage((Integer)properties.get("height"));
+            coords.translateToMapStage((Integer) properties.get("height"));
 
             ExitArrow arrow = new ExitArrow(exitInfoExploded[2], exitInfoExploded[3]);
             Image arrowImage = arrow.getImage();
@@ -47,7 +47,7 @@ public abstract class LevelStage extends AbstractStage {
         }
 
         // These go to Overlays
-        String overlaysBlob = (String)properties.get("overlayExits");
+        String overlaysBlob = (String) properties.get("overlayExits");
         if (overlaysBlob != null) {
             String[] overlayClumps = overlaysBlob.split(";");
 
@@ -55,7 +55,7 @@ public abstract class LevelStage extends AbstractStage {
                 String[] overlayExploded = exit.split(",");
 
                 Point coords = new Point(overlayExploded[0], overlayExploded[1]);
-                coords.translateToMapStage((Integer)properties.get("height"));
+                coords.translateToMapStage((Integer) properties.get("height"));
 
                 ExitArrow arrow = new ExitArrow(overlayExploded[2], ScreenTypes.getTypeFromString(overlayExploded[3]));
                 Image arrowImage = arrow.getImage();
@@ -69,7 +69,9 @@ public abstract class LevelStage extends AbstractStage {
 
     }
 
-    /** Class for the making exit arrows rotating to face as set */
+    /**
+     * Class for the making exit arrows rotating to face as set
+     */
     class ExitArrow {
 
         Direction facing = null;
@@ -83,7 +85,7 @@ public abstract class LevelStage extends AbstractStage {
 
         }
 
-        ExitArrow (String directionString, ScreenTypes destination) {
+        ExitArrow(String directionString, ScreenTypes destination) {
             this(directionString);
             this.overlayDestination = destination;
 
@@ -98,7 +100,7 @@ public abstract class LevelStage extends AbstractStage {
         private void makeImage() {
             Sprite sprite = new Sprite(Tradesong.getTexture(TextureAssets.MAP_ARROW));
 
-            switch(facing) {
+            switch (facing) {
                 case LEFT:
                     sprite.rotate90(true);
                     break;

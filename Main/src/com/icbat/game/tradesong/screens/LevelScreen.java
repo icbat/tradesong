@@ -23,17 +23,17 @@ import com.icbat.game.tradesong.utils.TextureAssets;
 
 /**
  * Generic level screen. The way maps are shown.
- * */
+ */
 public class LevelScreen extends AbstractScreen {
 
-	public String mapName;
+    public String mapName;
 
     Timer itemSpawnTimer = new Timer();
 
     private TiledMap map;
-	private TiledMapRenderer renderer;
+    private TiledMapRenderer renderer;
 
-	private OrthoCamera rendererCamera;
+    private OrthoCamera rendererCamera;
     private final OrthoCamera gameWorldCamera;
 
     private SpriteBatch batch = new SpriteBatch();
@@ -58,8 +58,7 @@ public class LevelScreen extends AbstractScreen {
         // Load the stages
         if (map.getProperties().get("type").equals("town")) {
             stages.add(new TownStage(gameInstance, map.getProperties()));
-        }
-        else {
+        } else {
             stages.add(new WyldStage(gameInstance, map.getProperties()));
 
             int spawnInitialDelay = 5;
@@ -67,7 +66,7 @@ public class LevelScreen extends AbstractScreen {
             itemSpawnTimer.scheduleTask(
                     new Timer.Task() {
                         public void run() {
-                            ((WyldStage)stages.get(0)).spawnItem();
+                            ((WyldStage) stages.get(0)).spawnItem();
                         }
 
                     }, spawnInitialDelay, spawnIntervalSeconds
@@ -81,13 +80,12 @@ public class LevelScreen extends AbstractScreen {
         gameWorldCamera = new OrthoCamera(width, height);
 
 
-
         stages.get(0).setCamera(gameWorldCamera);
 
     }
 
     @Override
-	public void render(float delta) {
+    public void render(float delta) {
         super.render(delta);
 
         batch.begin();
@@ -96,14 +94,14 @@ public class LevelScreen extends AbstractScreen {
 
         rendererCamera.update();
         renderer.setView(rendererCamera);
-		renderer.render();
+        renderer.render();
 
         // This happens in Super, but must happen here as well or it will be behind the map
         for (AbstractStage stage : stages) {
             stage.act(delta);
             stage.draw();
         }
-	}
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -112,15 +110,15 @@ public class LevelScreen extends AbstractScreen {
         rendererCamera.update();
     }
 
-	@Override
-	public void dispose() {
+    @Override
+    public void dispose() {
         itemSpawnTimer.clear(); // Cancels all tasks
 
-		this.map.dispose();
+        this.map.dispose();
 
         super.dispose(); // Likely needs to be called last
 
-	}
+    }
 
     @Override
     public void pause() {
@@ -132,7 +130,7 @@ public class LevelScreen extends AbstractScreen {
     public void hide() {
         super.hide();
         itemSpawnTimer.stop();
-        ((HUDStage)stages.get(1)).getDragCatcher().clearListeners();
+        ((HUDStage) stages.get(1)).getDragCatcher().clearListeners();
     }
 
     @Override
@@ -141,7 +139,7 @@ public class LevelScreen extends AbstractScreen {
         itemSpawnTimer.start();
         // DualCamController
 
-        ((HUDStage)stages.get(1)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
+        ((HUDStage) stages.get(1)).getDragCatcher().addListener(new DualCamController(rendererCamera, gameWorldCamera));
     }
 
     @Override
@@ -152,7 +150,7 @@ public class LevelScreen extends AbstractScreen {
 
     /**
      * Input handling for moving rendererCamera on maps. Handles moving both cameras simultaneously regardless of how it's needed.
-     * */
+     */
     class DualCamController extends ClickListener {
         final OrthographicCamera camera1;
         final OrthographicCamera camera2;

@@ -48,12 +48,13 @@ public class WorkshopStage extends AbstractStage {
         setWorkshop(this.workshop);
     }
 
-    /** Called when the workshop changes, including at startup. */
+    /**
+     * Called when the workshop changes, including at startup.
+     */
     public void setWorkshop(Workshop newWorkshop) {
         this.clear();
         frames.clear();
         workshop = newWorkshop;
-
 
 
         if (header != null)
@@ -92,7 +93,7 @@ public class WorkshopStage extends AbstractStage {
 
         left -= blacksmithButton.getWidth() + SPACER;
         blacksmithButton.setPosition(left, header.getY());
-        left -= tinkerButton.getWidth() + SPACER ;
+        left -= tinkerButton.getWidth() + SPACER;
         tinkerButton.setPosition(left, header.getY());
         left -= scribeButton.getWidth() + SPACER;
         scribeButton.setPosition(left, header.getY());
@@ -118,7 +119,7 @@ public class WorkshopStage extends AbstractStage {
         for (int i = 0; i < workshop.getNumberOfSlots(); ++i) {
             Image frame = new ItemFrame();
             layOutVertically(frame);
-            frame.setName(""+(Integer)i);
+            frame.setName("" + (Integer) i);
             frames.addActor(frame);
         }
 
@@ -127,7 +128,7 @@ public class WorkshopStage extends AbstractStage {
 
     private void addArrowAndResultFrame() {
         Texture arrowTexture = Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW);
-        Image arrowImage = new Image( arrowTexture );
+        Image arrowImage = new Image(arrowTexture);
         layOutVertically(arrowImage);
         this.addActor(arrowImage);
 
@@ -141,8 +142,7 @@ public class WorkshopStage extends AbstractStage {
         Integer size = ingredients.getChildren().size;
         if (size >= workshop.getNumberOfSlots()) {
             return false;
-        }
-        else {
+        } else {
 
             Actor frame = frames.findActor(size.toString());
             item.setBounds(frame.getX(), frame.getY(), item.getWidth(), item.getHeight());
@@ -178,9 +178,11 @@ public class WorkshopStage extends AbstractStage {
 
     }
 
-    /** Called to remove all the ingredients and the result (if any)
+    /**
+     * Called to remove all the ingredients and the result (if any)
      *
-     * @param returnToInventory should these ingredients be added back to the inventory?*/
+     * @param returnToInventory should these ingredients be added back to the inventory?
+     */
     public void clearIngredients(boolean returnToInventory) {
 
 
@@ -202,13 +204,18 @@ public class WorkshopStage extends AbstractStage {
 
     }
 
-    /** Sets the bounds of the param to the next spot in a vertically descending pattern
-     * @param   actor   actor on which to calculate bounds */
+    /**
+     * Sets the bounds of the param to the next spot in a vertically descending pattern
+     *
+     * @param actor actor on which to calculate bounds
+     */
     private void layOutVertically(Actor actor) {
         actor.setBounds(this.getWidth() - actor.getWidth() - SPACER, findLowestY() - SPACER, actor.getWidth(), actor.getHeight());
     }
 
-    /** Helper function to find the next valid Y pos to put an actor in the layout */
+    /**
+     * Helper function to find the next valid Y pos to put an actor in the layout
+     */
     private int findLowestY() {
         float lowestFound = this.getHeight() - 20;
         float check;
@@ -254,7 +261,7 @@ public class WorkshopStage extends AbstractStage {
                     craftSound.stop();
                     craftSound.play();
                     long id = craftSound.play();
-                    craftSound.setVolume(id , GameState.getSFXVolume());
+                    craftSound.setVolume(id, GameState.getSFXVolume());
 
                     craftTimer.stop();
                     craftTimer.clear();

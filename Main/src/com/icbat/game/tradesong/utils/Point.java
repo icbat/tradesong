@@ -9,7 +9,9 @@ public class Point {
         this.y = y;
     }
 
-    /** Does the conversion using Integer.parseInt() */
+    /**
+     * Does the conversion using Integer.parseInt()
+     */
     public Point(String x, String y) {
         this(Integer.parseInt(x), Integer.parseInt(y));
     }
@@ -23,7 +25,9 @@ public class Point {
     }
 
 
-    /** Currently, stages use a 32px:1 ratio */
+    /**
+     * Currently, stages use a 32px:1 ratio
+     */
     public void translateToStage() {
         x *= 32;
         y *= 32;
@@ -35,7 +39,9 @@ public class Point {
     }
 
 
-    /** MUST be called before translateToStage() if necessary */
+    /**
+     * MUST be called before translateToStage() if necessary
+     */
     public void invertByMapY(int mapHeight) {
         y = mapHeight - y - 1;
     }

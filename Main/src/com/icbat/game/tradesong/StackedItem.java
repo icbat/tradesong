@@ -2,7 +2,9 @@ package com.icbat.game.tradesong;
 
 public class StackedItem {
     private Item baseItem;
-    /** Initializes with one item stacked. Add more if necessary */
+    /**
+     * Initializes with one item stacked. Add more if necessary
+     */
     private int count = 1;
 
 
@@ -22,17 +24,17 @@ public class StackedItem {
         this.count = count;
     }
 
-    /** Where the magic happens.
+    /**
+     * Where the magic happens.
      *
      * @return true if add ends in appropriate params successfully
-     * */
+     */
     public boolean add(int i) {
         int newTotal = count + i;
         if (newTotal <= baseItem.getMaxStack()) {
             count = newTotal;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -50,8 +52,7 @@ public class StackedItem {
         if (newTotal >= 0) {
             count = newTotal;
             return true;
-        }
-        else {
+        } else {
             Tradesong.gameState.getInventory().remove(this);
             return false;
         }

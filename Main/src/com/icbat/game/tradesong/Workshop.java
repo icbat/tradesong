@@ -2,7 +2,9 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-/** Abstraction/data structure for what a workshop can do/knows */
+/**
+ * Abstraction/data structure for what a workshop can do/knows
+ */
 public class Workshop {
     private String type;
     private int numberOfSlots;
@@ -14,7 +16,9 @@ public class Workshop {
         numberOfSlots = 3; // arbitrary default, not even sure if this should ever change
     }
 
-    /** Copy constructor */
+    /**
+     * Copy constructor
+     */
     public Workshop(Workshop old) {
         this(old.getType());
     }

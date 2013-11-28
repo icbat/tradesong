@@ -32,11 +32,13 @@ public class Recipe {
         return false;
     }
 
-    /** convenience, to make things look nicer */
+    /**
+     * convenience, to make things look nicer
+     */
     public boolean check(SnapshotArray<Actor> checkAgainst) {
         ArrayList<Item> newToCheck = new ArrayList<Item>();
         for (Actor shouldBeItem : checkAgainst) {
-            newToCheck.add((new Item((Item)shouldBeItem)));
+            newToCheck.add((new Item((Item) shouldBeItem)));
         }
         return check(newToCheck);
 

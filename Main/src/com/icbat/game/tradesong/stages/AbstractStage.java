@@ -12,6 +12,7 @@ public abstract class AbstractStage extends Stage {
 
     /**
      * Universal handle for things that must happen on parent screen's hide. Defaults to nothing.
-     * */
-    public void onHide() {}
+     */
+    public void onHide() {
+    }
 }
