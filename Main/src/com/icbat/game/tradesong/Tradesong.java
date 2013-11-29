@@ -1,16 +1,14 @@
 package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.icbat.game.tradesong.screens.*;
-import com.icbat.game.tradesong.stages.HUDStage;
-import com.icbat.game.tradesong.stages.InventoryStage;
-import com.icbat.game.tradesong.stages.WorkshopStage;
-import com.icbat.game.tradesong.utils.*;
+import com.icbat.game.tradesong.assetReferences.MusicAssets;
+import com.icbat.game.tradesong.assetReferences.SoundAssets;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.utils.UIStyles;
 
 /**
  * This class:
@@ -20,38 +18,51 @@ import com.icbat.game.tradesong.utils.*;
  */
 public class Tradesong extends Game {
 
-    private final String PARAM_DELAY_GATHER = "gatherDelay";
-    private final String PARAM_DELAY_CRAFT = "craftDelay";
+    public static final String PARAM_GATHER_SPEED = "gatherSpeed";
+    public static final String PARAM_CRAFT_SPEED = "craftingSpeed";
+    public static ScreenManager screenManager;
+    public static AssetManager assetManager = new AssetManager();
+    public static UIStyles uiStyles;
 
-    public GameState gameState;
-    public AssetManager assetManager = new AssetManager();
-    public UIStyles uiStyles;
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public static Texture getTexture(TextureAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
 
-    private LevelScreen lastMapScreen;
-    private ScreenTypes currentOverlay;
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public static Sound getSound(SoundAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
 
-    private HUDStage hud;
-    private InventoryStage inventoryStage;
-    private WorkshopStage workshopStage;
-    private KeyboardHandler keyHandler;
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public static Music getMusic(MusicAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
 
     @Override
     public void create() {
         initializeAssets();
-        gameState = new GameState();
-        gameState.updateMusic(getMusic(MusicAsset.TITLE_THEME));
-
-        keyHandler = new KeyboardHandler(this);
-
-        hud = new HUDStage(this);
-        inventoryStage = new InventoryStage();
-        workshopStage = new WorkshopStage();
 
         uiStyles = new UIStyles();
 
-        goToOverlay(ScreenTypes.MAIN_MENU);
-
-
+        screenManager = new ScreenStack(this);
+        screenManager.goToMainMenu();
+//        screenManager.goToScreen(new MapScreen(this, "test"));
     }
 
     private void initializeAssets() {
@@ -64,144 +75,9 @@ public class Tradesong extends Game {
             assetManager.load(sound.getPath(), Sound.class);
         }
 
-        for (MusicAsset music : MusicAsset.values()) {
+        for (MusicAssets music : MusicAssets.values()) {
             assetManager.load(music.getPath(), Music.class);
         }
         assetManager.finishLoading(); // Blocks until finished
-    }
-
-    public KeyboardHandler getKeyHandler() {
-        return keyHandler;
-    }
-
-    public ScreenTypes getCurrentOverlay() {
-        return currentOverlay;
-    }
-
-    public String getParamDelayGather() {
-        return PARAM_DELAY_GATHER;
-    }
-
-    public String getParamDelayCraft() {
-        return PARAM_DELAY_CRAFT;
-    }
-
-    /* Screen management methods */
-
-    /**
-     * Generic screen switching based off of what screen is given. Does not handle maps!
-     * <p/>
-     * Will goBack if passed the same screen!
-     */
-    public void goToOverlay(ScreenTypes screen) {
-        gameState.update();
-        if (!screen.equals(ScreenTypes.MAIN_MENU) && !screen.equals(ScreenTypes.SETTINGS)) {
-            Gdx.app.log("setting to", screen.name());
-
-            currentOverlay = screen;
-        }
-
-        switch (screen) {
-
-            case MAIN_MENU:
-                setScreen(new MainMenuScreen(this));
-                break;
-
-            case SETTINGS:
-                setScreen(new SettingsScreen(this));
-                break;
-
-            case INVENTORY:
-                setScreen(new InventoryScreen());
-                break;
-
-            case WORKSHOP:
-                setScreen(new WorkshopScreen());
-                break;
-
-            case STORE:
-                setScreen(new StoreScreen());
-                break;
-
-            case GUILDHALL:
-                setScreen(new GuildhallScreen(this));
-                break;
-        }
-    }
-
-    /**
-     * Goes to the last screen, or exits if this was main menu.
-     * <p/>
-     * Doesn't work going back maps.
-     */
-    public void goBack() {
-
-        if (currentOverlay == null) {
-            if (getScreen() instanceof MainMenuScreen) {
-                Gdx.app.exit();
-            } else {
-                goToOverlay(ScreenTypes.MAIN_MENU);
-            }
-        } else {
-
-            Gdx.app.log("trying to back from", currentOverlay.name());
-
-            setScreen(lastMapScreen);
-            currentOverlay = null;
-        }
-    }
-
-    /**
-     * Goes to the specified map and updates references.
-     */
-    public void changeMap(String mapName) {
-        lastMapScreen = new LevelScreen(mapName, this);
-        setScreen(lastMapScreen);
-    }
-
-
-
-    /* Asset methods */
-
-    /**
-     * Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @return the object in assetManager by that name
-     * @throws Error if the file could not be found
-     */
-    public Texture getTexture(TextureAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-
-    /**
-     * Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @return the object in assetManager by that name
-     * @throws Error if the file could not be found
-     */
-    public Sound getSound(SoundAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-
-    /**
-     * Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @return the object in assetManager by that name
-     * @throws Error if the file could not be found
-     */
-    public Music getMusic(MusicAsset toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-
-    public HUDStage getHud() {
-        return hud;
-    }
-
-    public InventoryStage getInventoryStage() {
-        return inventoryStage;
-    }
-
-    public WorkshopStage getWorkshopStage() {
-        return workshopStage;
     }
 }

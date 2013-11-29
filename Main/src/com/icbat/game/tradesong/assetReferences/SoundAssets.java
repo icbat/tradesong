@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.utils;
+package com.icbat.game.tradesong.assetReferences;
 
 public enum SoundAssets {
     GATHER_CLINK("hammering");

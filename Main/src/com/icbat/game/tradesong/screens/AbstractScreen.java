@@ -4,56 +4,50 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.stages.AbstractStage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generic abstraction of things shared by all screens
  */
 public abstract class AbstractScreen implements Screen {
 
-    protected Skin mainMenuSkin;
-    protected ArrayList<AbstractStage> stages = new ArrayList<AbstractStage>();
+    protected List<Stage> stages = new ArrayList<Stage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
-        stages.add(Tradesong.getHud());
+    }
+
+    public AbstractScreen(Tradesong gameInstance) {
+//        stages.add(new HUDStage(gameInstance));
     }
 
     @Override
     public void render(float delta) {
-        render(delta, 0.2f, 0.2f, 0.2f, 1);
+        render(delta, 0.1f, 0.1f, 0.1f, 1);
     }
 
-    public void render(float delta, float r, float g, float b, float a) {
+    final void render(float delta, float r, float g, float b, float a) {
 
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        for (AbstractStage stage : stages) {
+        for (Stage stage : stages) {
             stage.act(delta);
             stage.draw();
         }
 
     }
 
-
     @Override
     public void dispose() {
-        mainMenuSkin.dispose();
-        for (AbstractStage stage : stages) {
+        for (Stage stage : stages) {
             stage.dispose();
         }
 
-    }
-
-
-    @Override
-    public String toString() {
-        return ((Object) this).getClass().getSimpleName();
     }
 
     /**
@@ -61,9 +55,6 @@ public abstract class AbstractScreen implements Screen {
      */
     @Override
     public void hide() {
-        for (AbstractStage stage : stages) {
-            stage.onHide();
-        }
     }
 
     /**
@@ -84,17 +75,15 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        for (AbstractStage stage : stages) {
+        for (Stage stage : stages) {
             stage.setViewport(width, height, false);
-            stage.layout();
         }
     }
 
     @Override
     public void show() {
         inputMultiplexer.clear();
-        inputMultiplexer.addProcessor(Tradesong.getKeyHandler());
-        for (AbstractStage stage : stages) {
+        for (Stage stage : stages) {
             inputMultiplexer.addProcessor(stage);
         }
 

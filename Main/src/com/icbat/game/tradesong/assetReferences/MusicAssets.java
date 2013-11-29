@@ -1,11 +1,11 @@
-package com.icbat.game.tradesong.utils;
+package com.icbat.game.tradesong.assetReferences;
 
-public enum MusicAsset {
+public enum MusicAssets {
     TITLE_THEME("Thatched Villagers");
 
     private String path;
 
-    private MusicAsset(String pathVal) {
+    private MusicAssets(String pathVal) {
         this.path = "music/" + pathVal + ".mp3";
     }
 
