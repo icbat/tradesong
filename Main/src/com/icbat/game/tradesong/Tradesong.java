@@ -15,8 +15,6 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
-import java.util.HashSet;
-
 /**
  * This class:
  * - sets up the game initially
@@ -64,6 +62,7 @@ public class Tradesong extends Game {
         }
 
         // TODO set volume from settings/preferences
+        currentTrack.setVolume(0.1f);
     }
 
     public static void stopMusic() {
@@ -82,8 +81,8 @@ public class Tradesong extends Game {
         uiStyles = new UIStyles();
 
         screenManager = new ScreenStack(this);
-//        screenManager.goToMainMenu();
-        screenManager.goToScreen(new MapScreen("test"));
+        screenManager.goToMainMenu();
+//        screenManager.goToScreen(new MapScreen("test"));
     }
 
     private void initializeAssets() {
