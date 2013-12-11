@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,18 +23,7 @@ public class HUD extends ResizableStage {
     public static final int SPRITE_DIMENSION = 32;
 
     public HUD() {
-        Group holder = new Group();
-        Table tableLayout = new Table();
-
-
-        tableLayout.add(menuButton());
-        tableLayout.add(new SpacingActor());
-        tableLayout.add(inventoryButton());
-
-        setupHolderAndTable(holder, tableLayout);
-
-        holder.addActor(tableLayout);
-        this.addActor(holder);
+        layout();
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
@@ -45,7 +33,7 @@ public class HUD extends ResizableStage {
         tableLayout.setFillParent(true);
         tableLayout.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.HUD_BG))));
         tableLayout.align(Align.bottom);
-        tableLayout.setColor(0f, 0f, 0f, 0.9f);
+        tableLayout.setColor(0f, 0f, 0f, 0.5f);
     }
 
     private Image inventoryButton() {
@@ -80,6 +68,18 @@ public class HUD extends ResizableStage {
 
     @Override
     public void layout() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        Group holder = new Group();
+        Table tableLayout = new Table();
+
+
+        tableLayout.add(menuButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(inventoryButton());
+
+        setupHolderAndTable(holder, tableLayout);
+
+        holder.addActor(tableLayout);
+        this.addActor(holder);
     }
 }
