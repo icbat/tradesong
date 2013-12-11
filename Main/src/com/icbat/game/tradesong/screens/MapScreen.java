@@ -23,6 +23,7 @@ public class MapScreen extends AbstractScreen {
         // TODO consider moving this
         MapStage mapStage = new MapStage(this.map.getProperties());
         mapStage.setDragListener(camera);
+        mapStage.setCamera(camera);
         stages.add(mapStage);
     }
 
