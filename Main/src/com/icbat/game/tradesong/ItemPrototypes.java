@@ -14,7 +14,7 @@ import java.util.HashSet;
  * Set of all spawnable/existing items for quick reference. Get returns a copy of the Item called.
  * */
 public class ItemPrototypes {
-    public static final int SPRITE_DIMENSION = 32;
+    public static final int SPRITE_DIMENSION = 34;
     private HashSet<Item> prototypes = new HashSet<Item>();
 
     /**
@@ -43,6 +43,8 @@ public class ItemPrototypes {
         Texture itemSpritesheet = Tradesong.getTexture(TextureAssets.ITEMS);
         Integer spriteX = itemXml.getInt("spriteX", 0);
         Integer spriteY = itemXml.getInt("spriteY", 0);
+        Gdx.app.debug("found X as", spriteX*SPRITE_DIMENSION + "");
+        Gdx.app.debug("found Y as", spriteY*SPRITE_DIMENSION + "");
         TextureRegion icon = new TextureRegion(itemSpritesheet, spriteX * SPRITE_DIMENSION, spriteY * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
 
         Integer basePrice = itemXml.getInt("basePrice", 0);
