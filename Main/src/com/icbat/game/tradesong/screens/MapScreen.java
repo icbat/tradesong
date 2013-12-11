@@ -12,13 +12,16 @@ import com.icbat.game.tradesong.screens.stages.MapStage;
  * Screen to handle map display and moving between maps.
  */
 public class MapScreen extends AbstractScreen {
+    private TiledMap map;
     private TiledMapRenderer mapRenderer;
     private OrthographicCamera camera = new OrthographicCamera();
 
     public MapScreen(String mapName) {
         Gdx.app.log("Setting Map to", mapName);
         setMap(mapName);
-        MapStage mapStage = new MapStage();
+
+        // TODO consider moving this
+        MapStage mapStage = new MapStage(this.map.getProperties());
         mapStage.setDragListener(camera);
         stages.add(mapStage);
     }
@@ -29,8 +32,10 @@ public class MapScreen extends AbstractScreen {
         Tradesong.assetManager.finishLoading();
         Gdx.app.log("Map loaded", mapFile);
 
-        TiledMap map = Tradesong.assetManager.get(mapFile);
-        this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
+        this.map = Tradesong.assetManager.get(mapFile);
+        this.mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1);
+
+
     }
 
 

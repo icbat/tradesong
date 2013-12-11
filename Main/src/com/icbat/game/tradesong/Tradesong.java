@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 /**
@@ -69,8 +70,8 @@ public class Tradesong extends Game {
         uiStyles = new UIStyles();
 
         screenManager = new ScreenStack(this);
-        screenManager.goToMainMenu();
-//        screenManager.goToScreen(new MapScreen(this, "test"));
+//        screenManager.goToMainMenu();
+        screenManager.goToScreen(new MapScreen("test"));
     }
 
     private void initializeAssets() {

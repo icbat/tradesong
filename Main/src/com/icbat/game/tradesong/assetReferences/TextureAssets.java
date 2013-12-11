@@ -4,7 +4,6 @@ public enum TextureAssets {
     ITEMS("items"),
     FRAME("frame"),
     WORKSHOP_ARROW("workshop-arrow"),
-    MAP_ARROW("map-arrow"),
     ICON_HAMMER("hammer-drop"),
     ICON_WRENCH("auto-repair"),
     ICON_BOOK("burning-book"),
