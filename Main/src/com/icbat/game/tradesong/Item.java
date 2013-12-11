@@ -2,17 +2,19 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
  * Item representation with Prototype functionality via copy constructor.
  * */
-public class Item extends Actor {
+public class Item extends Image {
     private final String name;
     private final String description;
     private final TextureRegion icon;
     private final Integer basePrice;
 
     public Item(String name, String description, TextureRegion icon, Integer basePrice) {
+        super(icon);
         this.name = name;
         this.icon = icon;
         this.description = description;

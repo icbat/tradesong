@@ -26,7 +26,7 @@ public class ItemPrototypes {
         try {
             parentElement = reader.parse(Gdx.files.internal("items.xml"));
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
             return;
         }
         Array<XmlReader.Element> items = parentElement.getChildrenByName("item");

@@ -81,8 +81,8 @@ public class Tradesong extends Game {
         uiStyles = new UIStyles();
 
         screenManager = new ScreenStack(this);
-        screenManager.goToMainMenu();
-//        screenManager.goToScreen(new MapScreen("test"));
+//        screenManager.goToMainMenu();
+        screenManager.goToScreen(new MapScreen("test"));
     }
 
     private void initializeAssets() {
