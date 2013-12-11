@@ -31,7 +31,6 @@ public class InventoryStage extends Stage {
 
     private void addFramesAndItems() {
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
-//        List<Item> inventoryCopy = new ArrayList<Item>();
         Gdx.app.debug("inventorySize", inventoryCopy.size() + "");
 
         for (int i=1; i <= Tradesong.inventory.getMaxSize(); ++i) {

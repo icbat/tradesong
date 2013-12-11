@@ -2,10 +2,11 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.InventoryScreen;
@@ -19,15 +20,19 @@ public class HUD extends Stage {
     public static final int SPRITE_DIMENSION = 32;
 
     public HUD() {
-        this.addActor(menuButton());
-        this.addActor(inventoryButton());
+        Table tableLayout = new Table();
+        this.addActor(tableLayout);
+        tableLayout.add(menuButton());
+        tableLayout.add(inventoryButton());
+        tableLayout.setFillParent(true);
+        tableLayout.align(Align.bottom);
     }
 
     private Image inventoryButton() {
         Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 7 * SPRITE_DIMENSION, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image inventoryButton = new Image(region);
-        commonSetup(inventoryButton);
+        inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
@@ -43,7 +48,7 @@ public class HUD extends Stage {
         Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image menuButton = new Image(region);
-        commonSetup(menuButton);
+        menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
@@ -52,24 +57,4 @@ public class HUD extends Stage {
         });
         return menuButton;
     }
-
-    private void commonSetup(Actor toSetup) {
-        relativeLayout(toSetup);
-        toSetup.setTouchable(Touchable.enabled);
-    }
-
-    private void relativeLayout(Actor actorToLayout) {
-        float rightmostX = 0;
-
-        for (Actor actor : this.getActors()) {
-            float foundX = actor.getX() + actor.getWidth();
-            if (foundX > rightmostX) {
-                rightmostX = foundX;
-            }
-        }
-
-        actorToLayout.setPosition(rightmostX, 0);
-    }
-
-
 }
