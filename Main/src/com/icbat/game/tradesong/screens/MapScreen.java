@@ -31,20 +31,23 @@ public class MapScreen extends AbstractScreen {
 
         TiledMap map = Tradesong.assetManager.get(mapFile);
         this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
-        this.mapRenderer.setView(camera);
+
+
+
 
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        this.camera.setToOrtho(false, width, height);
+        this.camera.update();
     }
 
     @Override
     public void render(float delta) {
         render(0.4f, 0.7f, 0.99f, 1, delta);
-        mapRenderer.render();
+        this.mapRenderer.setView(camera);
+        this.mapRenderer.render();
     }
 }

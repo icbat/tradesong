@@ -42,7 +42,7 @@ public class MainMenuStage extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.screenManager.goToScreen(new MapScreen("test"));
+                Tradesong.screenManager.goToScreen(new MapScreen("town_hub"));
             }
         });
         return start;
