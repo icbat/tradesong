@@ -27,15 +27,12 @@ public class MapScreen extends AbstractScreen {
         String mapFile = "maps/" + mapName + ".tmx";
         Tradesong.assetManager.load(mapFile, TiledMap.class);
         Tradesong.assetManager.finishLoading();
-        Gdx.app.log("Map Succesfully loaded", mapFile);
+        Gdx.app.log("Map loaded", mapFile);
 
         TiledMap map = Tradesong.assetManager.get(mapFile);
         this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
-
-
-
-
     }
+
 
     @Override
     public void resize(int width, int height) {
