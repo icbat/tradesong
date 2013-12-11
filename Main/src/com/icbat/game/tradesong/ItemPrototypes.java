@@ -14,7 +14,7 @@ import java.util.HashSet;
  * Set of all spawnable/existing items for quick reference. Get returns a copy of the Item called.
  * */
 public class ItemPrototypes {
-    public static final int SPRITE_DIMENSION = 34;
+    public static final int SPRITE_DIMENSION = 32;
     private HashSet<Item> prototypes = new HashSet<Item>();
 
     /**
