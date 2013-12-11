@@ -40,12 +40,12 @@ public class ItemPrototypes {
         String name = itemXml.get("name", "");
         String description = itemXml.get("description", "");
 
-        Texture itemSpritesheet = Tradesong.getTexture(TextureAssets.ITEMS);
+        Texture itemSprites = Tradesong.getTexture(TextureAssets.ITEMS);
         Integer spriteX = itemXml.getInt("spriteX", 0);
         Integer spriteY = itemXml.getInt("spriteY", 0);
         Gdx.app.debug("found X as", spriteX*SPRITE_DIMENSION + "");
         Gdx.app.debug("found Y as", spriteY*SPRITE_DIMENSION + "");
-        TextureRegion icon = new TextureRegion(itemSpritesheet, spriteX * SPRITE_DIMENSION, spriteY * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion icon = new TextureRegion(itemSprites, spriteX * SPRITE_DIMENSION, spriteY * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
 
         Integer basePrice = itemXml.getInt("basePrice", 0);
 

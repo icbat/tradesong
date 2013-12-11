@@ -87,6 +87,10 @@ public class MapStage extends Stage {
 
     }
 
+    public void setDragSize(int width, int height) {
+        dragCatcher.setBounds(0, 0, width, height);
+    }
+
     /**
      * Rectangular area in which items can spawn. Provides clean way to spawn an item in inside the area.
      * */

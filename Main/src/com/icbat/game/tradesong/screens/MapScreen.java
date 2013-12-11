@@ -42,6 +42,7 @@ public class MapScreen extends AbstractScreen {
         super.resize(width, height);
         this.camera.setToOrtho(false, width, height);
         this.camera.update();
+        ((MapStage) stages.get(0)).setDragSize(width, height);
     }
 
     @Override
