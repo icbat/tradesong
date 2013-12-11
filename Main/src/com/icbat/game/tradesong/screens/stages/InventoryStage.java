@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -43,7 +44,12 @@ public class InventoryStage extends Stage {
             } else {
                 framesAndItems.add(frame);
             }
+
+            framesAndItems.add(new SpacingActor());
+
             if (i % 6 == 0) {
+                framesAndItems.row();
+                framesAndItems.add(new SpacingActor());
                 framesAndItems.row();
             }
 
@@ -54,6 +60,17 @@ public class InventoryStage extends Stage {
 
     private void addDescriptionArea() {
 
+
+    }
+
+    /**
+     * An empty actor whose dimensions are used for spacing the table.
+     * */
+    class SpacingActor extends Actor {
+        public SpacingActor() {
+            this.setWidth(4);
+            this.setHeight(4);
+        }
 
     }
 }
