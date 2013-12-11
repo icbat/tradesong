@@ -93,4 +93,6 @@ public abstract class AbstractScreen implements Screen {
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
+
+    public abstract String getScreenName();
 }

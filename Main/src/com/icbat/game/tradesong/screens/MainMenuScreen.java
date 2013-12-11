@@ -13,4 +13,9 @@ public class MainMenuScreen extends AbstractScreen {
         stages.add(new MainMenuStage());
         Tradesong.playLoopingMusic(MusicAssets.TITLE_THEME);
     }
+
+    @Override
+    public String getScreenName() {
+        return "mainMenuScreen";
+    }
 }

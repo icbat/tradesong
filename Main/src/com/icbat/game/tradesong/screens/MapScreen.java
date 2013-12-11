@@ -46,6 +46,11 @@ public class MapScreen extends AbstractScreen {
     }
 
     @Override
+    public String getScreenName() {
+        return "mapScreen";
+    }
+
+    @Override
     public void render(float delta) {
         drawBackground(0.7f, 0.99f, 1, delta);
         camera.update();

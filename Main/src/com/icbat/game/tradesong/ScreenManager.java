@@ -1,6 +1,6 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Screen;
+import com.icbat.game.tradesong.screens.AbstractScreen;
 
 /**
  * Provides function for changing screens and keeping track of this. Will likely have to rely on Tradesong as I don't think GDX lets you set screen otherwise.
@@ -9,7 +9,7 @@ import com.badlogic.gdx.Screen;
  */
 public interface ScreenManager {
 
-    public void goToScreen(Screen destination);
+    public void goToScreen(AbstractScreen destination);
 
     public void goBack();
 

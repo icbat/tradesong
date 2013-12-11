@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx;
+import com.icbat.game.tradesong.screens.AbstractScreen;
 import com.icbat.game.tradesong.screens.MainMenuScreen;
 
 import java.util.Deque;
@@ -14,22 +15,33 @@ import java.util.LinkedList;
 public class ScreenStack implements ScreenManager {
 
     private Tradesong gameInstance;
-    private Deque<Screen> screens = new LinkedList<Screen>();
+    private Deque<AbstractScreen> screens = new LinkedList<AbstractScreen>();
 
     public ScreenStack(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
     }
 
     @Override
-    public void goToScreen(Screen destination) {
-        screens.add(destination);
-        gameInstance.setScreen(destination);
+    public void goToScreen(AbstractScreen destination) {
+        if (screens.isEmpty()) {
+            screens.add(destination);
+            gameInstance.setScreen(destination);
+        } else if (screens.peekLast().getScreenName().equals(destination.getScreenName())) {
+            goBack();
+        } else {    // TODO this should be able to be rewritten
+            screens.add(destination);
+            gameInstance.setScreen(destination);
+        }
+
     }
 
     @Override
     public void goBack() {
-        screens.pop();
-        gameInstance.setScreen(screens.peek());
+        Gdx.app.debug("screenStack", "back pressed");
+        if (!screens.isEmpty()) {
+            screens.removeLast();
+            gameInstance.setScreen(screens.peekLast());
+        }
     }
 
     @Override

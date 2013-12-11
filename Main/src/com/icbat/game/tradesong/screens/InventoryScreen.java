@@ -12,7 +12,12 @@ public class InventoryScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        drawBackground(0.9f, 0.3f, 0.3f, 1f);
+        drawBackground(0.7f, 0.5f, 0.5f, 1f);
         renderStages(delta);
+    }
+
+    @Override
+    public String getScreenName() {
+        return "inventoryScreen";
     }
 }
