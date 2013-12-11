@@ -1,11 +1,13 @@
 package com.icbat.game.tradesong.screens;
 
+import com.icbat.game.tradesong.screens.stages.InventoryStage;
+
 /**
- * Base, extendable screen that just shows inventory.
+ * basic screen that just shows inventory
  * */
 public class InventoryScreen extends AbstractScreen {
     public InventoryScreen() {
-
+        stages.add(new InventoryStage());
     }
 
     @Override

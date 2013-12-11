@@ -44,6 +44,12 @@ public class HUD extends Stage {
         TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image menuButton = new Image(region);
         commonSetup(menuButton);
+        menuButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToMainMenu(); // curious if this is actually what I want.
+            }
+        });
         return menuButton;
     }
 
