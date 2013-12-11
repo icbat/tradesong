@@ -11,6 +11,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
+import com.icbat.game.tradesong.utils.SpacingActor;
 
 /**
  * Common heads-up display for play.
@@ -22,8 +23,11 @@ public class HUD extends Stage {
     public HUD() {
         Table tableLayout = new Table();
         this.addActor(tableLayout);
+
         tableLayout.add(menuButton());
+        tableLayout.add(new SpacingActor());
         tableLayout.add(inventoryButton());
+
         tableLayout.setFillParent(true);
         tableLayout.align(Align.bottom);
     }
