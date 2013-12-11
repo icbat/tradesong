@@ -14,12 +14,10 @@ import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
 import java.util.*;
 
 public class MapStage extends Stage {
-    private Actor dragCatcher = new Actor();
     private HashSet<String> spawnableItemNames = new HashSet<String>();
     private HashSet<ValidSpawnArea> spawnAreas = new HashSet<ValidSpawnArea>();
 
     public MapStage(MapProperties mapProperties) {
-        this.addActor(dragCatcher);
         setupAreas(mapProperties);
         getPrototypeNames(mapProperties);
         spawnInitialItems(mapProperties);
@@ -78,18 +76,12 @@ public class MapStage extends Stage {
 
     public void setDragListener (Camera camera) {
         Gdx.app.debug("", "Setting a drag listener");
-        dragCatcher.clearListeners();
-        dragCatcher.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        dragCatcher.setTouchable(Touchable.enabled);
-        Gdx.app.debug("Drag Listeners", dragCatcher.getListeners().size + "");
-        dragCatcher.addListener(new DragMoveListener(camera));
-        Gdx.app.debug("Drag Listeners", dragCatcher.getListeners().size + "");
-
+        this.addListener(new DragMoveListener(camera));
     }
 
-    public void setDragSize(int width, int height) {
-        dragCatcher.setBounds(0, 0, width, height);
-    }
+//    public void setDragSize(int width, int height) {
+//        dragCatcher.setBounds(0, 0, width, height);
+//    }
 
     /**
      * Rectangular area in which items can spawn. Provides clean way to spawn an item in inside the area.

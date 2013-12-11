@@ -12,19 +12,12 @@ import com.icbat.game.tradesong.screens.stages.MapStage;
  * Screen to handle map display and moving between maps.
  */
 public class MapScreen extends AbstractScreen {
-    private TiledMap map;
     private TiledMapRenderer mapRenderer;
     private OrthographicCamera camera = new OrthographicCamera();
 
     public MapScreen(String mapName) {
         Gdx.app.log("Setting Map to", mapName);
         setMap(mapName);
-
-        // TODO consider moving this
-        MapStage mapStage = new MapStage(this.map.getProperties());
-        mapStage.setDragListener(camera);
-        mapStage.setCamera(camera);
-        stages.add(mapStage);
     }
 
     public void setMap(String mapName) {
@@ -33,8 +26,14 @@ public class MapScreen extends AbstractScreen {
         Tradesong.assetManager.finishLoading();
         Gdx.app.log("Map loaded", mapFile);
 
-        this.map = Tradesong.assetManager.get(mapFile);
-        this.mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1);
+        TiledMap map = Tradesong.assetManager.get(mapFile);
+        this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
+
+        MapStage mapStage = new MapStage(map.getProperties());
+        mapStage.setDragListener(camera);
+        mapStage.setCamera(camera);
+        stages.add(mapStage);
+
     }
 
 
@@ -43,7 +42,6 @@ public class MapScreen extends AbstractScreen {
         super.resize(width, height);
         this.camera.setToOrtho(false, width, height);
         this.camera.update();
-        ((MapStage) stages.get(0)).setDragSize(width, height);
     }
 
     @Override
@@ -53,7 +51,5 @@ public class MapScreen extends AbstractScreen {
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
         renderStages(delta);
-
-
     }
 }
