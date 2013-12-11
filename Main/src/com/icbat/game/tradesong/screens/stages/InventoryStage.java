@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -23,8 +24,9 @@ public class InventoryStage extends Stage {
     }
 
     private void setupTable() {
-        framesAndItems.setFillParent(true); // need to rework after this all is working
-        framesAndItems.debug();
+        framesAndItems.setFillParent(true);
+        framesAndItems.align(Align.left);
+        framesAndItems.padLeft(32);
 
         this.addActor(framesAndItems);
     }
