@@ -25,12 +25,11 @@ import java.util.HashSet;
  */
 public class Tradesong extends Game {
 
-    public static final String PARAM_GATHER_SPEED = "gatherSpeed";
-    public static final String PARAM_CRAFT_SPEED = "craftingSpeed";
     public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
     public static ItemPrototypes itemPrototypes;
+    private static Music currentTrack;
 
     /**
      * Convenience method to prevent having to call assetManager.get(longConstantName)
@@ -53,13 +52,22 @@ public class Tradesong extends Game {
     }
 
     /**
-     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     * Plays the music on loop given the asset name.
      *
-     * @return the object in assetManager by that name
      * @throws Error if the file could not be found
      */
-    public static Music getMusic(MusicAssets toFind) {
-        return assetManager.get(toFind.getPath());
+    public static void playLoopingMusic(MusicAssets toFind) {
+        currentTrack = assetManager.get(toFind.getPath());
+        currentTrack.setLooping(true);
+        if (!currentTrack.isPlaying()) {
+            currentTrack.play();
+        }
+
+        // TODO set volume from settings/preferences
+    }
+
+    public static void stopMusic() {
+        currentTrack.stop();
     }
 
     @Override

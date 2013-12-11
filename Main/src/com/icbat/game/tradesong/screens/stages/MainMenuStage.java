@@ -15,9 +15,9 @@ import com.icbat.game.tradesong.screens.MapScreen;
  * @author icbat
  */
 public class MainMenuStage extends Stage {
-    private Table table = new Table();
 
     public MainMenuStage() {
+        Table table = new Table();
         this.addActor(table);
         table.debug();
         table.setFillParent(true);

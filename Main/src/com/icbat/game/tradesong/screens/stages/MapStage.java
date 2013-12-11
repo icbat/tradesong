@@ -36,7 +36,9 @@ public class MapStage extends Stage {
 
     private void spawnInitialItems (MapProperties mapProperties) {
         Integer initialNodes = Integer.parseInt((String) mapProperties.get("initialSpawnCount"));
-
+        // TODO spawnable area
+        // TODO actually spawn
+        // TODO setup timer to spawn more
 
     }
 

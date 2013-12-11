@@ -34,8 +34,6 @@ public class MapScreen extends AbstractScreen {
 
         this.map = Tradesong.assetManager.get(mapFile);
         this.mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1);
-
-
     }
 
 

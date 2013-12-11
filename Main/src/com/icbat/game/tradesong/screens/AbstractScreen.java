@@ -21,10 +21,6 @@ public abstract class AbstractScreen implements Screen {
     public AbstractScreen() {
     }
 
-    public AbstractScreen(Tradesong gameInstance) {
-//        stages.add(new HUDStage(gameInstance));
-    }
-
     @Override
     public void render(float delta) {
         render(delta, 0.1f, 0.1f, 0.1f, 1);
