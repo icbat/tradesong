@@ -15,6 +15,8 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
+import java.util.HashSet;
+
 /**
  * This class:
  * - sets up the game initially
@@ -28,6 +30,7 @@ public class Tradesong extends Game {
     public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
+    public static ItemPrototypes itemPrototypes;
 
     /**
      * Convenience method to prevent having to call assetManager.get(longConstantName)
@@ -66,6 +69,7 @@ public class Tradesong extends Game {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
 
+        itemPrototypes = new ItemPrototypes();
 
         uiStyles = new UIStyles();
 
@@ -87,6 +91,6 @@ public class Tradesong extends Game {
         for (MusicAssets music : MusicAssets.values()) {
             assetManager.load(music.getPath(), Music.class);
         }
-        assetManager.finishLoading(); // Blocks until finished
+        assetManager.finishLoading();
     }
 }
