@@ -51,7 +51,7 @@ public class MapStage extends Stage {
 
     private void spawnInitialItems (MapProperties mapProperties) {
         Integer initialNodes = Integer.parseInt((String) mapProperties.get("initialSpawnCount"));
-        if (!spawnableItemNames.isEmpty() || !spawnAreas.isEmpty()) {
+        if (!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty()) {
             Random random = new Random();
             List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);
             List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);
@@ -66,7 +66,10 @@ public class MapStage extends Stage {
                     return;
                 }
 
-                areas.get(0).spawnHere(spawn); // TODO multiple areas.
+                areas.get(0).spawnItemInsideArea(spawn); // TODO multiple areas.
+                this.addActor(spawn); // Looks weird, but the spawn area just sets position on the actor.
+                Gdx.app.log("spawning item", spawn.getName());
+                Gdx.app.debug("spawned at", spawn.getX() + ", " + spawn.getY());
             }
         }
         // TODO setup timer to spawn more
@@ -92,6 +95,7 @@ public class MapStage extends Stage {
         Integer startY;
         Integer endX;
         Integer endY;
+        private static final int ICON_SIZE = 32;
 
         /**
          * Expects exactly 4 elements. Will fail with errors if passed less than 4.
@@ -103,8 +107,14 @@ public class MapStage extends Stage {
             this.endY = Integer.parseInt(coords[3]);
         }
 
-        public void spawnHere(Item item) {
+        public void spawnItemInsideArea(Item item) {
+            Random random = new Random();
+            int x = random.nextInt(endX - startX) + startX;
+            int y = random.nextInt(endY - startY) + startY;
+            x *= ICON_SIZE;
+            y *= ICON_SIZE;
 
+            item.setPosition(x, y);
         }
     }
 }

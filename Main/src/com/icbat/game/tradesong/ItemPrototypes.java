@@ -43,7 +43,7 @@ public class ItemPrototypes {
         Texture itemSpritesheet = Tradesong.getTexture(TextureAssets.ITEMS);
         Integer spriteX = itemXml.getInt("spriteX", 0);
         Integer spriteY = itemXml.getInt("spriteY", 0);
-        TextureRegion icon = new TextureRegion(itemSpritesheet, spriteX, spriteY, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion icon = new TextureRegion(itemSpritesheet, spriteX * SPRITE_DIMENSION, spriteY * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
 
         Integer basePrice = itemXml.getInt("basePrice", 0);
 
