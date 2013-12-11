@@ -46,9 +46,12 @@ public class MapScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        render(0.4f, 0.7f, 0.99f, 1, delta);
+        drawBackground(0.4f, 0.7f, 0.99f, 1, delta);
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
+        renderStages(delta);
+
+
     }
 }
