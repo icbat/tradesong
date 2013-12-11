@@ -14,7 +14,7 @@ import com.icbat.game.tradesong.screens.MapScreen;
 /**
  * @author icbat
  */
-public class MainMenuStage extends Stage {
+public class MainMenuStage extends ResizableStage {
 
     public MainMenuStage() {
         Table table = new Table();
@@ -66,4 +66,8 @@ public class MainMenuStage extends Stage {
     }
 
 
+    @Override
+    public void layout() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.screens.stages.HUD;
+import com.icbat.game.tradesong.screens.stages.ResizableStage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public abstract class AbstractScreen implements Screen {
 
-    protected List<Stage> stages = new ArrayList<Stage>();
+    protected List<ResizableStage> stages = new ArrayList<ResizableStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
@@ -79,8 +80,9 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        for (Stage stage : stages) {
+        for (ResizableStage stage : stages) {
             stage.setViewport(width, height, false);
+            stage.layout();
         }
     }
 

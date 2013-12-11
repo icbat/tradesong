@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.assetReferences;
 
 public enum TextureAssets {
     ITEMS("items"),
+    HUD_BG("hud-bg"),
     FRAME("frame"),
     WORKSHOP_ARROW("workshop-arrow"),
     ICON_HAMMER("hammer-drop"),

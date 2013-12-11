@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Basic, modular piece of just the inventory. Consider description area here or on its own stage (probably here)
  * */
-public class InventoryStage extends Stage {
+public class InventoryStage extends ResizableStage {
     private Table framesAndItems = new Table();
 
     public InventoryStage() {
@@ -63,4 +63,8 @@ public class InventoryStage extends Stage {
 
     }
 
+    @Override
+    public void layout() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

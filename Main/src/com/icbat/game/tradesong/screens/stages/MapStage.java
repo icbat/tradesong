@@ -11,7 +11,7 @@ import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
 
 import java.util.*;
 
-public class MapStage extends Stage {
+public class MapStage extends ResizableStage {
     private HashSet<String> spawnableItemNames = new HashSet<String>();
     private HashSet<ValidSpawnArea> spawnAreas = new HashSet<ValidSpawnArea>();
 
@@ -77,6 +77,11 @@ public class MapStage extends Stage {
     public void setDragListener (Camera camera) {
         Gdx.app.debug("", "Setting a drag listener");
         this.addListener(new DragMoveListener(camera));
+    }
+
+    @Override
+    public void layout() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /**
