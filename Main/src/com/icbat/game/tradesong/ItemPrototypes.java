@@ -32,13 +32,7 @@ public class ItemPrototypes {
         Array<XmlReader.Element> items = parentElement.getChildrenByName("item");
 
         for (XmlReader.Element item : items) {
-            Gdx.app.debug("item", item + "");
             prototypes.add(parseItemFromXml(item));
-        }
-
-        //validate
-        for (Item item : prototypes) {
-            Gdx.app.debug("checking item", item.toString());
         }
     }
 
