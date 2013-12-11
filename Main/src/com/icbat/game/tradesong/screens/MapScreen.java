@@ -19,7 +19,6 @@ public class MapScreen extends AbstractScreen {
     public MapScreen(String mapName) {
         Gdx.app.log("Setting Map to", mapName);
         setMap(mapName);
-        stages.add(new HUD());
     }
 
     public void setMap(String mapName) {
@@ -48,7 +47,7 @@ public class MapScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        drawBackground(0.4f, 0.7f, 0.99f, 1, delta);
+        drawBackground(0.7f, 0.99f, 1, delta);
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();

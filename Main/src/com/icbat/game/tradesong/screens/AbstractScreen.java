@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.icbat.game.tradesong.screens.stages.HUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,18 @@ public abstract class AbstractScreen implements Screen {
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
+        stages.add(new HUD());
+    }
+
+    public AbstractScreen(boolean addHud) {
+        if (addHud) {
+            stages.add(new HUD());
+        }
     }
 
     @Override
     public void render(float delta) {
-        drawBackground(delta, 0.1f, 0.1f, 0.1f, 1);
+        drawBackground(0.1f, 0.1f, 0.1f, 1);
         renderStages(delta);
     }
 
@@ -33,7 +41,7 @@ public abstract class AbstractScreen implements Screen {
         }
     }
 
-    final void drawBackground(float delta, float r, float g, float b, float a) {
+    final void drawBackground(float r, float g, float b, float a) {
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     }

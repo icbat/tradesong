@@ -4,9 +4,7 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
@@ -30,7 +28,7 @@ public class MapStage extends Stage {
 
             for (String area : spawnAreas) {
                 String[] coords = area.split(",");
-                this.spawnAreas.add(new ValidSpawnArea(coords));
+                this.spawnAreas.add(new ValidSpawnArea(coords, mapProperties));
             }
         }
     }
@@ -48,13 +46,15 @@ public class MapStage extends Stage {
     }
 
     private void spawnInitialItems (MapProperties mapProperties) {
-        Integer initialNodes = Integer.parseInt((String) mapProperties.get("initialSpawnCount"));
-        if (!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty()) {
+        String initialNodesString = (String) mapProperties.get("initialSpawnCount");
+        Integer initialNodes = (initialNodesString == null) ? 0 : Integer.parseInt(initialNodesString);
+        if ((!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty())) {
             Random random = new Random();
             List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);
             List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);
 
-            for (int i=0; i<initialNodes; ++i) {
+//            for (int i=0; i<initialNodes; ++i) {
+            for (int i=0; i<1000; ++i) {
                 String nameToSpawn = spawnableItems.get(random.nextInt(spawnableItemNames.size()));
 
                 Item spawn = Tradesong.itemPrototypes.get(nameToSpawn);
@@ -92,7 +92,7 @@ public class MapStage extends Stage {
         /**
          * Expects exactly 4 elements. Will fail with errors if passed less than 4.
          * */
-        public ValidSpawnArea(String[] coords) {
+        public ValidSpawnArea(String[] coords, MapProperties properties) {
             this.startX = Integer.parseInt(coords[0]);
             this.startY = Integer.parseInt(coords[1]);
             this.endX = Integer.parseInt(coords[2]);
@@ -101,8 +101,8 @@ public class MapStage extends Stage {
 
         public void spawnItemInsideArea(Item item) {
             Random random = new Random();
-            int x = random.nextInt(endX - startX) + startX;
-            int y = random.nextInt(endY - startY) + startY;
+            int x = random.nextInt(endX - startX + 1) + startX;
+            int y = random.nextInt(endY - startY + 1) + startY + 3; // Why does +3 work?
             x *= ICON_SIZE;
             y *= ICON_SIZE;
 
