@@ -28,6 +28,7 @@ public class Tradesong extends Game {
     public static UIStyles uiStyles;
     public static ItemPrototypes itemPrototypes;
     private static Music currentTrack;
+    public static Inventory inventory;
 
     /**
      * Convenience method to prevent having to call assetManager.get(longConstantName)
@@ -72,11 +73,11 @@ public class Tradesong extends Game {
     @Override
     public void create() {
         Gdx.app.setLogLevel(3);
-
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
 
         itemPrototypes = new ItemPrototypes();
+        inventory = new Inventory();
 
         uiStyles = new UIStyles();
 
