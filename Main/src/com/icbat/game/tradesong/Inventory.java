@@ -46,7 +46,7 @@ public class Inventory extends PersistantData {
         return new ArrayList<Item>(items);
     }
 
-    private boolean canAdd() {
+    public boolean canAdd() {
         return items.size() + 1 < maxSize;
     }
 

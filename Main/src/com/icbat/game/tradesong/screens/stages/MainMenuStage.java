@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -14,7 +13,7 @@ import com.icbat.game.tradesong.screens.MapScreen;
 /**
  * @author icbat
  */
-public class MainMenuStage extends ResizableStage {
+public class MainMenuStage extends BaseStage {
 
     public MainMenuStage() {
         Table table = new Table();
@@ -68,6 +67,11 @@ public class MainMenuStage extends ResizableStage {
 
     @Override
     public void layout() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void hide() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -18,7 +18,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
 /**
  * Common heads-up display for play.
  * */
-public class HUD extends ResizableStage {
+public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
 
@@ -68,7 +68,7 @@ public class HUD extends ResizableStage {
 
     @Override
     public void layout() {
-
+        this.clear();
         Group holder = new Group();
         Table tableLayout = new Table();
 
@@ -81,5 +81,10 @@ public class HUD extends ResizableStage {
 
         holder.addActor(tableLayout);
         this.addActor(holder);
+    }
+
+    @Override
+    public void hide() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
