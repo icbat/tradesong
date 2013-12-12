@@ -3,58 +3,88 @@ package com.icbat.game.tradesong;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.icbat.game.tradesong.screens.*;
-import com.icbat.game.tradesong.stages.HUDStage;
-import com.icbat.game.tradesong.stages.InventoryStage;
-import com.icbat.game.tradesong.stages.WorkshopStage;
-import com.icbat.game.tradesong.utils.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.icbat.game.tradesong.assetReferences.MusicAssets;
+import com.icbat.game.tradesong.assetReferences.SoundAssets;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.MapScreen;
+import com.icbat.game.tradesong.utils.UIStyles;
 
 /**
  * This class:
- *  - sets up the game initially
- *  - tracks/exposes game variables
- *  - loads common/global assets
- * */
+ * - sets up the game initially
+ * - tracks/exposes game variables
+ * - loads common/global assets
+ */
 public class Tradesong extends Game {
 
-    private static final String PARAM_DELAY_GATHER = "gatherDelay";
-    private static final String PARAM_DELAY_CRAFT = "craftDelay";
-
-    public static GameState gameState;
+    public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
+    public static ItemPrototypes itemPrototypes;
+    private static Music currentTrack;
+    public static Inventory inventory;
 
-    private static LevelScreen lastMapScreen;
-    private static ScreenTypes currentOverlay;
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public static Texture getTexture(TextureAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
 
-    private static HUDStage hud;
-    private static InventoryStage inventoryStage;
-    private static WorkshopStage workshopStage;
-    private static KeyboardHandler keyHandler;
+    /**
+     * Convenience method to prevent having to call assetManager.get(longConstantName)
+     *
+     * @return the object in assetManager by that name
+     * @throws Error if the file could not be found
+     */
+    public static Sound getSound(SoundAssets toFind) {
+        return assetManager.get(toFind.getPath());
+    }
+
+    /**
+     * Plays the music on loop given the asset name.
+     *
+     * @throws Error if the file could not be found
+     */
+    public static void playLoopingMusic(MusicAssets toFind) {
+        currentTrack = assetManager.get(toFind.getPath());
+        currentTrack.setLooping(true);
+        if (!currentTrack.isPlaying()) {
+            currentTrack.play();
+        }
+
+        // TODO set volume from settings/preferences
+        currentTrack.setVolume(0.1f);
+    }
+
+    public static void stopMusic() {
+        currentTrack.stop();
+    }
 
     @Override
-	public void create() {
+    public void create() {
+        Gdx.app.setLogLevel(3);
+        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
-        GameState.updateMusic(getMusic(MusicAsset.TITLE_THEME));
-        gameState = new GameState();
 
-        keyHandler = new KeyboardHandler(this);
-
-        hud = new HUDStage(this);
-        inventoryStage = new InventoryStage();
-        workshopStage = new WorkshopStage();
+        itemPrototypes = new ItemPrototypes();
+        inventory = new Inventory();
 
         uiStyles = new UIStyles();
 
-		goToOverlay(ScreenTypes.MAIN_MENU);
-
-
-
-
-	}
+        screenManager = new ScreenStack(this);
+//        screenManager.goToMainMenu();
+        screenManager.goToScreen(new MapScreen("test"));
+    }
 
     private void initializeAssets() {
 
@@ -66,140 +96,9 @@ public class Tradesong extends Game {
             assetManager.load(sound.getPath(), Sound.class);
         }
 
-        for (MusicAsset music : MusicAsset.values()) {
+        for (MusicAssets music : MusicAssets.values()) {
             assetManager.load(music.getPath(), Music.class);
         }
-        assetManager.finishLoading(); // Blocks until finished
-    }
-
-    public static KeyboardHandler getKeyHandler() {
-        return keyHandler;
-    }
-
-    public static ScreenTypes getCurrentOverlay() {
-        return currentOverlay;
-    }
-
-    public static String getParamDelayGather() {
-        return PARAM_DELAY_GATHER;
-    }
-
-    public static String getParamDelayCraft() {
-        return PARAM_DELAY_CRAFT;
-    }
-
-    /* Screen management methods */
-
-    /**
-     * Generic screen switching based off of what screen is given. Does not handle maps!
-     *
-     * Will goBack if passed the same screen!
-     * */
-    public void goToOverlay(ScreenTypes screen) {
-        GameState.update();
-        if (!screen.equals(ScreenTypes.MAIN_MENU) && !screen.equals(ScreenTypes.SETTINGS)) {
-            Gdx.app.log("setting to", screen.name());
-
-            currentOverlay = screen;
-        }
-
-        switch (screen) {
-
-            case MAIN_MENU:
-                setScreen(new MainMenuScreen(this));
-                break;
-
-            case SETTINGS:
-                setScreen(new SettingsScreen(this));
-                break;
-
-            case INVENTORY:
-                setScreen(new InventoryScreen());
-                break;
-
-            case WORKSHOP:
-                setScreen(new WorkshopScreen());
-                break;
-
-            case STORE:
-                setScreen(new StoreScreen());
-                break;
-
-            case GUILDHALL:
-                setScreen(new GuildhallScreen(this));
-                break;
-        }
-    }
-
-    /**
-     * Goes to the last screen, or exits if this was main menu.
-     *
-     * Doesn't work going back maps.
-     * */
-    public void goBack() {
-
-        if (currentOverlay == null) {
-            if (getScreen() instanceof MainMenuScreen) {
-                Gdx.app.exit();
-            } else {
-                goToOverlay(ScreenTypes.MAIN_MENU);
-            }
-        }
-        else {
-
-            Gdx.app.log("trying to back from", currentOverlay.name());
-
-            setScreen(lastMapScreen);
-            currentOverlay = null;
-        }
-    }
-
-    /**
-     * Goes to the specified map and updates references.
-     * */
-    public void changeMap(String mapName) {
-        lastMapScreen = new LevelScreen(mapName, this);
-        setScreen(lastMapScreen);
-    }
-
-
-
-    /* Asset methods */
-
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @throws Error if the file could not be found
-     * @return the object in assetManager by that name
-     * */
-    public static Texture getTexture(TextureAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @throws Error if the file could not be found
-     * @return the object in assetManager by that name
-     * */
-    public static Sound getSound(SoundAssets toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-    /** Convenience method to prevent having to call assetManager.get(longConstantName)
-     *
-     * @throws Error if the file could not be found
-     * @return the object in assetManager by that name
-     * */
-    public static Music getMusic(MusicAsset toFind) {
-        return assetManager.get(toFind.getPath());
-    }
-
-    public static HUDStage getHud() {
-        return hud;
-    }
-
-    public static InventoryStage getInventoryStage() {
-        return inventoryStage;
-    }
-
-    public static WorkshopStage getWorkshopStage() {
-        return workshopStage;
+        assetManager.finishLoading();
     }
 }

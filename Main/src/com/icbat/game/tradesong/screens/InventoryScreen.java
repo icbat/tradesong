@@ -1,19 +1,23 @@
 package com.icbat.game.tradesong.screens;
 
-import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.stages.InventoryStage;
+import com.icbat.game.tradesong.screens.stages.InventoryStage;
 
+/**
+ * basic screen that just shows inventory
+ * */
 public class InventoryScreen extends AbstractScreen {
-
     public InventoryScreen() {
-		super();
-        stages.add(Tradesong.getInventoryStage());
-
-        ((InventoryStage)stages.get(1)).setLinkedWorkshop(null);
-	}
+        stages.add(new InventoryStage());
+    }
 
     @Override
     public void render(float delta) {
-        super.render(delta, 0.431f, 0.659f, 0.278f, 1);
+        drawBackground(0.7f, 0.5f, 0.5f, 1f);
+        renderStages(delta);
+    }
+
+    @Override
+    public String getScreenName() {
+        return "inventoryScreen";
     }
 }

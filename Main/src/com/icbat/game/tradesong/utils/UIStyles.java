@@ -8,23 +8,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
 
 public class UIStyles {
 
     private TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+    private TextButton.TextButtonStyle disabledButtonStyle = new TextButton.TextButtonStyle();
     private Label.LabelStyle labelStyle = new Label.LabelStyle();
     private Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
+    private BitmapFont font = new BitmapFont();
 
     public UIStyles() {
-        this.textButtonStyle.font = new BitmapFont();
+        this.textButtonStyle.font = font;
         this.textButtonStyle.fontColor = Color.WHITE;
         this.textButtonStyle.overFontColor = Color.LIGHT_GRAY;
 
-        this.labelStyle.font = new BitmapFont();
-        this.labelStyle.fontColor = Color.CYAN;
+        this.disabledButtonStyle.font = font;
+        this.disabledButtonStyle.fontColor = Color.DARK_GRAY;
 
-        this.sliderStyle.knob = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_HEAD) ) );
-        this.sliderStyle.background = new TextureRegionDrawable( new TextureRegion( Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8 ) );
+        this.labelStyle.font = font;
+        this.labelStyle.fontColor = Color.GREEN;
+
+        this.sliderStyle.knob = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.SLIDER_HEAD)));
+        this.sliderStyle.background = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.SLIDER_BG), 100, 8));
     }
 
     public TextButton.TextButtonStyle getTextButtonStyle() {
@@ -39,5 +45,11 @@ public class UIStyles {
         return sliderStyle;
     }
 
+    public TextButton.TextButtonStyle getDisabledButtonStyle() {
+        return disabledButtonStyle;
+    }
 
+    public BitmapFont getFont() {
+        return font;
+    }
 }

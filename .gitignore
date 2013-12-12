@@ -3,6 +3,7 @@
 # Project-specific
 assets/
 libs/
+out/
 
 # Eclipse
 .classpath
