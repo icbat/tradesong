@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 import com.icbat.game.tradesong.utils.SpacingActor;
@@ -67,7 +68,15 @@ public class HUD extends BaseStage {
     }
 
     private Actor craftingButton() {
-        Image craftingButton = new Image();
+        TextureRegion region = new TextureRegion(items, 0,0, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        Image craftingButton = new Image(region);
+        craftingButton.setTouchable(Touchable.enabled);
+        craftingButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToScreen(new CraftingScreen());
+            }
+        });
         return craftingButton;
     }
 
