@@ -36,7 +36,7 @@ public class CraftingStage extends InventoryStage {
         craftingTable.add(new SpacingActor());
         craftingTable.add(makeArrow());
         craftingTable.add(new SpacingActor());
-        craftingTable.add(makeFrame());
+        craftingTable.add(super.makeFrame()); // Not droppable one.
 
 
 
@@ -45,5 +45,17 @@ public class CraftingStage extends InventoryStage {
 
     private Image makeArrow() {
         return new Image(Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW));
+    }
+
+
+    @Override
+    /**
+     * Override makes these drop targets.
+     * */
+    protected Image makeFrame() {
+        Image frame = super.makeFrame();
+
+
+        return frame;
     }
 }
