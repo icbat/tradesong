@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,6 +25,8 @@ public class OptionsMenuStage extends BaseStage {
         layout.add(makeOptionsButton());
         layout.row();
         layout.add(makeExitButton());
+        layout.row();
+        layout.add(makeQuitGameButton());
 
         this.addActor(layout);
 
@@ -45,14 +48,34 @@ public class OptionsMenuStage extends BaseStage {
     }
 
     private Actor makeSaveButton() {
-        return null;
+        TextButton saveButton = new TextButton("Save game", Tradesong.uiStyles.getDisabledButtonStyle());
+        return saveButton;
     }
 
     private Actor makeOptionsButton() {
-        return null;
+        TextButton optionsButton = new TextButton("Settings", Tradesong.uiStyles.getDisabledButtonStyle());
+        return optionsButton;
     }
 
     private Actor makeExitButton() {
-        return null;
+        TextButton exitButton = new TextButton("Exit to main menu", Tradesong.uiStyles.getTextButtonStyle());
+        exitButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToMainMenu();
+            }
+        });
+        return exitButton;
+    }
+
+    private Actor makeQuitGameButton() {
+        TextButton quitButton = new TextButton("Quit to desktop", Tradesong.uiStyles.getTextButtonStyle());
+        quitButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Gdx.app.exit();
+            }
+        });
+        return quitButton;
     }
 }
