@@ -8,8 +8,8 @@ public class DesktopStarter {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Tradesong";
 		cfg.useGL20 = false;
-		cfg.width = 480;
-		cfg.height = 320;
+		cfg.width = 800;
+		cfg.height = 600;
 		
 		new LwjglApplication(new Tradesong(), cfg);
 	}

@@ -7,5 +7,5 @@ package com.icbat.game.tradesong.screens.stages;
  * Time: 8:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CraftingStage extends BaseStage {
+public class CraftingStage extends InventoryStage {
 }

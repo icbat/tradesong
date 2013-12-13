@@ -5,7 +5,6 @@ import com.icbat.game.tradesong.screens.stages.CraftingStage;import com.icbat.ga
 public class CraftingScreen extends AbstractScreen {
 
     public CraftingScreen() {
-        stages.add(new InventoryStage());
         stages.add(new CraftingStage());
     }
 

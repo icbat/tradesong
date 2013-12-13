@@ -1,11 +1,9 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
@@ -21,6 +19,7 @@ import java.util.List;
 public class InventoryStage extends BaseStage {
     private Label description = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
+    protected Table holdingTable;
 
     public InventoryStage() {
         layout();
@@ -30,10 +29,17 @@ public class InventoryStage extends BaseStage {
     public void layout() {
         super.layout();
 
-        Table holdingTable = makeHoldingTable();
+        this.clear();
+
+        holdingTable = makeHoldingTable();
+        holdingTable.top();
+        holdingTable.pad(62);
+        holdingTable = holdingTable.debugTable();
+
         holdingTable.add(makeInventoryTable());
-        holdingTable.add(new SpacingActor());
+        holdingTable.row();
         holdingTable.add(makeItemInfoTable());
+
         this.addActor(holdingTable);
     }
 
@@ -79,11 +85,9 @@ public class InventoryStage extends BaseStage {
 
     private Table makeItemInfoTable() {
         Table itemInfoTable = new Table();
-        float tableWidth = 100;
-        itemName = makeItemName(tableWidth);
-        description = makeDescription(tableWidth);
+        itemName = makeItemName();
+        description = makeDescription();
 
-        itemInfoTable.setWidth(tableWidth);
         itemInfoTable.stack(itemName);
         itemInfoTable.row();
         itemInfoTable.stack(description);
@@ -91,52 +95,15 @@ public class InventoryStage extends BaseStage {
         return itemInfoTable;
     }
 
-    private Label makeItemName(float tableWidth) {
-        Label itemNameField = new Label("", Tradesong.uiStyles.getLabelStyle());
-        itemNameField.setWidth(tableWidth);
-        return itemNameField;
+    private Label makeItemName() {
+        return new Label("", Tradesong.uiStyles.getLabelStyle());
     }
 
-    private Label makeDescription(float tableWidth) {
+    private Label makeDescription() {
         Label descriptionField = new Label("", Tradesong.uiStyles.getLabelStyle());
-        descriptionField.setWidth(tableWidth);
-        descriptionField.setHeight(3*tableWidth);
         descriptionField.setWrap(true);
         return descriptionField;
     }
-
-//    private void addDescriptionArea() {
-//
-//        float height = 300;
-//
-//        description.setHeight(height);
-////        description.setWidth(descriptionWidth - 8);
-//        description.setWrap(true);
-//
-//        Stack stack = new Stack();
-//
-//        float x = 8;
-//        float y = 100;
-//        stack.setPosition(x, y);
-//
-//        stack.add(description);
-//
-//        this.addActor(stack);
-//
-//    }
-//
-//    private void addItemName() {
-//        float x = description.getX();
-////        itemName.setWidth(descriptionWidth);
-//        float y = (Gdx.graphics.getHeight() - 100);
-//
-//        itemName.setPosition(x, y);
-//
-//        Stack stack = new Stack();
-//        stack.setPosition(x, y);
-//        stack.add(itemName);
-//        this.addActor(stack);
-//    }
 
     void setDescription(String newDesc) {
         description.setText(newDesc);
