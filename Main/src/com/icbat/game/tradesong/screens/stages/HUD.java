@@ -29,6 +29,23 @@ public class HUD extends BaseStage {
         layout();
     }
 
+    @Override
+    public void layout() {
+        this.clear();
+        Group holder = new Group();
+        Table tableLayout = new Table();
+
+        tableLayout.add(inventoryButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(craftingButton());
+
+        setupHolderAndTable(holder, tableLayout);
+
+        holder.addActor(tableLayout);
+        holder.addActor(menuButton());
+        this.addActor(holder);
+    }
+
     private void setupHolderAndTable(Group holder, Table tableLayout) {
         holder.setHeight(40);
         holder.setWidth(Gdx.graphics.getWidth()); // Won't do much on resize
@@ -80,22 +97,5 @@ public class HUD extends BaseStage {
         return craftingButton;
     }
 
-    @Override
-    public void layout() {
-        this.clear();
-        Group holder = new Group();
-        Table tableLayout = new Table();
 
-
-        tableLayout.add(menuButton());
-        tableLayout.add(new SpacingActor());
-        tableLayout.add(inventoryButton());
-        tableLayout.add(new SpacingActor());
-        tableLayout.add(craftingButton());
-
-        setupHolderAndTable(holder, tableLayout);
-
-        holder.addActor(tableLayout);
-        this.addActor(holder);
-    }
 }
