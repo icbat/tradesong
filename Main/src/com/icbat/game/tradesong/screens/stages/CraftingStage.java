@@ -17,6 +17,14 @@ public class CraftingStage extends InventoryStage {
             holdingTable.add(new SpacingActor());
             holdingTable.row();
         }
+
+        holdingTable.add(makeWorkshopSwitchingTable());
+        holdingTable.row();
+        for (int i=0; i<3; ++i) { // TODO feels dirty, clean up.
+            holdingTable.add(new SpacingActor());
+            holdingTable.row();
+        }
+
         holdingTable.add(makeCraftingTable());
         holdingTable.row();
         for (int i=0; i<3; ++i) { // TODO feels dirty, clean up.
@@ -25,6 +33,23 @@ public class CraftingStage extends InventoryStage {
         }
         holdingTable.add(makeItemInfoTable());
         this.addActor(holdingTable);
+    }
+
+    private Table makeWorkshopSwitchingTable() {
+        Table workshopSwitcher = new Table();
+
+        Image blacksmith = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
+        Image tinker = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
+        Image scribe = new Image(Tradesong.getTexture(TextureAssets.ICON_BOOK));
+
+        workshopSwitcher.add(blacksmith);
+        workshopSwitcher.add(new SpacingActor());
+        workshopSwitcher.add(tinker);
+        workshopSwitcher.add(new SpacingActor());
+        workshopSwitcher.add(scribe);
+
+
+        return workshopSwitcher;
     }
 
     private Table makeCraftingTable() {
@@ -36,7 +61,7 @@ public class CraftingStage extends InventoryStage {
         craftingTable.add(new SpacingActor());
         craftingTable.add(makeArrow());
         craftingTable.add(new SpacingActor());
-        craftingTable.add(super.makeFrame()); // Not droppable one.
+        craftingTable.add(super.makeFrame()); // Not a drop target.
 
 
 
