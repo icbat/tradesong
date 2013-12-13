@@ -21,10 +21,6 @@ public class InventoryStage extends BaseStage {
     private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
     protected Table holdingTable;
 
-    public InventoryStage() {
-        layout();
-    }
-
     @Override
     public void layout() {
         super.layout();

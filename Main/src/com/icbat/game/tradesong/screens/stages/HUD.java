@@ -25,10 +25,6 @@ public class HUD extends BaseStage {
     public static final int SPRITE_DIMENSION = 32;
     private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
 
-    public HUD() {
-        layout();
-    }
-
     @Override
     public void layout() {
         this.clear();
