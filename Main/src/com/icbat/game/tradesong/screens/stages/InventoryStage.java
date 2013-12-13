@@ -27,8 +27,6 @@ public class InventoryStage extends BaseStage {
         this.clear();
 
         Table holdingTable = makeHoldingTable();
-        holdingTable.top();
-        holdingTable.pad(62);
         holdingTable = holdingTable.debugTable();
 
         holdingTable.add(makeInventoryTable());
@@ -41,6 +39,8 @@ public class InventoryStage extends BaseStage {
     protected Table makeHoldingTable() {
         Table layout = new Table();
         layout.setFillParent(true);
+        layout.top();
+        layout.pad(62);
         return layout;
     }
 
@@ -49,7 +49,7 @@ public class InventoryStage extends BaseStage {
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
         for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
-            Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
+            Image frame = makeFrame();
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
                 item.addListener(new InventoryClickListener(item) {
@@ -76,6 +76,10 @@ public class InventoryStage extends BaseStage {
 
         }
         return inventory;
+    }
+
+    protected Image makeFrame() {
+        return new Image(Tradesong.getTexture(TextureAssets.FRAME));
     }
 
     protected Table makeItemInfoTable() {
