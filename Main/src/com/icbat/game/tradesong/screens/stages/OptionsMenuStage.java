@@ -1,7 +1,9 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.Tradesong;
 
 /***/
 public class OptionsMenuStage extends BaseStage {
@@ -10,6 +12,7 @@ public class OptionsMenuStage extends BaseStage {
         super.layout();
 
         Table layout = new Table();
+        layout.setFillParent(true);
         layout.add(makeMenuTitleLabel());
         layout.row();
         layout.add(makeResumeButton());
@@ -20,10 +23,12 @@ public class OptionsMenuStage extends BaseStage {
         layout.row();
         layout.add(makeExitButton());
 
+        this.addActor(layout);
+
     }
 
     private Actor makeMenuTitleLabel() {
-        return null;
+        return new Label("Options", Tradesong.uiStyles.getLabelStyle());
     }
 
     private Actor makeResumeButton() {
