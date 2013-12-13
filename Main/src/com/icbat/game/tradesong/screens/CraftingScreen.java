@@ -1,6 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
+import com.icbat.game.tradesong.screens.stages.CraftingStage;import com.icbat.game.tradesong.screens.stages.InventoryStage;
+
 public class CraftingScreen extends AbstractScreen {
+
+    public CraftingScreen() {
+        stages.add(new InventoryStage());
+        stages.add(new CraftingStage());
+    }
+
     @Override
     public String getScreenName() {
         return "craftingScreen";
@@ -11,4 +19,6 @@ public class CraftingScreen extends AbstractScreen {
         drawBackground(0.2f,0.9f,0.4f,1);
         renderStages(delta);
     }
+
+
 }
