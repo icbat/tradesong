@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -16,34 +15,41 @@ import java.util.List;
 
 /**
  * Basic, modular piece of just the inventory. Consider description area here or on its own stage (probably here)
- * */
+ */
 public class InventoryStage extends BaseStage {
-    private Table framesAndItems = new Table();
     private Label description = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
-    private int descriptionWidth;
 
-    public InventoryStage() {
-        setupTable();
-        addFramesAndItems();
-        addDescriptionArea();
-        addItemName();
+    @Override
+    public void layout() {
+        super.layout();
+
+        this.clear();
+
+        Table holdingTable = makeHoldingTable();
+        holdingTable = holdingTable.debugTable();
+
+        holdingTable.add(makeInventoryTable());
+        holdingTable.row();
+        holdingTable.add(makeItemInfoTable());
+
+        this.addActor(holdingTable);
     }
 
-    private void setupTable() {
-        framesAndItems.setFillParent(true);
-        framesAndItems.align(Align.left);
-        framesAndItems.padLeft(32);
-
-        this.addActor(framesAndItems);
+    protected Table makeHoldingTable() {
+        Table layout = new Table();
+        layout.setFillParent(true);
+        layout.top();
+        layout.pad(62);
+        return layout;
     }
 
-    private void addFramesAndItems() {
+    protected Table makeInventoryTable() {
+        Table inventory = new Table();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
-        Gdx.app.debug("inventorySize", inventoryCopy.size() + "");
 
-        for (int i=1; i <= Tradesong.inventory.getMaxSize(); ++i) {
-            Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
+        for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
+            Image frame = makeFrame();
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
                 item.addListener(new InventoryClickListener(item) {
@@ -55,58 +61,58 @@ public class InventoryStage extends BaseStage {
                         setDescription(this.owner.getDescription());
                     }
                 });
-                framesAndItems.stack(frame, item);
+                inventory.stack(frame, item);
             } else {
-                framesAndItems.add(frame);
+                inventory.add(frame);
             }
 
-            framesAndItems.add(new SpacingActor());
+            inventory.add(new SpacingActor());
 
             if (i % 6 == 0) {
-                framesAndItems.row();
-                framesAndItems.add(new SpacingActor());
-                framesAndItems.row();
+                inventory.row();
+                inventory.add(new SpacingActor());
+                inventory.row();
             }
 
         }
-
+        return inventory;
     }
 
-
-    private void addDescriptionArea() {
-        descriptionWidth = 100;
-        description.setWidth(descriptionWidth);
-        int x = Gdx.graphics.getWidth() - descriptionWidth;
-        description.setPosition(x, 100);
-        description.setWrap(true);
-        this.addActor(description);
-
+    protected Image makeFrame() {
+        return new Image(Tradesong.getTexture(TextureAssets.FRAME));
     }
 
-    private void addItemName() {
-        int x = (int) description.getX();
-        itemName.setWidth(descriptionWidth);
-        int y = (int) (Gdx.graphics.getHeight() - itemName.getHeight() * 2);
+    protected Table makeItemInfoTable() {
+        Table itemInfoTable = new Table();
+        itemName = makeItemName();
+        description = makeDescription();
 
-        itemName.setPosition(x, y);
-        this.addActor(itemName);
+        itemInfoTable.stack(itemName);
+        itemInfoTable.row();
+        itemInfoTable.stack(description);
+
+        return itemInfoTable;
     }
 
-    void setDescription(String newDesc) {
+    private Label makeItemName() {
+        return new Label("", Tradesong.uiStyles.getLabelStyle());
+    }
+
+    private Label makeDescription() {
+        Label descriptionField = new Label("", Tradesong.uiStyles.getLabelStyle());
+        descriptionField.setWrap(true);
+        return descriptionField;
+    }
+
+    protected void setDescription(String newDesc) {
         description.setText(newDesc);
+        Gdx.app.debug("description dimensions",description.getWidth() + ", " + description.getHeight());
     }
 
-    void setItemName(String newName) {
+    protected void setItemName(String newName) {
         itemName.setText(newName);
+        Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
 
-    @Override
-    public void layout() {
-        super.layout();
-        description.remove();
-        addDescriptionArea();
 
-        itemName.remove();
-        addItemName();
-    }
 }
