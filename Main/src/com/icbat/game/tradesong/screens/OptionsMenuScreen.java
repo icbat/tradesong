@@ -1,12 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
+import com.icbat.game.tradesong.screens.stages.OptionsMenuStage;
+
 /***/
 public class OptionsMenuScreen extends AbstractScreen {
 
     public OptionsMenuScreen() {
         super(false);
 
-
+        stages.add(new OptionsMenuStage());
     }
 
     @Override
