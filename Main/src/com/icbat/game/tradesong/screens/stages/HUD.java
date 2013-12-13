@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 import com.icbat.game.tradesong.utils.SpacingActor;
@@ -21,6 +23,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
 public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
+    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);;
 
     public HUD() {
         layout();
@@ -33,11 +36,10 @@ public class HUD extends BaseStage {
         tableLayout.setFillParent(true);
         tableLayout.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.HUD_BG))));
         tableLayout.align(Align.bottom);
-        tableLayout.setColor(0f, 0f, 0f, 0.5f);
+        tableLayout.setColor(0.2f, 0.2f, 0.2f, 1f);
     }
 
     private Image inventoryButton() {
-        Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 7 * SPRITE_DIMENSION, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image inventoryButton = new Image(region);
         inventoryButton.setTouchable(Touchable.enabled);
@@ -53,7 +55,6 @@ public class HUD extends BaseStage {
 
 
     private Image menuButton() {
-        Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image menuButton = new Image(region);
         menuButton.setTouchable(Touchable.enabled);
@@ -66,6 +67,19 @@ public class HUD extends BaseStage {
         return menuButton;
     }
 
+    private Actor craftingButton() {
+        TextureRegion region = new TextureRegion(items, 3 * SPRITE_DIMENSION, 9 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        Image craftingButton = new Image(region);
+        craftingButton.setTouchable(Touchable.enabled);
+        craftingButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToScreen(new CraftingScreen());
+            }
+        });
+        return craftingButton;
+    }
+
     @Override
     public void layout() {
         this.clear();
@@ -76,15 +90,12 @@ public class HUD extends BaseStage {
         tableLayout.add(menuButton());
         tableLayout.add(new SpacingActor());
         tableLayout.add(inventoryButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(craftingButton());
 
         setupHolderAndTable(holder, tableLayout);
 
         holder.addActor(tableLayout);
         this.addActor(holder);
-    }
-
-    @Override
-    public void hide() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

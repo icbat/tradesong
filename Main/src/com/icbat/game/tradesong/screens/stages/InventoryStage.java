@@ -43,7 +43,6 @@ public class InventoryStage extends BaseStage {
         Gdx.app.debug("inventorySize", inventoryCopy.size() + "");
 
         for (int i=1; i <= Tradesong.inventory.getMaxSize(); ++i) {
-            Gdx.app.debug("i", i + "");
             Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
