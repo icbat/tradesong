@@ -14,6 +14,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
+import com.icbat.game.tradesong.screens.OptionsMenuScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 import com.icbat.game.tradesong.utils.SpacingActor;
 
@@ -73,7 +74,7 @@ public class HUD extends BaseStage {
         menuButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                Tradesong.screenManager.goToMainMenu(); // curious if this is actually what I want.
+                Tradesong.screenManager.goToScreen(new OptionsMenuScreen()); // curious if this is actually what I want.
             }
         });
         return menuButton;
