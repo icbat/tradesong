@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,6 +22,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
 public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
+    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);;
 
     public HUD() {
         layout();
@@ -37,7 +39,6 @@ public class HUD extends BaseStage {
     }
 
     private Image inventoryButton() {
-        Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 7 * SPRITE_DIMENSION, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image inventoryButton = new Image(region);
         inventoryButton.setTouchable(Touchable.enabled);
@@ -53,7 +54,6 @@ public class HUD extends BaseStage {
 
 
     private Image menuButton() {
-        Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
         TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image menuButton = new Image(region);
         menuButton.setTouchable(Touchable.enabled);
@@ -66,6 +66,11 @@ public class HUD extends BaseStage {
         return menuButton;
     }
 
+    private Actor craftingButton() {
+        Image craftingButton = new Image();
+        return craftingButton;
+    }
+
     @Override
     public void layout() {
         this.clear();
@@ -76,12 +81,16 @@ public class HUD extends BaseStage {
         tableLayout.add(menuButton());
         tableLayout.add(new SpacingActor());
         tableLayout.add(inventoryButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(craftingButton());
 
         setupHolderAndTable(holder, tableLayout);
 
         holder.addActor(tableLayout);
         this.addActor(holder);
     }
+
+
 
     @Override
     public void hide() {
