@@ -23,7 +23,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
 public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
-    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);;
+    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
 
     public HUD() {
         layout();
