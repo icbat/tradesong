@@ -3,7 +3,9 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 
 /***/
 public class OptionsMenuStage extends BaseStage {
@@ -32,7 +34,14 @@ public class OptionsMenuStage extends BaseStage {
     }
 
     private Actor makeResumeButton() {
-        return null;
+        TextButton resumeButton = new TextButton("Resume game", Tradesong.uiStyles.getTextButtonStyle());
+        resumeButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goBack();
+            }
+        });
+        return resumeButton;
     }
 
     private Actor makeSaveButton() {
