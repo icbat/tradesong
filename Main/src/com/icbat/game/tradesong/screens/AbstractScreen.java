@@ -36,8 +36,9 @@ public abstract class AbstractScreen implements Screen {
     }
 
     protected void renderStages(float delta) {
-        for (Stage stage : stages) {
+        for (BaseStage stage : stages) {
             stage.act(delta);
+            stage.onRender();
             stage.draw();
         }
     }

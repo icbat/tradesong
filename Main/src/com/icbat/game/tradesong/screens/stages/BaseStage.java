@@ -13,6 +13,7 @@ public abstract class BaseStage extends Stage {
     List<Timer> timers = new ArrayList<Timer>();
 
     public void layout() {}
+    public void onRender() {}
     public void hide() {
         for (Timer timer : timers) {
             timer.stop();

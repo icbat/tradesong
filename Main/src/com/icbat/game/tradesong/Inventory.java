@@ -42,7 +42,6 @@ public class Inventory extends PersistantData {
     }
 
     public List<Item> getCopyOfInventory() {
-        Gdx.app.debug("inventorySize", "" + items.size());
         return new ArrayList<Item>(items);
     }
 
@@ -62,5 +61,9 @@ public class Inventory extends PersistantData {
 
     public int getMaxSize() {
         return maxSize;
+    }
+
+    public int getCurrentSize() {
+        return items.size();
     }
 }
