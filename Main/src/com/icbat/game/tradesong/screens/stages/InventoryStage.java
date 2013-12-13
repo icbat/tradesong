@@ -19,7 +19,6 @@ import java.util.List;
 public class InventoryStage extends BaseStage {
     private Label description = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
-    protected Table holdingTable;
 
     @Override
     public void layout() {
@@ -27,7 +26,7 @@ public class InventoryStage extends BaseStage {
 
         this.clear();
 
-        holdingTable = makeHoldingTable();
+        Table holdingTable = makeHoldingTable();
         holdingTable.top();
         holdingTable.pad(62);
         holdingTable = holdingTable.debugTable();
@@ -39,13 +38,13 @@ public class InventoryStage extends BaseStage {
         this.addActor(holdingTable);
     }
 
-    private Table makeHoldingTable() {
+    protected Table makeHoldingTable() {
         Table layout = new Table();
         layout.setFillParent(true);
         return layout;
     }
 
-    private Table makeInventoryTable() {
+    protected Table makeInventoryTable() {
         Table inventory = new Table();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
@@ -79,7 +78,7 @@ public class InventoryStage extends BaseStage {
         return inventory;
     }
 
-    private Table makeItemInfoTable() {
+    protected Table makeItemInfoTable() {
         Table itemInfoTable = new Table();
         itemName = makeItemName();
         description = makeDescription();
@@ -101,12 +100,12 @@ public class InventoryStage extends BaseStage {
         return descriptionField;
     }
 
-    void setDescription(String newDesc) {
+    protected void setDescription(String newDesc) {
         description.setText(newDesc);
         Gdx.app.debug("description dimensions",description.getWidth() + ", " + description.getHeight());
     }
 
-    void setItemName(String newName) {
+    protected void setItemName(String newName) {
         itemName.setText(newName);
         Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
