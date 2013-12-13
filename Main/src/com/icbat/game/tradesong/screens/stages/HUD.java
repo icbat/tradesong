@@ -19,7 +19,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
 
 /**
  * Common heads-up display for play.
- * */
+ */
 public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
@@ -68,7 +68,6 @@ public class HUD extends BaseStage {
         });
         return inventoryButton;
     }
-
 
 
     private Image menuButton() {
