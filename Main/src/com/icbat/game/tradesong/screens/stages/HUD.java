@@ -36,7 +36,7 @@ public class HUD extends BaseStage {
         tableLayout.setFillParent(true);
         tableLayout.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.HUD_BG))));
         tableLayout.align(Align.bottom);
-        tableLayout.setColor(0f, 0f, 0f, 0.5f);
+        tableLayout.setColor(0.2f, 0.2f, 0.2f, 1f);
     }
 
     private Image inventoryButton() {
@@ -68,7 +68,7 @@ public class HUD extends BaseStage {
     }
 
     private Actor craftingButton() {
-        TextureRegion region = new TextureRegion(items, 0,0, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion region = new TextureRegion(items, 3 * SPRITE_DIMENSION, 9 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image craftingButton = new Image(region);
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
@@ -97,12 +97,5 @@ public class HUD extends BaseStage {
 
         holder.addActor(tableLayout);
         this.addActor(holder);
-    }
-
-
-
-    @Override
-    public void hide() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
