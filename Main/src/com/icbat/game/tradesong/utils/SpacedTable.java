@@ -5,17 +5,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /***/
 public class SpacedTable extends Table {
-    public Actor spacer = new SpacingActor();
 
     public void spacedRow(){
         this.row();
-        this.add(spacer);
+        addSpacer();
         this.row();
     }
 
     public void spacedAdd(Actor actor) {
         this.add(actor);
-        this.add(spacer);
+        addSpacer();
+    }
+
+    public void spacedStack(Actor... actors) {
+        this.stack(actors);
+        addSpacer();
+    }
+
+    private void addSpacer() {
+        this.add(new SpacingActor());
     }
 
     /**

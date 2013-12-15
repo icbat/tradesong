@@ -9,6 +9,7 @@ import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.listeners.InventoryClickListener;
+import com.icbat.game.tradesong.utils.SpacedTable;
 import com.icbat.game.tradesong.utils.SpacingActor;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class InventoryStage extends BaseStage {
     }
 
     protected Table makeInventoryTable() {
-        Table inventory = new Table();
+        SpacedTable inventory = new SpacedTable();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
         for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
@@ -61,17 +62,13 @@ public class InventoryStage extends BaseStage {
                         setDescription(this.owner.getDescription());
                     }
                 });
-                inventory.stack(frame, item);
+                inventory.spacedStack(frame, item);
             } else {
-                inventory.add(frame);
+                inventory.spacedAdd(frame);
             }
 
-            inventory.add(new SpacingActor());
-
             if (i % 6 == 0) {
-                inventory.row();
-                inventory.add(new SpacingActor());
-                inventory.row();
+                inventory.spacedRow();
             }
 
         }
