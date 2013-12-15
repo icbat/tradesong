@@ -162,13 +162,16 @@ public class InventoryStage extends BaseStage {
             } else {
                 getActor().setColor(Color.RED);
             }
+
+//            Gdx.app.debug("dropTarget", String.valueOf(validTarget));
+
             return validTarget;
         }
 
         @Override
         public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
             super.reset(source, payload);
-            getActor().setColor(Color.BLACK);
+            getActor().setColor(Color.WHITE);
         }
 
         @Override
@@ -193,7 +196,7 @@ public class InventoryStage extends BaseStage {
         public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
             DragAndDrop.Payload payload = new DragAndDrop.Payload();
 
-            payload.setObject("some payload"); // This is probably actually the Item, but let's try
+            payload.setObject(getActor());
             payload.setDragActor(getActor());
 
             return payload;  //To change body of implemented methods use File | Settings | File Templates.
