@@ -37,8 +37,8 @@ public class InventoryStage extends BaseStage {
         this.addActor(holdingTable);
     }
 
-    protected Table makeHoldingTable() {
-        Table layout = new Table();
+    protected SpacedTable makeHoldingTable() {
+        SpacedTable layout = new SpacedTable();
         layout.setFillParent(true);
         layout.top();
         layout.pad(62);
