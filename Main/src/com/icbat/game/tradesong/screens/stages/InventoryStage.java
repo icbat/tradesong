@@ -1,25 +1,28 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.listeners.InventoryClickListener;
 import com.icbat.game.tradesong.utils.SpacedTable;
-import com.icbat.game.tradesong.utils.SpacingActor;
 
 import java.util.List;
 
 /**
- * Basic, modular piece of just the inventory. Consider description area here or on its own stage (probably here)
+ * The most basic inventory-showing stage. Also has description/name labels.
  */
 public class InventoryStage extends BaseStage {
     private Label description = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
+    Table inventoryTable; // Will likely need to findActor on this from somewhere else.
 
     @Override
     public void layout() {
@@ -30,11 +33,28 @@ public class InventoryStage extends BaseStage {
         Table holdingTable = makeHoldingTable();
         holdingTable = holdingTable.debugTable();
 
-        holdingTable.add(makeInventoryTable());
+        this.inventoryTable = makeInventoryTable();
+        holdingTable.add(inventoryTable);
+        holdingTable.row();
+        holdingTable.add(makeSortButton());
         holdingTable.row();
         holdingTable.add(makeItemInfoTable());
 
+
         this.addActor(holdingTable);
+    }
+
+    private Actor makeSortButton() {
+        TextButton sortButton = new TextButton("Sort!", Tradesong.uiStyles.getTextButtonStyle());
+        sortButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Tradesong.inventory.sort();
+                layout();
+            }
+        });
+        return sortButton;
     }
 
     protected SpacedTable makeHoldingTable() {
@@ -51,6 +71,7 @@ public class InventoryStage extends BaseStage {
 
         for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
             Image frame = makeFrame();
+            frame.setName(String.valueOf(i));
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
                 item.addListener(new InventoryClickListener(item) {

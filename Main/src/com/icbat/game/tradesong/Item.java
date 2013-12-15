@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 /**
  * Item representation with Prototype functionality via copy constructor.
  * */
-public class Item extends Image {
+public class Item extends Image implements Comparable {
     private final String name;
     private final String description;
     private final TextureRegion icon;
@@ -44,11 +44,11 @@ public class Item extends Image {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", icon=" + icon +
-                ", basePrice=" + basePrice +
-                '}';
+        return "Item:" + name;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.toString().compareTo(o.toString());
     }
 }

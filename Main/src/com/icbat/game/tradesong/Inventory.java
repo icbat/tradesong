@@ -1,8 +1,7 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,15 +9,13 @@ import java.util.List;
  */
 public class Inventory extends PersistantData {
     private int maxSize = 30;
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList<Item>(maxSize);
 
     public Inventory() {
         // TODO remove this, it's for testing!
         addItem(Tradesong.itemPrototypes.get("Ore"));
         addItem(Tradesong.itemPrototypes.get("Wood"));
         addItem(Tradesong.itemPrototypes.get("Blackberry"));
-
-
     }
 
     public boolean addItem(Item newItem) {
@@ -65,5 +62,12 @@ public class Inventory extends PersistantData {
 
     public int getCurrentSize() {
         return items.size();
+    }
+
+    /**
+     * Sorts inventory based on item name
+     * */
+    public void sort() {
+        Collections.sort(items);
     }
 }
