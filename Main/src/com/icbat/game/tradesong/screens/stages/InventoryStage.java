@@ -20,8 +20,8 @@ import java.util.List;
  * The most basic inventory-showing stage. Also has description/name labels.
  */
 public class InventoryStage extends BaseStage {
-    private Label description = new Label("", Tradesong.uiStyles.getLabelStyle());
-    private Label itemName = new Label("", Tradesong.uiStyles.getLabelStyle());
+    private Label description;
+    private Label itemName;
     Table inventoryTable; // Will likely need to findActor on this from somewhere else.
 
     @Override
@@ -65,7 +65,7 @@ public class InventoryStage extends BaseStage {
         return layout;
     }
 
-    protected Table makeInventoryTable() {
+    protected Table makeInventoryTable() { // TODO this is kind of big and clumsy, could it be rewritten?
         SpacedTable inventory = new SpacedTable();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
