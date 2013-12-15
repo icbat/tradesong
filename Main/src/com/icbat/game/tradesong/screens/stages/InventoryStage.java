@@ -76,7 +76,16 @@ public class InventoryStage extends BaseStage {
     }
 
     protected Image makeFrame() {
-        return new Image(Tradesong.getTexture(TextureAssets.FRAME));
+        return makeFrame(true);
+    }
+
+    protected Image makeFrame(boolean isDropTarget) {
+        Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
+        if (isDropTarget) {
+
+        }
+
+        return frame;
     }
 
     protected Table makeItemInfoTable() {

@@ -1,11 +1,9 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.utils.SpacedTable;
-import com.icbat.game.tradesong.utils.SpacingActor;
 
 /***/
 public class CraftingStage extends InventoryStage {
@@ -43,9 +41,7 @@ public class CraftingStage extends InventoryStage {
         craftingTable.spacedAdd(makeFrame());
         craftingTable.spacedAdd(makeFrame());
         craftingTable.spacedAdd(makeArrow());
-        craftingTable.spacedAdd(super.makeFrame()); // Not a drop target.
-
-
+        craftingTable.spacedAdd(makeFrame(false));
 
         return craftingTable;
     }
@@ -54,13 +50,4 @@ public class CraftingStage extends InventoryStage {
         return new Image(Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW));
     }
 
-
-    @Override
-    /**
-     * Override makes these drop targets.
-     * */
-    protected Image makeFrame() {
-        Image frame = super.makeFrame();
-        return frame;
-    }
 }
