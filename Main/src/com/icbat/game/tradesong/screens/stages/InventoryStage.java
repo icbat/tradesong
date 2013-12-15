@@ -73,8 +73,6 @@ public class InventoryStage extends BaseStage {
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
         for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
-            Image frame = makeFrame();
-            frame.setName(String.valueOf(i));
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
                 dragAndDrop.addSource(new ItemSource(item));
@@ -87,9 +85,9 @@ public class InventoryStage extends BaseStage {
                         setDescription(this.owner.getDescription());
                     }
                 });
-                inventory.spacedStack(frame, item);
+                inventory.spacedStack(makeFrame(false), item);
             } else {
-                inventory.spacedAdd(frame);
+                inventory.spacedAdd(makeFrame());
             }
 
             if (i % 6 == 0) {
@@ -199,6 +197,12 @@ public class InventoryStage extends BaseStage {
             payload.setDragActor(getActor());
 
             return payload;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Target target) {
+            super.dragStop(event, x, y, pointer, target);
+            layout();
         }
     }
 
