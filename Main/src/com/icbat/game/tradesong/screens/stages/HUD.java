@@ -1,12 +1,14 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -25,6 +27,7 @@ public class HUD extends BaseStage {
 
     public static final int SPRITE_DIMENSION = 32;
     private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
+    private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
 
     @Override
     public void layout() {
@@ -34,6 +37,8 @@ public class HUD extends BaseStage {
 
         tableLayout.add(inventoryButton());
         tableLayout.add(new SpacingActor());
+        tableLayout.add(capacityCounter);
+        tableLayout.add(new SpacingActor());
         tableLayout.add(craftingButton());
 
         setupHolderAndTable(holder, tableLayout);
@@ -41,6 +46,11 @@ public class HUD extends BaseStage {
         holder.addActor(tableLayout);
         holder.addActor(menuButton());
         this.addActor(holder);
+    }
+
+    @Override
+    public void onRender() {
+        setCapacityCounter();
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
@@ -54,7 +64,7 @@ public class HUD extends BaseStage {
     }
 
     private Image inventoryButton() {
-        TextureRegion region = new TextureRegion(items, 7 * SPRITE_DIMENSION, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion region = new TextureRegion(items, 2 * SPRITE_DIMENSION, 30 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
         Image inventoryButton = new Image(region);
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
@@ -91,6 +101,18 @@ public class HUD extends BaseStage {
             }
         });
         return craftingButton;
+    }
+
+    void setCapacityCounter() {
+        int slotsFree = Tradesong.inventory.getMaxSize() - Tradesong.inventory.getCurrentSize();
+        if (slotsFree == 0) {
+            capacityCounter.setColor(Color.RED);
+        } else if (slotsFree < 5) {
+            capacityCounter.setColor(Color.YELLOW);
+        } else {
+            capacityCounter.setColor(Color.GREEN);
+        }
+        capacityCounter.setText(String.valueOf(slotsFree));
     }
 
 

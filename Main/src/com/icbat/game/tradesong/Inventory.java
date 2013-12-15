@@ -1,8 +1,7 @@
 package com.icbat.game.tradesong;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  */
 public class Inventory extends PersistantData {
     private int maxSize = 30;
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList<Item>(maxSize);
 
     public Inventory() {
         // TODO remove this, it's for testing!
@@ -18,31 +17,35 @@ public class Inventory extends PersistantData {
         addItem(Tradesong.itemPrototypes.get("Wood"));
         addItem(Tradesong.itemPrototypes.get("Blackberry"));
 
-
+        addItem(10, Tradesong.itemPrototypes.get("Ore"));
     }
 
     public boolean addItem(Item newItem) {
+         return addItem(items.size(), newItem);
+    }
+
+    public boolean addItem(int position, Item newItem) {
         if (canAdd()) {
-            items.add(newItem);
+            position = (position <= items.size()) ? position :  items.size();
+            items.add(position, newItem);
             return true;
         } else {
             return false;
         }
     }
 
-    public Item takeOutItemAt(int i) {
-        Item removed = items.get(i);
-        if (removed != null) {
-            items.remove(i);
-            return removed;
-        }
-         else {
-            return null;
-        }
+    /**
+     * Attempts to remove the item. Will return payload regardless of removal's success.
+     *
+     * @return the same payload you gave it.
+     * */
+    public Item takeOutItem(Item payload) {
+        items.remove(payload);
+
+        return payload;
     }
 
     public List<Item> getCopyOfInventory() {
-        Gdx.app.debug("inventorySize", "" + items.size());
         return new ArrayList<Item>(items);
     }
 
@@ -63,4 +66,17 @@ public class Inventory extends PersistantData {
     public int getMaxSize() {
         return maxSize;
     }
+
+    public int getCurrentSize() {
+        return items.size();
+    }
+
+    /**
+     * Sorts inventory based on item name
+     * */
+    public void sort() {
+        Collections.sort(items);
+    }
+
+
 }
