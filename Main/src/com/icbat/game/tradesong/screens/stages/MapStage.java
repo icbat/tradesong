@@ -98,13 +98,10 @@ public class MapStage extends BaseStage {
     }
 
     @Override
-    public void layout() {
-        // Seems to work fine on resize, no real reason to move stuff here.
-    }
-
-    @Override
     public void hide() {
-
+        gatherSound.stop();
+        gatherTimer.stop();
+        gatherTimer.clear();
     }
 
     /**
