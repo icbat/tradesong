@@ -13,7 +13,8 @@ import java.util.List;
 
 /***/
 public class CraftingStage extends InventoryStage {
-    private List<Item> itemsOnCraftingStage = new ArrayList<Item>();
+    private int craftingTableCapacity = 2;
+    private List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
 
     @Override
     public void layout() {
@@ -39,17 +40,22 @@ public class CraftingStage extends InventoryStage {
         workshopSwitcher.spacedAdd(tinker);
         workshopSwitcher.spacedAdd(scribe);
 
-
         return workshopSwitcher;
     }
 
     private SpacedTable makeCraftingTable() {
         SpacedTable craftingTable = new SpacedTable();
 
-        craftingTable.spacedAdd(makeFrame());
-        craftingTable.spacedAdd(makeFrame());
+        for (int i = 0; i < craftingTableCapacity; ++i) {
+            if (i < craftingTableContents.size()) {
+                craftingTable.spacedStack(makeCraftingFrame(false), craftingTableContents.get(i));
+            } else {
+                craftingTable.spacedAdd(makeCraftingFrame(true));
+            }
+
+        }
         craftingTable.spacedAdd(makeArrow());
-        craftingTable.spacedAdd(makeFrame(false));
+        craftingTable.spacedAdd(makeCraftingFrame(false));
 
         return craftingTable;
     }
@@ -58,8 +64,7 @@ public class CraftingStage extends InventoryStage {
         return new Image(Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW));
     }
 
-    @Override
-    protected Image makeFrame(boolean isDropTarget) {
+    protected Image makeCraftingFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
         dragAndDrop.addTarget(new CraftingFrameTarget(frame, isDropTarget));
 
@@ -75,7 +80,8 @@ public class CraftingStage extends InventoryStage {
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-
+            craftingTableContents.add((Item) payload.getObject());
+            layout();
         }
     }
 }
