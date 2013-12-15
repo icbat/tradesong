@@ -38,11 +38,9 @@ public class CraftingStage extends InventoryStage {
 
         Image blacksmith = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
         Image tinker = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
-        Image scribe = new Image(Tradesong.getTexture(TextureAssets.ICON_BOOK));
 
         workshopSwitcher.spacedAdd(blacksmith);
         workshopSwitcher.spacedAdd(tinker);
-        workshopSwitcher.spacedAdd(scribe);
 
         return workshopSwitcher;
     }
