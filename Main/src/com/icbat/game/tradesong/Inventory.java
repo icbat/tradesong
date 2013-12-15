@@ -34,15 +34,15 @@ public class Inventory extends PersistantData {
         }
     }
 
-    public Item takeOutItemAt(int i) {
-        Item removed = items.get(i);
-        if (removed != null) {
-            items.remove(i);
-            return removed;
-        }
-         else {
-            return null;
-        }
+    /**
+     * Attempts to remove the item. Will return payload regardless of removal's success.
+     *
+     * @return the same payload you gave it.
+     * */
+    public Item takeOutItem(Item payload) {
+        items.remove(payload);
+
+        return payload;
     }
 
     public List<Item> getCopyOfInventory() {
@@ -77,4 +77,6 @@ public class Inventory extends PersistantData {
     public void sort() {
         Collections.sort(items);
     }
+
+
 }

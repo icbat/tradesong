@@ -106,7 +106,7 @@ public class InventoryStage extends BaseStage {
 
     protected Image makeFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new FrameTarget(frame, isDropTarget));
+        dragAndDrop.addTarget(new InventoryFrameTarget(frame, isDropTarget));
 
         return frame;
     }
@@ -143,13 +143,13 @@ public class InventoryStage extends BaseStage {
         Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
 
-    class FrameTarget extends DragAndDrop.Target {
+    class InventoryFrameTarget extends DragAndDrop.Target {
 
         private boolean validTarget;
 
-        FrameTarget(Actor actor, boolean isValidTarget) {
+        InventoryFrameTarget(Actor actor, boolean validTarget) {
             super(actor);
-            validTarget = isValidTarget;
+            this.validTarget = validTarget;
         }
 
         @Override
@@ -162,9 +162,6 @@ public class InventoryStage extends BaseStage {
             } else {
                 getActor().setColor(Color.RED);
             }
-
-//            Gdx.app.debug("dropTarget", String.valueOf(validTarget));
-
             return validTarget;
         }
 
@@ -176,10 +173,12 @@ public class InventoryStage extends BaseStage {
 
         @Override
         /**
-         * What happens when you drop something here.
+         * What happens when you drop something here. validTarget doesn't need to be checked here, this will only call if drag returned true.
          * */
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            // TODO impl
+            Item movedItem = Tradesong.inventory.takeOutItem((Item) payload.getObject());
+            Tradesong.inventory.addItem(movedItem);
+            layout();
         }
     }
 
