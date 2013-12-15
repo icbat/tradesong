@@ -16,11 +16,18 @@ public class Inventory extends PersistantData {
         addItem(Tradesong.itemPrototypes.get("Ore"));
         addItem(Tradesong.itemPrototypes.get("Wood"));
         addItem(Tradesong.itemPrototypes.get("Blackberry"));
+
+        addItem(10, Tradesong.itemPrototypes.get("Ore"));
     }
 
     public boolean addItem(Item newItem) {
+         return addItem(items.size(), newItem);
+    }
+
+    public boolean addItem(int position, Item newItem) {
         if (canAdd()) {
-            items.add(newItem);
+            position = (position <= items.size()) ? position :  items.size();
+            items.add(position, newItem);
             return true;
         } else {
             return false;
