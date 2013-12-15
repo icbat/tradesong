@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -13,7 +14,7 @@ import java.util.List;
 
 /***/
 public class CraftingStage extends InventoryStage {
-    private int craftingTableCapacity = 2;
+    private int craftingTableCapacity = 3;
     private List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
 
     @Override
@@ -80,7 +81,11 @@ public class CraftingStage extends InventoryStage {
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+
+            craftingTableContents.remove(payload.getObject());
+
             craftingTableContents.add((Item) payload.getObject());
+            Gdx.app.debug("contains", craftingTableContents.toString());
             layout();
         }
     }
