@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
+import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.screens.listeners.InventoryClickListener;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
@@ -75,7 +76,7 @@ public class InventoryStage extends BaseStage {
         for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
-                dragAndDrop.addSource(new ItemSource(item));
+                dragAndDrop.addSource(new ItemSource(item, this));
                 item.addListener(new InventoryClickListener(item) {
 
                     @Override
@@ -87,7 +88,7 @@ public class InventoryStage extends BaseStage {
                 });
                 inventory.spacedStack(makeFrame(false), item);
             } else {
-                inventory.spacedAdd(makeFrame());
+                inventory.spacedAdd(makeFrame(true));
             }
 
             if (i % 6 == 0) {
@@ -98,14 +99,9 @@ public class InventoryStage extends BaseStage {
         return inventory;
     }
 
-    protected Image makeFrame() {
-        return makeFrame(true);
-    }
-
     protected Image makeFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new InventoryFrameTarget(frame, isDropTarget));
-
+        dragAndDrop.addTarget(new InventoryTarget(frame, isDropTarget, this));
         return frame;
     }
 
@@ -141,70 +137,17 @@ public class InventoryStage extends BaseStage {
         Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
 
-    class InventoryFrameTarget extends DragAndDrop.Target {
-
-        private boolean validTarget;
-
-        InventoryFrameTarget(Actor actor, boolean validTarget) {
-            super(actor);
-            this.validTarget = validTarget;
+    class InventoryTarget extends FrameTarget {
+        public InventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
+            super(actor, validTarget, owner);
         }
 
         @Override
-        /**
-         * What happens when you drag something over this.
-         * */
-        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            if (validTarget) {
-                getActor().setColor(Color.GREEN);
-            } else {
-                getActor().setColor(Color.RED);
-            }
-            return validTarget;
-        }
-
-        @Override
-        public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
-            super.reset(source, payload);
-            getActor().setColor(Color.WHITE);
-        }
-
-        @Override
-        /**
-         * What happens when you drop something here. validTarget doesn't need to be checked here, this will only call if drag returned true.
-         * */
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            Item movedItem = Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Tradesong.inventory.addItem(movedItem);
-            layout();
+            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
+            Tradesong.inventory.addItem(removed);
+            super.drop(source, payload, x, y, pointer);
         }
     }
-
-    /**
-     * Class for items that can be picked up.
-     * */
-    class ItemSource extends DragAndDrop.Source {
-
-        public ItemSource(Actor actor) {
-            super(actor);
-        }
-
-        @Override
-        public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-            DragAndDrop.Payload payload = new DragAndDrop.Payload();
-
-            payload.setObject(getActor());
-            payload.setDragActor(getActor());
-
-            return payload;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Target target) {
-            super.dragStop(event, x, y, pointer, target);
-            layout();
-        }
-    }
-
 
 }

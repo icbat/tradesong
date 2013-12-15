@@ -1,12 +1,12 @@
 package com.icbat.game.tradesong.screens.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.icbat.game.tradesong.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
 import java.util.ArrayList;
@@ -14,11 +14,14 @@ import java.util.List;
 
 /***/
 public class CraftingStage extends InventoryStage {
-    private int craftingTableCapacity = 3;
-    private List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
+
+    // These two are here to let the Drag and Drop listeners know how to deal with them
+    protected int craftingTableCapacity = 3;
+    protected List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
 
     @Override
     public void layout() {
+        this.clear();
         SpacedTable holdingTable = makeHoldingTable();
         holdingTable.add(makeInventoryTable());
         holdingTable.spacedRows(3);
@@ -67,26 +70,44 @@ public class CraftingStage extends InventoryStage {
 
     protected Image makeCraftingFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new CraftingFrameTarget(frame, isDropTarget));
+        dragAndDrop.addTarget(new CraftingTarget(frame, isDropTarget, this));
 
         return frame;
     }
 
-    class CraftingFrameTarget extends InventoryFrameTarget {
+    @Override
+    protected Image makeFrame(boolean isDropTarget) {
+        Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
+        dragAndDrop.addTarget(new CraftingInventoryTarget(frame, isDropTarget, this));
+        return frame;
+    }
 
-
-        public CraftingFrameTarget(Actor actor, boolean validTarget) {
-            super(actor, validTarget);
+    class CraftingInventoryTarget extends FrameTarget {
+        public CraftingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
+            super(actor, validTarget, owner);
         }
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            craftingTableContents.remove((Item) payload.getObject());
+            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
+            Tradesong.inventory.addItem(removed);
 
-            craftingTableContents.remove(payload.getObject());
+            super.drop(source, payload, x, y, pointer);    //To change body of overridden methods use File | Settings | File Templates.
+        }
+    }
 
+    class CraftingTarget extends FrameTarget {
+        public CraftingTarget(Actor actor, boolean validTarget, BaseStage owner) {
+            super(actor, validTarget, owner);
+        }
+
+        @Override
+        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            craftingTableContents.remove((Item) payload.getObject());
+            Tradesong.inventory.takeOutItem((Item) payload.getObject());
             craftingTableContents.add((Item) payload.getObject());
-            Gdx.app.debug("contains", craftingTableContents.toString());
-            layout();
+            super.drop(source, payload, x, y, pointer);
         }
     }
 }
