@@ -13,4 +13,24 @@ public class Recipe {
         this.ingredients = ingredients;
         this.craftTime = craftTime;
     }
+
+    public boolean inputCanCraftThis(List<Item> itemsInput) {
+        if (itemsInput.size() == ingredients.size()) {
+
+            if (itemsInput.containsAll(ingredients)) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    public Integer getCraftTime() {
+        return craftTime;
+    }
+
+    public Item getOutput() {
+        return output;
+    }
 }
