@@ -28,8 +28,43 @@ public class Tradesong extends Game {
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
     public static ItemPrototypes itemPrototypes;
-    private static Music currentTrack;
     public static Inventory inventory;
+    public static WorkshopListing workshopListing;
+
+    private static Music currentTrack;
+
+    @Override
+    public void create() {
+        Gdx.app.setLogLevel(3);
+        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        initializeAssets();
+
+        itemPrototypes = new ItemPrototypes();
+        workshopListing = new WorkshopListing();
+        inventory = new Inventory();
+
+        uiStyles = new UIStyles();
+
+        screenManager = new ShallowSelectiveScreenStack(this);
+//        screenManager.goToMainMenu();
+        screenManager.goToScreen(new MapScreen("test"));
+    }
+
+    private void initializeAssets() {
+
+        for (TextureAssets texture : TextureAssets.values()) {
+            assetManager.load(texture.getPath(), Texture.class);
+        }
+
+        for (SoundAssets sound : SoundAssets.values()) {
+            assetManager.load(sound.getPath(), Sound.class);
+        }
+
+        for (MusicAssets music : MusicAssets.values()) {
+            assetManager.load(music.getPath(), Music.class);
+        }
+        assetManager.finishLoading();
+    }
 
     /**
      * Convenience method to prevent having to call assetManager.get(longConstantName)
@@ -71,35 +106,7 @@ public class Tradesong extends Game {
         currentTrack.stop();
     }
 
-    @Override
-    public void create() {
-        Gdx.app.setLogLevel(3);
-        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        initializeAssets();
 
-        itemPrototypes = new ItemPrototypes();
-        inventory = new Inventory();
 
-        uiStyles = new UIStyles();
 
-        screenManager = new ShallowSelectiveScreenStack(this);
-//        screenManager.goToMainMenu();
-        screenManager.goToScreen(new MapScreen("test"));
-    }
-
-    private void initializeAssets() {
-
-        for (TextureAssets texture : TextureAssets.values()) {
-            assetManager.load(texture.getPath(), Texture.class);
-        }
-
-        for (SoundAssets sound : SoundAssets.values()) {
-            assetManager.load(sound.getPath(), Sound.class);
-        }
-
-        for (MusicAssets music : MusicAssets.values()) {
-            assetManager.load(music.getPath(), Music.class);
-        }
-        assetManager.finishLoading();
-    }
 }
