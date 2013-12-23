@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -36,8 +38,12 @@ public class CraftingStage extends InventoryStage {
     private SpacedTable makeWorkshopSwitchingTable() {
         SpacedTable workshopSwitcher = new SpacedTable();
 
-        Image blacksmith = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
-        Image tinker = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
+        Texture iconSheet = Tradesong.getTexture(TextureAssets.ITEMS);
+        final int ICON_DIMENSIONS = 32;
+
+        // TODO clean up this ish
+        Image blacksmith = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 3 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
+        Image tinker = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 4 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
 
         workshopSwitcher.spacedAdd(blacksmith);
         workshopSwitcher.spacedAdd(tinker);
