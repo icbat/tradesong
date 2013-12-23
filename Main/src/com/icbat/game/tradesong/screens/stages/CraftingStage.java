@@ -10,6 +10,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.utils.SpacedTable;
+import gameObjects.Workshop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class CraftingStage extends InventoryStage {
     // These two are here to let the Drag and Drop listeners know how to deal with them
     protected int craftingTableCapacity = 3;
     protected List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
+    protected Workshop currentWorkshop = Tradesong.workshopListing.getWorkshop("Blacksmith");
 
     @Override
     public void layout() {

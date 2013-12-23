@@ -67,6 +67,9 @@ public class ItemPrototypes {
         return null;
     }
 
+    /**
+     * Mainly used for testing, this returns the whole list of known item prototypes
+     * */
     public HashSet<Item> getAll() {
         return prototypes;
     }

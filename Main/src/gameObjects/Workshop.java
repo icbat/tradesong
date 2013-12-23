@@ -18,6 +18,16 @@ public class Workshop {
         return name;
     }
 
+    public Recipe getOutput(List<Item> itemsInput) {
+        for (Recipe recipe : recipesAssociated) {
+            if (recipe.inputCanCraftThis(itemsInput)) {
+                return recipe;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Workshop{" +
