@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import gameObjects.Item;
 
 import java.io.IOException;
 import java.util.HashSet;

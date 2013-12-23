@@ -2,7 +2,7 @@ package com.icbat.game.tradesong.screens.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.icbat.game.tradesong.Item;
+import gameObjects.Item;
 
 /**
  * Basic Click Listener that knows about its owner.
