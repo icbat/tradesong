@@ -122,6 +122,8 @@ public class MapStage extends BaseStage {
         gatherSound.stop();
         gatherTimer.stop();
         gatherTimer.clear();
+        spawnTimer.stop();
+        spawnTimer.clear();
     }
 
     /**
