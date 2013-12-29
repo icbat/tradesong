@@ -79,7 +79,8 @@ public class WorkshopListing {
         Item output = Tradesong.itemPrototypes.get(outputName);
 
         List<Item> ingredients = new ArrayList<Item>();
-        Array<XmlReader.Element> ingredientListXml = recipeXml.getChildrenByName("ingredients");
+
+        Array<XmlReader.Element> ingredientListXml = recipeXml.getChildByName("ingredients").getChildrenByName("ingredient");
 
         for (XmlReader.Element ingredientXml : ingredientListXml) {
             ingredients.add(parseIngredient(ingredientXml));
@@ -91,7 +92,7 @@ public class WorkshopListing {
     }
 
     private Item parseIngredient(XmlReader.Element ingredientXml) {
-        String ingredientName = ingredientXml.get("ingredient");
+        String ingredientName = ingredientXml.getText();
         return Tradesong.itemPrototypes.get(ingredientName);
     }
 
