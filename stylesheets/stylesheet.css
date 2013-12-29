@@ -11,3 +11,7 @@ a {
 	color: #fff;
 	font-decoration: underline;
 }
+
+#content a {
+	color: #00ACE0
+}
