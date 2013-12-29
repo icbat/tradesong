@@ -1,6 +1,8 @@
 ---
 layout: default
-title: first!
+title: First!
 ---
 
-Some text. Please ignore.
+Here I am launching my devblog for Tradesong!
+
+Needed a place to put a download link (when it's ready) and a place to collect progress notes. This  is that place.

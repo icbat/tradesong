@@ -6,7 +6,7 @@ body {
 header, footer	{
 	color: #fff;
 	background: #333;
-	padding: 10px;
+	padding: 20px;
 }
 a {
 	color: #fff;
@@ -14,7 +14,7 @@ a {
 }
 
 #content {
-	padding: 10px;
+	padding: 20px;
 }
 
 #content a {
