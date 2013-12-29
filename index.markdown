@@ -1,6 +1,5 @@
 ---
 layout: default
-title: Home
 ---
 My apologies for this placeholder site. Still getting things up and pretty!
 ## Devlog
