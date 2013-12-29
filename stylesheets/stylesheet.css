@@ -1,12 +1,11 @@
 body {
 	margin:0;
-	padding:0;
+	padding: 10px;
 }
 
 header, footer	{
 	color: #fff;
 	background: #333;
-	padding:10px;
 }
 a {
 	color: #fff;
