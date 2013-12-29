@@ -1,7 +1,6 @@
-package com.icbat.game.tradesong;
+package gameObjects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -50,5 +49,25 @@ public class Item extends Image implements Comparable {
     @Override
     public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (!description.equals(item.description)) return false;
+        if (!name.equals(item.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + description.hashCode();
+        return result;
     }
 }

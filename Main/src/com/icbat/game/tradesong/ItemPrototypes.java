@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import gameObjects.Item;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Set of all spawnable/existing items for quick reference. Get returns a copy of the Item called.
@@ -29,6 +31,7 @@ public class ItemPrototypes {
             e.printStackTrace();
             return;
         }
+
         Array<XmlReader.Element> items = parentElement.getChildrenByName("item");
 
         for (XmlReader.Element item : items) {
@@ -62,5 +65,12 @@ public class ItemPrototypes {
             }
         }
         return null;
+    }
+
+    /**
+     * Mainly used for testing, this returns the whole list of known item prototypes
+     * */
+    public HashSet<Item> getAll() {
+        return prototypes;
     }
 }

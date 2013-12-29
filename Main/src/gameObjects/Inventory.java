@@ -1,4 +1,7 @@
-package com.icbat.game.tradesong;
+package gameObjects;
+
+import com.icbat.game.tradesong.PersistantData;
+import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +16,9 @@ public class Inventory extends PersistantData {
 
     public Inventory() {
         // TODO remove this, it's for testing!
-        addItem(Tradesong.itemPrototypes.get("Ore"));
-        addItem(Tradesong.itemPrototypes.get("Wood"));
-        addItem(Tradesong.itemPrototypes.get("Blackberry"));
-
-        addItem(10, Tradesong.itemPrototypes.get("Ore"));
+        for (Item item : Tradesong.itemPrototypes.getAll()) {
+            addItem(item);
+        }
     }
 
     public boolean addItem(Item newItem) {
@@ -53,12 +54,10 @@ public class Inventory extends PersistantData {
         return items.size() + 1 < maxSize;
     }
 
-    @Override
     public void save() {
         // TODO impl
     }
 
-    @Override
     public void load() {
         // TODO impl
     }

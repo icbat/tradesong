@@ -1,13 +1,21 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.Item;
+import gameObjects.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.utils.SpacedTable;
+import gameObjects.Workshop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +26,8 @@ public class CraftingStage extends InventoryStage {
     // These two are here to let the Drag and Drop listeners know how to deal with them
     protected int craftingTableCapacity = 3;
     protected List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
+    protected Workshop currentWorkshop = Tradesong.workshopListing.getWorkshop("Blacksmith");
+    private Label workshopNameLabel;
 
     @Override
     public void layout() {
@@ -29,20 +39,80 @@ public class CraftingStage extends InventoryStage {
         holdingTable.spacedRows(3);
         holdingTable.add(makeCraftingTable());
         holdingTable.spacedRows(3);
+        holdingTable.add(makeCraftButton());
+        holdingTable.spacedRows(3);
+        holdingTable.add(makeWorkshopNameDisplay());
+        holdingTable.spacedRows(3);
         holdingTable.add(makeItemInfoTable());
         this.addActor(holdingTable);
+    }
+
+    private Actor makeCraftButton() {
+        TextButton craftButton = new TextButton("Craft!", Tradesong.uiStyles.getTextButtonStyle());
+        craftButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Trying to craft with", craftingTableContents.toString());
+                Item output = currentWorkshop.getOutput(craftingTableContents);
+                if (output != null) {
+                    // TODO lock, timer
+                    Gdx.app.log("crafted", output.getName());
+                    craftingTableContents.clear();
+                    Tradesong.inventory.addItem(output);
+                    layout();
+
+                }
+            }
+        });
+        return craftButton;
+    }
+
+    private Actor makeWorkshopNameDisplay() {
+        workshopNameLabel = new Label("", Tradesong.uiStyles.getLabelStyle());
+        updateWorkshopName();
+        return workshopNameLabel;
+    }
+
+    private void updateWorkshopName() {
+        workshopNameLabel.setText(currentWorkshop.getName());
     }
 
     private SpacedTable makeWorkshopSwitchingTable() {
         SpacedTable workshopSwitcher = new SpacedTable();
 
-        Image blacksmith = new Image(Tradesong.getTexture(TextureAssets.ICON_HAMMER));
-        Image tinker = new Image(Tradesong.getTexture(TextureAssets.ICON_WRENCH));
+        Texture iconSheet = Tradesong.getTexture(TextureAssets.ITEMS);
+        final int ICON_DIMENSIONS = 32;
+
+        // TODO clean up this ish
+        Image blacksmith = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 3 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
+        Image tinker = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 4 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
+
+        blacksmith.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setWorkshop("Blacksmith");
+            }
+        });
+
+        tinker.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setWorkshop("Tinker");
+            }
+        });
 
         workshopSwitcher.spacedAdd(blacksmith);
         workshopSwitcher.spacedAdd(tinker);
 
         return workshopSwitcher;
+    }
+
+    private void setWorkshop(String workshopName) {
+        currentWorkshop = Tradesong.workshopListing.getWorkshop(workshopName);
+        updateWorkshopName();
+        Gdx.app.debug(currentWorkshop.getName() + " recipes", currentWorkshop.getRecipes().toString());
     }
 
     private SpacedTable makeCraftingTable() {
@@ -56,14 +126,8 @@ public class CraftingStage extends InventoryStage {
             }
 
         }
-        craftingTable.spacedAdd(makeArrow());
-        craftingTable.spacedAdd(makeCraftingFrame(false));
 
         return craftingTable;
-    }
-
-    private Image makeArrow() {
-        return new Image(Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW));
     }
 
     protected Image makeCraftingFrame(boolean isDropTarget) {

@@ -6,8 +6,8 @@ package com.icbat.game.tradesong;
 public abstract class PersistantData {
     // TODO implement
 
-    abstract void save();
-    abstract void load();
+    public abstract void save();
+    public abstract void load();
 
 
 
