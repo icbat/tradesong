@@ -33,4 +33,13 @@ public class Recipe {
     public Item getOutput() {
         return output;
     }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "craftTime=" + craftTime +
+                ", ingredients=" + ingredients +
+                ", output=" + output +
+                '}';
+    }
 }

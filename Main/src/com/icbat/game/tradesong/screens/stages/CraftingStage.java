@@ -1,11 +1,13 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import gameObjects.Item;
@@ -37,10 +39,32 @@ public class CraftingStage extends InventoryStage {
         holdingTable.spacedRows(3);
         holdingTable.add(makeCraftingTable());
         holdingTable.spacedRows(3);
+        holdingTable.add(makeCraftButton());
+        holdingTable.spacedRows(3);
         holdingTable.add(makeWorkshopNameDisplay());
         holdingTable.spacedRows(3);
         holdingTable.add(makeItemInfoTable());
         this.addActor(holdingTable);
+    }
+
+    private Actor makeCraftButton() {
+        TextButton craftButton = new TextButton("Craft!", Tradesong.uiStyles.getTextButtonStyle());
+        craftButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Trying to craft with", craftingTableContents.toString());
+                Item output = currentWorkshop.getOutput(craftingTableContents);
+                if (output != null) {
+                    // TODO lock, timer
+                    Gdx.app.log("crafted", output.getName());
+                    craftingTableContents.clear();
+                    Tradesong.inventory.addItem(output);
+                    layout();
+
+                }
+            }
+        });
+        return craftButton;
     }
 
     private Actor makeWorkshopNameDisplay() {
@@ -88,6 +112,7 @@ public class CraftingStage extends InventoryStage {
     private void setWorkshop(String workshopName) {
         currentWorkshop = Tradesong.workshopListing.getWorkshop(workshopName);
         updateWorkshopName();
+        Gdx.app.debug(currentWorkshop.getName() + " recipes", currentWorkshop.getRecipes().toString());
     }
 
     private SpacedTable makeCraftingTable() {
@@ -101,14 +126,8 @@ public class CraftingStage extends InventoryStage {
             }
 
         }
-        craftingTable.spacedAdd(makeArrow());
-        craftingTable.spacedAdd(makeCraftingFrame(false));
 
         return craftingTable;
-    }
-
-    private Image makeArrow() {
-        return new Image(Tradesong.getTexture(TextureAssets.WORKSHOP_ARROW));
     }
 
     protected Image makeCraftingFrame(boolean isDropTarget) {

@@ -18,10 +18,10 @@ public class Workshop {
         return name;
     }
 
-    public Recipe getOutput(List<Item> itemsInput) {
+    public Item getOutput(List<Item> itemsInput) {
         for (Recipe recipe : recipesAssociated) {
             if (recipe.inputCanCraftThis(itemsInput)) {
-                return recipe;
+                return recipe.getOutput();
             }
         }
 
@@ -34,5 +34,9 @@ public class Workshop {
                 "recipesAssociated=" + recipesAssociated.size() +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipesAssociated;
     }
 }
