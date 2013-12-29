@@ -1,15 +1,20 @@
 body {
 	margin:0;
-	padding: 10px;
+	padding: 0;
 }
 
 header, footer	{
 	color: #fff;
 	background: #333;
+	padding: 10px;
 }
 a {
 	color: #fff;
 	font-decoration: underline;
+}
+
+#content {
+	padding: 10px;
 }
 
 #content a {
