@@ -1,0 +1,39 @@
+/* General elements */
+* {
+  background-color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #ff0000;
+}
+a:hover	{
+  text-decoration: underline;
+}
+
+div {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+/* Spacing */
+
+h1, h2, h3, .navigation {
+  margin-top: 15px;
+}
+
+/* Nav */
+.nav-list ul, li{
+  display: inline;
+  list-style: none;
+}
+
+.nav-list a, a:hover {
+  color: #ff0000;
+  font-size: 1.5em;
+  text-decoration: none;
+}

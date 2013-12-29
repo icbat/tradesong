@@ -2,3 +2,7 @@ header, footer	{
 	color: #fff;
 	background: #333;
 }
+a {
+	color: #fff;
+	font-decoration: underline;
+}
