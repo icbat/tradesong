@@ -1,43 +1,30 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset='utf-8' />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+		<meta name="description" content="Tradesong : A game about life (and money)." />
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Tradesong : A game about life (and money)." />
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+		<title>Tradesong</title>
+	</head>
 
-    <title>Tradesong</title>
-  </head>
+	<body>
+		<header>
+			<h1 id="project_title">Tradesong</h1>
+			<h2 id="project_tagline">A game about life (and money).</h2>
+		</header>
 
-  <body>
+		<div>
+			<h2>Devlog</h2>
+			{% for post in site.posts %}
+			Here's a post.
+			{% endfor %}
+		</div>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-
-          <h1 id="project_title">Tradesong</h1>
-          <h2 id="project_tagline">A game about life (and money).</h2>
-        </header>
-    </div>
-	
-	<div>
-	<h2>Devlog</h2>
-	{% for post in site.posts %}
-	Here's a post.
-	{% endfor %}
-	</div>
-
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Tradesong maintained by <a href="https://github.com/icbat">icbat</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+		<footer>
+			<p>Tradesong maintained by <a href="https://github.com/icbat">icbat</a></p>
+		</footer>
+	</body>
 </html>
