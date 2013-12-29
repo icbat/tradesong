@@ -21,12 +21,22 @@ public class MapStage extends BaseStage {
     private Sound gatherSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
     private Sound completionSound = Tradesong.getSound(SoundAssets.SUCCESS);
     private Timer gatherTimer = new Timer();
+    private Timer spawnTimer = new Timer();
+    private int maxItemsOnMap = 0;
 
     public MapStage(MapProperties mapProperties) {
         setupAreas(mapProperties);
         getPrototypeNames(mapProperties);
+        getMaxItems(mapProperties);
         spawnInitialItems(mapProperties);
         timers.add(gatherTimer);
+    }
+
+    private void getMaxItems(MapProperties mapProperties) {
+        String maxSpawnsBlob = (String) mapProperties.get("maxSpawnCapacity");
+        if (maxSpawnsBlob != null) {
+            maxItemsOnMap = Integer.parseInt(maxSpawnsBlob);
+        }
     }
 
     private void setupAreas(MapProperties mapProperties) {
@@ -57,14 +67,24 @@ public class MapStage extends BaseStage {
         String initialNodesString = (String) mapProperties.get("initialSpawnCount");
         Integer initialNodes = (initialNodesString == null) ? 0 : Integer.parseInt(initialNodesString);
         if ((!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty())) {
-            List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);
-            List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);
+            List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);        // TODO clean up this whole method, it's gross.
+            List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);        // consider using the stage or a group's random actor fn
 
             for (int i=0; i< initialNodes; ++i) {
                 if (spawnRandomItem(spawnableItems, areas)) return;
             }
+
+            this.spawnTimer.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    if (getActors().size < maxItemsOnMap) {
+                        spawnRandomItem(new ArrayList<String>(spawnableItemNames), new ArrayList<ValidSpawnArea>(spawnAreas));
+                    }
+
+                }
+            },3,3);
         }
-        // TODO setup timer to spawn more
+
 
     }
 
