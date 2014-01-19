@@ -9,6 +9,8 @@ This was a school project until the end of summer 2013.
 
 For reasons, the libs folders and assets folder are not included in this repository. For the assets, please contact the author via github.
 
+The project setup is also not committed.
+
 For what goes in the libs folders, please see [this guide](http://code.google.com/p/libgdx/wiki/IntelliJIDEALibgdx)
 
 ## Licensing
