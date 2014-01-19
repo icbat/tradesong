@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.utils;
+package com.icbat.game.tradesong.observation;
 
 import java.util.LinkedHashSet;
 
@@ -28,7 +28,7 @@ public interface Watchable {
     /**
      * For each watcher, notify it.
      * */
-    public void notifyWatchers(Watchable throwingObservable, Object payload);
+    public void notifyWatchers(Notification payload);
 
     /**
      * @return the number of observers.

@@ -2,8 +2,9 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.utils.Watchable;
-import com.icbat.game.tradesong.utils.Watcher;
+import com.icbat.game.tradesong.observation.Notification;
+import com.icbat.game.tradesong.observation.Watchable;
+import com.icbat.game.tradesong.observation.Watcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,9 @@ public abstract class BaseStage extends Stage implements Watchable {
     }
 
     @Override
-    public void notifyWatchers(Watchable throwingObservable, Object payload) {
+    public void notifyWatchers(Notification payload) {
         for (Watcher o : watchers) {
-            o.handleNotification((Watcher) this, payload);
+            o.handleNotification(this, payload);
         }
     }
 
