@@ -35,8 +35,6 @@ public class CraftingStage extends InventoryStage {
         SpacedTable holdingTable = makeHoldingTable();
         holdingTable.add(makeInventoryTable());
         holdingTable.spacedRows(3);
-        holdingTable.add(makeWorkshopSwitchingTable());
-        holdingTable.spacedRows(3);
         holdingTable.add(makeCraftingTable());
         holdingTable.spacedRows(3);
         holdingTable.add(makeCraftButton());
@@ -75,44 +73,6 @@ public class CraftingStage extends InventoryStage {
 
     private void updateWorkshopName() {
         workshopNameLabel.setText(currentWorkshop.getName());
-    }
-
-    private SpacedTable makeWorkshopSwitchingTable() {
-        SpacedTable workshopSwitcher = new SpacedTable();
-
-        Texture iconSheet = Tradesong.getTexture(TextureAssets.ITEMS);
-        final int ICON_DIMENSIONS = 32;
-
-        // TODO clean up this ish
-        Image blacksmith = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 3 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
-        Image tinker = new Image(new TextureRegion(iconSheet, 14 * ICON_DIMENSIONS, 4 * ICON_DIMENSIONS,ICON_DIMENSIONS,ICON_DIMENSIONS));
-
-        blacksmith.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                setWorkshop("Blacksmith");
-            }
-        });
-
-        tinker.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                setWorkshop("Tinker");
-            }
-        });
-
-        workshopSwitcher.spacedAdd(blacksmith);
-        workshopSwitcher.spacedAdd(tinker);
-
-        return workshopSwitcher;
-    }
-
-    private void setWorkshop(String workshopName) {
-        currentWorkshop = Tradesong.workshopListing.getWorkshop(workshopName);
-        updateWorkshopName();
-        Gdx.app.debug(currentWorkshop.getName() + " recipes", currentWorkshop.getRecipes().toString());
     }
 
     private SpacedTable makeCraftingTable() {
@@ -155,7 +115,7 @@ public class CraftingStage extends InventoryStage {
             Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
             Tradesong.inventory.addItem(removed);
 
-            super.drop(source, payload, x, y, pointer);    //To change body of overridden methods use File | Settings | File Templates.
+            super.drop(source, payload, x, y, pointer);
         }
     }
 

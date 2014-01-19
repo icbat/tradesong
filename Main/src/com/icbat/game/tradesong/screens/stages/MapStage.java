@@ -2,34 +2,34 @@ package com.icbat.game.tradesong.screens.stages;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-import gameObjects.Item;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.assetReferences.SoundAssets;
+import com.icbat.game.tradesong.observation.notifications.GatherNotification;
+import com.icbat.game.tradesong.observation.notifications.StopNotification;
+import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
+import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
+import gameObjects.Item;
 
 import java.util.*;
 
 public class MapStage extends BaseStage {
     private HashSet<String> spawnableItemNames = new HashSet<String>();
     private HashSet<ValidSpawnArea> spawnAreas = new HashSet<ValidSpawnArea>();
-    private Sound gatherSound = Tradesong.getSound(SoundAssets.GATHER_CLINK);
-    private Sound completionSound = Tradesong.getSound(SoundAssets.SUCCESS);
-    private Timer gatherTimer = new Timer();
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
 
     public MapStage(MapProperties mapProperties) {
+        addWatcher(new GatheringWatcher());
+
         setupAreas(mapProperties);
         getPrototypeNames(mapProperties);
         getMaxItems(mapProperties);
         spawnInitialItems(mapProperties);
-        timers.add(gatherTimer);
     }
 
     private void getMaxItems(MapProperties mapProperties) {
@@ -63,14 +63,14 @@ public class MapStage extends BaseStage {
 
     }
 
-    private void spawnInitialItems (MapProperties mapProperties) {
+    private void spawnInitialItems(MapProperties mapProperties) {
         String initialNodesString = (String) mapProperties.get("initialSpawnCount");
         Integer initialNodes = (initialNodesString == null) ? 0 : Integer.parseInt(initialNodesString);
         if ((!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty())) {
             List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);        // TODO clean up this whole method, it's gross.
             List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);        // consider using the stage or a group's random actor fn
 
-            for (int i=0; i< initialNodes; ++i) {
+            for (int i = 0; i < initialNodes; ++i) {
                 if (spawnRandomItem(spawnableItems, areas)) return;
             }
 
@@ -82,7 +82,7 @@ public class MapStage extends BaseStage {
                     }
 
                 }
-            },3,3);
+            }, 3, 3);
         }
 
 
@@ -112,23 +112,21 @@ public class MapStage extends BaseStage {
     }
 
 
-    public void setDragListener (Camera camera) {
+    public void setDragListener(Camera camera) {
         Gdx.app.debug("", "Setting a drag listener");
         this.addListener(new DragMoveListener(camera));
     }
 
     @Override
     public void hide() {
-        gatherSound.stop();
-        gatherTimer.stop();
-        gatherTimer.clear();
         spawnTimer.stop();
         spawnTimer.clear();
+        notifyWatchers(new StopNotification());
     }
 
     /**
      * Rectangular area in which items can spawn. Provides clean way to spawn an item in inside the area.
-     * */
+     */
     class ValidSpawnArea {
         Integer startX;
         Integer startY;
@@ -138,7 +136,7 @@ public class MapStage extends BaseStage {
 
         /**
          * Expects exactly 4 elements. Will fail with errors if passed less than 4.
-         * */
+         */
         public ValidSpawnArea(String[] coords, MapProperties properties) {
             this.startX = Integer.parseInt(coords[0]);
             this.startY = Integer.parseInt(coords[1]);
@@ -157,7 +155,9 @@ public class MapStage extends BaseStage {
         }
     }
 
-    /** Class to handle touching/clicking of items on levels. */
+    /**
+     * Class to handle touching/clicking of items on levels.
+     */
     class GatherClickListener extends ClickListener {
         Item owner;
 
@@ -167,22 +167,7 @@ public class MapStage extends BaseStage {
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            if (Tradesong.inventory.canAdd()) {
-                gatherSound.stop();
-                completionSound.stop();
-
-                gatherSound.play();
-                gatherTimer.clear();
-                gatherTimer.scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        gatherSound.stop();
-                        completionSound.play();
-                        Tradesong.inventory.addItem(new Item(owner));
-                        owner.remove();
-                    }
-                }, 2.5f); // TODO change to variable for decrement.
-            }
+            notifyWatchers(new GatherNotification(owner));
         }
 
     }
