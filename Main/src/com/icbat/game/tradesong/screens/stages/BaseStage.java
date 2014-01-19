@@ -15,7 +15,10 @@ import java.util.List;
 public abstract class BaseStage extends Stage implements Watchable {
     List<Timer> timers = new ArrayList<Timer>();
 
-    public void layout() {}
+
+    public void layout() {
+        clearWatchers();
+    }
     public void onRender() {}
     public void hide() {
         for (Timer timer : timers) {
@@ -49,5 +52,12 @@ public abstract class BaseStage extends Stage implements Watchable {
     @Override
     public int countWatchers() {
         return watchers.size();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        clearWatchers();
+        timers.clear();
     }
 }

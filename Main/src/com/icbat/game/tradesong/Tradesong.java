@@ -21,6 +21,7 @@ import gameObjects.Inventory;
  * - sets up the game initially
  * - tracks/exposes game variables
  * - loads common/global assets
+ * - Violates all sorts of principles like doing one thing.
  */
 public class Tradesong extends Game {
 

@@ -24,12 +24,17 @@ public class MapStage extends BaseStage {
     private int maxItemsOnMap = 0;
 
     public MapStage(MapProperties mapProperties) {
-        addWatcher(new GatheringWatcher());
-
         setupAreas(mapProperties);
         getPrototypeNames(mapProperties);
         getMaxItems(mapProperties);
         spawnInitialItems(mapProperties);
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
+        addWatcher(new GatheringWatcher());
+        Gdx.app.debug("MAP watcher count", countWatchers() + "");
     }
 
     private void getMaxItems(MapProperties mapProperties) {
