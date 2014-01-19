@@ -14,9 +14,9 @@ public class ScreenSwapWatcher implements Watcher {
     private Sound swapSound = Tradesong.getSound(SoundAssets.SCREEN_SWAP);
 
     @Override
-    public void handleNotification(Object sender, Notification notification) {
+    public void handleNotification(Notification notification) {
         Gdx.app.debug("Screen Swap Watcher", "Checking if I care");
-        if (!verifyICare(sender, notification)) {
+        if (!verifyICare(notification)) {
             return;
         }
 
@@ -26,12 +26,7 @@ public class ScreenSwapWatcher implements Watcher {
         swapSound.play();
     }
 
-    @Override
-    public boolean verifyICare(Object sender, Notification notification) {
-        if (sender ==  null || notification == null) {
-            return false;
-        }
-
-        return notification instanceof ScreenSwapNotification;
+    private boolean verifyICare(Notification notification) {
+        return notification != null && notification instanceof ScreenSwapNotification;
     }
 }

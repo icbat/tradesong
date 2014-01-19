@@ -33,8 +33,8 @@ public class MapStage extends BaseStage {
     @Override
     public void layout() {
         super.layout();
-        addWatcher(new GatheringWatcher());
-        Gdx.app.debug("MAP watcher count", countWatchers() + "");
+        notificationCenter.addWatcher(new GatheringWatcher());
+        Gdx.app.debug("MAP watcher count", notificationCenter.countWatchers() + "");
     }
 
     private void getMaxItems(MapProperties mapProperties) {
@@ -126,7 +126,7 @@ public class MapStage extends BaseStage {
     public void hide() {
         spawnTimer.stop();
         spawnTimer.clear();
-        notifyWatchers(new StopNotification());
+        notificationCenter.notifyWatchers(new StopNotification());
     }
 
     /**
@@ -172,7 +172,7 @@ public class MapStage extends BaseStage {
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            notifyWatchers(new GatherNotification(owner));
+            notificationCenter.notifyWatchers(new GatherNotification(owner));
         }
 
     }

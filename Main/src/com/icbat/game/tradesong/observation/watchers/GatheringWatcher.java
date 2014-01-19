@@ -21,8 +21,8 @@ public class GatheringWatcher implements Watcher {
     private Timer gatherTimer = new Timer();
 
     @Override
-    public void handleNotification(Object sender, Notification notification) {
-        if (!verifyICare(sender, notification)) {
+    public void handleNotification(Notification notification) {
+        if (!verifyICare(notification)) {
              return;
         }
 
@@ -39,9 +39,8 @@ public class GatheringWatcher implements Watcher {
 
     }
 
-    @Override
-    public boolean verifyICare(Object sender, Notification notification) {
-        if (notification == null || sender == null || notification.getAction() == null) {
+    private boolean verifyICare(Notification notification) {
+        if (notification == null || notification.getAction() == null) {
             return false;
         }
 

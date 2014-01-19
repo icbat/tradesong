@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Constants;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.ScreenSwapNotification;
 import com.icbat.game.tradesong.observation.watchers.ScreenSwapWatcher;
 import com.icbat.game.tradesong.screens.CraftingScreen;
@@ -30,15 +31,10 @@ public class HUD extends BaseStage {
 
     private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
-    /** Set from the Constants, written this way for convenience. */
-    private int spriteSize = Constants.SPRITE_DIMENSION.value();
+    private static final int SPRITE_SIZE = Constants.SPRITE_DIMENSION.value();
 
     @Override
     public void layout() {
-        super.layout();
-        addWatcher(new ScreenSwapWatcher());
-        Gdx.app.debug("HUD watcher count", countWatchers() + "");
-
         this.clear();
         Group holder = new Group();
         Table tableLayout = new Table();
@@ -72,14 +68,12 @@ public class HUD extends BaseStage {
     }
 
     private Image inventoryButton() {
-        spriteSize = Constants.SPRITE_DIMENSION.value();
-        TextureRegion region = new TextureRegion(items, 2 * spriteSize, 30 * spriteSize, spriteSize, spriteSize);
+        TextureRegion region = new TextureRegion(items, 2 * SPRITE_SIZE, 30 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image inventoryButton = new Image(region);
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                notifyWatchers(new ScreenSwapNotification());
                 Tradesong.screenManager.goToScreen(new InventoryScreen());
             }
         });
@@ -88,13 +82,12 @@ public class HUD extends BaseStage {
 
 
     private Image menuButton() {
-        TextureRegion region = new TextureRegion(items, 0, 29 * spriteSize, spriteSize, spriteSize);
+        TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image menuButton = new Image(region);
         menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                notifyWatchers(new ScreenSwapNotification());
                 Tradesong.screenManager.goToScreen(new OptionsMenuScreen());
             }
         });
@@ -102,13 +95,12 @@ public class HUD extends BaseStage {
     }
 
     private Actor craftingButton() {
-        TextureRegion region = new TextureRegion(items, 3 * spriteSize, 9 * spriteSize, spriteSize, spriteSize);
+        TextureRegion region = new TextureRegion(items, 3 * SPRITE_SIZE, 9 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image craftingButton = new Image(region);
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                notifyWatchers(new ScreenSwapNotification());
                 Tradesong.screenManager.goToScreen(new CraftingScreen());
             }
         });
