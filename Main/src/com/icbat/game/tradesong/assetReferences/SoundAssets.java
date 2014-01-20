@@ -2,7 +2,8 @@ package com.icbat.game.tradesong.assetReferences;
 
 public enum SoundAssets {
     GATHER_CLINK("hammering"),
-    SUCCESS("success"),;
+    SUCCESS("success"),
+    SCREEN_SWAP("swapping"),;
 
     private String path;
 

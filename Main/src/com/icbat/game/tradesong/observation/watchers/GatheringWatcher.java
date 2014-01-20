@@ -21,27 +21,22 @@ public class GatheringWatcher implements Watcher {
     private Timer gatherTimer = new Timer();
 
     @Override
-    public void handleNotification(Object sender, Notification notification) {
-        if (!verifyICare(sender, notification)) {
+    public void handleNotification(Notification notification) {
+        if (!verifyICare(notification)) {
              return;
         }
 
-        Gdx.app.debug("Gathering Watcher", "handling notification");
-
         if (notification instanceof GatherNotification) {
-            Gdx.app.debug("Gathering Watcher", "Gathering");
             startGathering((Item) notification.getContents());
         } else if (notification instanceof StopNotification) {
-            Gdx.app.debug("Gathering Watcher", "Stopping gathering");
             stopGathering();
         }
 
 
     }
 
-    @Override
-    public boolean verifyICare(Object sender, Notification notification) {
-        if (notification == null || sender == null || notification.getAction() == null) {
+    private boolean verifyICare(Notification notification) {
+        if (notification == null || notification.getAction() == null) {
             return false;
         }
 

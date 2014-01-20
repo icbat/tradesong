@@ -24,12 +24,16 @@ public class MapStage extends BaseStage {
     private int maxItemsOnMap = 0;
 
     public MapStage(MapProperties mapProperties) {
-        addWatcher(new GatheringWatcher());
-
         setupAreas(mapProperties);
         getPrototypeNames(mapProperties);
         getMaxItems(mapProperties);
         spawnInitialItems(mapProperties);
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
+        notificationCenter.addWatcher(new GatheringWatcher());
     }
 
     private void getMaxItems(MapProperties mapProperties) {
@@ -121,7 +125,7 @@ public class MapStage extends BaseStage {
     public void hide() {
         spawnTimer.stop();
         spawnTimer.clear();
-        notifyWatchers(new StopNotification());
+        notificationCenter.notifyWatchers(new StopNotification());
     }
 
     /**
@@ -167,7 +171,7 @@ public class MapStage extends BaseStage {
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            notifyWatchers(new GatherNotification(owner));
+            notificationCenter.notifyWatchers(new GatherNotification(owner));
         }
 
     }

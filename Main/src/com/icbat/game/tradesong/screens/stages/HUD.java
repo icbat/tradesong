@@ -12,8 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.icbat.game.tradesong.Constants;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.observation.Watcher;
+import com.icbat.game.tradesong.observation.notifications.ScreenSwapNotification;
+import com.icbat.game.tradesong.observation.watchers.ScreenSwapWatcher;
 import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.OptionsMenuScreen;
@@ -25,9 +29,9 @@ import com.icbat.game.tradesong.utils.SpacingActor;
  */
 public class HUD extends BaseStage {
 
-    public static final int SPRITE_DIMENSION = 32;
     private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
+    private static final int SPRITE_SIZE = Constants.SPRITE_DIMENSION.value();
 
     @Override
     public void layout() {
@@ -64,7 +68,7 @@ public class HUD extends BaseStage {
     }
 
     private Image inventoryButton() {
-        TextureRegion region = new TextureRegion(items, 2 * SPRITE_DIMENSION, 30 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion region = new TextureRegion(items, 2 * SPRITE_SIZE, 30 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image inventoryButton = new Image(region);
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
@@ -78,20 +82,20 @@ public class HUD extends BaseStage {
 
 
     private Image menuButton() {
-        TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image menuButton = new Image(region);
         menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                Tradesong.screenManager.goToScreen(new OptionsMenuScreen()); // curious if this is actually what I want.
+                Tradesong.screenManager.goToScreen(new OptionsMenuScreen());
             }
         });
         return menuButton;
     }
 
     private Actor craftingButton() {
-        TextureRegion region = new TextureRegion(items, 3 * SPRITE_DIMENSION, 9 * SPRITE_DIMENSION, SPRITE_DIMENSION, SPRITE_DIMENSION);
+        TextureRegion region = new TextureRegion(items, 3 * SPRITE_SIZE, 9 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
         Image craftingButton = new Image(region);
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
