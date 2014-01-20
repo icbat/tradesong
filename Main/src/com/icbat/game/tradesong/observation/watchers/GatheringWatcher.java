@@ -26,13 +26,9 @@ public class GatheringWatcher implements Watcher {
              return;
         }
 
-        Gdx.app.debug("Gathering Watcher", "handling notification");
-
         if (notification instanceof GatherNotification) {
-            Gdx.app.debug("Gathering Watcher", "Gathering");
             startGathering((Item) notification.getContents());
         } else if (notification instanceof StopNotification) {
-            Gdx.app.debug("Gathering Watcher", "Stopping gathering");
             stopGathering();
         }
 

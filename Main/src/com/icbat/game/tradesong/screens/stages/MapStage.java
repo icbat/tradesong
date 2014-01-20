@@ -34,7 +34,6 @@ public class MapStage extends BaseStage {
     public void layout() {
         super.layout();
         notificationCenter.addWatcher(new GatheringWatcher());
-        Gdx.app.debug("MAP watcher count", notificationCenter.countWatchers() + "");
     }
 
     private void getMaxItems(MapProperties mapProperties) {

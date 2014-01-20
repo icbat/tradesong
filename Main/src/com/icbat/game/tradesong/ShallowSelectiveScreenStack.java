@@ -1,8 +1,6 @@
 package com.icbat.game.tradesong;
 
-import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.NotificationManager;
-import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.ScreenSwapNotification;
 import com.icbat.game.tradesong.observation.watchers.ScreenSwapWatcher;
 import com.icbat.game.tradesong.screens.AbstractScreen;
@@ -27,7 +25,11 @@ public class ShallowSelectiveScreenStack extends NotificationManager implements 
     @Override
     public void goToScreen(AbstractScreen destination) {
         if (currentScreen == null || !currentScreen.getScreenName().equalsIgnoreCase(destination.getScreenName()))  {
-            notifyWatchers(new ScreenSwapNotification());
+
+            if (currentScreen != null && !currentScreen.getScreenName().equals("mainMenuScreen")) {
+                notifyWatchers(new ScreenSwapNotification());
+            }
+
             currentScreen = destination;
             gameInstance.setScreen(currentScreen);
             if (currentScreen.getScreenName().equalsIgnoreCase("mainMenuScreen") || currentScreen.getScreenName().equalsIgnoreCase("mapScreen")) {
@@ -48,30 +50,5 @@ public class ShallowSelectiveScreenStack extends NotificationManager implements 
     @Override
     public void goToMainMenu() {
         this.goToScreen(new MainMenuScreen());
-    }
-
-    @Override
-    public void addWatcher(Watcher o) {
-
-    }
-
-    @Override
-    public void removeWatcher(Watcher o) {
-
-    }
-
-    @Override
-    public void clearWatchers() {
-
-    }
-
-    @Override
-    public void notifyWatchers(Notification payload) {
-
-    }
-
-    @Override
-    public int countWatchers() {
-        return 0;
     }
 }
