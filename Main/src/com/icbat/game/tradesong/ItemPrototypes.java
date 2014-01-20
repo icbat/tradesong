@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import gameObjects.Item;
+import com.icbat.game.tradesong.gameObjects.Item;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Set of all spawnable/existing items for quick reference. Get returns a copy of the Item called.

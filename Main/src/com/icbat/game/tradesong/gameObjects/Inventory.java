@@ -1,4 +1,4 @@
-package gameObjects;
+package com.icbat.game.tradesong.gameObjects;
 
 import com.icbat.game.tradesong.PersistantData;
 import com.icbat.game.tradesong.Tradesong;

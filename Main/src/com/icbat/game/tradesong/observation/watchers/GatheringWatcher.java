@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.observation.watchers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Tradesong;
@@ -9,7 +8,7 @@ import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
-import gameObjects.Item;
+import com.icbat.game.tradesong.gameObjects.Item;
 
 /**
  * Responds appropriately to an item node being gathered

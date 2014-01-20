@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
-import gameObjects.Item;
-import gameObjects.Recipe;
-import gameObjects.Workshop;
+import com.icbat.game.tradesong.gameObjects.Item;
+import com.icbat.game.tradesong.gameObjects.Recipe;
+import com.icbat.game.tradesong.gameObjects.Workshop;
 
 import java.io.IOException;
 import java.util.ArrayList;
