@@ -1,4 +1,4 @@
-package gameObjects;
+package com.icbat.game.tradesong.gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;

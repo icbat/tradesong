@@ -14,7 +14,7 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
-import gameObjects.Inventory;
+import com.icbat.game.tradesong.gameObjects.Inventory;
 
 /**
  * This class:
