@@ -3,14 +3,19 @@ body {
 	padding: 0;
 }
 
+a {
+	color: #fff;
+	font-decoration: underline;
+}
+
+header a {
+	font-decoration: none;
+}
+
 header, footer	{
 	color: #fff;
 	background: #333;
 	padding: 20px;
-}
-a {
-	color: #fff;
-	font-decoration: underline;
 }
 
 #content {
