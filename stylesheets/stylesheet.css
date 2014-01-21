@@ -4,11 +4,11 @@ body {
 }
 
 a {
-	color: #fff;
+	color: #fff;	
 	font-decoration: underline;
 }
 
-header h1 a {
+h1 a {
 	font-decoration: none;
 }
 
@@ -23,5 +23,5 @@ header, footer	{
 }
 
 #content a {
-	color: #00ACE0
+	color: #00ACE0	
 }
