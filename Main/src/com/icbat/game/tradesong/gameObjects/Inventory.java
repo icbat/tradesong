@@ -11,7 +11,7 @@ import java.util.List;
  * Inventory with persistence
  */
 public class Inventory extends PersistantData {
-    private int maxSize = 30;
+    private int maxSize = 18;
     private List<Item> items = new ArrayList<Item>(maxSize);
 
     public Inventory() {
