@@ -9,8 +9,7 @@ import com.badlogic.gdx.utils.Timer;
 public class Clock {
     /** Length of a day in seconds. Currently set to 12 minutes.
      * Expecting to want to refactor this out at some point */
-//    private static final int dayLengthInMinutes = 12;
-    private static final int dayLengthInMinutes = 1;
+    private static final int dayLengthInMinutes = 12;
     public static final int SECONDS_TO_MINUTE = 60;
     /** Current time in minutes. Initialized to 0 every time you startClock */
     private int currentTime = 0;
@@ -22,10 +21,8 @@ public class Clock {
         dayTimer.scheduleTask(new countUpTask(), 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
     }
 
-    private String formatTime(int timeInMinutes) {
-        String formattedTime = (timeInMinutes + 6) + " hours";
-
-        return formattedTime;
+    public int getTime() {
+        return currentTime;
     }
 
     private class dayEndTask extends Timer.Task {
@@ -41,6 +38,7 @@ public class Clock {
         @Override
         public void run() {
             currentTime += 1;
+
         }
     }
 }
