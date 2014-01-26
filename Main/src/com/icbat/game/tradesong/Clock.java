@@ -2,11 +2,13 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.observation.NotificationManager;
+import com.icbat.game.tradesong.observation.notifications.DayEndedNotification;
 
 /**
  * @author icbat
  */
-public class Clock {
+public class Clock extends NotificationManager {
     /** Length of a day in seconds. Currently set to 12 minutes.
      * Expecting to want to refactor this out at some point */
     private static final int dayLengthInMinutes = 12;
@@ -30,6 +32,8 @@ public class Clock {
         @Override
         public void run() {
             Gdx.app.debug("clock says", "day ended!");
+            notifyWatchers(new DayEndedNotification());
+            startClock();
         }
     }
 
