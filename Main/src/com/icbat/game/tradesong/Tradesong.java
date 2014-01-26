@@ -50,7 +50,11 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
 //        screenManager.goToMainMenu();
         screenManager.goToScreen(new MapScreen("test"));
+
+
         clock = new Clock();
+        // Needs to come out when we use MainMenu again TODO
+        Tradesong.clock.startClock();
     }
 
     private void initializeAssets() {

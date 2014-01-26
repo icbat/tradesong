@@ -12,11 +12,9 @@ public class Clock {
 //    private static final int dayLengthInSeconds = 720;
     private static final int dayLengthInSeconds = 10;
     private int currentTime = 0;
-    /**
-     * Does some work. Starts the timer going.
-     * */
-    public Clock() {
-        Timer dayTimer = new Timer();
+    private final Timer dayTimer = new Timer();
+
+    public void startClock() {
         dayTimer.scheduleTask(new dayEndTask(), dayLengthInSeconds);
         dayTimer.scheduleTask(new countUpTask(), 0, 1, dayLengthInSeconds);
     }
@@ -38,7 +36,6 @@ public class Clock {
         @Override
         public void run() {
             currentTime += 1;
-            Gdx.app.debug("currentTimeIs", currentTime + "");
         }
     }
 }
