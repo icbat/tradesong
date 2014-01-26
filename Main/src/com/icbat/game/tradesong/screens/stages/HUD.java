@@ -31,6 +31,7 @@ public class HUD extends BaseStage {
 
     private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
+    private Label clock = new Label("", Tradesong.uiStyles.getLabelStyle());
     private static final int SPRITE_SIZE = Constants.SPRITE_DIMENSION.value();
 
     @Override
@@ -44,6 +45,8 @@ public class HUD extends BaseStage {
         tableLayout.add(capacityCounter);
         tableLayout.add(new SpacingActor());
         tableLayout.add(craftingButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(clock);
 
         setupHolderAndTable(holder, tableLayout);
 
@@ -55,6 +58,7 @@ public class HUD extends BaseStage {
     @Override
     public void onRender() {
         setCapacityCounter();
+        setClock();
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
@@ -117,6 +121,13 @@ public class HUD extends BaseStage {
             capacityCounter.setColor(Color.GREEN);
         }
         capacityCounter.setText(String.valueOf(slotsFree));
+    }
+
+    void setClock() {
+        int timeInMinutes = Tradesong.clock.getTime();
+        timeInMinutes += 6;
+        String formattedTime = timeInMinutes + " hours";
+        clock.setText(formattedTime);
     }
 
 

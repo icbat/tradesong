@@ -31,6 +31,7 @@ public class Tradesong extends Game {
     public static ItemPrototypes itemPrototypes;
     public static Inventory inventory;
     public static WorkshopListing workshopListing;
+    public static Clock clock;
 
     private static Music currentTrack;
 
@@ -49,6 +50,11 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
 //        screenManager.goToMainMenu();
         screenManager.goToScreen(new MapScreen("test"));
+
+
+        clock = new Clock();
+        // Needs to come out when we use MainMenu again TODO
+        Tradesong.clock.startClock();
     }
 
     private void initializeAssets() {
