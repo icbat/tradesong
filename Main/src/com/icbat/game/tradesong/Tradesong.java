@@ -12,9 +12,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.Contract;
+import com.icbat.game.tradesong.gameObjects.Rarity;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class:
@@ -31,6 +36,7 @@ public class Tradesong extends Game {
     public static ItemPrototypes itemPrototypes;
     public static Inventory inventory;
     public static WorkshopListing workshopListing;
+    public static ContractGenerator contractGenerator;
     public static Clock clock;
 
     private static Music currentTrack;
@@ -42,19 +48,36 @@ public class Tradesong extends Game {
         initializeAssets();
 
         itemPrototypes = new ItemPrototypes();
+        contractGenerator = new ContractGenerator(itemPrototypes.getAll());
         workshopListing = new WorkshopListing();
         inventory = new Inventory();
+        clock = new Clock();
+
+        clock.startClock(); // TODO remove, for testing
 
         uiStyles = new UIStyles();
+
+        debugOutput();
 
         screenManager = new ShallowSelectiveScreenStack(this);
 //        screenManager.goToMainMenu();
         screenManager.goToScreen(new MapScreen("test"));
+    }
 
+    private void debugOutput() {
+        List<Contract> contracts = new ArrayList<Contract>();
+        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
+        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
 
-        clock = new Clock();
-        // Needs to come out when we use MainMenu again TODO
-        Tradesong.clock.startClock();
+        for (Contract contract : contracts) {
+            Gdx.app.debug("Contracts", contract.toString());
+        }
     }
 
     private void initializeAssets() {
