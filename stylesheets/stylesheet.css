@@ -13,9 +13,10 @@ a:hover{
 }
 
 header, footer {
-	padding-left: 20px;
-	padding-right:20px;
+	padding: 20px;
+	padding-bottom:0;
 	color: #fff;
+	font-family: sans-serif;
 }
 
 header a {
@@ -33,7 +34,7 @@ header a {
 
 .navHeader {
 	padding: 0;
-	padding-right: 10px;
+	
 }
 
 .navHeader ul {
@@ -44,5 +45,5 @@ header a {
 	color: #999;
 	display: inline;
 	font-size: 1.2em;
-	font-family: sans-serif;
+	padding-right: 10px;
 }
