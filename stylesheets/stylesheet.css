@@ -5,7 +5,7 @@ body {
 }
 
 a {
-	color: #00ACE0;
+	font-weight: bold;
 	text-decoration: none;
 }
 
@@ -18,6 +18,10 @@ header, footer {
 	padding: 20px;
 	padding-bottom:0;
 	color: #fff;	
+}
+
+footer a {
+	color: #00ACE0;
 }
 
 header {
@@ -51,8 +55,7 @@ ul {
 }
 
 .navHeader {
-	padding: 0;
-	
+	padding: 0;	
 }
 
 .navHeader ul {
@@ -64,4 +67,8 @@ ul {
 	display: inline;
 	font-size: 1.2em;
 	padding-right: 10px;
+}
+
+.navHeader li  a {
+	color: #fff;
 }
