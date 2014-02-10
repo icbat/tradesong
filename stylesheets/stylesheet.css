@@ -59,7 +59,7 @@ ul {
 }
 
 .content a:visited {
-	color: #ccc;
+	color: #444;
 }
 
 .navHeader {
@@ -79,8 +79,4 @@ ul {
 
 .navHeader li  a {
 	color: #fff;
-}
-
-.navHeader li a:active {
-color: #e1e810;
 }
