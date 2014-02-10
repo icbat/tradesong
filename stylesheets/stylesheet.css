@@ -19,6 +19,10 @@ header, footer {
 	color: #fff;	
 }
 
+footer {
+	padding: 20px;
+}
+
 footer a {
 	color: #00ACE0;
 }
