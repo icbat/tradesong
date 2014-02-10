@@ -1,5 +1,6 @@
 body {
 	background: #333;
+	margin: 0;
 }
 
 a {
@@ -9,6 +10,10 @@ a {
 
 a:hover{
 	text-decoration: underline;
+}
+
+header, footer {
+	color: #fff;
 }
 
 header a {
