@@ -18,10 +18,28 @@ header, footer	{
 	padding: 20px;
 }
 
-#content {
+.content {
 	padding: 20px;
 }
 
-#content a {
+.content a {
 	color: #00ACE0	
 }
+
+.navHeader ul {
+	display: inline;
+}
+
+.navHeader li {
+	color: #444;
+}
+
+.navHeader li a {
+	color: #fff;
+}
+
+.navHeader li a :hover{
+	font-decoration: underline;
+}
+
+
