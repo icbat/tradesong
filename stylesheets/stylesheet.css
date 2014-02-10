@@ -6,6 +6,8 @@ body {
 
 img {
 	border: 1px solid #000;
+	max-width:640px;
+	max-height: 480px;
 }
 
 a {	
