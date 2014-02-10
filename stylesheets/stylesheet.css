@@ -8,7 +8,7 @@ a {
 	text-decoration: none;
 }
 
-a :hover{
+a:hover{
 	text-decoration: underline;
 }
 
@@ -16,7 +16,10 @@ header, footer	{
 	color: #fff;
 	background: #333;
 	padding: 20px;
-	padding-bottom: 5px;
+}
+
+header {
+	padding-bottom: 0;
 }
 
 .title {
@@ -29,6 +32,7 @@ header, footer	{
 
 .navHeader ul {
 	margin: 0;
+	padding: 0;
 	list-style: none;
 }
 
