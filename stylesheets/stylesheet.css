@@ -4,8 +4,7 @@ body {
 	font-family: sans-serif;
 }
 
-a {
-	font-weight: bold;
+a {	
 	text-decoration: none;
 }
 
@@ -52,6 +51,10 @@ ul {
 .content {
 	padding: 20px;
 	background: #fff;
+}
+
+.content a {
+	font-weight: bold;
 }
 
 .navHeader {
