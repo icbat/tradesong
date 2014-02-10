@@ -15,19 +15,28 @@ a:hover{
 header, footer	{
 	color: #fff;
 	background: #333;
-	padding: 20px;
 }
 
 header {
+	padding:0;
 	padding-bottom: 0;
 }
+
+footer {
+	padding: 20px;
+}
+
 
 .title {
 	color: #fff;
 }
 
+.title:hover {
+	text-decoration:none;
+}
+
 .content {
-	padding: 20px;
+	padding: 30px;
 }
 
 .navHeader ul {
@@ -41,7 +50,7 @@ header {
 	display: inline;
 	margin: 0;
 	padding-right: 20px;
-	font-size: 1.3em;
+	font-size: 1.2em;
 }
 
 .navHeader li a {
