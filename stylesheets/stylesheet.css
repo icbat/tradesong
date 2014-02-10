@@ -31,6 +31,11 @@ header a {
 	background: #fff;
 }
 
+.navHeader {
+	padding: 0;
+	padding-right: 10px;
+}
+
 .navHeader ul {
 	list-style: none;
 }
@@ -38,5 +43,6 @@ header a {
 .navHeader li {
 	color: #999;
 	display: inline;
-	font: arial 1.2em;
+	font-size: 1.2em;
+	font-family: sans-serif;
 }
