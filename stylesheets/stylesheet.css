@@ -13,6 +13,8 @@ a:hover{
 }
 
 header, footer {
+	padding-left: 20px;
+	padding-right:20px;
 	color: #fff;
 }
 
@@ -25,6 +27,7 @@ header a {
 }
 
 .content {
+	padding: 20px;
 	background: #fff;
 }
 
@@ -35,5 +38,5 @@ header a {
 .navHeader li {
 	color: #999;
 	display: inline;
-	font-size: 1.2em;
+	font: arial 1.2em;
 }
