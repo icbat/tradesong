@@ -5,11 +5,11 @@ body {
 
 a {
 	color: #00ACE0;
-	font-decoration: none;
+	text-decoration: none;
 }
 
 a :hover{
-	font-decoration: underline;
+	text-decoration: underline;
 }
 
 header, footer	{
@@ -18,18 +18,24 @@ header, footer	{
 	padding: 20px;
 }
 
+.title {
+	color: #fff;
+}
+
 .content {
 	padding: 20px;
 }
 
 .navHeader ul {
-	padding: 0;
+	margin: 0;
 	list-style: none;
 }
 
 .navHeader li {
 	color: #999;
 	display: inline;
+	padding-right: 20px;
+	font-size: 1.3em;
 }
 
 .navHeader li a {
