@@ -1,6 +1,4 @@
 body {
-	margin:0;
-	padding: 0;
 	background: #333;
 }
 
@@ -13,19 +11,7 @@ a:hover{
 	text-decoration: underline;
 }
 
-header, footer	{
-	color: #fff;
-	padding: 20px;
-	margin: 0;
-}
-
-header {
-	padding:0;
-	padding-bottom: 0;
-}
-
-
-.title {
+header a {
 	color: #fff;
 }
 
@@ -34,24 +20,15 @@ header {
 }
 
 .content {
-	padding: 30px;
 	background: #fff;
 }
 
 .navHeader ul {
-	margin: 0;
-	padding: 0;
 	list-style: none;
 }
 
 .navHeader li {
 	color: #999;
 	display: inline;
-	margin: 0;
-	padding-right: 20px;
 	font-size: 1.2em;
-}
-
-.navHeader li a {
-	color: #fff;
 }
