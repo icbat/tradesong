@@ -27,11 +27,12 @@ header, footer	{
 }
 
 .navHeader ul {
-	display: inline;
+	list-style:none;
 }
 
 .navHeader li {
 	color: #444;
+	display: inline;
 }
 
 .navHeader li a {
