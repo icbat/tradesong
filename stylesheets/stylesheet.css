@@ -15,15 +15,13 @@ a:hover{
 header, footer	{
 	color: #fff;
 	background: #333;
+	padding: 20px;
+	margin: 0;
 }
 
 header {
 	padding:0;
 	padding-bottom: 0;
-}
-
-footer {
-	padding: 20px;
 }
 
 
