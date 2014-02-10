@@ -54,7 +54,12 @@ ul {
 }
 
 .content a {
+	color: #000;
 	font-weight: bold;
+}
+
+.content a:visited {
+	color: #ccc;
 }
 
 .navHeader {
@@ -74,4 +79,8 @@ ul {
 
 .navHeader li  a {
 	color: #fff;
+}
+
+.navHeader li a:active {
+color: #e1e810;
 }
