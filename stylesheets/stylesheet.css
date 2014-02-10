@@ -4,12 +4,12 @@ body {
 }
 
 a {
-	color: #fff;	
-	font-decoration: underline;
+	color: #00ACE0;
+	font-decoration: none;
 }
 
-h1 a {
-	font-decoration: none;
+a :hover{
+	font-decoration: underline;
 }
 
 header, footer	{
@@ -22,25 +22,16 @@ header, footer	{
 	padding: 20px;
 }
 
-.content a {
-	color: #00ACE0	
-}
-
 .navHeader ul {
-	list-style:none;
+	padding: 0;
+	list-style: none;
 }
 
 .navHeader li {
-	color: #444;
+	color: #999;
 	display: inline;
 }
 
 .navHeader li a {
 	color: #fff;
 }
-
-.navHeader li a :hover{
-	font-decoration: underline;
-}
-
-
