@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Item;
+import com.icbat.game.tradesong.gameObjects.Rarity;
+import com.icbat.game.tradesong.utils.Constants;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -42,6 +44,10 @@ public class ItemPrototypes {
         String name = itemXml.get("name", "");
         String description = itemXml.get("description", "");
 
+        String rarityString = itemXml.get("rarity", "common");
+        Rarity rarity = Rarity.getRarityFromString(rarityString);
+
+
         Texture itemSprites = Tradesong.getTexture(TextureAssets.ITEMS);
         Integer spriteX = itemXml.getInt("spriteX", 0);
         Integer spriteY = itemXml.getInt("spriteY", 0);
@@ -51,8 +57,10 @@ public class ItemPrototypes {
 
         Integer basePrice = itemXml.getInt("basePrice", 0);
 
-        return new Item(name, description, icon, basePrice);
+        return new Item(name, description, rarity, icon, basePrice);
     }
+
+
 
     /**
      * Returns a copy of the item, or null if the name can't be found

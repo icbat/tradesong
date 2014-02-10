@@ -11,17 +11,19 @@ public class Item extends Image implements Comparable {
     private final String description;
     private final TextureRegion icon;
     private final Integer basePrice;
+    private final Rarity rarity;
 
-    public Item(String name, String description, TextureRegion icon, Integer basePrice) {
+    public Item(String name, String description, Rarity rarity, TextureRegion icon, Integer basePrice) {
         super(icon);
         this.name = name;
+        this.rarity = rarity;
         this.icon = icon;
         this.description = description;
         this.basePrice = basePrice;
     }
 
     public Item(Item original) {
-        this(original.getName(), original.getDescription(), original.getIcon(), original.getBasePrice());
+        this(original.getName(), original.getDescription(), original.getRarity(), original.getIcon(), original.getBasePrice());
     }
 
     public Integer getBasePrice() {
@@ -69,5 +71,9 @@ public class Item extends Image implements Comparable {
         int result = name.hashCode();
         result = 31 * result + description.hashCode();
         return result;
+    }
+
+    public Rarity getRarity() {
+        return this.rarity;
     }
 }
