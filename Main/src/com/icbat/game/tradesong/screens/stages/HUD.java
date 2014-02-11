@@ -111,7 +111,7 @@ public class HUD extends BaseStage {
     }
 
     private Actor shipmentBoxButton() {
-        Image shipmentBoxButton = new Image(TextureAssets.ITEMS.getRegion(10, 29));
+        Image shipmentBoxButton = new Image(TextureAssets.ITEMS.getRegion(10, 30));
         shipmentBoxButton.setTouchable(Touchable.enabled);
         shipmentBoxButton.addListener(new GoToScreenListener() {
             @Override
