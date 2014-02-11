@@ -26,10 +26,8 @@ import com.icbat.game.tradesong.utils.SpacingActor;
  */
 public class HUD extends BaseStage {
 
-    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label clock = new Label("", Tradesong.uiStyles.getLabelStyle());
-    private static final int SPRITE_SIZE = Constants.SPRITE_DIMENSION.value();
 
     @Override
     public void layout() {
@@ -72,7 +70,7 @@ public class HUD extends BaseStage {
         tableLayout.setColor(0.2f, 0.2f, 0.2f, 1f);
     }
 
-    private Image inventoryButton() {
+    private Actor inventoryButton() {
         Image inventoryButton = new Image(TextureAssets.ITEMS.getRegion(2, 30));
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
@@ -85,7 +83,7 @@ public class HUD extends BaseStage {
     }
 
 
-    private Image menuButton() {
+    private Actor menuButton() {
         Image menuButton = new Image(TextureAssets.ITEMS.getRegion(0, 29));
         menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
@@ -109,9 +107,15 @@ public class HUD extends BaseStage {
         return craftingButton;
     }
 
-    private Image contractsButton() {
-        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(3, 9));
-
+    private Actor contractsButton() {
+        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(11, 17));
+        contractsButton.setTouchable(Touchable.enabled);
+        contractsButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToScreen(new CraftingScreen());
+            }
+        });
         return contractsButton;
     }
 
@@ -133,6 +137,4 @@ public class HUD extends BaseStage {
         String formattedTime = timeInMinutes + " hours";
         clock.setText(formattedTime);
     }
-
-
 }
