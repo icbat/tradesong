@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.icbat.game.tradesong.screens.ContractsScreen;
 import com.icbat.game.tradesong.utils.Constants;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -51,8 +52,6 @@ public class HUD extends BaseStage {
         holder.addActor(menuButton());
         this.addActor(holder);
     }
-
-
 
     @Override
     public void onRender() {
@@ -113,7 +112,7 @@ public class HUD extends BaseStage {
         contractsButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                Tradesong.screenManager.goToScreen(new CraftingScreen());
+                Tradesong.screenManager.goToScreen(new ContractsScreen());
             }
         });
         return contractsButton;
