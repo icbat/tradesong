@@ -10,10 +10,12 @@ public class Contract {
     List<Item> requirements = new ArrayList<Item>();
     List<Item> rewards = new ArrayList<Item>();
     int rewardMoney = 0;
+    private Rarity rarity;
 
     private Contract(){}
 
-    public Contract(List<Item> requirements, List<Item> rewards, int rewardMoney) {
+    public Contract(Rarity rarity, List<Item> requirements, List<Item> rewards, int rewardMoney) {
+        this.rarity = rarity;
         this.requirements = requirements;
         this.rewards = rewards;
         this.rewardMoney = rewardMoney;
@@ -38,5 +40,13 @@ public class Contract {
                 ", rewards=" + rewards +
                 ", rewardMoney=" + rewardMoney +
                 '}';
+    }
+
+    public List<Item> getRequirements() {
+        return requirements;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
     }
 }

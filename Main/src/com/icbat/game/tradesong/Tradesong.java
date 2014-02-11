@@ -40,6 +40,7 @@ public class Tradesong extends Game {
     public static Clock clock;
 
     private static Music currentTrack;
+    public static List<Contract> contractList;
 
     @Override
     public void create() {
@@ -63,19 +64,7 @@ public class Tradesong extends Game {
     }
 
     private void debugOutput() {
-        List<Contract> contracts = new ArrayList<Contract>();
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
 
-        for (Contract contract : contracts) {
-            Gdx.app.debug("Contracts", contract.toString());
-        }
     }
 
     private void initializeAssets() {

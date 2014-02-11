@@ -21,6 +21,7 @@ public class Clock extends NotificationManager {
         currentTime = 0;
         dayTimer.scheduleTask(new dayEndTask(), dayLengthInMinutes * SECONDS_TO_MINUTE);
         dayTimer.scheduleTask(new countUpTask(), 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
+        Tradesong.contractGenerator.makeDailyContracts();
     }
 
     public int getTime() {
