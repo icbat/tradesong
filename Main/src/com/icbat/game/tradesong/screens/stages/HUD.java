@@ -43,6 +43,8 @@ public class HUD extends BaseStage {
         tableLayout.add(new SpacingActor());
         tableLayout.add(craftingButton());
         tableLayout.add(new SpacingActor());
+        tableLayout.add(contractsButton());
+        tableLayout.add(new SpacingActor(100,4));
         tableLayout.add(clock);
 
         setupHolderAndTable(holder, tableLayout);
@@ -51,6 +53,8 @@ public class HUD extends BaseStage {
         holder.addActor(menuButton());
         this.addActor(holder);
     }
+
+
 
     @Override
     public void onRender() {
@@ -69,8 +73,7 @@ public class HUD extends BaseStage {
     }
 
     private Image inventoryButton() {
-        TextureRegion region = new TextureRegion(items, 2 * SPRITE_SIZE, 30 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image inventoryButton = new Image(region);
+        Image inventoryButton = new Image(TextureAssets.ITEMS.getRegion(2, 30));
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
             @Override
@@ -83,8 +86,7 @@ public class HUD extends BaseStage {
 
 
     private Image menuButton() {
-        TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image menuButton = new Image(region);
+        Image menuButton = new Image(TextureAssets.ITEMS.getRegion(0, 29));
         menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
             @Override
@@ -96,8 +98,7 @@ public class HUD extends BaseStage {
     }
 
     private Actor craftingButton() {
-        TextureRegion region = new TextureRegion(items, 3 * SPRITE_SIZE, 9 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image craftingButton = new Image(region);
+        Image craftingButton = new Image(TextureAssets.ITEMS.getRegion(3, 9));
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
             @Override
@@ -106,6 +107,12 @@ public class HUD extends BaseStage {
             }
         });
         return craftingButton;
+    }
+
+    private Image contractsButton() {
+        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(3, 9));
+
+        return contractsButton;
     }
 
     void setCapacityCounter() {

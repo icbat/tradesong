@@ -52,11 +52,9 @@ public class Tradesong extends Game {
         workshopListing = new WorkshopListing();
         inventory = new Inventory();
         clock = new Clock();
-
-        clock.startClock(); // TODO remove, for testing
-
         uiStyles = new UIStyles();
 
+        clock.startClock(); // TODO remove, for testing. Com,es from main menu
         debugOutput();
 
         screenManager = new ShallowSelectiveScreenStack(this);
