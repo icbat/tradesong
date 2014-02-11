@@ -42,6 +42,8 @@ public class HUD extends BaseStage {
         tableLayout.add(new SpacingActor());
         tableLayout.add(craftingButton());
         tableLayout.add(new SpacingActor());
+        tableLayout.add(shipmentBoxButton());
+        tableLayout.add(new SpacingActor());
         tableLayout.add(contractsButton());
         tableLayout.add(new SpacingActor(100,4));
         tableLayout.add(clock);
@@ -94,6 +96,8 @@ public class HUD extends BaseStage {
         return menuButton;
     }
 
+
+
     private Actor craftingButton() {
         Image craftingButton = new Image(TextureAssets.ITEMS.getRegion(3, 9));
         craftingButton.setTouchable(Touchable.enabled);
@@ -104,6 +108,18 @@ public class HUD extends BaseStage {
             }
         });
         return craftingButton;
+    }
+
+    private Actor shipmentBoxButton() {
+        Image shipmentBoxButton = new Image(TextureAssets.ITEMS.getRegion(10, 29));
+        shipmentBoxButton.setTouchable(Touchable.enabled);
+        shipmentBoxButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                // TODO impl
+            }
+        });
+        return shipmentBoxButton;
     }
 
     private Actor contractsButton() {
