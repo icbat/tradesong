@@ -12,13 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.icbat.game.tradesong.screens.ContractsScreen;
+import com.icbat.game.tradesong.screens.*;
 import com.icbat.game.tradesong.utils.Constants;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.CraftingScreen;
-import com.icbat.game.tradesong.screens.InventoryScreen;
-import com.icbat.game.tradesong.screens.OptionsMenuScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 import com.icbat.game.tradesong.utils.SpacingActor;
 
@@ -116,7 +113,7 @@ public class HUD extends BaseStage {
         shipmentBoxButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                // TODO impl
+                Tradesong.screenManager.goToScreen(new ShippingScreen());
             }
         });
         return shipmentBoxButton;
