@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.icbat.game.tradesong.Tradesong;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,19 @@ public class Contract {
         return inputs.size() == requirements.size() && inputs.containsAll(requirements);
     }
 
-    public void completeContract() {
-        // TODO impl
+    /**
+     * Checks for completion, and then gives you rewards and kills it from the list..
+     * */
+    public void completeContract(List<Item> inputs) {
+        if (canComplete(inputs) && Tradesong.contractList.contains(this)) {
+            for (Item rewardItem : rewards){
+                Tradesong.inventory.addItem(rewardItem);
+            }
+
+            Tradesong.contractList.remove(this);
+
+
+        }
     }
 
     public void addOutputToInventory() {

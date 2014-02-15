@@ -22,7 +22,8 @@ public class ShippingStage extends InventoryStage {
     protected Label contractLabel = new Label("", Tradesong.uiStyles.getLabelStyle());
     private static final int SHIPMENT_BOX_CAPACITY = 6;
     private List<Item> shipmentBoxContents = new ArrayList<Item>(SHIPMENT_BOX_CAPACITY);
-    private TextButton shipButton = new TextButton("Ship it!", Tradesong.uiStyles.getDisabledButtonStyle());;
+    private TextButton shipButton = new TextButton("Ship it!", Tradesong.uiStyles.getDisabledButtonStyle());
+    private Contract contractMatched;
 
     @Override
     public void layout() {
@@ -72,7 +73,6 @@ public class ShippingStage extends InventoryStage {
     protected Image makeShipmentFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
         dragAndDrop.addTarget(new ShipmentTarget(frame, isDropTarget, this));
-
         return frame;
     }
 
@@ -86,7 +86,8 @@ public class ShippingStage extends InventoryStage {
                 for (Contract contract : Tradesong.contractList) {
                     if (contract.canComplete(shipmentBoxContents)) {
                         toggleCompleteButton(true);
-                        updateContractCheck(contract.toString());
+                        contractMatched = contract;
+                        updateContractCheck(contractMatched.toString());
                         return;
                     }
                 }
@@ -108,7 +109,7 @@ public class ShippingStage extends InventoryStage {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    // TODO complete the contract, remove it from the thing.
+                    contractMatched.completeContract();
                 }
             });
         } else {
@@ -133,5 +134,4 @@ public class ShippingStage extends InventoryStage {
             super.drop(source, payload, x, y, pointer);
         }
     }
-
 }
