@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -24,6 +25,7 @@ public class Item extends Image implements Comparable {
 
     public Item(Item original) {
         this(original.getName(), original.getDescription(), original.getRarity(), original.getIcon(), original.getBasePrice());
+        Gdx.app.debug("copy constructing", this.toString());
     }
 
     public Integer getBasePrice() {
@@ -56,12 +58,15 @@ public class Item extends Image implements Comparable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Item)) return false;
 
         Item item = (Item) o;
 
+        if (!basePrice.equals(item.basePrice)) return false;
         if (!description.equals(item.description)) return false;
+        if (!icon.equals(item.icon)) return false;
         if (!name.equals(item.name)) return false;
+        if (rarity != item.rarity) return false;
 
         return true;
     }
@@ -70,8 +75,32 @@ public class Item extends Image implements Comparable {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + description.hashCode();
+        result = 31 * result + icon.hashCode();
+        result = 31 * result + basePrice.hashCode();
+        result = 31 * result + rarity.hashCode();
         return result;
     }
+
+    //
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Item item = (Item) o;
+//
+//        if (!description.equals(item.description)) return false;
+//        if (!name.equals(item.name)) return false;
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = name.hashCode();
+//        result = 31 * result + description.hashCode();
+//        return result;
+//    }
 
     public Rarity getRarity() {
         return this.rarity;

@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -12,16 +13,17 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
+import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /***/
 public class ShippingStage extends InventoryStage {
     protected Label contractLabel = new Label("", Tradesong.uiStyles.getLabelStyle());
     private static final int SHIPMENT_BOX_CAPACITY = 6;
-    private List<Item> shipmentBoxContents = new ArrayList<Item>(SHIPMENT_BOX_CAPACITY);
+    private List<Item> shipmentBoxContents = new LinkedList<Item>();
     private TextButton shipButton = new TextButton("Ship it!", Tradesong.uiStyles.getDisabledButtonStyle());
     private Contract contractMatched;
 
@@ -60,7 +62,9 @@ public class ShippingStage extends InventoryStage {
 
         for (int i = 0; i < SHIPMENT_BOX_CAPACITY; ++i) {
             if (i < shipmentBoxContents.size()) {
-                shipmentTable.spacedStack(makeShipmentFrame(false), shipmentBoxContents.get(i));
+                Item item = shipmentBoxContents.get(i);
+                shipmentTable.spacedStack(makeShipmentFrame(false), item);
+                dragAndDrop.addSource(new ItemSource(item, this));
             } else {
                 shipmentTable.spacedAdd(makeShipmentFrame(true));
             }
@@ -124,6 +128,31 @@ public class ShippingStage extends InventoryStage {
         contractLabel.setText(whatHits);
     }
 
+    @Override
+    protected Image makeFrame(boolean isDropTarget) {
+        Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
+        dragAndDrop.addTarget(new ShippingInventoryTarget(frame, isDropTarget, this));
+        return frame;
+    }
+
+    /**
+     *  "overridden" way of interacting with the Inventory box on this screen.
+     * */
+    class ShippingInventoryTarget extends FrameTarget {
+        public ShippingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
+            super(actor, validTarget, owner);
+        }
+
+        @Override
+        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            Item item = (Item) payload.getObject();
+            shipmentBoxContents.remove(item);
+            Tradesong.inventory.addItem(item);
+
+            super.drop(source, payload, x, y, pointer);
+        }
+    }
+
     class ShipmentTarget extends FrameTarget {
         public ShipmentTarget(Actor actor, boolean validTarget, BaseStage owner) {
             super(actor, validTarget, owner);
@@ -131,9 +160,9 @@ public class ShippingStage extends InventoryStage {
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            shipmentBoxContents.remove((Item) payload.getObject());
             Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            shipmentBoxContents.add((Item) payload.getObject());
+            Item itemAdded = new Item((Item) payload.getObject());
+            shipmentBoxContents.add(itemAdded);
             super.drop(source, payload, x, y, pointer);
         }
     }

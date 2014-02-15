@@ -137,15 +137,21 @@ public class InventoryStage extends BaseStage {
         Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
 
+    /**
+     * This is for reordering inventory on that screen. Make a new one of these to transfer between lists.
+     * */
     class InventoryTarget extends FrameTarget {
         public InventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
             super(actor, validTarget, owner);
         }
 
         @Override
+        /**
+         * Yes, future-self; this _should_ remove and then re-add, because it's reordering.
+         * */
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Tradesong.inventory.addItem(removed);
+            Item item = Tradesong.inventory.takeOutItem(new Item((Item) payload.getObject()));
+            Tradesong.inventory.addItem(item);
             super.drop(source, payload, x, y, pointer);
         }
     }

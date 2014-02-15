@@ -12,6 +12,7 @@ import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
+import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.utils.SpacedTable;
 import com.icbat.game.tradesong.gameObjects.Workshop;
 
@@ -59,12 +60,10 @@ public class CraftingStage extends InventoryStage {
                 Gdx.app.log("Trying to craft with", craftingTableContents.toString());
                 Item output = currentWorkshop.getOutput(craftingTableContents);
                 if (output != null) {
-                    // TODO lock, timer
                     Gdx.app.log("crafted", output.getName());
                     craftingTableContents.clear();
                     Tradesong.inventory.addItem(output);
                     layout();
-
                 }
             }
         });
@@ -86,7 +85,9 @@ public class CraftingStage extends InventoryStage {
 
         for (int i = 0; i < craftingTableCapacity; ++i) {
             if (i < craftingTableContents.size()) {
-                craftingTable.spacedStack(makeCraftingFrame(false), craftingTableContents.get(i));
+                Item item = craftingTableContents.get(i);
+                craftingTable.spacedStack(makeCraftingFrame(false), item);
+                dragAndDrop.addSource(new ItemSource(item, this));
             } else {
                 craftingTable.spacedAdd(makeCraftingFrame(true));
             }
@@ -110,6 +111,9 @@ public class CraftingStage extends InventoryStage {
         return frame;
     }
 
+    /**
+     *  "overridden" way of interacting with the Inventory box on this screen.
+     * */
     class CraftingInventoryTarget extends FrameTarget {
         public CraftingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
             super(actor, validTarget, owner);
@@ -117,9 +121,9 @@ public class CraftingStage extends InventoryStage {
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            craftingTableContents.remove((Item) payload.getObject());
-            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Tradesong.inventory.addItem(removed);
+            Item item = (Item) payload.getObject();
+            craftingTableContents.remove(item);
+            Tradesong.inventory.addItem(item);
 
             super.drop(source, payload, x, y, pointer);
         }
@@ -132,9 +136,8 @@ public class CraftingStage extends InventoryStage {
 
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            craftingTableContents.remove((Item) payload.getObject());
             Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            craftingTableContents.add((Item) payload.getObject());
+            craftingTableContents.add(new Item((Item) payload.getObject()));
             super.drop(source, payload, x, y, pointer);
         }
     }

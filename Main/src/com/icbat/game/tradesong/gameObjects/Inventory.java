@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.PersistantData;
 import com.icbat.game.tradesong.Tradesong;
 
@@ -23,15 +24,11 @@ public class Inventory extends PersistantData {
     }
 
     public boolean addItem(Item newItem) {
-         return addItem(items.size(), newItem);
-    }
-
-    public boolean addItem(int position, Item newItem) {
         if (canAdd()) {
-            position = (position <= items.size()) ? position :  items.size();
-            items.add(position, newItem);
+            items.add(new Item(newItem));
             return true;
         } else {
+            Gdx.app.debug("couldn't add", newItem.toString());
             return false;
         }
     }
@@ -42,8 +39,9 @@ public class Inventory extends PersistantData {
      * @return the same payload you gave it.
      * */
     public Item takeOutItem(Item payload) {
-        items.remove(payload);
-
+        Gdx.app.debug("Trying to get item", payload.toString());
+        boolean removed = items.remove(payload);
+        Gdx.app.debug("success?", removed +"");
         return payload;
     }
 
