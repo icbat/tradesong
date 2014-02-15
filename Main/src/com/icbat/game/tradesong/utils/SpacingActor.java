@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class SpacingActor extends Actor{
 
     public SpacingActor() {
-        this.setWidth(4);
-        this.setHeight(4);
+        this(4, 4);
+    }
+
+    public SpacingActor(int width, int height) {
+        this.setWidth(width);
+        this.setHeight(height);
     }
 
 }

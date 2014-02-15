@@ -13,6 +13,7 @@ import java.util.List;
 public class Inventory extends PersistantData {
     private int maxSize = 18;
     private List<Item> items = new ArrayList<Item>(maxSize);
+    private Integer money = 0;
 
     public Inventory() {
         // TODO remove this, it's for testing!
@@ -77,5 +78,14 @@ public class Inventory extends PersistantData {
         Collections.sort(items);
     }
 
+    public Integer getMoney() {
+        return money;
+    }
 
+    /**
+     * I'm lazy, use this for add and subtract.
+     * */
+    public void addMoney(Integer newInput) {
+        money += newInput;
+    }
 }

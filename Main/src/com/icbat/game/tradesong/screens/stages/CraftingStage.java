@@ -43,6 +43,14 @@ public class CraftingStage extends InventoryStage {
         this.addActor(holdingTable);
     }
 
+    @Override
+    public void hide() {
+        super.hide();
+        for (Item itemOnTable : craftingTableContents) {
+            Tradesong.inventory.addItem(itemOnTable);
+        }
+    }
+
     private Actor makeCraftButton() {
         TextButton craftButton = new TextButton("Craft!", Tradesong.uiStyles.getTextButtonStyle());
         craftButton.addListener(new ClickListener() {

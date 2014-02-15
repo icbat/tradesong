@@ -2,10 +2,15 @@ package com.icbat.game.tradesong.gameObjects;
 
 /***/
 public enum Rarity {
-    COMMON,
-    UNCOMMON,
-    RARE,
-    ULTRA_RARE;
+    COMMON("Common"),
+    UNCOMMON("Uncommon"),
+    RARE("Rare"),
+    ULTRA_RARE("Ultra Rare");
+
+    String stringRepresentation;
+    Rarity(String s) {
+        stringRepresentation = s;
+    }
 
     public boolean equals(String stringInput) {
         return this.toString().equalsIgnoreCase(stringInput);
@@ -17,5 +22,10 @@ public enum Rarity {
                 return value;
         }
         return COMMON;
+    }
+
+    @Override
+    public String toString() {
+        return stringRepresentation;
     }
 }

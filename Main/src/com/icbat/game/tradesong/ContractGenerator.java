@@ -10,6 +10,7 @@ import java.util.*;
 /***/
 public class ContractGenerator {
     Map<Rarity, List<Item>> prototypes = new HashMap<Rarity, List<Item>>();
+    private final Random random = new Random();
 
     public ContractGenerator(Set<Item> allItemPrototypes) {
         for (Rarity rarity : Rarity.values()) {
@@ -24,18 +25,23 @@ public class ContractGenerator {
         }
     }
 
+    public Contract generateContract() {
+        Rarity[] rarities = Rarity.values();
+        int rarity = random.nextInt(rarities.length);
+        return generateContract(rarities[rarity]);
+    }
+
     /**
      * TODO move this to data-driven, I think... This is a lot of nasty hard-coding...
      * */
     public Contract generateContract(Rarity rarity) {
-        Random random = new Random();
-        List<Item> requirements = getRequirements(rarity, random);
-        List<Item> rewards = getRewards(rarity, random);
-        int moneyReward = getMoneyReward(rarity, random);
-        return new Contract(requirements, rewards, moneyReward);
+        List<Item> requirements = getRequirements(rarity);
+        List<Item> rewards = getRewards(rarity);
+        int moneyReward = getMoneyReward(rarity);
+        return new Contract(rarity, requirements, rewards, moneyReward);
     }
 
-    private int getMoneyReward(Rarity rarity, Random random) {
+    private int getMoneyReward(Rarity rarity) {
         int reward = random.nextInt(150) + 50;
         switch (rarity) {
             case COMMON:
@@ -51,34 +57,45 @@ public class ContractGenerator {
         }
     }
 
-    private List<Item> getRequirements(Rarity rarity, Random random) {
+    private List<Item> getRequirements(Rarity rarity) {
         int itemsToFind = 2 + random.nextInt(2);
-        return getRandomItemList(rarity, itemsToFind, random);
+        return getRandomItemList(rarity, itemsToFind);
     }
 
-    private List<Item> getRewards(Rarity rarity, Random random) {
+    private List<Item> getRewards(Rarity rarity) {
         int itemsToFind = random.nextInt(2);
         if (itemsToFind > 0) {
-            return getRandomItemList(rarity, itemsToFind, random);
+            return getRandomItemList(rarity, itemsToFind);
         } else {
             return new ArrayList<Item>();
         }
     }
 
-    private List<Item> getRandomItemList(Rarity rarity, int numberOfItems, Random random) {
+    private List<Item> getRandomItemList(Rarity rarity, int numberOfItems) {
         List<Item> items = new ArrayList<Item>();
 
         for (int i=0; i < numberOfItems; ++i) {
-            items.add(getRandomItem(rarity, random));
+            items.add(getRandomItem(rarity));
         }
 
         return items;
     }
 
-    private Item getRandomItem(Rarity rarity, Random random) {
+    private Item getRandomItem(Rarity rarity) {
         List<Item> itemsAtRarity = prototypes.get(rarity);
         int randomIndex = random.nextInt(itemsAtRarity.size());
         return itemsAtRarity.get(randomIndex);
     }
 
+    public void makeDailyContracts() {
+        List<Contract> contracts = new ArrayList<Contract>();
+        int contractsToday = 3 + random.nextInt(4);
+        for (int i=0; i < contractsToday; ++i) {
+            Contract contract = generateContract();
+            contracts.add(contract);
+            Gdx.app.debug("contract generated", contract.toString());
+        }
+        Gdx.app.debug("Contracts for today", contracts.size() + "");
+        Tradesong.contractList = contracts; // TODO this fn smells bad. Fix.
+    }
 }

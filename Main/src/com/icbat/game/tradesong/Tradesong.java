@@ -13,12 +13,10 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Rarity;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 import com.icbat.game.tradesong.gameObjects.Inventory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +38,7 @@ public class Tradesong extends Game {
     public static Clock clock;
 
     private static Music currentTrack;
+    public static List<Contract> contractList;
 
     @Override
     public void create() {
@@ -52,11 +51,9 @@ public class Tradesong extends Game {
         workshopListing = new WorkshopListing();
         inventory = new Inventory();
         clock = new Clock();
-
-        clock.startClock(); // TODO remove, for testing
-
         uiStyles = new UIStyles();
 
+        clock.startDay(); // TODO remove, for testing. Com,es from main menu
         debugOutput();
 
         screenManager = new ShallowSelectiveScreenStack(this);
@@ -65,19 +62,7 @@ public class Tradesong extends Game {
     }
 
     private void debugOutput() {
-        List<Contract> contracts = new ArrayList<Contract>();
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.COMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
-        contracts.add(contractGenerator.generateContract(Rarity.UNCOMMON));
 
-        for (Contract contract : contracts) {
-            Gdx.app.debug("Contracts", contract.toString());
-        }
     }
 
     private void initializeAssets() {

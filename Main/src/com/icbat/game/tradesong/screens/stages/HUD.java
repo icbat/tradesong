@@ -12,12 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.icbat.game.tradesong.screens.*;
 import com.icbat.game.tradesong.utils.Constants;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.CraftingScreen;
-import com.icbat.game.tradesong.screens.InventoryScreen;
-import com.icbat.game.tradesong.screens.OptionsMenuScreen;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 import com.icbat.game.tradesong.utils.SpacingActor;
 
@@ -26,10 +24,9 @@ import com.icbat.game.tradesong.utils.SpacingActor;
  */
 public class HUD extends BaseStage {
 
-    private Texture items = Tradesong.getTexture(TextureAssets.ITEMS);
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label clock = new Label("", Tradesong.uiStyles.getLabelStyle());
-    private static final int SPRITE_SIZE = Constants.SPRITE_DIMENSION.value();
+    private Label money = new Label("", Tradesong.uiStyles.getLabelStyle());
 
     @Override
     public void layout() {
@@ -43,6 +40,14 @@ public class HUD extends BaseStage {
         tableLayout.add(new SpacingActor());
         tableLayout.add(craftingButton());
         tableLayout.add(new SpacingActor());
+        tableLayout.add(shipmentBoxButton());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(contractsButton());
+        tableLayout.add(new SpacingActor(20, 4));
+        tableLayout.add(makeMoneyIcon());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(money);
+        tableLayout.add(new SpacingActor(100,4));
         tableLayout.add(clock);
 
         setupHolderAndTable(holder, tableLayout);
@@ -52,10 +57,20 @@ public class HUD extends BaseStage {
         this.addActor(holder);
     }
 
+    private Actor makeMoneyIcon() {
+
+        return new Image(TextureAssets.ITEMS.getRegion(4, 30));
+    }
+
     @Override
     public void onRender() {
         setCapacityCounter();
         setClock();
+        setMoney();
+    }
+
+    private void setMoney() {
+        money.setText(Tradesong.inventory.getMoney().toString());
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
@@ -68,9 +83,8 @@ public class HUD extends BaseStage {
         tableLayout.setColor(0.2f, 0.2f, 0.2f, 1f);
     }
 
-    private Image inventoryButton() {
-        TextureRegion region = new TextureRegion(items, 2 * SPRITE_SIZE, 30 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image inventoryButton = new Image(region);
+    private Actor inventoryButton() {
+        Image inventoryButton = new Image(TextureAssets.ITEMS.getRegion(2, 30));
         inventoryButton.setTouchable(Touchable.enabled);
         inventoryButton.addListener(new GoToScreenListener() {
             @Override
@@ -82,9 +96,8 @@ public class HUD extends BaseStage {
     }
 
 
-    private Image menuButton() {
-        TextureRegion region = new TextureRegion(items, 0, 29 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image menuButton = new Image(region);
+    private Actor menuButton() {
+        Image menuButton = new Image(TextureAssets.ITEMS.getRegion(0, 29));
         menuButton.setTouchable(Touchable.enabled);
         menuButton.addListener(new GoToScreenListener() {
             @Override
@@ -95,9 +108,10 @@ public class HUD extends BaseStage {
         return menuButton;
     }
 
+
+
     private Actor craftingButton() {
-        TextureRegion region = new TextureRegion(items, 3 * SPRITE_SIZE, 9 * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-        Image craftingButton = new Image(region);
+        Image craftingButton = new Image(TextureAssets.ITEMS.getRegion(3, 9));
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
             @Override
@@ -106,6 +120,30 @@ public class HUD extends BaseStage {
             }
         });
         return craftingButton;
+    }
+
+    private Actor shipmentBoxButton() {
+        Image shipmentBoxButton = new Image(TextureAssets.ITEMS.getRegion(10, 30));
+        shipmentBoxButton.setTouchable(Touchable.enabled);
+        shipmentBoxButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToScreen(new ShippingScreen());
+            }
+        });
+        return shipmentBoxButton;
+    }
+
+    private Actor contractsButton() {
+        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(11, 17));
+        contractsButton.setTouchable(Touchable.enabled);
+        contractsButton.addListener(new GoToScreenListener() {
+            @Override
+            protected void goToTargetScreen() {
+                Tradesong.screenManager.goToScreen(new ContractsScreen());
+            }
+        });
+        return contractsButton;
     }
 
     void setCapacityCounter() {
@@ -126,6 +164,4 @@ public class HUD extends BaseStage {
         String formattedTime = timeInMinutes + " hours";
         clock.setText(formattedTime);
     }
-
-
 }
