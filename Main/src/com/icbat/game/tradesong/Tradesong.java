@@ -13,12 +13,10 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Rarity;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 import com.icbat.game.tradesong.gameObjects.Inventory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,7 +53,7 @@ public class Tradesong extends Game {
         clock = new Clock();
         uiStyles = new UIStyles();
 
-        clock.startClock(); // TODO remove, for testing. Com,es from main menu
+        clock.startDay(); // TODO remove, for testing. Com,es from main menu
         debugOutput();
 
         screenManager = new ShallowSelectiveScreenStack(this);
