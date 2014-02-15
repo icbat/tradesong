@@ -60,7 +60,8 @@ ul {
 
 .content {
 	padding: 20px;
-	background: #fff;
+	padding-bottom: 200px;
+	background: #fff;	
 }
 
 .content a {
