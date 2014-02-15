@@ -135,7 +135,7 @@ public class HUD extends BaseStage {
     }
 
     private Actor contractsButton() {
-        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(11, 17));
+        Image contractsButton = new Image(TextureAssets.ITEMS.getRegion(19, 1));
         contractsButton.setTouchable(Touchable.enabled);
         contractsButton.addListener(new GoToScreenListener() {
             @Override
