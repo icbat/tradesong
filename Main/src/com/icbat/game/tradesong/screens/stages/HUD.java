@@ -26,6 +26,7 @@ public class HUD extends BaseStage {
 
     private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label clock = new Label("", Tradesong.uiStyles.getLabelStyle());
+    private Label money = new Label("", Tradesong.uiStyles.getLabelStyle());
 
     @Override
     public void layout() {
@@ -42,6 +43,10 @@ public class HUD extends BaseStage {
         tableLayout.add(shipmentBoxButton());
         tableLayout.add(new SpacingActor());
         tableLayout.add(contractsButton());
+        tableLayout.add(new SpacingActor(20, 4));
+        tableLayout.add(makeMoneyIcon());
+        tableLayout.add(new SpacingActor());
+        tableLayout.add(money);
         tableLayout.add(new SpacingActor(100,4));
         tableLayout.add(clock);
 
@@ -52,10 +57,20 @@ public class HUD extends BaseStage {
         this.addActor(holder);
     }
 
+    private Actor makeMoneyIcon() {
+
+        return new Image(TextureAssets.ITEMS.getRegion(4, 30));
+    }
+
     @Override
     public void onRender() {
         setCapacityCounter();
         setClock();
+        setMoney();
+    }
+
+    private void setMoney() {
+        money.setText(Tradesong.inventory.getMoney().toString());
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
