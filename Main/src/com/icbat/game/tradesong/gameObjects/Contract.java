@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
@@ -30,20 +31,24 @@ public class Contract {
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public void completeContract(List<Item> inputs) {
+    public boolean completeContract(List<Item> inputs) {
         if (canComplete(inputs) && Tradesong.contractList.contains(this)) {
+
+            Gdx.app.debug("reward items", rewards.toString());
+
             for (Item rewardItem : rewards){
-                Tradesong.inventory.addItem(rewardItem);
+                Tradesong.inventory.addItem(new Item(rewardItem));
             }
 
+            Gdx.app.debug("reward money", rewardMoney + "");
+            Gdx.app.debug("money before", Tradesong.inventory.getMoney() + "");
+            Tradesong.inventory.addMoney(rewardMoney);
+            Gdx.app.debug("money after", Tradesong.inventory.getMoney() + "");
+
             Tradesong.contractList.remove(this);
-
-
+            return true;
         }
-    }
-
-    public void addOutputToInventory() {
-        // TODO impl
+        return false;
     }
 
     @Override
@@ -53,9 +58,5 @@ public class Contract {
 
     public List<Item> getRequirements() {
         return requirements;
-    }
-
-    public Rarity getRarity() {
-        return rarity;
     }
 }

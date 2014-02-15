@@ -109,7 +109,10 @@ public class ShippingStage extends InventoryStage {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    contractMatched.completeContract();
+                    if (contractMatched.completeContract(shipmentBoxContents))
+                        shipmentBoxContents.clear();
+
+                    layout();
                 }
             });
         } else {
