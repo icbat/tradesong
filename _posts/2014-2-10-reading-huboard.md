@@ -11,6 +11,8 @@ So I've updated the website a tiny bit with more links (as well as doing more co
 
 ### Milestone view
 
+**Edit:** Huboard's new layout doesn't work well the way I like it, so I switched to "release goals" for this view.
+
 Milestone view is what I predict is the most immediately interesting to some one other than me. This gives a high-level, abstract roadmap of "all the things I'm pretty sure I want to do".
 
 It's not a commitment, it's not set in stone. It's really just a place where I can put things to remember that I eventually want to do them. When I was working on a prototype of this game as a school project, I actually forgot that I'd even included a giant feature in the scope of the goals! This view aims to help me not forget big things.
