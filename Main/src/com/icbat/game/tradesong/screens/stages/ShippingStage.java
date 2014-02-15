@@ -1,11 +1,15 @@
 package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.utils.SpacedTable;
@@ -31,7 +35,8 @@ public class ShippingStage extends InventoryStage {
         layoutTable.spacedRows(2);
         layoutTable.add(makeShipmentTable());
         layoutTable.spacedRow();
-        layoutTable.add(makeShipmentButton());
+        layoutTable.add(makeCheckButton());
+        layoutTable.spacedAdd(makeShipmentButton());
         layoutTable.spacedRow();
         layoutTable.add(contractLabel);
 
@@ -69,7 +74,32 @@ public class ShippingStage extends InventoryStage {
         return frame;
     }
 
+    private Actor makeCheckButton() {
+        TextButton checkButton = new TextButton("Check for a match", Tradesong.uiStyles.getTextButtonStyle());
+        checkButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                for (Contract contract : Tradesong.contractList) {
+                    if (contract.canComplete(shipmentBoxContents)) {
+                        turnOnCompleteButton();
+                        updateContractCheck(contract.toString());
+                        return;
+                    }
+                }
+
+            }
+        });
+        return checkButton;
+    }
+
+    private void turnOnCompleteButton() {
+
+    }
+
     private Actor makeShipmentButton() {
+
         return null;
     }
 
