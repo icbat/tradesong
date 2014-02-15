@@ -35,11 +35,7 @@ public class Contract {
 
     @Override
     public String toString() {
-        return "Contract{" +
-                "requirements=" + requirements +
-                ", rewards=" + rewards +
-                ", rewardMoney=" + rewardMoney +
-                '}';
+        return rarity + " contract";
     }
 
     public List<Item> getRequirements() {

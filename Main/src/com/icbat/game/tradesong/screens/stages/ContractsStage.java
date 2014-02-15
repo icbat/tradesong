@@ -34,7 +34,7 @@ public class ContractsStage extends BaseStage {
         SpacedTable table = new SpacedTable();
 
         for (Contract contract : Tradesong.contractList) {
-            table.add(new Label(contract.getRarity() + " contract", Tradesong.uiStyles.getLabelStyle()));
+            table.add(new Label(contract.toString(), Tradesong.uiStyles.getLabelStyle()));
             table.spacedRow();
             SpacedTable requirementTable = new SpacedTable();
             for (Item requiredItem : contract.getRequirements()) {

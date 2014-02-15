@@ -22,6 +22,7 @@ public class ShippingStage extends InventoryStage {
     protected Label contractLabel = new Label("", Tradesong.uiStyles.getLabelStyle());
     private static final int SHIPMENT_BOX_CAPACITY = 6;
     private List<Item> shipmentBoxContents = new ArrayList<Item>(SHIPMENT_BOX_CAPACITY);
+    private TextButton shipButton = new TextButton("Ship it!", Tradesong.uiStyles.getDisabledButtonStyle());;
 
     @Override
     public void layout() {
@@ -32,11 +33,12 @@ public class ShippingStage extends InventoryStage {
         layoutTable.add(new Label("Outgoing shipments", Tradesong.uiStyles.getLabelStyle()));
         layoutTable.spacedRows(3);
         layoutTable.add(makeInventoryTable());
-        layoutTable.spacedRows(2);
+        layoutTable.spacedRows(4);
         layoutTable.add(makeShipmentTable());
         layoutTable.spacedRow();
         layoutTable.add(makeCheckButton());
-        layoutTable.spacedAdd(makeShipmentButton());
+        layoutTable.spacedRow();
+        layoutTable.add(shipButton);
         layoutTable.spacedRow();
         layoutTable.add(contractLabel);
 
@@ -83,24 +85,35 @@ public class ShippingStage extends InventoryStage {
 
                 for (Contract contract : Tradesong.contractList) {
                     if (contract.canComplete(shipmentBoxContents)) {
-                        turnOnCompleteButton();
+                        toggleCompleteButton(true);
                         updateContractCheck(contract.toString());
                         return;
                     }
                 }
-
+                toggleCompleteButton(false);
             }
         });
         return checkButton;
     }
 
-    private void turnOnCompleteButton() {
-
-    }
-
-    private Actor makeShipmentButton() {
-
-        return null;
+    /**
+     * Turns the complet button shouldBeOn or off depending shouldBeOn input.
+     *
+     * @param shouldBeOn Whether the button should turn shouldBeOn
+     * */
+    private void toggleCompleteButton(boolean shouldBeOn) {
+        if (shouldBeOn) {
+            shipButton.setStyle(Tradesong.uiStyles.getTextButtonStyle());
+            shipButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    // TODO complete the contract, remove it from the thing.
+                }
+            });
+        } else {
+            shipButton.setStyle(Tradesong.uiStyles.getDisabledButtonStyle());
+        }
     }
 
     public void updateContractCheck(String whatHits) {
