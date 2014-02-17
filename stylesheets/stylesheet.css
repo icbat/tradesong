@@ -102,6 +102,6 @@ div.betaWarning  {
 	max-width: 640px;
 }
 
-div.devlogPostTitle {
+h4 {
 	border-bottom: 1px solid #333;
 }
