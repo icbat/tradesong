@@ -1,6 +1,6 @@
 {% include header.html %}
 <div class="content">
-	{{page.date}}
+	{{ page.date | date: "%m-%d-%Y" }}
 	{{content}}
 </div>
 {% include footer.html %}
