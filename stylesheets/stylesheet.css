@@ -98,6 +98,6 @@ ul {
 
 div.betaWarning  {
 	background-color: #83FF78;
-	border: 3px dashed #6EF562;
+	border: 3px double #6EF562;
 	max-width: 640px;
 }
