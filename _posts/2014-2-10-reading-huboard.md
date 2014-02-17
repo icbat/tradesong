@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: devlogPost
 title: How to read the Huboard
 ---
 
