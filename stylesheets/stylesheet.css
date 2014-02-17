@@ -101,3 +101,7 @@ div.betaWarning  {
 	border: 3px double #6EF562;
 	max-width: 640px;
 }
+
+div.devlogPostTitle {
+	border-bottom: 1px solid #333;
+}
