@@ -1,0 +1,8 @@
+{% include header.html %}
+<div class="content">
+	{% if page.isBeta %}
+	{% include betaWarning.html %}
+	{% endif %}
+	{{content}}
+</div>
+{% include footer.html %}
