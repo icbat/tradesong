@@ -5,7 +5,7 @@ title: Theoretical Frequently Asked Questions
 
 #### How much is it? Is it free?
 
-Alpha  builds will always be free. I'd like to move to storefronts such as Steam or IndieGameStand eventually, in which case that'll be re-evaluated.
+Alpha  builds will always be free. I'd like to move to store fronts such as Steam or IndieGameStand eventually, in which case that'll be re-evaluated.
 
 #### How do I get it?
 
