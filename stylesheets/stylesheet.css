@@ -6,7 +6,7 @@ body {
 
 img {
 	border: 1px solid #000;
-	max-width:640px;
+	max-width: 640px;
 	max-height: 480px;
 }
 
@@ -94,4 +94,10 @@ ul {
 
 .subtle {
 	color: #555;
+}
+
+div.betaWarning  {
+	background-color: #6EF562;
+	border: 1px dashed #35DB25;
+	max-width: 640px;
 }
