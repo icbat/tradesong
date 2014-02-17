@@ -3,7 +3,7 @@ layout: default
 title: Closing in on an alpha
 ---
 
-As every good [fishmonger out of watermonger](http://www.youtube.com/watch?feature=player_detailpage&v=MXiQSxQ4Q6w#t=379) knows, it's important to have arbitrary deadlines. So I've set my first few.
+As every good [fishmonger out of watermonger](http://www.youtube.com/watch?v=MXiQSxQ4Q6w#t=379) knows, it's important to have arbitrary deadlines. So I've set my first few.
 
 * Feb 28 - First round of Alpha testing
 * March 31 (Tentative) - Second round of Alpha Testing
