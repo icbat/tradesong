@@ -58,7 +58,7 @@ public class FrameTarget extends DragAndDrop.Target {
         Item item = (Item) payload.getObject();
         if (backingList != null) {
             Gdx.app.debug("target; adding to ", backingList.toString());
-            backingList.add(item);
+            backingList.add(new Item(item));
         } else { // Assuming it's backed by Inventory
             Gdx.app.debug("target; adding to ", "INVENTORY");
             Tradesong.inventory.addItem(item);
