@@ -27,6 +27,7 @@ public class ItemSource extends DragAndDrop.Source{
     public ItemSource(Item item, BaseStage owningStage, List<Item> backingList) {
         this(item, owningStage);
         this.backingList = backingList;
+        Gdx.app.debug("itemSource", "has a backing list");
     }
 
     @Override

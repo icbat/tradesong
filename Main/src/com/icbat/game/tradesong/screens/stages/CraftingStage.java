@@ -75,13 +75,14 @@ public class CraftingStage extends InventoryStage {
     }
 
     private SpacedTable makeCraftingTable() {
+        Gdx.app.debug("craftingStage", "drawing crafting table");
         SpacedTable craftingTable = new SpacedTable();
 
         for (int i = 0; i < craftingTableCapacity; ++i) {
             if (i < craftingTableContents.size()) {
                 Item item = craftingTableContents.get(i);
                 craftingTable.spacedStack(makeFrame(false), item);
-                dragAndDrop.addSource(new ItemSource(item, this, this.craftingTableContents));
+                dragAndDrop.addSource(new ItemSource(item, this, craftingTableContents));
             } else {
                 craftingTable.spacedAdd(makeFrame(true, craftingTableContents));
             }
