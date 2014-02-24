@@ -25,8 +25,8 @@ import java.util.List;
 public class InventoryStage extends BaseStage {
     private Label description;
     private Label itemName;
-    Table inventoryTable; // Will likely need to findActor on this from somewhere else.
     DragAndDrop dragAndDrop = new DragAndDrop();
+
 
     @Override
     public void layout() {
@@ -37,7 +37,7 @@ public class InventoryStage extends BaseStage {
         Table holdingTable = makeHoldingTable();
         holdingTable = holdingTable.debugTable();
 
-        this.inventoryTable = makeInventoryTable();
+        Table inventoryTable = makeInventoryTable();
         holdingTable.add(inventoryTable);
         holdingTable.row();
         holdingTable.add(makeSortButton());
@@ -142,7 +142,7 @@ public class InventoryStage extends BaseStage {
      * */
     class InventoryTarget extends FrameTarget {
         public InventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
+            super(actor, validTarget);
         }
 
         @Override

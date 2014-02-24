@@ -1,16 +1,31 @@
 package com.icbat.game.tradesong.screens.dragAndDrop;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 
-/***/
+import java.util.List;
+
 public class ItemSource extends DragAndDrop.Source{
-    private BaseStage owner;
-    public ItemSource(Actor actor, BaseStage owner) {
-        super(actor);
-        this.owner = owner;
+    private List<Item> backingList;
+    /** Redundant with this.actor, for ease of use interacting with other things. Must set in constructors to the actor (cast) */
+    private final Item item;
+    private final BaseStage owningStage;
+
+    /**
+     * If no backing list is provided, will assume it's backed by the inventory and remove from that when dropped.
+     * */
+    public ItemSource(Item item, BaseStage owningStage) {
+        super(item);
+        this.item = item;
+        this.owningStage = owningStage;
+    }
+
+    public ItemSource(Item item, BaseStage owningStage, List<Item> backingList) {
+        this(item, owningStage);
+        this.backingList = backingList;
     }
 
     @Override
@@ -26,7 +41,12 @@ public class ItemSource extends DragAndDrop.Source{
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Target target) {
         super.dragStop(event, x, y, pointer, target);
-        owner.layout();
+        if (backingList != null) {
+            backingList.remove(item);
+        } else { // It's backed by the inventory
+            Tradesong.inventory.takeOutItem(item);
+        }
+        owningStage.layout();
     }
 }
 

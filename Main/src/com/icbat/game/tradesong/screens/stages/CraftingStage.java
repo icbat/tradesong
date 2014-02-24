@@ -87,7 +87,7 @@ public class CraftingStage extends InventoryStage {
             if (i < craftingTableContents.size()) {
                 Item item = craftingTableContents.get(i);
                 craftingTable.spacedStack(makeCraftingFrame(false), item);
-                dragAndDrop.addSource(new ItemSource(item, this));
+                dragAndDrop.addSource(new ItemSource(item, this, this.craftingTableContents));
             } else {
                 craftingTable.spacedAdd(makeCraftingFrame(true));
             }
@@ -116,7 +116,7 @@ public class CraftingStage extends InventoryStage {
      * */
     class CraftingInventoryTarget extends FrameTarget {
         public CraftingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
+            super(actor, validTarget);
         }
 
         @Override
@@ -131,7 +131,7 @@ public class CraftingStage extends InventoryStage {
 
     class CraftingTarget extends FrameTarget {
         public CraftingTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
+            super(actor, validTarget);
         }
 
         @Override

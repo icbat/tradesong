@@ -3,22 +3,27 @@ package com.icbat.game.tradesong.screens.dragAndDrop;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.screens.stages.BaseStage;
+import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.gameObjects.Item;
 
-/**
- * Very generic target that gives minimal functionality.
- *
- * All methods should be safely super-able and they should be overloaded as necessary.
- * */
+import java.util.List;
+
 public class FrameTarget extends DragAndDrop.Target {
 
+    private List<Item> backingList;
     private boolean validTarget;
-    private BaseStage owner;
 
-    public FrameTarget(Actor actor, boolean validTarget, BaseStage owner) {
-        super(actor);
+    /**
+     * If no backing list is provided, will assume it's backed by the inventory and remove from that when dropped.
+     * */
+    public FrameTarget(Actor frame, boolean validTarget) {
+        super(frame);
         this.validTarget = validTarget;
-        this.owner = owner;
+    }
+
+    public FrameTarget(Actor frame, boolean validTarget, List<Item> backingList) {
+        this(frame, validTarget);
+        this.backingList = backingList;
     }
 
     @Override
@@ -42,6 +47,11 @@ public class FrameTarget extends DragAndDrop.Target {
 
     @Override
     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-        owner.layout();
+        Item item = (Item) payload.getObject();
+        if (backingList != null) {
+            backingList.add(item);
+        } else { // Assuming it's backed by Inventory
+            Tradesong.inventory.addItem(item);
+        }
     }
 }

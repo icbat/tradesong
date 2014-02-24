@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.screens.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -64,7 +63,7 @@ public class ShippingStage extends InventoryStage {
             if (i < shipmentBoxContents.size()) {
                 Item item = shipmentBoxContents.get(i);
                 shipmentTable.spacedStack(makeShipmentFrame(false), item);
-                dragAndDrop.addSource(new ItemSource(item, this));
+                dragAndDrop.addSource(new ItemSource(item, this, this.shipmentBoxContents));
             } else {
                 shipmentTable.spacedAdd(makeShipmentFrame(true));
             }
@@ -140,7 +139,7 @@ public class ShippingStage extends InventoryStage {
      * */
     class ShippingInventoryTarget extends FrameTarget {
         public ShippingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
+            super(actor, validTarget);
         }
 
         @Override
@@ -155,7 +154,7 @@ public class ShippingStage extends InventoryStage {
 
     class ShipmentTarget extends FrameTarget {
         public ShipmentTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
+            super(actor, validTarget);
         }
 
         @Override
