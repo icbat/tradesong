@@ -80,28 +80,16 @@ public class Item extends Image implements Comparable {
         return result;
     }
 
-    //
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Item item = (Item) o;
-//
-//        if (!description.equals(item.description)) return false;
-//        if (!name.equals(item.name)) return false;
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = name.hashCode();
-//        result = 31 * result + description.hashCode();
-//        return result;
-//    }
-
     public Rarity getRarity() {
         return this.rarity;
+    }
+
+    public int getGameX() {
+        return (int) (super.getX() / 32);
+    }
+
+
+    public int getGameY() {
+        return (int) super.getY();
     }
 }

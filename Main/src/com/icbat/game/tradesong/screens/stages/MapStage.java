@@ -109,8 +109,7 @@ public class MapStage extends BaseStage {
         areas.get(0).spawnItemInsideArea(spawn); // TODO multiple areas.
         spawn.addListener(new GatherClickListener(spawn));
         this.addActor(spawn); // Looks weird, but the spawn area just sets position on the actor.
-        Gdx.app.log("spawning item", spawn.getName());
-        Gdx.app.debug("spawned at", spawn.getX() + ", " + spawn.getY());
+        Gdx.app.debug("spawned " + spawn.getName() + " at", spawn.getGameX() + ", " + spawn.getGameY());
         return false;
     }
 
