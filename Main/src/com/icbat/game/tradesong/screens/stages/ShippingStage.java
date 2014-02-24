@@ -75,7 +75,7 @@ public class ShippingStage extends InventoryStage {
 
     protected Image makeShipmentFrame(boolean isDropTarget) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new ShipmentTarget(frame, isDropTarget, this));
+        dragAndDrop.addTarget(new FrameTarget(frame, isDropTarget, this.shipmentBoxContents));
         return frame;
     }
 
@@ -125,44 +125,5 @@ public class ShippingStage extends InventoryStage {
 
     public void updateContractCheck(String whatHits) {
         contractLabel.setText(whatHits);
-    }
-
-    @Override
-    protected Image makeFrame(boolean isDropTarget) {
-        Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new ShippingInventoryTarget(frame, isDropTarget, this));
-        return frame;
-    }
-
-    /**
-     *  "overridden" way of interacting with the Inventory box on this screen.
-     * */
-    class ShippingInventoryTarget extends FrameTarget {
-        public ShippingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget);
-        }
-
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            Item item = (Item) payload.getObject();
-            shipmentBoxContents.remove(item);
-            Tradesong.inventory.addItem(item);
-
-            super.drop(source, payload, x, y, pointer);
-        }
-    }
-
-    class ShipmentTarget extends FrameTarget {
-        public ShipmentTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget);
-        }
-
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Item itemAdded = new Item((Item) payload.getObject());
-            shipmentBoxContents.add(itemAdded);
-            super.drop(source, payload, x, y, pointer);
-        }
     }
 }
