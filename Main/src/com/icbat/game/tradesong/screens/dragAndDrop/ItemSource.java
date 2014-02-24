@@ -41,12 +41,19 @@ public class ItemSource extends DragAndDrop.Source{
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Target target) {
         super.dragStop(event, x, y, pointer, target);
-        if (backingList != null) {
-            backingList.remove(item);
-        } else { // It's backed by the inventory
-            Tradesong.inventory.takeOutItem(item);
+        if (target != null) {
+            removeFromBackingList();
         }
         owningStage.layout();
     }
+
+    private void removeFromBackingList() {
+        if (backingList != null) {
+            backingList.remove(this.item);
+        } else { // It's backed by the inventory
+            Tradesong.inventory.takeOutItem(this.item);
+        }
+    }
+
 }
 

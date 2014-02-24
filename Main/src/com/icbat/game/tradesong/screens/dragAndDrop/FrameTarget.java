@@ -40,6 +40,9 @@ public class FrameTarget extends DragAndDrop.Target {
     }
 
     @Override
+    /**
+     * What happens when you have already dragged on to this, and then you drag off of it.
+     * */
     public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
         super.reset(source, payload);
         getActor().setColor(Color.WHITE);
