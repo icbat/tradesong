@@ -25,7 +25,6 @@ public class Item extends Image implements Comparable {
 
     public Item(Item original) {
         this(original.getName(), original.getDescription(), original.getRarity(), original.getIcon(), original.getBasePrice());
-        Gdx.app.debug("copy constructing", this.toString());
     }
 
     public Integer getBasePrice() {

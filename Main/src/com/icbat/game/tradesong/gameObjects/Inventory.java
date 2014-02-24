@@ -39,9 +39,7 @@ public class Inventory extends PersistantData {
      * @return the same payload you gave it.
      * */
     public Item takeOutItem(Item payload) {
-        Gdx.app.debug("Trying to get item", payload.toString());
-        boolean removed = items.remove(payload);
-        Gdx.app.debug("success?", removed +"");
+        items.remove(payload);
         return payload;
     }
 

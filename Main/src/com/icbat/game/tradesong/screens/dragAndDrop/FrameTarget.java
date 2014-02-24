@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.dragAndDrop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -50,10 +51,16 @@ public class FrameTarget extends DragAndDrop.Target {
 
     @Override
     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+        addToBackingList(payload);
+    }
+
+    private void addToBackingList(DragAndDrop.Payload payload) {
         Item item = (Item) payload.getObject();
         if (backingList != null) {
+            Gdx.app.debug("target; adding to ", backingList.toString());
             backingList.add(item);
         } else { // Assuming it's backed by Inventory
+            Gdx.app.debug("target; adding to ", "INVENTORY");
             Tradesong.inventory.addItem(item);
         }
     }

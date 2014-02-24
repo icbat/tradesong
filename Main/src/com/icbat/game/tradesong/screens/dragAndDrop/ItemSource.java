@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.dragAndDrop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.icbat.game.tradesong.Tradesong;
@@ -48,9 +49,12 @@ public class ItemSource extends DragAndDrop.Source{
     }
 
     private void removeFromBackingList() {
+
         if (backingList != null) {
+            Gdx.app.debug("source; removing from ", backingList.toString());
             backingList.remove(this.item);
         } else { // It's backed by the inventory
+            Gdx.app.debug("source; removing from ", "INVENTORY");
             Tradesong.inventory.takeOutItem(this.item);
         }
     }
