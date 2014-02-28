@@ -20,7 +20,6 @@ public class Inventory extends PersistantData {
         // TODO remove this, it's for testing!
         for (Item item : Tradesong.itemPrototypes.getAll()) {
             addItem(item);
-//            addItem(item);
         }
     }
 
@@ -49,7 +48,7 @@ public class Inventory extends PersistantData {
     }
 
     public boolean canAdd() {
-        return items.size() + 1 < maxSize;
+        return items.size() < maxSize;
     }
 
     public void save() {
