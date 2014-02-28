@@ -36,7 +36,6 @@ public class Tradesong extends Game {
     public static ContractGenerator contractGenerator;
     public static Clock clock;
 
-    private static Music currentTrack;
     public static List<Contract> contractList;
 
     @Override
@@ -98,21 +97,12 @@ public class Tradesong extends Game {
      * @throws Error if the file could not be found
      */
     public static void playLoopingMusic(MusicAssets toFind) {
-        currentTrack = assetManager.get(toFind.getPath());
+        Music currentTrack = assetManager.get(toFind.getPath());
         currentTrack.setLooping(true);
         if (!currentTrack.isPlaying()) {
             currentTrack.play();
         }
 
-        // TODO set volume from settings/preferences
         currentTrack.setVolume(0.1f);
     }
-
-    public static void stopMusic() {
-        currentTrack.stop();
-    }
-
-
-
-
 }

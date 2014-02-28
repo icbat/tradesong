@@ -69,7 +69,7 @@ public class InventoryStage extends BaseStage {
         return layout;
     }
 
-    protected Table makeInventoryTable() { // TODO this is kind of big and clumsy, could it be rewritten?
+    protected Table makeInventoryTable() {
         SpacedTable inventory = new SpacedTable();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
@@ -78,7 +78,6 @@ public class InventoryStage extends BaseStage {
                 Item item = inventoryCopy.get(i - 1);
                 dragAndDrop.addSource(new ItemSource(item, this));
                 item.addListener(new InventoryClickListener(item) {
-
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);

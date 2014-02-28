@@ -45,14 +45,6 @@ public class Inventory extends PersistantData {
         return items.size() < maxSize;
     }
 
-    public void save() {
-        // TODO impl
-    }
-
-    public void load() {
-        // TODO impl
-    }
-
     public int getMaxSize() {
         return maxSize;
     }
@@ -77,5 +69,15 @@ public class Inventory extends PersistantData {
      * */
     public void addMoney(Integer newInput) {
         money += newInput;
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void load() {
+
     }
 }

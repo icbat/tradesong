@@ -31,9 +31,6 @@ public class ContractGenerator {
         return generateContract(rarities[rarity]);
     }
 
-    /**
-     * TODO move this to data-driven, I think... This is a lot of nasty hard-coding...
-     * */
     public Contract generateContract(Rarity rarity) {
         List<Item> requirements = getRequirements(rarity);
         List<Item> rewards = getRewards(rarity);
@@ -96,6 +93,6 @@ public class ContractGenerator {
             Gdx.app.debug("contract generated", contract.toString());
         }
         Gdx.app.debug("Contracts for today", contracts.size() + "");
-        Tradesong.contractList = contracts; // TODO this fn smells bad. Fix.
+        Tradesong.contractList = contracts;
     }
 }
