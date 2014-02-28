@@ -13,9 +13,8 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.screens.MapScreen;
-import com.icbat.game.tradesong.utils.UIStyles;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+import com.icbat.game.tradesong.utils.UIStyles;
 
 import java.util.List;
 
@@ -37,7 +36,6 @@ public class Tradesong extends Game {
     public static ContractGenerator contractGenerator;
     public static Clock clock;
 
-    private static Music currentTrack;
     public static List<Contract> contractList;
 
     @Override
@@ -53,16 +51,8 @@ public class Tradesong extends Game {
         clock = new Clock();
         uiStyles = new UIStyles();
 
-        clock.startDay(); // TODO remove, for testing. Com,es from main menu
-        debugOutput();
-
         screenManager = new ShallowSelectiveScreenStack(this);
-//        screenManager.goToMainMenu();
-        screenManager.goToScreen(new MapScreen("test"));
-    }
-
-    private void debugOutput() {
-
+        screenManager.goToMainMenu();
     }
 
     private void initializeAssets() {
@@ -107,21 +97,12 @@ public class Tradesong extends Game {
      * @throws Error if the file could not be found
      */
     public static void playLoopingMusic(MusicAssets toFind) {
-        currentTrack = assetManager.get(toFind.getPath());
+        Music currentTrack = assetManager.get(toFind.getPath());
         currentTrack.setLooping(true);
         if (!currentTrack.isPlaying()) {
             currentTrack.play();
         }
 
-        // TODO set volume from settings/preferences
         currentTrack.setVolume(0.1f);
     }
-
-    public static void stopMusic() {
-        currentTrack.stop();
-    }
-
-
-
-
 }

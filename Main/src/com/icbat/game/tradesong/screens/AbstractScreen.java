@@ -20,7 +20,7 @@ public abstract class AbstractScreen implements Screen {
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
-        stages.add(new HUD());
+        this(true);
     }
 
     public AbstractScreen(boolean addHud) {

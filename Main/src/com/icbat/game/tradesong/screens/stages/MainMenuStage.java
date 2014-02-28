@@ -41,7 +41,7 @@ public class MainMenuStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.screenManager.goToScreen(new MapScreen("town_hub"));
+                Tradesong.screenManager.goToScreen(new MapScreen("test"));
                 Tradesong.clock.startDay();
             }
         });

@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
-import com.icbat.game.tradesong.gameObjects.Item;
 
 import java.util.*;
 
@@ -49,7 +49,7 @@ public class MapStage extends BaseStage {
 
             for (String area : spawnAreas) {
                 String[] coords = area.split(",");
-                this.spawnAreas.add(new ValidSpawnArea(coords, mapProperties));
+                this.spawnAreas.add(new ValidSpawnArea(coords));
             }
         }
     }
@@ -70,7 +70,7 @@ public class MapStage extends BaseStage {
         String initialNodesString = (String) mapProperties.get("initialSpawnCount");
         Integer initialNodes = (initialNodesString == null) ? 0 : Integer.parseInt(initialNodesString);
         if ((!spawnableItemNames.isEmpty() && !spawnAreas.isEmpty())) {
-            List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);        // TODO clean up this whole method, it's gross.
+            List<String> spawnableItems = new ArrayList<String>(spawnableItemNames);
             List<ValidSpawnArea> areas = new ArrayList<ValidSpawnArea>(spawnAreas);        // consider using the stage or a group's random actor fn
 
             for (int i = 0; i < initialNodes; ++i) {
@@ -106,11 +106,10 @@ public class MapStage extends BaseStage {
             return true;
         }
 
-        areas.get(0).spawnItemInsideArea(spawn); // TODO multiple areas.
+        areas.get(0).spawnItemInsideArea(spawn);
         spawn.addListener(new GatherClickListener(spawn));
         this.addActor(spawn); // Looks weird, but the spawn area just sets position on the actor.
-        Gdx.app.log("spawning item", spawn.getName());
-        Gdx.app.debug("spawned at", spawn.getX() + ", " + spawn.getY());
+        Gdx.app.debug("spawned " + spawn.getName() + " at", spawn.getGameX() + ", " + spawn.getGameY());
         return false;
     }
 
@@ -140,7 +139,7 @@ public class MapStage extends BaseStage {
         /**
          * Expects exactly 4 elements. Will fail with errors if passed less than 4.
          */
-        public ValidSpawnArea(String[] coords, MapProperties properties) {
+        public ValidSpawnArea(String[] coords) {
             this.startX = Integer.parseInt(coords[0]);
             this.startY = Integer.parseInt(coords[1]);
             this.endX = Integer.parseInt(coords[2]);

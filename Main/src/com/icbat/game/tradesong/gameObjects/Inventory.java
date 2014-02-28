@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.PersistantData;
-import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,23 +15,14 @@ public class Inventory extends PersistantData {
     private List<Item> items = new ArrayList<Item>(maxSize);
     private Integer money = 0;
 
-    public Inventory() {
-        // TODO remove this, it's for testing!
-        for (Item item : Tradesong.itemPrototypes.getAll()) {
-            addItem(item);
-        }
-    }
+    public Inventory() {}
 
     public boolean addItem(Item newItem) {
-         return addItem(items.size(), newItem);
-    }
-
-    public boolean addItem(int position, Item newItem) {
         if (canAdd()) {
-            position = (position <= items.size()) ? position :  items.size();
-            items.add(position, newItem);
+            items.add(new Item(newItem));
             return true;
         } else {
+            Gdx.app.debug("couldn't add", newItem.toString());
             return false;
         }
     }
@@ -43,7 +34,6 @@ public class Inventory extends PersistantData {
      * */
     public Item takeOutItem(Item payload) {
         items.remove(payload);
-
         return payload;
     }
 
@@ -52,15 +42,7 @@ public class Inventory extends PersistantData {
     }
 
     public boolean canAdd() {
-        return items.size() + 1 < maxSize;
-    }
-
-    public void save() {
-        // TODO impl
-    }
-
-    public void load() {
-        // TODO impl
+        return items.size() < maxSize;
     }
 
     public int getMaxSize() {
@@ -87,5 +69,15 @@ public class Inventory extends PersistantData {
      * */
     public void addMoney(Integer newInput) {
         money += newInput;
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void load() {
+
     }
 }

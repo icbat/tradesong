@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.screens.listeners.InventoryClickListener;
@@ -25,8 +25,8 @@ import java.util.List;
 public class InventoryStage extends BaseStage {
     private Label description;
     private Label itemName;
-    Table inventoryTable; // Will likely need to findActor on this from somewhere else.
     DragAndDrop dragAndDrop = new DragAndDrop();
+
 
     @Override
     public void layout() {
@@ -37,7 +37,7 @@ public class InventoryStage extends BaseStage {
         Table holdingTable = makeHoldingTable();
         holdingTable = holdingTable.debugTable();
 
-        this.inventoryTable = makeInventoryTable();
+        Table inventoryTable = makeInventoryTable();
         holdingTable.add(inventoryTable);
         holdingTable.row();
         holdingTable.add(makeSortButton());
@@ -69,7 +69,7 @@ public class InventoryStage extends BaseStage {
         return layout;
     }
 
-    protected Table makeInventoryTable() { // TODO this is kind of big and clumsy, could it be rewritten?
+    protected Table makeInventoryTable() {
         SpacedTable inventory = new SpacedTable();
         List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
 
@@ -78,7 +78,6 @@ public class InventoryStage extends BaseStage {
                 Item item = inventoryCopy.get(i - 1);
                 dragAndDrop.addSource(new ItemSource(item, this));
                 item.addListener(new InventoryClickListener(item) {
-
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
@@ -100,8 +99,12 @@ public class InventoryStage extends BaseStage {
     }
 
     protected Image makeFrame(boolean isDropTarget) {
+        return makeFrame(isDropTarget, null);
+    }
+
+    protected Image makeFrame(boolean isDropTarget, List<Item> backingList) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new InventoryTarget(frame, isDropTarget, this));
+        dragAndDrop.addTarget(new FrameTarget(frame, isDropTarget, backingList));
         return frame;
     }
 
@@ -136,18 +139,4 @@ public class InventoryStage extends BaseStage {
         itemName.setText(newName);
         Gdx.app.debug("itemName dimensions", itemName.getWidth() + ", " + itemName.getHeight());
     }
-
-    class InventoryTarget extends FrameTarget {
-        public InventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
-        }
-
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Tradesong.inventory.addItem(removed);
-            super.drop(source, payload, x, y, pointer);
-        }
-    }
-
 }

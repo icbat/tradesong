@@ -3,25 +3,20 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
-import com.icbat.game.tradesong.utils.SpacedTable;
+import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Workshop;
+import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
+import com.icbat.game.tradesong.utils.SpacedTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/***/
 public class CraftingStage extends InventoryStage {
 
-    // These two are here to let the Drag and Drop listeners know how to deal with them
     protected int craftingTableCapacity = 3;
     protected List<Item> craftingTableContents = new ArrayList<Item>(craftingTableCapacity);
     protected Workshop currentWorkshop = Tradesong.workshopListing.getWorkshop("Blacksmith");
@@ -59,12 +54,10 @@ public class CraftingStage extends InventoryStage {
                 Gdx.app.log("Trying to craft with", craftingTableContents.toString());
                 Item output = currentWorkshop.getOutput(craftingTableContents);
                 if (output != null) {
-                    // TODO lock, timer
                     Gdx.app.log("crafted", output.getName());
                     craftingTableContents.clear();
                     Tradesong.inventory.addItem(output);
                     layout();
-
                 }
             }
         });
@@ -82,60 +75,20 @@ public class CraftingStage extends InventoryStage {
     }
 
     private SpacedTable makeCraftingTable() {
+        Gdx.app.debug("craftingStage", "drawing crafting table");
         SpacedTable craftingTable = new SpacedTable();
 
         for (int i = 0; i < craftingTableCapacity; ++i) {
             if (i < craftingTableContents.size()) {
-                craftingTable.spacedStack(makeCraftingFrame(false), craftingTableContents.get(i));
+                Item item = craftingTableContents.get(i);
+                craftingTable.spacedStack(makeFrame(false), item);
+                dragAndDrop.addSource(new ItemSource(item, this, craftingTableContents));
             } else {
-                craftingTable.spacedAdd(makeCraftingFrame(true));
+                craftingTable.spacedAdd(makeFrame(true, craftingTableContents));
             }
 
         }
 
         return craftingTable;
-    }
-
-    protected Image makeCraftingFrame(boolean isDropTarget) {
-        Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new CraftingTarget(frame, isDropTarget, this));
-
-        return frame;
-    }
-
-    @Override
-    protected Image makeFrame(boolean isDropTarget) {
-        Image frame = new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new CraftingInventoryTarget(frame, isDropTarget, this));
-        return frame;
-    }
-
-    class CraftingInventoryTarget extends FrameTarget {
-        public CraftingInventoryTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
-        }
-
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            craftingTableContents.remove((Item) payload.getObject());
-            Item removed = Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            Tradesong.inventory.addItem(removed);
-
-            super.drop(source, payload, x, y, pointer);
-        }
-    }
-
-    class CraftingTarget extends FrameTarget {
-        public CraftingTarget(Actor actor, boolean validTarget, BaseStage owner) {
-            super(actor, validTarget, owner);
-        }
-
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            craftingTableContents.remove((Item) payload.getObject());
-            Tradesong.inventory.takeOutItem((Item) payload.getObject());
-            craftingTableContents.add((Item) payload.getObject());
-            super.drop(source, payload, x, y, pointer);
-        }
     }
 }

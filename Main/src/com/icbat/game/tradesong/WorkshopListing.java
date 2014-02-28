@@ -87,7 +87,7 @@ public class WorkshopListing {
         }
 
 
-        Integer craftTime = 2; // TODO make this default but also try to read it.
+        Integer craftTime = 2;
         return new Recipe(output, ingredients, craftTime);
     }
 
