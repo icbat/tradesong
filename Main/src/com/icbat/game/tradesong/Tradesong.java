@@ -53,16 +53,8 @@ public class Tradesong extends Game {
         clock = new Clock();
         uiStyles = new UIStyles();
 
-        clock.startDay(); // TODO remove, for testing. Com,es from main menu
-        debugOutput();
-
         screenManager = new ShallowSelectiveScreenStack(this);
-//        screenManager.goToMainMenu();
-        screenManager.goToScreen(new MapScreen("test"));
-    }
-
-    private void debugOutput() {
-
+        screenManager.goToMainMenu();
     }
 
     private void initializeAssets() {

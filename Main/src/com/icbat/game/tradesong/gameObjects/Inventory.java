@@ -20,6 +20,7 @@ public class Inventory extends PersistantData {
         // TODO remove this, it's for testing!
         for (Item item : Tradesong.itemPrototypes.getAll()) {
             addItem(item);
+//            addItem(item);
         }
     }
 
