@@ -1,11 +1,9 @@
 package com.icbat.game.tradesong.screens.listeners;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 /**
  * Extends GDX's DragListener to implement drag to move on maps via camera movement.

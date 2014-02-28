@@ -1,6 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
-import com.icbat.game.tradesong.screens.stages.CraftingStage;import com.icbat.game.tradesong.screens.stages.InventoryStage;
+import com.icbat.game.tradesong.screens.stages.CraftingStage;
 
 public class CraftingScreen extends AbstractScreen {
 

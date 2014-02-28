@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.stages.HUD;
 import com.icbat.game.tradesong.screens.stages.MapStage;
 
 /**

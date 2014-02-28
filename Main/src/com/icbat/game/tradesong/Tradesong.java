@@ -13,9 +13,8 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.screens.MapScreen;
-import com.icbat.game.tradesong.utils.UIStyles;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+import com.icbat.game.tradesong.utils.UIStyles;
 
 import java.util.List;
 

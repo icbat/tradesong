@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.PersistantData;
-import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,12 +15,7 @@ public class Inventory extends PersistantData {
     private List<Item> items = new ArrayList<Item>(maxSize);
     private Integer money = 0;
 
-    public Inventory() {
-        // TODO remove this, it's for testing!
-        for (Item item : Tradesong.itemPrototypes.getAll()) {
-            addItem(item);
-        }
-    }
+    public Inventory() {}
 
     public boolean addItem(Item newItem) {
         if (canAdd()) {
