@@ -21,3 +21,4 @@ title: Feedback dump from Alpha 1 night.
 - bigger maps for exploration!
 - good 'cookie' game, very relaxed.
 - sound feedback is good.
+- slow down generation, or speed it up. Make it variable I guess. Sam could basically barely keep up. Didn't feel like a ton of progress. Use this as a pacing mechanic I guess.
