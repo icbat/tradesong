@@ -6,7 +6,7 @@ public enum MusicAssets {
     private String path;
 
     private MusicAssets(String pathVal) {
-        this.path = "music/" + pathVal + ".mp3";
+        this.path = "music/" + pathVal + ".ogg";
     }
 
     public String getPath() {
