@@ -4,5 +4,12 @@
 	{% include betaWarning.html %}
 	{% endif %}
 	{{content}}
+	{% if page.downloadLink != null %}
+	
+	<a href="{{page.downloadLink}}/Tradesong.jar">Download link</a><br/><br/>
+	
+	<a href="{{page.downloadLink}}">Source and description</a>
+	
+	{% endif %}
 </div>
 {% include footer.html %}
