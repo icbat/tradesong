@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /***/
@@ -16,11 +17,17 @@ public class Recipe {
 
     public boolean inputCanCraftThis(List<Item> itemsInput) {
         if (itemsInput.size() == ingredients.size()) {
+            List<Item> inputCopy = new ArrayList<Item>(itemsInput);
 
-            if (itemsInput.containsAll(ingredients)) {
+            for (Item ingredient : ingredients) {
+                int firstIndex = inputCopy.indexOf(ingredient);
+                if (firstIndex != -1) {
+                    inputCopy.remove(firstIndex);
+                }
+            }
+            if (inputCopy.isEmpty()) {
                 return true;
             }
-
         }
 
         return false;

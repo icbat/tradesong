@@ -54,8 +54,19 @@ public class Tradesong extends Game {
 
         screenManager = new ShallowSelectiveScreenStack(this);
 //        screenManager.goToMainMenu();
+        debuggingSetup();
+
+    }
+
+    private void debuggingSetup() {
         // TODO remove before release, debugging
         screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
     }
 
     private void initializeAssets() {
