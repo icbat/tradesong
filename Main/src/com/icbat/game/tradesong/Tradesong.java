@@ -55,7 +55,7 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
 //        screenManager.goToMainMenu();
         // TODO remove before release, debugging
-        screenManager.goToScreen(new MapScreen("test"));
+        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
     }
 
     private void initializeAssets() {

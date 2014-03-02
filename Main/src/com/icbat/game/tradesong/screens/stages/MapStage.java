@@ -31,8 +31,13 @@ public class MapStage extends BaseStage {
         MapProperties mapProperties = map.getProperties();
         setupAreas(map);
         maxItemsOnMap = getMaxItems(mapProperties);
-        Integer initialSpawnedItems = Integer.parseInt((String) mapProperties.get(INITIAL_SPAWN_COUNT_KEY));
-        spawnInitialItems(initialSpawnedItems);
+        try {
+            Integer initialSpawnedItems = Integer.parseInt((String) mapProperties.get(INITIAL_SPAWN_COUNT_KEY));
+            spawnInitialItems(initialSpawnedItems);
+        } catch (NumberFormatException nfe) {
+            Gdx.app.log("Could not determine how many items to spawn initially", "map property " + INITIAL_SPAWN_COUNT_KEY + "likely missing.", nfe);
+        }
+
     }
 
     @Override
@@ -162,11 +167,15 @@ public class MapStage extends BaseStage {
          * @return the Item to spawn regardless of max capacity
          * */
         public Item spawnItem() {
-            Item itemToSpawn = getRandomItem(this.spawnableItems);
-            Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
-            itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
-            itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
-            return itemToSpawn;
+            if (!spawnableItems.isEmpty() && !spawnableTiles.isEmpty()) {
+                Item itemToSpawn = getRandomItem(this.spawnableItems);
+                Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
+                itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
+                itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
+                return itemToSpawn;
+            }
+
+            return null;
         }
 
 
