@@ -96,7 +96,14 @@ public class MapStage extends BaseStage {
 
     private boolean spawnRandomItem(List<String> spawnableItems, List<ValidSpawnArea> areas) {
         Random random = new Random();
-        String nameToSpawn = spawnableItems.get(random.nextInt(spawnableItemNames.size()));
+        String nameToSpawn = "NULL";
+        try {
+            nameToSpawn = spawnableItems.get(random.nextInt(spawnableItemNames.size()));
+        } catch (IllegalArgumentException e) {
+            Gdx.app.error("List of valid spawnable items", spawnableItems.toString());
+            Gdx.app.error("List of valid spawnable areas", areas.toString());
+            Gdx.app.error("Spawning random item " + nameToSpawn + " caused error", "Suspect one of the preceeding lists to be empty", e);
+        }
 
         Item spawn = Tradesong.itemPrototypes.get(nameToSpawn);
 

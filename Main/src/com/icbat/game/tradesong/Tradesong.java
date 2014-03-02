@@ -14,6 +14,7 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 import java.util.List;
@@ -52,7 +53,9 @@ public class Tradesong extends Game {
         uiStyles = new UIStyles();
 
         screenManager = new ShallowSelectiveScreenStack(this);
-        screenManager.goToMainMenu();
+//        screenManager.goToMainMenu();
+        // TODO remove before release, debugging
+        screenManager.goToScreen(new MapScreen("test"));
     }
 
     private void initializeAssets() {
