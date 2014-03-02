@@ -32,7 +32,7 @@ public class MapStage extends BaseStage {
         setupAreas(map);
         maxItemsOnMap = getMaxItems(mapProperties);
         Integer initialSpawnedItems = Integer.parseInt((String) mapProperties.get(INITIAL_SPAWN_COUNT_KEY));
-        spawnInitialItems(initialSpawnedItems, spawnAreas);
+        spawnInitialItems(initialSpawnedItems);
     }
 
     @Override
@@ -43,16 +43,15 @@ public class MapStage extends BaseStage {
     }
 
     private void startSpawnTimer() {
-//        this.spawnTimer.scheduleTask(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                if (getActors().size < maxItemsOnMap) {
-//                    spawnRandomItem(new ArrayList<String>(spawnableItemNames), new ArrayList<ValidSpawnArea>(spawnAreas));
-//                }
-//
-//            }
-//        }, 3, 3);
-//        this.spawnTimer.start();
+        this.spawnTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.debug("timer", "spawning an item");
+                addRandomItem();
+                Gdx.app.debug("timer", "finished spawning");
+            }
+        }, 3, 3);
+        this.spawnTimer.start();
     }
 
     private Integer getMaxItems(MapProperties mapProperties) {
@@ -105,12 +104,19 @@ public class MapStage extends BaseStage {
         return spawnableItems;
     }
 
-    private void spawnInitialItems(int itemsToSpawn, List<ValidSpawnArea> spawnAreas) {
-        Random random = new Random();
+    private void spawnInitialItems(int itemsToSpawn) {
         for (int i=0; i < itemsToSpawn; ++i) {
-            int index = random.nextInt(spawnAreas.size());
-            addItemToMap(spawnAreas.get(index).spawnItem());
+            addRandomItem();
         }
+    }
+
+    private boolean addRandomItem() {
+        Random random = new Random();
+        int index = random.nextInt(spawnAreas.size());
+        Item item = spawnAreas.get(index).spawnItem();
+        Gdx.app.debug("spawning item", item.getName());
+        return addItemToMap(item);
+
     }
 
     private boolean addItemToMap(Item item) {
