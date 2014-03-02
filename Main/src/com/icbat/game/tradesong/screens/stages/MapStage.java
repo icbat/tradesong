@@ -43,12 +43,12 @@ public class MapStage extends BaseStage {
     }
 
     private void startSpawnTimer() {
+        this.spawnTimer.stop();
+        this.spawnTimer.clear();
         this.spawnTimer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                Gdx.app.debug("timer", "spawning an item");
                 addRandomItem();
-                Gdx.app.debug("timer", "finished spawning");
             }
         }, 3, 3);
         this.spawnTimer.start();
@@ -114,13 +114,8 @@ public class MapStage extends BaseStage {
         Random random = new Random();
         int index = random.nextInt(spawnAreas.size());
         Item item = spawnAreas.get(index).spawnItem();
-        Gdx.app.debug("spawning item", item.getName());
-        return addItemToMap(item);
+        return addItemToMap(item, maxItemsOnMap);
 
-    }
-
-    private boolean addItemToMap(Item item) {
-        return addItemToMap(item, this.maxItemsOnMap);
     }
 
     /**
@@ -130,6 +125,7 @@ public class MapStage extends BaseStage {
      * */
     private boolean addItemToMap(Item item, int maxItemsOnMap) {
         if (this.getActors().size < maxItemsOnMap) {
+            Gdx.app.debug("spawning item", item.getName());
             this.addActor(item);
             return true;
         }
