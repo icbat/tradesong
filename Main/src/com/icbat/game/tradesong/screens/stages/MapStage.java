@@ -3,7 +3,11 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
@@ -13,6 +17,7 @@ import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
+import com.icbat.game.tradesong.utils.Point;
 
 import java.util.*;
 
@@ -22,8 +27,9 @@ public class MapStage extends BaseStage {
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
 
-    public MapStage(MapProperties mapProperties) {
-        setupAreas(mapProperties);
+    public MapStage(TiledMap map) {
+        MapProperties mapProperties = map.getProperties();
+        setupAreas(map);
         getPrototypeNames(mapProperties);
         getMaxItems(mapProperties);
         spawnInitialItems(mapProperties);
@@ -57,16 +63,26 @@ public class MapStage extends BaseStage {
         }
     }
 
-    private void setupAreas(MapProperties mapProperties) {
-        String validSpawnAreasBlob = (String) mapProperties.get("validSpawnAreas");
-        if (validSpawnAreasBlob != null) {
-            String[] spawnAreas = validSpawnAreasBlob.split(";");
+    private void setupAreas(TiledMap map) {
 
-            for (String area : spawnAreas) {
-                String[] coords = area.split(",");
-                this.spawnAreas.add(new ValidSpawnArea(coords));
+        MapLayers layers = map.getLayers();
+
+        TiledMapTileLayer spawnLayer = (TiledMapTileLayer) layers.get("#SPAWN wholeMap");
+
+        // TODO expand to more than 1 area
+        // This feels bad. Maybe there's a better way to do this by extending GDX?
+        List<Point> spawnableTiles = new LinkedList<Point>();
+        for (int x=0; x <= spawnLayer.getWidth(); ++x) {
+            for (int y=0; y <= spawnLayer.getHeight(); ++y) {
+                if (spawnLayer.getCell(x, y) != null) {
+                    spawnableTiles.add(new Point(x, y));
+                }
             }
         }
+
+        Gdx.app.debug("found spawnable tiles", spawnableTiles.size() +"");
+        spawnAreas.add( new ValidSpawnArea(spawnableTiles) );
+
     }
 
     private void getPrototypeNames(MapProperties mapProperties) {
@@ -94,6 +110,7 @@ public class MapStage extends BaseStage {
         }
     }
 
+    // TODO move into VSA
     private boolean spawnRandomItem(List<String> spawnableItems, List<ValidSpawnArea> areas) {
         Random random = new Random();
         String nameToSpawn = "NULL";
@@ -102,7 +119,7 @@ public class MapStage extends BaseStage {
         } catch (IllegalArgumentException e) {
             Gdx.app.error("List of valid spawnable items", spawnableItems.toString());
             Gdx.app.error("List of valid spawnable areas", areas.toString());
-            Gdx.app.error("Spawning random item " + nameToSpawn + " caused error", "Suspect one of the preceeding lists to be empty", e);
+            Gdx.app.error("Spawning random item " + nameToSpawn + " caused error", "Suspect one of the preceeding lists to be empty. Check map properties and layer properties", e);
         }
 
         Item spawn = Tradesong.itemPrototypes.get(nameToSpawn);
@@ -110,6 +127,7 @@ public class MapStage extends BaseStage {
         return spawnItem(areas, spawn);
     }
 
+    // TODO move in to VSA
     private boolean spawnItem(List<ValidSpawnArea> areas, Item spawn) {
         if (spawn == null) {
             Gdx.app.error("spawning item on map", "null");
@@ -137,7 +155,7 @@ public class MapStage extends BaseStage {
     }
 
     /**
-     * Rectangular area in which items can spawn. Provides clean way to spawn an item in inside the area.
+     * Non-rectangular area defined by all the tiles on a map layer whose name starts with #SPAWN
      */
     class ValidSpawnArea {
         Integer startX;
@@ -154,6 +172,10 @@ public class MapStage extends BaseStage {
             this.startY = Integer.parseInt(coords[1]);
             this.endX = Integer.parseInt(coords[2]);
             this.endY = Integer.parseInt(coords[3]);
+        }
+
+        public ValidSpawnArea(List<Point> spawnableTiles) {
+
         }
 
         public void spawnItemInsideArea(Item item) {
