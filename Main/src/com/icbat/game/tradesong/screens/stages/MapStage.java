@@ -33,6 +33,21 @@ public class MapStage extends BaseStage {
     public void layout() {
         super.layout();
         notificationCenter.addWatcher(new GatheringWatcher());
+        startSpawnTimer();
+
+    }
+
+    private void startSpawnTimer() {
+        this.spawnTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                if (getActors().size < maxItemsOnMap) {
+                    spawnRandomItem(new ArrayList<String>(spawnableItemNames), new ArrayList<ValidSpawnArea>(spawnAreas));
+                }
+
+            }
+        }, 3, 3);
+        this.spawnTimer.start();
     }
 
     private void getMaxItems(MapProperties mapProperties) {
@@ -76,19 +91,7 @@ public class MapStage extends BaseStage {
             for (int i = 0; i < initialNodes; ++i) {
                 if (spawnRandomItem(spawnableItems, areas)) return;
             }
-
-            this.spawnTimer.scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    if (getActors().size < maxItemsOnMap) {
-                        spawnRandomItem(new ArrayList<String>(spawnableItemNames), new ArrayList<ValidSpawnArea>(spawnAreas));
-                    }
-
-                }
-            }, 3, 3);
         }
-
-
     }
 
     private boolean spawnRandomItem(List<String> spawnableItems, List<ValidSpawnArea> areas) {
