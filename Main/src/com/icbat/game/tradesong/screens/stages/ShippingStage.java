@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,6 +30,7 @@ public class ShippingStage extends InventoryStage {
 
     @Override
     public void layout() {
+        super.layout();
         this.clear();
 
         notificationCenter.addWatcher(new ContractCompletedWatcher());
@@ -117,6 +119,7 @@ public class ShippingStage extends InventoryStage {
                     super.clicked(event, x, y);
                     if (contractMatched.completeContract(shipmentBoxContents)) {
                         shipmentBoxContents.clear();
+                        Gdx.app.debug("number of watchers", notificationCenter.countWatchers() + "");
                         notificationCenter.notifyWatchers(new ContractCompletedNotification(contractMatched));
                     }
 
