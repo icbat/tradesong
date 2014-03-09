@@ -59,4 +59,12 @@ public class Contract {
     public List<Item> getRequirements() {
         return requirements;
     }
+
+    public int getRewardMoney() {
+        return rewardMoney;
+    }
+
+    public List<Item> getRewardItems() {
+        return rewards;
+    }
 }
