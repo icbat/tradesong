@@ -5,7 +5,7 @@ public class Notification {
     private String action;
     private Object contents;
 
-    public Notification(String action, Object contents) {
+    protected Notification(String action, Object contents) {
         this.action = action;
         this.contents = contents;
     }

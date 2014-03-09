@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -10,6 +11,8 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Item;
+import com.icbat.game.tradesong.observation.notifications.ContractCompletedNotification;
+import com.icbat.game.tradesong.observation.watchers.ContractCompletedWatcher;
 import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
 import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.utils.SpacedTable;
@@ -27,7 +30,10 @@ public class ShippingStage extends InventoryStage {
 
     @Override
     public void layout() {
+        super.layout();
         this.clear();
+
+        notificationCenter.addWatcher(new ContractCompletedWatcher());
 
         SpacedTable layoutTable = new SpacedTable();
 
@@ -100,7 +106,7 @@ public class ShippingStage extends InventoryStage {
     }
 
     /**
-     * Turns the complet button shouldBeOn or off depending shouldBeOn input.
+     * Turns the complete button shouldBeOn or off depending shouldBeOn input.
      *
      * @param shouldBeOn Whether the button should turn shouldBeOn
      * */
@@ -111,8 +117,11 @@ public class ShippingStage extends InventoryStage {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if (contractMatched.completeContract(shipmentBoxContents))
+                    if (contractMatched.completeContract(shipmentBoxContents)) {
                         shipmentBoxContents.clear();
+                        Gdx.app.debug("number of watchers", notificationCenter.countWatchers() + "");
+                        notificationCenter.notifyWatchers(new ContractCompletedNotification(contractMatched));
+                    }
 
                     layout();
                 }

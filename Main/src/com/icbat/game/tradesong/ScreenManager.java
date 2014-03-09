@@ -14,4 +14,6 @@ public interface ScreenManager {
     public void goBack();
 
     public void goToMainMenu();
+
+    public AbstractScreen getCurrentScreen();
 }

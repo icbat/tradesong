@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 import com.icbat.game.tradesong.screens.stages.HUD;
+import com.icbat.game.tradesong.screens.stages.PopupStage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,5 +102,15 @@ public abstract class AbstractScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
+    protected void finishMakingScreen() {
+        stages.add(new PopupStage());
+    }
+
     public abstract String getScreenName();
+
+    /** Allows adding of actors from other things. Adds the Actor to the first stage in the list (usually HUD) */
+    public void addActor(Actor actor) {
+        stages.get(stages.size() - 1).addActor(actor);
+    }
+
 }

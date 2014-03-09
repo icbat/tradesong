@@ -23,6 +23,7 @@ import java.util.*;
 public class MapStage extends BaseStage {
     public static final String SPAWNABLE_ITEMS_KEY = "spawnableItems";
     public static final String INITIAL_SPAWN_COUNT_KEY = "initialSpawnCount";
+    public static final String MAX_SPAWN_CAPACITY_KEY = "maxSpawnCapacity";
     private List<ValidSpawnArea> spawnAreas = new LinkedList<ValidSpawnArea>();
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
@@ -31,8 +32,13 @@ public class MapStage extends BaseStage {
         MapProperties mapProperties = map.getProperties();
         setupAreas(map);
         maxItemsOnMap = getMaxItems(mapProperties);
-        Integer initialSpawnedItems = Integer.parseInt((String) mapProperties.get(INITIAL_SPAWN_COUNT_KEY));
-        spawnInitialItems(initialSpawnedItems);
+        try {
+            Integer initialSpawnedItems = Integer.parseInt((String) mapProperties.get(INITIAL_SPAWN_COUNT_KEY));
+            spawnInitialItems(initialSpawnedItems);
+        } catch (NumberFormatException nfe) {
+            Gdx.app.log("Could not determine how many items to spawn initially", "map property " + INITIAL_SPAWN_COUNT_KEY + "likely missing.", nfe);
+        }
+
     }
 
     @Override
@@ -55,7 +61,7 @@ public class MapStage extends BaseStage {
     }
 
     private Integer getMaxItems(MapProperties mapProperties) {
-        String maxSpawnsBlob = (String) mapProperties.get("maxSpawnCapacity");
+        String maxSpawnsBlob = (String) mapProperties.get(MAX_SPAWN_CAPACITY_KEY);
         if (maxSpawnsBlob != null) {
             return Integer.parseInt(maxSpawnsBlob);
         }
@@ -162,14 +168,16 @@ public class MapStage extends BaseStage {
          * @return the Item to spawn regardless of max capacity
          * */
         public Item spawnItem() {
-            Item itemToSpawn = getRandomItem(this.spawnableItems);
-            Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
-            itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
-            itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
-            return itemToSpawn;
+            if (!spawnableItems.isEmpty() && !spawnableTiles.isEmpty()) {
+                Item itemToSpawn = getRandomItem(this.spawnableItems);
+                Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
+                itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
+                itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
+                return itemToSpawn;
+            }
+
+            return null;
         }
-
-
 
         private Item getRandomItem(List<Item> spawnableItems) {
             Random random = new Random();
