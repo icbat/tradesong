@@ -10,6 +10,7 @@ public enum TextureAssets {
     FRAME("frame"),
     SLIDER_HEAD("slider-icon"),
     SLIDER_BG("slider-bg"),
+    POPUP_BG("popup-bg"),
     ;
 
     private String path;

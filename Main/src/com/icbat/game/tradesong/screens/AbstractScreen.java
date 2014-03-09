@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 import com.icbat.game.tradesong.screens.stages.HUD;
@@ -101,4 +102,10 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public abstract String getScreenName();
+
+    /** Allows adding of actors from other things. Adds the Actor to the first stage in the list (usually HUD) */
+    public void addActor(Actor actor) {
+        stages.get(0).addActor(actor);
+    }
+
 }
