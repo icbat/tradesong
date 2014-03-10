@@ -7,11 +7,13 @@ title: About
 
 Tradesong is a game about being an entrepreneur in a fantasy world. You'll leave the fighting to the brutes and the maniacs while turning a profit off of their labors. Support your kingdom by venturing into the Wyld to collect resources, turn those raw materials in to in-demand goods and perfect your craft. Just be mindful not to fall in to debt while doing so!
 
-**STATIC PICTURE**
+<a href="{{site.url}}/images/new-static-map.png">
+<img src="{{site.url}}/images/new-static-map.png"/>
+</a>
 
-## Feature 1/Further description
+## Learn and grow as a player, not as a character sheet.
 
-Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.
+There's no levels and no restrictions in Tradesong; all the items are there to be found and crafted. Trade to survive and grow your empire of business.
 
 **ANIMATED GAMEPLAY PICTURE**
 
