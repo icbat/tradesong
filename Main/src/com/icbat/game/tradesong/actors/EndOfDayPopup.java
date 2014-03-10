@@ -22,9 +22,12 @@ public class EndOfDayPopup extends Table {
     private Table makeContentTable() {
         SpacedTable contentTable = new SpacedTable();
 
-        contentTable.add(new Label("Contract completed!", Tradesong.uiStyles.getLabelStyle()));
+        contentTable.add(new Label("End of day", Tradesong.uiStyles.getLabelStyle()));
         contentTable.spacedRows(2);
+        contentTable.add(new Label("New contracts generated!", Tradesong.uiStyles.getLabelStyle()));
         contentTable.spacedRow();
+        contentTable.add(new Label("Rent collected:  200", Tradesong.uiStyles.getLabelStyle())); // TODO extract rent to a variable somewhere.
+
 
         contentTable.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));
         contentTable.addListener(new ClickListener() {
