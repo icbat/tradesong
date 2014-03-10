@@ -164,19 +164,31 @@ public class MapStage extends BaseStage {
 
         private final int ICON_SIZE = Constants.SPRITE_DIMENSION.value();
         private final List<Point> spawnableTiles;
-        private final List<Item> spawnableItems;
+        private final List<Item> weightedSpawnableItemsList;
 
         public ValidSpawnArea(List<Point> spawnableTiles, List<Item> spawnableItems) {
             this.spawnableTiles = spawnableTiles;
-            this.spawnableItems = spawnableItems;
+            this.weightedSpawnableItemsList = weightSpawnableItems(spawnableItems);
+        }
+
+        private List<Item> weightSpawnableItems(List<Item> spawnableItems) {
+            List<Item> weightedSpawns = new ArrayList<Item>();
+
+            for (Item item : spawnableItems) {
+                for (int i = 0; i < item.getRarity().getWeight(); ++i) {
+                    weightedSpawns.add(new Item(item));
+                }
+            }
+
+            return weightedSpawns;
         }
 
         /**
          * @return the Item to spawn regardless of max capacity
          * */
         public Item spawnItem() {
-            if (!spawnableItems.isEmpty() && !spawnableTiles.isEmpty()) {
-                Item itemToSpawn = getRandomItem(this.spawnableItems);
+            if (!weightedSpawnableItemsList.isEmpty() && !spawnableTiles.isEmpty()) {
+                Item itemToSpawn = getRandomItem(this.weightedSpawnableItemsList);
                 Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
                 itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
                 itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
@@ -187,6 +199,7 @@ public class MapStage extends BaseStage {
         }
 
         private Item getRandomItem(List<Item> spawnableItems) {
+
             Random random = new Random();
             int i = random.nextInt(spawnableItems.size());
             Item item = new Item(Tradesong.itemPrototypes.get("Sword"));
