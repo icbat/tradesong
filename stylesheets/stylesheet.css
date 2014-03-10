@@ -92,6 +92,11 @@ ul {
 	color: #fff;
 }
 
+.navHeader img {
+	width: 32px;
+	height: 32px;
+}
+
 .subtle {
 	color: #555;
 }
