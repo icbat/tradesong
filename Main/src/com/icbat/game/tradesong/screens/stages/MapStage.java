@@ -77,6 +77,7 @@ public class MapStage extends BaseStage {
                 List<Item> spawnableItems = new LinkedList<Item>();
                 try {
                     spawnableItems = parseSpawnableItems(spawnLayer);
+
                 } catch (NullPointerException npe) {
                     Gdx.app.error("Layer " + layer.getName(), "has no spawnableItems attribute or found no items", npe);
                 }
@@ -105,7 +106,13 @@ public class MapStage extends BaseStage {
         String[] splitItems = spawnableItemsBlob.split(",");
         List<Item> spawnableItems = new LinkedList<Item>();
         for (String itemName : splitItems) {
-            spawnableItems.add(Tradesong.itemPrototypes.get(itemName));
+            Item itemToAdd = Tradesong.itemPrototypes.get(itemName.trim());
+            if (itemToAdd != null) {
+                spawnableItems.add(itemToAdd);
+            } else {
+                Gdx.app.error("Failed to find item by name", itemName);
+            }
+
         }
         return spawnableItems;
     }
@@ -182,7 +189,16 @@ public class MapStage extends BaseStage {
         private Item getRandomItem(List<Item> spawnableItems) {
             Random random = new Random();
             int i = random.nextInt(spawnableItems.size());
-            return new Item(spawnableItems.get(i));
+            Item item = new Item(Tradesong.itemPrototypes.get("Sword"));
+            try {
+
+                item = new Item(spawnableItems.get(i));
+            } catch (NullPointerException npe) {
+                Gdx.app.error("Current list trying to spawn from", spawnableItems.toString());
+                Gdx.app.error("Exception trying to spawn item from list", item.getName(), npe);
+
+            }
+            return item;
         }
 
         private Point getRandomSpawnPoint(List<Point> spawnableTiles) {
