@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 
 /***/
 public enum Rarity {
-    COMMON("Common", 2),
-    UNCOMMON("Uncommon", 4),
-    RARE("Rare", 6),
-    ULTRA_RARE("Ultra Rare", 8);
+    COMMON("Common", 16),
+    UNCOMMON("Uncommon", 8),
+    RARE("Rare", 4),
+    ULTRA_RARE("Ultra Rare", 2);
 
     String stringRepresentation;
     Integer weight;
