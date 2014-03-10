@@ -40,7 +40,6 @@ public class Clock extends NotificationManager {
         public void run() {
             Gdx.app.debug("clock says", "day ended!");
             notifyWatchers(new DayEndedNotification());
-            startDay();
         }
     }
 
