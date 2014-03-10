@@ -17,6 +17,7 @@ public class UIStyles {
     private Label.LabelStyle labelStyle = new Label.LabelStyle();
     private Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
     private BitmapFont font = new BitmapFont();
+    private Label.LabelStyle blankLabelStyle = new Label.LabelStyle();
 
     public UIStyles() {
         this.textButtonStyle.font = font;
@@ -26,6 +27,7 @@ public class UIStyles {
         this.disabledButtonStyle.font = font;
         this.disabledButtonStyle.fontColor = Color.DARK_GRAY;
 
+        this.blankLabelStyle.font = font;
         this.labelStyle.font = font;
         this.labelStyle.fontColor = Color.GREEN;
 
@@ -36,6 +38,8 @@ public class UIStyles {
     public TextButton.TextButtonStyle getTextButtonStyle() {
         return textButtonStyle;
     }
+
+    public Label.LabelStyle getBlankLabelStyle() { return blankLabelStyle; }
 
     public Label.LabelStyle getLabelStyle() {
         return labelStyle;
