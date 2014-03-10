@@ -94,6 +94,10 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {
+        setupInputMultiplexer();
+    }
+
+    private void setupInputMultiplexer() {
         inputMultiplexer.clear();
         for (Stage stage : stages) {
             inputMultiplexer.addProcessor(stage);
@@ -104,6 +108,7 @@ public abstract class AbstractScreen implements Screen {
 
     protected void addPopupStage() {
         stages.add(new PopupStage());
+        setupInputMultiplexer();
     }
 
     public abstract String getScreenName();

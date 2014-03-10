@@ -28,7 +28,6 @@ public class EndOfDayPopup extends Table {
         contentTable.spacedRow();
         contentTable.add(new Label("Rent collected:  200", Tradesong.uiStyles.getLabelStyle())); // TODO extract rent to a variable somewhere.
 
-
         contentTable.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));
         contentTable.addListener(new ClickListener() {
             @Override
