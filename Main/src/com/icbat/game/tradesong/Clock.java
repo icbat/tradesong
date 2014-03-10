@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.DayEndedNotification;
+import com.icbat.game.tradesong.observation.watchers.EndOfDayWatcher;
 
 /**
  * @author icbat
@@ -18,6 +19,10 @@ public class Clock extends NotificationManager {
     /** Current time in minutes. Initialized to 0 every time you startDay */
     private int currentTime = 0;
     private final Timer dayTimer = new Timer();
+
+    public Clock() {
+        this.addWatcher(new EndOfDayWatcher());
+    }
 
     public void startDay() {
         Gdx.app.debug("clock","day started!");
@@ -36,14 +41,9 @@ public class Clock extends NotificationManager {
         @Override
         public void run() {
             Gdx.app.debug("clock says", "day ended!");
-            endOfDay();
             notifyWatchers(new DayEndedNotification());
             startDay();
         }
-    }
-
-    private void endOfDay() {
-        Tradesong.inventory.addMoney(-200);
     }
 
     private class countUpTask extends Timer.Task {
