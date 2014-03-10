@@ -21,6 +21,16 @@ public class MapScreen extends AbstractScreen {
         addPopupStage();
     }
 
+    @Override
+    /***/
+    protected void setupInputMultiplexer() {
+        inputMultiplexer.clear();
+        inputMultiplexer.addProcessor(stages.get(0));
+        inputMultiplexer.addProcessor(stages.get(2));
+        inputMultiplexer.addProcessor(stages.get(1));
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
     public void setMap(String mapName) {
         String mapFile = "maps/" + mapName + ".tmx";
         Tradesong.assetManager.load(mapFile, TiledMap.class);

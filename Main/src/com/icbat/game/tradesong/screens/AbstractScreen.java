@@ -97,7 +97,7 @@ public abstract class AbstractScreen implements Screen {
         setupInputMultiplexer();
     }
 
-    private void setupInputMultiplexer() {
+    protected void setupInputMultiplexer() {
         inputMultiplexer.clear();
         for (Stage stage : stages) {
             inputMultiplexer.addProcessor(stage);
