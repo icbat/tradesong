@@ -18,6 +18,7 @@ public class MapScreen extends AbstractScreen {
     public MapScreen(String mapName) {
         Gdx.app.log("Setting Map to", mapName);
         setMap(mapName);
+        addPopupStage();
     }
 
     public void setMap(String mapName) {

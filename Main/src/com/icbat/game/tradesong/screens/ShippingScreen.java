@@ -7,7 +7,7 @@ public class ShippingScreen extends AbstractScreen {
 
     public ShippingScreen() {
         stages.add(new ShippingStage());
-        finishMakingScreen();
+        addPopupStage();
     }
 
     @Override
