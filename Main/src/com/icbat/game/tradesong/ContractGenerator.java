@@ -62,7 +62,8 @@ public class ContractGenerator {
     private List<Item> getRewards(Rarity rarity) {
         int itemsToFind = random.nextInt(2);
         if (itemsToFind > 0) {
-            return getRandomItemList(rarity, itemsToFind);
+
+            return getRandomRewards(rarity, itemsToFind);
         } else {
             return new ArrayList<Item>();
         }
@@ -73,6 +74,20 @@ public class ContractGenerator {
 
         for (int i=0; i < numberOfItems; ++i) {
             items.add(getRandomItem(rarity));
+        }
+
+        return items;
+    }
+
+    private List<Item> getRandomRewards (Rarity rarity, int numberOfItems) {
+        List<Item> items = new ArrayList<Item>();
+
+        for (int i=0; i < numberOfItems; ++i) {
+            Item randomItem;
+            do {
+                randomItem = getRandomItem(rarity);
+            } while (items.contains(randomItem));
+            items.add(randomItem);
         }
 
         return items;
