@@ -4,6 +4,7 @@ public enum SoundAssets {
     GATHER_CLINK("hammering"),
     SUCCESS("success"),
     CHURCHBELL("churchbell"),
+    PORTAL("portal"),
     SCREEN_SWAP("swapping"),;
 
     private String path;

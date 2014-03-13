@@ -116,7 +116,7 @@ public abstract class AbstractScreen implements Screen {
 
     public abstract String getScreenName();
 
-    /** Allows adding of actors from other things. Adds the Actor to the first stage in the list (usually HUD) */
+    /** Allows adding of popups from other things. Adds the Actor to the first stage in the list (usually HUD) */
     public void addPopup(Actor actor) {
         stages.get(stages.size() - 1).addActor(actor);
     }

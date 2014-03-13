@@ -8,14 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.observation.NotificationManager;
+import com.icbat.game.tradesong.observation.notifications.PortalTakenNotification;
+import com.icbat.game.tradesong.observation.watchers.PortalTakenWatcher;
 import com.icbat.game.tradesong.screens.MapScreen;
 
 /***/
 public class Portal extends Image {
+    NotificationManager notifications = new NotificationManager();
     private final String linkedMapName;
 
     private Portal(String linkedMapName, Integer x, Integer y) {
         super(TextureAssets.ITEMS.getRegion(14, 5));
+        notifications.addWatcher(new PortalTakenWatcher());
         this.linkedMapName = linkedMapName;
         this.addListener(new PortalTransitionListener());
         this.setX(x);
@@ -45,6 +50,7 @@ public class Portal extends Image {
             super.clicked(event, x, y);
             Gdx.app.debug("portal clicked", linkedMapName);
             ((MapScreen)Tradesong.screenManager.getCurrentScreen()).moveToMap(linkedMapName);
+            notifications.notifyWatchers(new PortalTakenNotification(linkedMapName));
         }
     }
 }

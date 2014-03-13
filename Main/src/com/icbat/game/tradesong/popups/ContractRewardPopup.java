@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.actors;
+package com.icbat.game.tradesong.popups;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,24 +9,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.Contract;
+import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
 /***/
-public class EndOfDayPopup extends Table {
+public class ContractRewardPopup extends Table {
 
-    public EndOfDayPopup() {
-        this.add(makeContentTable());
+    public ContractRewardPopup(Contract contractCompleted) {
+        this.add(makeContentTable(contractCompleted));
         this.setFillParent(true);
     }
 
-    private Table makeContentTable() {
+    private Table makeContentTable(Contract contractCompleted) {
         SpacedTable contentTable = new SpacedTable();
 
-        contentTable.add(new Label("End of day", Tradesong.uiStyles.getLabelStyle()));
+        contentTable.add(new Label("Contract completed!", Tradesong.uiStyles.getLabelStyle()));
         contentTable.spacedRows(2);
-        contentTable.add(new Label("New contracts generated!", Tradesong.uiStyles.getLabelStyle()));
+        contentTable.add(new Label("Rewards:  " + contractCompleted.getRewardMoney(), Tradesong.uiStyles.getLabelStyle()));
         contentTable.spacedRow();
-        contentTable.add(new Label("Rent collected:  200", Tradesong.uiStyles.getLabelStyle())); // TODO extract rent to a variable somewhere.
+        for (Item item : contractCompleted.getRewardItems()) {
+            contentTable.spacedAdd(new Item(item));
+        }
 
         contentTable.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));
         contentTable.addListener(new ClickListener() {
