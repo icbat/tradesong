@@ -45,6 +45,7 @@ public class CraftingStage extends InventoryStage {
         SpacedTable table = new SpacedTable();
 
         for (Map.Entry<String, Workshop> workshop : Tradesong.workshopListing.getWorkshops().entrySet()) {
+            table.spacedAdd(workshop.getValue());
             table.spacedAdd(new Label(workshop.getKey(), Tradesong.uiStyles.getLabelStyle()));
         }
 

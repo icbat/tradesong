@@ -81,9 +81,11 @@ public class WorkshopListing {
 
     private TextureRegion parseSprite(XmlReader.Element parentElement) {
         XmlReader.Element icon = parentElement.getChildByName("icon");
+        TextureAssets texture = TextureAssets.ITEMS;
         Integer x = Integer.parseInt(icon.get("x", "0"));
-        Integer y = Integer.parseInt(icon.get("x", "0"));
-        return TextureAssets.FRAME.getRegion(x,y);
+        Integer y = Integer.parseInt(icon.get("y", "0"));
+        Gdx.app.debug("Loading sprite from " + texture.getPath() + " at", x +  ", " + y);
+        return texture.getRegion(x,y);
     }
 
 
