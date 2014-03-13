@@ -3,6 +3,8 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,6 +16,7 @@ import com.icbat.game.tradesong.utils.SpacedTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CraftingStage extends InventoryStage {
 
@@ -34,8 +37,27 @@ public class CraftingStage extends InventoryStage {
         holdingTable.spacedRows(3);
         holdingTable.add(makeWorkshopNameDisplay());
         holdingTable.spacedRows(3);
+        holdingTable.add(makeWorkshopToggles());
+        holdingTable.spacedRows(3);
         holdingTable.add(makeItemInfoTable());
         this.addActor(holdingTable);
+    }
+
+    private Actor makeWorkshopToggles() {
+        SpacedTable table = new SpacedTable();
+
+        for (Map.Entry<String, Workshop> entry : Tradesong.workshopListing.getWorkshops().entrySet()) {
+            Workshop workshop = entry.getValue();
+            Image workshopButton = new Image(workshop.getSprite());
+            workshopButton.addListener(new WorkshopSwapperListener(workshop));
+            workshopButton.setTouchable(Touchable.enabled);
+            table.spacedAdd(workshopButton);
+            Label workshopLabel = new Label(workshop.getName(), Tradesong.uiStyles.getLabelStyle());
+            workshopLabel.addListener(new WorkshopSwapperListener(workshop));
+            table.spacedAdd(workshopLabel);
+        }
+
+        return table;
     }
 
     @Override
@@ -90,5 +112,21 @@ public class CraftingStage extends InventoryStage {
         }
 
         return craftingTable;
+    }
+
+    private class WorkshopSwapperListener extends ClickListener {
+        private final Workshop owner;
+
+        public WorkshopSwapperListener(Workshop owner) {
+            this.owner = owner;
+        }
+
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y);
+            Gdx.app.debug(owner.getName(), "clicked! setting to...");
+            currentWorkshop = owner;
+            updateWorkshopName();
+        }
     }
 }

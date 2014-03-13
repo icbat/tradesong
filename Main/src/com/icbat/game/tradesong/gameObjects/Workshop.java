@@ -1,16 +1,22 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /***/
-public class Workshop {
+public class Workshop extends Image{
     List<Recipe> recipesAssociated = new ArrayList<Recipe>();
-    private String name;
+    private final String name;
+    private final TextureRegion sprite;
 
-    public Workshop(String workshopName, List<Recipe> recipes) {
+    public Workshop(String workshopName, List<Recipe> recipes, TextureRegion sprite) {
+        super(sprite);
         recipesAssociated = recipes;
         name = workshopName;
+        this.sprite = sprite;
     }
 
 
@@ -36,7 +42,7 @@ public class Workshop {
                 '}';
     }
 
-    public List<Recipe> getRecipes() {
-        return recipesAssociated;
+    public TextureRegion getSprite() {
+        return sprite;
     }
 }

@@ -2,27 +2,32 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Recipe;
 import com.icbat.game.tradesong.gameObjects.Workshop;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is similar to ItemPrototypes, but for a workshop and its recipes
  * */
 public class WorkshopListing {
-    List<Workshop> workshops = new ArrayList<Workshop>();
+    Map<String, Workshop> workshops = new HashMap<String, Workshop>();
 
     public WorkshopListing() {
         List<FileHandle> workshopFiles = readWorkshopListing();
 
         for (FileHandle file : workshopFiles) {
-            workshops.add(readWorkshopFile(file));
+            Workshop workshop = readWorkshopFile(file);
+            workshops.put(workshop.getName(), workshop);
         }
 
         Gdx.app.log("workshops created", workshops.toString());
@@ -64,14 +69,25 @@ public class WorkshopListing {
         List<Recipe> recipesForThisWorkshop = new ArrayList<Recipe>();
 
         String workshopName = parentElement.get("name");
+        TextureRegion sprite = parseSprite(parentElement);
         Array<XmlReader.Element> recipeListXml = parentElement.getChildByName("recipes").getChildrenByName("recipe");
 
         for (XmlReader.Element recipeXml : recipeListXml) {
             recipesForThisWorkshop.add(parseRecipe(recipeXml));
         }
 
-        return new Workshop(workshopName, recipesForThisWorkshop);
+        return new Workshop(workshopName, recipesForThisWorkshop, sprite);
     }
+
+    private TextureRegion parseSprite(XmlReader.Element parentElement) {
+        XmlReader.Element icon = parentElement.getChildByName("icon");
+        TextureAssets texture = TextureAssets.ITEMS;
+        Integer x = Integer.parseInt(icon.get("x", "0"));
+        Integer y = Integer.parseInt(icon.get("y", "0"));
+        Gdx.app.debug("Loading sprite from " + texture.getPath() + " at", x +  ", " + y);
+        return texture.getRegion(x,y);
+    }
+
 
     private Recipe parseRecipe(XmlReader.Element recipeXml) {
 
@@ -97,11 +113,10 @@ public class WorkshopListing {
     }
 
     public Workshop getWorkshop(String name) {
-        for (Workshop workshop : workshops) {
-            if (workshop.getName().equalsIgnoreCase(name)) {
-                return workshop;
-            }
-        }
-        return null;
+        return workshops.get(name);
+    }
+
+    public Map<String, Workshop> getWorkshops() {
+        return workshops;
     }
 }
