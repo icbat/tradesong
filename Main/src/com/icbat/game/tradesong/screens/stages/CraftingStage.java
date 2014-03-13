@@ -14,6 +14,7 @@ import com.icbat.game.tradesong.utils.SpacedTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CraftingStage extends InventoryStage {
 
@@ -34,8 +35,20 @@ public class CraftingStage extends InventoryStage {
         holdingTable.spacedRows(3);
         holdingTable.add(makeWorkshopNameDisplay());
         holdingTable.spacedRows(3);
+        holdingTable.add(makeWorkshopToggles());
+        holdingTable.spacedRows(3);
         holdingTable.add(makeItemInfoTable());
         this.addActor(holdingTable);
+    }
+
+    private Actor makeWorkshopToggles() {
+        SpacedTable table = new SpacedTable();
+
+        for (Map.Entry<String, Workshop> workshop : Tradesong.workshopListing.getWorkshops().entrySet()) {
+            table.spacedAdd(new Label(workshop.getKey(), Tradesong.uiStyles.getLabelStyle()));
+        }
+
+        return table;
     }
 
     @Override

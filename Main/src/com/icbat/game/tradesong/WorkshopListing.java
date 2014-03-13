@@ -2,8 +2,10 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Recipe;
 import com.icbat.game.tradesong.gameObjects.Workshop;
@@ -67,14 +69,23 @@ public class WorkshopListing {
         List<Recipe> recipesForThisWorkshop = new ArrayList<Recipe>();
 
         String workshopName = parentElement.get("name");
+        TextureRegion sprite = parseSprite(parentElement);
         Array<XmlReader.Element> recipeListXml = parentElement.getChildByName("recipes").getChildrenByName("recipe");
 
         for (XmlReader.Element recipeXml : recipeListXml) {
             recipesForThisWorkshop.add(parseRecipe(recipeXml));
         }
 
-        return new Workshop(workshopName, recipesForThisWorkshop);
+        return new Workshop(workshopName, recipesForThisWorkshop, sprite);
     }
+
+    private TextureRegion parseSprite(XmlReader.Element parentElement) {
+        XmlReader.Element icon = parentElement.getChildByName("icon");
+        Integer x = Integer.parseInt(icon.get("x", "0"));
+        Integer y = Integer.parseInt(icon.get("x", "0"));
+        return TextureAssets.FRAME.getRegion(x,y);
+    }
+
 
     private Recipe parseRecipe(XmlReader.Element recipeXml) {
 
@@ -101,5 +112,9 @@ public class WorkshopListing {
 
     public Workshop getWorkshop(String name) {
         return workshops.get(name);
+    }
+
+    public Map<String, Workshop> getWorkshops() {
+        return workshops;
     }
 }
