@@ -1,7 +1,5 @@
 package com.icbat.game.tradesong.gameObjects;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,6 @@ public class Recipe {
                 return true;
             }
         }
-        Gdx.app.debug(isCatchAll + "", itemsInput.size() + "");
         return (isCatchAll && itemsInput.size() == 1);
     }
 

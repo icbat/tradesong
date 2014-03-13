@@ -45,7 +45,7 @@ public class Item extends Image implements Comparable {
 
     @Override
     public String toString() {
-        return "Item:" + name;
+        return name;
     }
 
     @Override
@@ -81,14 +81,5 @@ public class Item extends Image implements Comparable {
 
     public Rarity getRarity() {
         return this.rarity;
-    }
-
-    public int getGameX() {
-        return (int) (super.getX() / 32);
-    }
-
-
-    public int getGameY() {
-        return (int) super.getY();
     }
 }
