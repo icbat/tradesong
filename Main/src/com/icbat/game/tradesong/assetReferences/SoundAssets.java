@@ -1,9 +1,10 @@
 package com.icbat.game.tradesong.assetReferences;
 
 public enum SoundAssets {
-    GATHER_CLINK("hammering"),
+    GATHER_CLINK("gathering"),
     SUCCESS("success"),
     CHURCHBELL("churchbell"),
+    PORTAL("portal"),
     SCREEN_SWAP("swapping"),;
 
     private String path;

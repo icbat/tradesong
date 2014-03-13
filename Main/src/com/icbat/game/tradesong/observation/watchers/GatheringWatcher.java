@@ -61,7 +61,7 @@ public class GatheringWatcher implements Watcher {
                     Tradesong.inventory.addItem(new Item(owner));
                     owner.remove();
                 }
-            }, 0.5f);
+            }, 2.5f);
         }
     }
 

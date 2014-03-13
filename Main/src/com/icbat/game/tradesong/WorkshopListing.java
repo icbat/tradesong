@@ -84,7 +84,6 @@ public class WorkshopListing {
         TextureAssets texture = TextureAssets.ITEMS;
         Integer x = Integer.parseInt(icon.get("x", "0"));
         Integer y = Integer.parseInt(icon.get("y", "0"));
-        Gdx.app.debug("Loading sprite from " + texture.getPath() + " at", x +  ", " + y);
         return texture.getRegion(x,y);
     }
 
@@ -92,6 +91,7 @@ public class WorkshopListing {
     private Recipe parseRecipe(XmlReader.Element recipeXml) {
 
         String outputName = recipeXml.get("output");
+        boolean isCatchAll = false;
         Item output = Tradesong.itemPrototypes.get(outputName);
 
         List<Item> ingredients = new ArrayList<Item>();
@@ -99,12 +99,15 @@ public class WorkshopListing {
         Array<XmlReader.Element> ingredientListXml = recipeXml.getChildByName("ingredients").getChildrenByName("ingredient");
 
         for (XmlReader.Element ingredientXml : ingredientListXml) {
+            if (ingredientXml.getText().equals("*")) {
+                isCatchAll = true;
+            }
             ingredients.add(parseIngredient(ingredientXml));
         }
 
 
         Integer craftTime = 2;
-        return new Recipe(output, ingredients, craftTime);
+        return new Recipe(output, ingredients, craftTime, isCatchAll);
     }
 
     private Item parseIngredient(XmlReader.Element ingredientXml) {

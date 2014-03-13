@@ -14,7 +14,6 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
@@ -63,16 +62,16 @@ public class Tradesong extends Game {
         // TODO remove before release, debugging
         screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
 
-        for (Item item : itemPrototypes.getAll()) {
-            inventory.addItem(item);
-        }
+//        for (Item item : itemPrototypes.getAll()) {
+//            inventory.addItem(item);
+//        }
 
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
+        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
 
         clock.startDay();
     }

@@ -3,7 +3,7 @@ package com.icbat.game.tradesong.observation.watchers;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.actors.EndOfDayPopup;
+import com.icbat.game.tradesong.popups.EndOfDayPopup;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;

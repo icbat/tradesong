@@ -46,14 +46,21 @@ public class MapStage extends BaseStage {
     private void setupPortals(TiledMap map) {
         for ( MapLayer layer : map.getLayers() ) {
             if (layer.getName().contains("#PORTALS")) {
-                Gdx.app.debug("found object layer of portals", "yay!");
                 for (MapObject obj : layer.getObjects()) {
-                    Gdx.app.debug("obj", obj.getName());
+                    Gdx.app.debug("found map object", obj.getName());
 
                     this.addActor(Portal.makePortal(obj));
                 }
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        spawnTimer.clear();
+        spawnTimer.stop();
+        Gdx.app.debug("map stage", "disposed");
     }
 
     @Override
@@ -96,8 +103,6 @@ public class MapStage extends BaseStage {
                 } catch (NullPointerException npe) {
                     Gdx.app.error("Layer " + layer.getName(), "has no spawnableItems attribute or found no items", npe);
                 }
-
-                Gdx.app.debug(layer.getName(), "found " + spawnableTiles.size() + " spawnable tiles ");
                 spawnAreas.add(new ValidSpawnArea(spawnableTiles, spawnableItems));
             }
         }
