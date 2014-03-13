@@ -7,7 +7,7 @@ import com.icbat.game.tradesong.screens.stages.MainMenuStage;
 public class MainMenuScreen extends AbstractScreen {
     public MainMenuScreen() {
         stages.add(new MainMenuStage());
-        Tradesong.playLoopingMusic(MusicAssets.TITLE_THEME);
+        Tradesong.playLoopingMusic(MusicAssets.MYSTERIOUS);
     }
 
     @Override
