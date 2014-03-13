@@ -44,8 +44,6 @@ public class MapScreen extends AbstractScreen {
         MapStage mapStage = setupMapStage(map);
         super.setupStages(mapStage);
         this.setupInputMultiplexer();
-        Gdx.app.debug("  # stages", this.stages.toString());
-        Gdx.app.debug("  # multiplexer", this.inputMultiplexer.toString());
     }
 
     private MapStage setupMapStage(TiledMap map) {

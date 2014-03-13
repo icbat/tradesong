@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Workshop;
+import com.icbat.game.tradesong.observation.notifications.CraftAttemptedNotification;
 import com.icbat.game.tradesong.observation.notifications.CraftingBenchSwappedNotification;
+import com.icbat.game.tradesong.observation.watchers.CraftAttemptedWatcher;
 import com.icbat.game.tradesong.observation.watchers.CraftingBenchSwapWatcher;
 import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.utils.SpacedTable;
@@ -31,6 +33,7 @@ public class CraftingStage extends InventoryStage {
     public void layout() {
         super.layout();
         notificationCenter.addWatcher(new CraftingBenchSwapWatcher());
+        notificationCenter.addWatcher(new CraftAttemptedWatcher());
         this.clear();
         SpacedTable holdingTable = makeHoldingTable();
         holdingTable.add(makeInventoryTable());
@@ -79,6 +82,7 @@ public class CraftingStage extends InventoryStage {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Trying to craft with", craftingTableContents.toString());
                 Item output = currentWorkshop.getOutput(craftingTableContents);
+                notificationCenter.notifyWatchers(new CraftAttemptedNotification(output));
                 if (output != null) {
                     Gdx.app.log("crafted", output.getName());
                     craftingTableContents.clear();
@@ -101,7 +105,6 @@ public class CraftingStage extends InventoryStage {
     }
 
     private SpacedTable makeCraftingTable() {
-        Gdx.app.debug("craftingStage", "drawing crafting table");
         SpacedTable craftingTable = new SpacedTable();
 
         for (int i = 0; i < craftingTableCapacity; ++i) {
@@ -128,7 +131,6 @@ public class CraftingStage extends InventoryStage {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
-            Gdx.app.debug(owner.getName(), "clicked! setting to...");
             currentWorkshop = owner;
             updateWorkshopName();
             notificationCenter.notifyWatchers(new CraftingBenchSwappedNotification());

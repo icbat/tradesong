@@ -171,7 +171,6 @@ public class MapStage extends BaseStage {
     }
 
     public void setDragListener(Camera camera) {
-        Gdx.app.debug("", "Setting a drag listener");
         this.addListener(new DragMoveListener(camera));
     }
 

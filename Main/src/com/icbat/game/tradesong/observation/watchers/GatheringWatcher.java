@@ -51,7 +51,8 @@ public class GatheringWatcher implements Watcher {
             gatherSound.stop();
             completionSound.stop();
 
-            gatherSound.play();
+//            gatherSound.play();
+            gatherSound.loop();
             gatherTimer.clear();
             gatherTimer.scheduleTask(new Timer.Task() {
                 @Override
@@ -61,7 +62,7 @@ public class GatheringWatcher implements Watcher {
                     Tradesong.inventory.addItem(new Item(owner));
                     owner.remove();
                 }
-            }, 2.5f);
+            }, 3f);
         }
     }
 
