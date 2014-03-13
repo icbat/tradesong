@@ -9,12 +9,14 @@ import java.util.List;
 /***/
 public class Workshop extends Image{
     List<Recipe> recipesAssociated = new ArrayList<Recipe>();
-    private String name;
+    private final String name;
+    private final TextureRegion sprite;
 
     public Workshop(String workshopName, List<Recipe> recipes, TextureRegion sprite) {
         super(sprite);
         recipesAssociated = recipes;
         name = workshopName;
+        this.sprite = sprite;
     }
 
 
@@ -40,7 +42,7 @@ public class Workshop extends Image{
                 '}';
     }
 
-    public List<Recipe> getRecipes() {
-        return recipesAssociated;
+    public TextureRegion getSprite() {
+        return sprite;
     }
 }

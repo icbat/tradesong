@@ -3,6 +3,8 @@ package com.icbat.game.tradesong.screens.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -44,9 +46,15 @@ public class CraftingStage extends InventoryStage {
     private Actor makeWorkshopToggles() {
         SpacedTable table = new SpacedTable();
 
-        for (Map.Entry<String, Workshop> workshop : Tradesong.workshopListing.getWorkshops().entrySet()) {
-            table.spacedAdd(workshop.getValue());
-            table.spacedAdd(new Label(workshop.getKey(), Tradesong.uiStyles.getLabelStyle()));
+        for (Map.Entry<String, Workshop> entry : Tradesong.workshopListing.getWorkshops().entrySet()) {
+            Workshop workshop = entry.getValue();
+            Image workshopButton = new Image(workshop.getSprite());
+            workshopButton.addListener(new WorkshopSwapperListener(workshop));
+            workshopButton.setTouchable(Touchable.enabled);
+            table.spacedAdd(workshopButton);
+            Label workshopLabel = new Label(workshop.getName(), Tradesong.uiStyles.getLabelStyle());
+            workshopLabel.addListener(new WorkshopSwapperListener(workshop));
+            table.spacedAdd(workshopLabel);
         }
 
         return table;
@@ -104,5 +112,21 @@ public class CraftingStage extends InventoryStage {
         }
 
         return craftingTable;
+    }
+
+    private class WorkshopSwapperListener extends ClickListener {
+        private final Workshop owner;
+
+        public WorkshopSwapperListener(Workshop owner) {
+            this.owner = owner;
+        }
+
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y);
+            Gdx.app.debug(owner.getName(), "clicked! setting to...");
+            currentWorkshop = owner;
+            updateWorkshopName();
+        }
     }
 }
