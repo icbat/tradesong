@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Workshop;
+import com.icbat.game.tradesong.observation.notifications.CraftingBenchSwappedNotification;
+import com.icbat.game.tradesong.observation.watchers.CraftingBenchSwapWatcher;
 import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
@@ -27,6 +29,8 @@ public class CraftingStage extends InventoryStage {
 
     @Override
     public void layout() {
+        super.layout();
+        notificationCenter.addWatcher(new CraftingBenchSwapWatcher());
         this.clear();
         SpacedTable holdingTable = makeHoldingTable();
         holdingTable.add(makeInventoryTable());
@@ -127,6 +131,7 @@ public class CraftingStage extends InventoryStage {
             Gdx.app.debug(owner.getName(), "clicked! setting to...");
             currentWorkshop = owner;
             updateWorkshopName();
+            notificationCenter.notifyWatchers(new CraftingBenchSwappedNotification());
         }
     }
 }
