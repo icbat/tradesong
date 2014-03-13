@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +10,13 @@ public class Recipe {
     private Item output;
     private List<Item> ingredients;
     private Integer craftTime;
+    private final boolean isCatchAll;
 
-    public Recipe(Item output, List<Item> ingredients, Integer craftTime) {
+    public Recipe(Item output, List<Item> ingredients, Integer craftTime, boolean isCatchAll) {
         this.output = output;
         this.ingredients = ingredients;
         this.craftTime = craftTime;
+        this.isCatchAll = isCatchAll;
     }
 
     public boolean inputCanCraftThis(List<Item> itemsInput) {
@@ -29,8 +33,8 @@ public class Recipe {
                 return true;
             }
         }
-
-        return false;
+        Gdx.app.debug(isCatchAll + "", itemsInput.size() + "");
+        return (isCatchAll && itemsInput.size() == 1);
     }
 
     public Integer getCraftTime() {
