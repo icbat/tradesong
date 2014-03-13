@@ -107,12 +107,22 @@ public abstract class AbstractScreen implements Screen {
     }
 
     protected void setupStages(BaseStage... stages) {
+        disposeAllStages(this.stages);
         this.stages = new ArrayList<BaseStage>();
         this.stages.add(new HUD());
         Collections.addAll(this.stages, stages);
         this.stages.add(new PopupStage());
         this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // TODO make this logic more clear.
     }
+
+    private void disposeAllStages(List<BaseStage> stages) {
+        if (stages != null) {
+            for (BaseStage stage : stages) {
+                stage.dispose();
+            }
+        }
+    }
+
 
     public abstract String getScreenName();
 

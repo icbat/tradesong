@@ -56,6 +56,14 @@ public class MapStage extends BaseStage {
     }
 
     @Override
+    public void dispose() {
+        super.dispose();
+        spawnTimer.clear();
+        spawnTimer.stop();
+        Gdx.app.debug("map stage", "disposed");
+    }
+
+    @Override
     public void layout() {
         super.layout();
         notificationCenter.addWatcher(new GatheringWatcher());
