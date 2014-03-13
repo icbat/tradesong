@@ -43,7 +43,8 @@ public class Portal extends Image {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
-            ((MapScreen)Tradesong.screenManager.getCurrentScreen()).setMap(linkedMapName);
+            Gdx.app.debug("portal clicked", linkedMapName);
+            ((MapScreen)Tradesong.screenManager.getCurrentScreen()).moveToMap(linkedMapName);
         }
     }
 }

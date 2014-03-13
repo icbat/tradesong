@@ -18,7 +18,7 @@ public class MapScreen extends AbstractScreen {
 
     public MapScreen(String mapName) {
         Gdx.app.log("Setting Map to", mapName);
-        setMap(mapName);
+        moveToMap(mapName);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MapScreen extends AbstractScreen {
     /**
      * Handles all the setup for MapScreens so they can seemlessly change the map and stages remotely
      * */
-    public void setMap(String mapName) {
+    public void moveToMap(String mapName) {
         String mapFile = "maps/" + mapName + ".tmx";
         Tradesong.assetManager.load(mapFile, TiledMap.class);
         Tradesong.assetManager.finishLoading();
@@ -43,6 +43,7 @@ public class MapScreen extends AbstractScreen {
         this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
         MapStage mapStage = setupMapStage(map);
         super.setupStages(mapStage);
+        this.setupInputMultiplexer();
     }
 
     private MapStage setupMapStage(TiledMap map) {

@@ -140,10 +140,15 @@ public class MapStage extends BaseStage {
 
     private boolean addRandomItem() {
         Random random = new Random();
-        int index = random.nextInt(spawnAreas.size());
-        Item item = spawnAreas.get(index).spawnItem();
-        return addItemToMap(item, maxItemsOnMap);
-
+        int index;
+        try {
+            index = random.nextInt(spawnAreas.size());
+            Item item = spawnAreas.get(index).spawnItem();
+            return addItemToMap(item, maxItemsOnMap);
+        } catch (IllegalArgumentException iea){
+            Gdx.app.log("Error encountered spawning random item", "Suspect no areas or items found.", iea);
+            return false;
+        }
     }
 
     /**
