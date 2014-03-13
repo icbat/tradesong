@@ -10,19 +10,22 @@ import com.icbat.game.tradesong.gameObjects.Workshop;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is similar to ItemPrototypes, but for a workshop and its recipes
  * */
 public class WorkshopListing {
-    List<Workshop> workshops = new ArrayList<Workshop>();
+    Map<String, Workshop> workshops = new HashMap<String, Workshop>();
 
     public WorkshopListing() {
         List<FileHandle> workshopFiles = readWorkshopListing();
 
         for (FileHandle file : workshopFiles) {
-            workshops.add(readWorkshopFile(file));
+            Workshop workshop = readWorkshopFile(file);
+            workshops.put(workshop.getName(), workshop);
         }
 
         Gdx.app.log("workshops created", workshops.toString());
@@ -97,11 +100,6 @@ public class WorkshopListing {
     }
 
     public Workshop getWorkshop(String name) {
-        for (Workshop workshop : workshops) {
-            if (workshop.getName().equalsIgnoreCase(name)) {
-                return workshop;
-            }
-        }
-        return null;
+        return workshops.get(name);
     }
 }
