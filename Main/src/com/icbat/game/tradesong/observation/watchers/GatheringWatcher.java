@@ -51,7 +51,6 @@ public class GatheringWatcher implements Watcher {
             gatherSound.stop();
             completionSound.stop();
 
-//            gatherSound.play();
             gatherSound.loop();
             gatherTimer.clear();
             gatherTimer.scheduleTask(new Timer.Task() {

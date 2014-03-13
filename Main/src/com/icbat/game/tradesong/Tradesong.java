@@ -14,7 +14,6 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
-import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 import java.util.List;
@@ -53,27 +52,24 @@ public class Tradesong extends Game {
         uiStyles = new UIStyles();
 
         screenManager = new ShallowSelectiveScreenStack(this);
-//        screenManager.goToMainMenu();
-        debuggingSetup();
-
+        screenManager.goToMainMenu();
     }
 
     private void debuggingSetup() {
-        // TODO remove before release, debugging
-        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
-
-//        for (Item item : itemPrototypes.getAll()) {
-//            inventory.addItem(item);
-//        }
-
-        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
-        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
-
-        clock.startDay();
+//        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+//
+////        for (Item item : itemPrototypes.getAll()) {
+////            inventory.addItem(item);
+////        }
+//
+//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
+//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
+//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
+//
+//        clock.startDay();
     }
 
     private void initializeAssets() {
@@ -124,6 +120,6 @@ public class Tradesong extends Game {
             currentTrack.play();
         }
 
-        currentTrack.setVolume(0.1f);
+        currentTrack.setVolume(0.9f);
     }
 }
