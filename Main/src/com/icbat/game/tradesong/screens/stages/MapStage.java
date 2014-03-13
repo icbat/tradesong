@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Item;
+import com.icbat.game.tradesong.gameObjects.Portal;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
@@ -30,6 +31,7 @@ public class MapStage extends BaseStage {
 
     public MapStage(TiledMap map) {
         MapProperties mapProperties = map.getProperties();
+        setupPortals(map);
         setupAreas(map);
         maxItemsOnMap = getMaxItems(mapProperties);
         try {
@@ -39,6 +41,19 @@ public class MapStage extends BaseStage {
             Gdx.app.log("Could not determine how many items to spawn initially", "map property " + INITIAL_SPAWN_COUNT_KEY + "likely missing.", nfe);
         }
 
+    }
+
+    private void setupPortals(TiledMap map) {
+        for ( MapLayer layer : map.getLayers() ) {
+            if (layer.getName().contains("#PORTALS")) {
+                Gdx.app.debug("found object layer of portals", "yay!");
+                for (MapObject obj : layer.getObjects()) {
+                    Gdx.app.debug("obj", obj.getName());
+
+                    this.addActor(Portal.makePortal(obj));
+                }
+            }
+        }
     }
 
     @Override
@@ -125,10 +140,15 @@ public class MapStage extends BaseStage {
 
     private boolean addRandomItem() {
         Random random = new Random();
-        int index = random.nextInt(spawnAreas.size());
-        Item item = spawnAreas.get(index).spawnItem();
-        return addItemToMap(item, maxItemsOnMap);
-
+        int index;
+        try {
+            index = random.nextInt(spawnAreas.size());
+            Item item = spawnAreas.get(index).spawnItem();
+            return addItemToMap(item, maxItemsOnMap);
+        } catch (IllegalArgumentException iea){
+            Gdx.app.log("Error encountered spawning random item", "Suspect no areas or items found.", iea);
+            return false;
+        }
     }
 
     /**

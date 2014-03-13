@@ -22,7 +22,7 @@ import com.icbat.game.tradesong.utils.SpacingActor;
  */
 public class HUD extends BaseStage {
 
-    private Label capacityCounter = new Label("", Tradesong.uiStyles.getLabelStyle());
+    private Label capacityCounter = new Label("", Tradesong.uiStyles.getBlankLabelStyle());
     private Label clock = new Label("", Tradesong.uiStyles.getLabelStyle());
     private Label money = new Label("", Tradesong.uiStyles.getLabelStyle());
 

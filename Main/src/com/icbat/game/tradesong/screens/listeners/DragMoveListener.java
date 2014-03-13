@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 /**
  * Extends GDX's DragListener to implement drag to move on maps via camera movement.
  * */
-public class DragMoveListener extends ClickListener {
+public class DragMoveListener extends DragListener {
 
     final Camera camera;
     final Vector3 curr = new Vector3();
@@ -20,6 +21,10 @@ public class DragMoveListener extends ClickListener {
         this.camera = camera;
     }
 
+    @Override
+    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        return super.touchDown(event, x, y, pointer, button);
+    }
 
     @Override
     public void touchDragged(InputEvent event, float x, float y, int pointer) {

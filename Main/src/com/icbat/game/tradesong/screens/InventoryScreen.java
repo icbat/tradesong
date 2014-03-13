@@ -7,7 +7,7 @@ import com.icbat.game.tradesong.screens.stages.InventoryStage;
  * */
 public class InventoryScreen extends AbstractScreen {
     public InventoryScreen() {
-        stages.add(new InventoryStage());
+        super(new InventoryStage());
     }
 
     @Override
