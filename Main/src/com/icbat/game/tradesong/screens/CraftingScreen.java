@@ -5,7 +5,7 @@ import com.icbat.game.tradesong.screens.stages.CraftingStage;
 public class CraftingScreen extends AbstractScreen {
 
     public CraftingScreen() {
-        stages.add(new CraftingStage());
+        super(new CraftingStage());
     }
 
     @Override

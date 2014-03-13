@@ -6,8 +6,7 @@ import com.icbat.game.tradesong.screens.stages.ShippingStage;
 public class ShippingScreen extends AbstractScreen {
 
     public ShippingScreen() {
-        stages.add(new ShippingStage());
-        addPopupStage();
+        super(new ShippingStage());
     }
 
     @Override

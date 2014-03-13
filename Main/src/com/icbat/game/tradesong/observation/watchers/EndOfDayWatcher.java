@@ -21,7 +21,7 @@ public class EndOfDayWatcher implements Watcher {
             displayTimer.scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    Tradesong.screenManager.getCurrentScreen().addActor(new EndOfDayPopup());
+                    Tradesong.screenManager.getCurrentScreen().addPopup(new EndOfDayPopup());
                     Tradesong.inventory.addMoney(-200);
                     Tradesong.clock.startDay();
                 }

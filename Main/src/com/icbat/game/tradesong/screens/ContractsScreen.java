@@ -6,7 +6,7 @@ import com.icbat.game.tradesong.screens.stages.ContractsStage;
 public class ContractsScreen extends AbstractScreen {
 
     public ContractsScreen() {
-        stages.add(new ContractsStage());
+        super(new ContractsStage());
     }
 
     @Override

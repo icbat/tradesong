@@ -11,6 +11,7 @@ import com.icbat.game.tradesong.screens.stages.HUD;
 import com.icbat.game.tradesong.screens.stages.PopupStage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,13 +23,11 @@ public abstract class AbstractScreen implements Screen {
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public AbstractScreen() {
-        this(true);
+
     }
 
-    public AbstractScreen(boolean addHud) {
-        if (addHud) {
-            stages.add(new HUD());
-        }
+    public AbstractScreen(BaseStage... specificStages) {
+        this.setupStages(specificStages);
     }
 
     @Override
@@ -106,15 +105,17 @@ public abstract class AbstractScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    protected void addPopupStage() {
-        stages.add(new PopupStage());
-        setupInputMultiplexer();
+    protected void setupStages(BaseStage... stages) {
+        this.stages = new ArrayList<BaseStage>();
+        this.stages.add(new HUD());
+        Collections.addAll(this.stages, stages);
+        this.stages.add(new PopupStage());
     }
 
     public abstract String getScreenName();
 
     /** Allows adding of actors from other things. Adds the Actor to the first stage in the list (usually HUD) */
-    public void addActor(Actor actor) {
+    public void addPopup(Actor actor) {
         stages.get(stages.size() - 1).addActor(actor);
     }
 
