@@ -5,7 +5,9 @@ public enum SoundAssets {
     SUCCESS("success"),
     CHURCHBELL("churchbell"),
     PORTAL("portal"),
-    SCREEN_SWAP("swapping"),;
+    SCREEN_SWAP("swapping"),
+    FAIL("fail"),
+    ;
 
     private String path;
 
