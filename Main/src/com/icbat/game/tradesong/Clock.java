@@ -25,6 +25,7 @@ public class Clock extends NotificationManager {
     public void startDay() {
         Gdx.app.debug("clock","day started!");
         currentTime = 0;
+        dayTimer.clear();
         dayTimer.scheduleTask(new dayEndTask(), dayLengthInMinutes * SECONDS_TO_MINUTE);
         dayTimer.scheduleTask(new countUpTask(), 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
         Tradesong.contractGenerator.makeDailyContracts();
