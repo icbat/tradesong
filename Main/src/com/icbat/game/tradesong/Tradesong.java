@@ -36,6 +36,7 @@ public class Tradesong extends Game {
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
     public static Clock clock;
+    public static GameVariables gameVariables;
 
     public static List<Contract> contractList;
 
@@ -63,6 +64,7 @@ public class Tradesong extends Game {
         inventory = new Inventory();
 //        screenManager.goToScreen(new MapScreen("fairy_fountain"));
         screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+        gameVariables = new GameVariables();
         clock.startDay();
     }
 

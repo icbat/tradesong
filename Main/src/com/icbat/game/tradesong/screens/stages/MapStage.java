@@ -144,7 +144,7 @@ public class MapStage extends BaseStage {
     }
 
     private boolean addRandomItem() {
-        Random random = new Random();
+        Random random = new Random(Tradesong.gameVariables.getRandomSeed());
         int index;
         try {
             index = random.nextInt(spawnAreas.size());
@@ -224,7 +224,7 @@ public class MapStage extends BaseStage {
 
         private Item getRandomItem(List<Item> spawnableItems) {
 
-            Random random = new Random();
+            Random random = new Random(Tradesong.gameVariables.getRandomSeed());
             int i = random.nextInt(spawnableItems.size());
             Item item = new Item(Tradesong.itemPrototypes.get("Sword"));
             try {
@@ -239,7 +239,7 @@ public class MapStage extends BaseStage {
         }
 
         private Point getRandomSpawnPoint(List<Point> spawnableTiles) {
-            Random random = new Random();
+            Random random = new Random(Tradesong.gameVariables.getRandomSeed());
             int i = random.nextInt(spawnableTiles.size());
             return spawnableTiles.get(i);
         }

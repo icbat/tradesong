@@ -10,7 +10,7 @@ import java.util.*;
 /***/
 public class ContractGenerator {
     Map<Rarity, List<Item>> prototypes = new HashMap<Rarity, List<Item>>();
-    private final Random random = new Random();
+    private final Random random = new Random(Tradesong.gameVariables.getRandomSeed());
 
     public ContractGenerator(Set<Item> allItemPrototypes) {
         for (Rarity rarity : Rarity.values()) {
