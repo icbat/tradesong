@@ -127,6 +127,7 @@ public class Tradesong extends Game {
         Json json = new Json();
         gameSaveFile.delete();
         gameSaveFile.writeString(json.prettyPrint(gameVariables), true);
+        gameSaveFile.writeString(json.prettyPrint(clock), true);
         gameSaveFile.writeString(json.prettyPrint(inventory), true);
         gameSaveFile.writeString(json.prettyPrint(contractList), true);
     }
