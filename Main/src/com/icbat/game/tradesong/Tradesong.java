@@ -14,6 +14,7 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 import java.util.List;
@@ -41,35 +42,28 @@ public class Tradesong extends Game {
     @Override
     public void create() {
         Gdx.app.setLogLevel(3);
-        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        initializeAssets();
 
-        itemPrototypes = new ItemPrototypes();
-        contractGenerator = new ContractGenerator(itemPrototypes.getAll());
-        workshopListing = new WorkshopListing();
-        inventory = new Inventory();
-        clock = new Clock();
-        uiStyles = new UIStyles();
-
-        screenManager = new ShallowSelectiveScreenStack(this);
+        initializeStaticData();
+        playLoopingMusic(MusicAssets.MYSTERIOUS);
         screenManager.goToMainMenu();
     }
 
-    private void debuggingSetup() {
-//        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
-//
-////        for (Item item : itemPrototypes.getAll()) {
-////            inventory.addItem(item);
-////        }
-//
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Ingot"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
-//        Tradesong.inventory.addItem(itemPrototypes.get("Wood"));
-//
-//        clock.startDay();
+    private void initializeStaticData() {
+        Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        initializeAssets();
+        uiStyles = new UIStyles();
+        screenManager = new ShallowSelectiveScreenStack(this);
+        clock = new Clock();
+        itemPrototypes = new ItemPrototypes();
+        contractGenerator = new ContractGenerator(itemPrototypes.getAll());
+        workshopListing = new WorkshopListing();
+    }
+
+    public static void startNewGame() {
+        inventory = new Inventory();
+//        screenManager.goToScreen(new MapScreen("fairy_fountain"));
+        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+        clock.startDay();
     }
 
     private void initializeAssets() {

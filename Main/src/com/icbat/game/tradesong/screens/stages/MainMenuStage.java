@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.MapScreen;
 
 /**
  * @author icbat
@@ -16,6 +15,8 @@ import com.icbat.game.tradesong.screens.MapScreen;
 public class MainMenuStage extends BaseStage {
 
     public MainMenuStage() {
+        Tradesong.clock.stop();
+
         Table table = new Table();
         this.addActor(table);
         table.debug();
@@ -41,8 +42,7 @@ public class MainMenuStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.screenManager.goToScreen(new MapScreen("fairy_fountain"));
-                Tradesong.clock.startDay();
+                Tradesong.startNewGame();
             }
         });
         return start;
@@ -63,16 +63,5 @@ public class MainMenuStage extends BaseStage {
         });
 
         return exit;
-    }
-
-
-    @Override
-    public void layout() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void hide() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

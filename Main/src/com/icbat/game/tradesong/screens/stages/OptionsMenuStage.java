@@ -12,6 +12,7 @@ import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 public class OptionsMenuStage extends BaseStage {
     @Override
     public void layout() {
+        Tradesong.clock.pause();
         super.layout();
 
         Table layout = new Table();
@@ -42,6 +43,7 @@ public class OptionsMenuStage extends BaseStage {
             @Override
             protected void goToTargetScreen() {
                 Tradesong.screenManager.goBack();
+                Tradesong.clock.resume();
             }
         });
         return resumeButton;

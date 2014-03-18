@@ -17,8 +17,7 @@ public class EndOfDayWatcher implements Watcher {
     public void handleNotification(Notification notification) {
         if (shouldAct(notification)) {
             endOfDaySound.play();
-            Timer displayTimer = new Timer();
-            displayTimer.scheduleTask(new Timer.Task() {
+            Tradesong.clock.scheduleNonRepeatingTask(new Timer.Task() {
                 @Override
                 public void run() {
                     Tradesong.screenManager.getCurrentScreen().addPopup(new EndOfDayPopup());
