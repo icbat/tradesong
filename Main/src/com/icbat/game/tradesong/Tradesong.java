@@ -61,7 +61,8 @@ public class Tradesong extends Game {
 
     public static void startNewGame() {
         inventory = new Inventory();
-        screenManager.goToScreen(new MapScreen("fairy_fountain"));
+//        screenManager.goToScreen(new MapScreen("fairy_fountain"));
+        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
         clock.startDay();
     }
 
