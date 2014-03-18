@@ -6,9 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.Json;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -36,7 +38,8 @@ public class Tradesong extends Game {
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
     public static Clock clock;
-    public static GameVariables gameVariables;
+    public static GameVariables gameVariables = new GameVariables();
+    private static int saveSlotNumber = 1;
 
     public static List<Contract> contractList;
 
@@ -117,5 +120,14 @@ public class Tradesong extends Game {
         }
 
         currentTrack.setVolume(0.9f);
+    }
+
+    public static void saveGame() {
+        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
+        Json json = new Json();
+        gameSaveFile.delete();
+        gameSaveFile.writeString(json.prettyPrint(gameVariables), true);
+        gameSaveFile.writeString(json.prettyPrint(inventory), true);
+        gameSaveFile.writeString(json.prettyPrint(contractList), true);
     }
 }

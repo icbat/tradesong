@@ -2,9 +2,11 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.listeners.GoToScreenListener;
 
@@ -50,7 +52,14 @@ public class OptionsMenuStage extends BaseStage {
     }
 
     private Actor makeSaveButton() {
-        TextButton saveButton = new TextButton("Save game", Tradesong.uiStyles.getDisabledButtonStyle());
+        TextButton saveButton = new TextButton("Save game", Tradesong.uiStyles.getTextButtonStyle());
+        saveButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Tradesong.saveGame();
+            }
+        });
         return saveButton;
     }
 

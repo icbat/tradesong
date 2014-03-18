@@ -28,6 +28,7 @@ public class MapStage extends BaseStage {
     private List<ValidSpawnArea> spawnAreas = new LinkedList<ValidSpawnArea>();
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
+    protected final Random seededRandom = Tradesong.gameVariables.getSeededRNG();
 
     public MapStage(TiledMap map) {
         MapProperties mapProperties = map.getProperties();
@@ -144,10 +145,9 @@ public class MapStage extends BaseStage {
     }
 
     private boolean addRandomItem() {
-        Random random = new Random(Tradesong.gameVariables.getRandomSeed());
         int index;
         try {
-            index = random.nextInt(spawnAreas.size());
+            index = seededRandom.nextInt(spawnAreas.size());
             Item item = spawnAreas.get(index).spawnItem();
             return addItemToMap(item, maxItemsOnMap);
         } catch (IllegalArgumentException iea){
@@ -223,9 +223,7 @@ public class MapStage extends BaseStage {
         }
 
         private Item getRandomItem(List<Item> spawnableItems) {
-
-            Random random = new Random(Tradesong.gameVariables.getRandomSeed());
-            int i = random.nextInt(spawnableItems.size());
+            int i = seededRandom.nextInt(spawnableItems.size());
             Item item = new Item(Tradesong.itemPrototypes.get("Sword"));
             try {
 
@@ -239,8 +237,7 @@ public class MapStage extends BaseStage {
         }
 
         private Point getRandomSpawnPoint(List<Point> spawnableTiles) {
-            Random random = new Random(Tradesong.gameVariables.getRandomSeed());
-            int i = random.nextInt(spawnableTiles.size());
+            int i = seededRandom.nextInt(spawnableTiles.size());
             return spawnableTiles.get(i);
         }
     }
