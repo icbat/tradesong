@@ -10,7 +10,7 @@ import java.util.*;
 /***/
 public class ContractGenerator {
     Map<Rarity, List<Item>> prototypes = new HashMap<Rarity, List<Item>>();
-    private final Random random = Tradesong.gameVariables.getSeededRNG();
+    private final Random random = Tradesong.saveableState.getSeededRNG();
 
     public ContractGenerator(Set<Item> allItemPrototypes) {
         for (Rarity rarity : Rarity.values()) {
@@ -108,6 +108,6 @@ public class ContractGenerator {
             Gdx.app.debug("contract generated", contract.toString());
         }
         Gdx.app.debug("Contracts for today", contracts.size() + "");
-        Tradesong.contractList = contracts;
+        GameState.contractList = contracts;
     }
 }

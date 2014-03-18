@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Item;
@@ -33,7 +34,7 @@ public class ContractsStage extends BaseStage {
     private SpacedTable makeContractsDisplay() {
         SpacedTable table = new SpacedTable();
 
-        for (Contract contract : Tradesong.contractList) {
+        for (Contract contract : GameState.contractList) {
             table.add(new Label(contract.toString(), Tradesong.uiStyles.getLabelStyle()));
             table.spacedRow();
             SpacedTable requirementTable = new SpacedTable();

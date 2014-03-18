@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Workshop;
@@ -71,7 +72,7 @@ public class CraftingStage extends InventoryStage {
     public void hide() {
         super.hide();
         for (Item itemOnTable : craftingTableContents) {
-            Tradesong.inventory.addItem(itemOnTable);
+            GameState.inventory.addItem(itemOnTable);
         }
     }
 
@@ -86,7 +87,7 @@ public class CraftingStage extends InventoryStage {
                 if (output != null) {
                     Gdx.app.log("crafted", output.getName());
                     craftingTableContents.clear();
-                    Tradesong.inventory.addItem(output);
+                    GameState.inventory.addItem(output);
                     layout();
                 }
             }

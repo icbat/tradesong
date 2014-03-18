@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +32,20 @@ public class Contract {
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
     public boolean completeContract(List<Item> inputs) {
-        if (canComplete(inputs) && Tradesong.contractList.contains(this)) {
+        if (canComplete(inputs) && GameState.contractList.contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
 
             for (Item rewardItem : rewards){
-                Tradesong.inventory.addItem(new Item(rewardItem));
+                GameState.inventory.addItem(new Item(rewardItem));
             }
 
             Gdx.app.debug("reward money", rewardMoney + "");
-            Gdx.app.debug("money before", Tradesong.inventory.getMoney() + "");
-            Tradesong.inventory.addMoney(rewardMoney);
-            Gdx.app.debug("money after", Tradesong.inventory.getMoney() + "");
+            Gdx.app.debug("money before", GameState.inventory.getMoney() + "");
+            GameState.inventory.addMoney(rewardMoney);
+            Gdx.app.debug("money after", GameState.inventory.getMoney() + "");
 
-            Tradesong.contractList.remove(this);
+            GameState.contractList.remove(this);
             return true;
         }
         return false;

@@ -3,7 +3,7 @@ package com.icbat.game.tradesong.screens.dragAndDrop;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.gameObjects.Item;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class FrameTarget extends DragAndDrop.Target {
         if (backingList != null) {
             backingList.add(new Item(item));
         } else { // Assuming it's backed by Inventory
-            Tradesong.inventory.addItem(item);
+            GameState.inventory.addItem(item);
         }
     }
 }

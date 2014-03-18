@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 
 /**
@@ -15,7 +16,7 @@ import com.icbat.game.tradesong.Tradesong;
 public class MainMenuStage extends BaseStage {
 
     public MainMenuStage() {
-        Tradesong.clock.stop();
+        GameState.clock.stop();
 
         Table table = new Table();
         this.addActor(table);
@@ -49,7 +50,15 @@ public class MainMenuStage extends BaseStage {
     }
 
     private Actor getLoadButton() {
-        return new TextButton("Load Saved Game", Tradesong.uiStyles.getDisabledButtonStyle());
+        TextButton loadButton = new TextButton("Load Saved Game", Tradesong.uiStyles.getTextButtonStyle());
+        loadButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Tradesong.loadGame();
+            }
+        });
+        return loadButton;
     }
 
     private Actor getExitButton() {

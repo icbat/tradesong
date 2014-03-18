@@ -28,7 +28,7 @@ public class MapStage extends BaseStage {
     private List<ValidSpawnArea> spawnAreas = new LinkedList<ValidSpawnArea>();
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
-    protected final Random seededRandom = Tradesong.gameVariables.getSeededRNG();
+    protected final Random seededRandom = Tradesong.saveableState.getSeededRNG();
 
     public MapStage(TiledMap map) {
         MapProperties mapProperties = map.getProperties();

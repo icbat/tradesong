@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Item;
@@ -54,7 +55,7 @@ public class InventoryStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.inventory.sort();
+                GameState.inventory.sort();
                 layout();
             }
         });
@@ -71,9 +72,9 @@ public class InventoryStage extends BaseStage {
 
     protected Table makeInventoryTable() {
         SpacedTable inventory = new SpacedTable();
-        List<Item> inventoryCopy = Tradesong.inventory.getCopyOfInventory();
+        List<Item> inventoryCopy = GameState.inventory.getCopyOfInventory();
 
-        for (int i = 1; i <= Tradesong.inventory.getMaxSize(); ++i) {
+        for (int i = 1; i <= GameState.inventory.getMaxSize(); ++i) {
             if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
                 Item item = inventoryCopy.get(i - 1);
                 dragAndDrop.addSource(new ItemSource(item, this));

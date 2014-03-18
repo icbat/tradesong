@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.observation.watchers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.popups.EndOfDayPopup;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
@@ -17,12 +18,12 @@ public class EndOfDayWatcher implements Watcher {
     public void handleNotification(Notification notification) {
         if (shouldAct(notification)) {
             endOfDaySound.play();
-            Tradesong.clock.scheduleNonRepeatingTask(new Timer.Task() {
+            GameState.clock.scheduleNonRepeatingTask(new Timer.Task() {
                 @Override
                 public void run() {
                     Tradesong.screenManager.getCurrentScreen().addPopup(new EndOfDayPopup());
-                    Tradesong.inventory.addMoney(-200);
-                    Tradesong.clock.startDay();
+                    GameState.inventory.addMoney(-200);
+                    GameState.clock.startDay();
                 }
             }, 3); // delay roughly the time of the soundeffect for some notice.
         }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.*;
@@ -68,7 +69,7 @@ public class HUD extends BaseStage {
     }
 
     private void setMoney() {
-        money.setText(Tradesong.inventory.getMoney().toString());
+        money.setText(GameState.inventory.getMoney().toString());
     }
 
     private void setupHolderAndTable(Group holder, Table tableLayout) {
@@ -145,7 +146,7 @@ public class HUD extends BaseStage {
     }
 
     void setCapacityCounter() {
-        int slotsFree = Tradesong.inventory.getMaxSize() - Tradesong.inventory.getCurrentSize();
+        int slotsFree = GameState.inventory.getMaxSize() - GameState.inventory.getCurrentSize();
         if (slotsFree == 0) {
             capacityCounter.setColor(Color.RED);
         } else if (slotsFree < 5) {
@@ -157,7 +158,7 @@ public class HUD extends BaseStage {
     }
 
     void setClock() {
-        int timeInMinutes = Tradesong.clock.getTime();
+        int timeInMinutes = GameState.clock.getTime();
         timeInMinutes += 6;
         String formattedTime = timeInMinutes + " hours";
         clock.setText(formattedTime);

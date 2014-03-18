@@ -14,12 +14,8 @@ import com.badlogic.gdx.utils.Json;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Inventory;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
-
-import java.util.List;
 
 /**
  * This class:
@@ -34,14 +30,10 @@ public class Tradesong extends Game {
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
     public static ItemPrototypes itemPrototypes;
-    public static Inventory inventory;
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
-    public static Clock clock;
-    public static GameVariables gameVariables = new GameVariables();
+    public static GameState saveableState;
     private static int saveSlotNumber = 1;
-
-    public static List<Contract> contractList;
 
     @Override
     public void create() {
@@ -55,20 +47,13 @@ public class Tradesong extends Game {
     private void initializeStaticData() {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
+        saveableState = new GameState();
         uiStyles = new UIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
-        clock = new Clock();
+        GameState.clock = new Clock();
         itemPrototypes = new ItemPrototypes();
         contractGenerator = new ContractGenerator(itemPrototypes.getAll());
         workshopListing = new WorkshopListing();
-    }
-
-    public static void startNewGame() {
-        inventory = new Inventory();
-//        screenManager.goToScreen(new MapScreen("fairy_fountain"));
-        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
-        gameVariables = new GameVariables();
-        clock.startDay();
     }
 
     private void initializeAssets() {
@@ -126,9 +111,23 @@ public class Tradesong extends Game {
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
         Json json = new Json();
         gameSaveFile.delete();
-        gameSaveFile.writeString(json.prettyPrint(gameVariables), true);
-        gameSaveFile.writeString(json.prettyPrint(clock), true);
-        gameSaveFile.writeString(json.prettyPrint(inventory), true);
-        gameSaveFile.writeString(json.prettyPrint(contractList), true);
+        gameSaveFile.writeString(json.prettyPrint(saveableState), true);
+    }
+
+    public static void loadGame() {
+        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
+        Json json = new Json();
+        saveableState = json.fromJson(GameState.class, gameSaveFile.readString());
+        startGame();
+    }
+
+    private static void startGame() {
+        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+    }
+
+    public static void startNewGame() {
+        saveableState = new GameState();
+        GameState.clock.startDay();
+        startGame();
     }
 }

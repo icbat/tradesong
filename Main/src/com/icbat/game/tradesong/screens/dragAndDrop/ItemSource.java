@@ -2,7 +2,7 @@ package com.icbat.game.tradesong.screens.dragAndDrop;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 
@@ -52,7 +52,7 @@ public class ItemSource extends DragAndDrop.Source{
         if (backingList != null) {
             backingList.remove(this.item);
         } else { // It's backed by the inventory
-            Tradesong.inventory.takeOutItem(this.item);
+            GameState.inventory.takeOutItem(this.item);
         }
     }
 
