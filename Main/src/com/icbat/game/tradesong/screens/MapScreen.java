@@ -22,8 +22,7 @@ import com.icbat.game.tradesong.observation.notifications.StopNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
 import com.icbat.game.tradesong.screens.listeners.ZoomOnScrollListener;
-import com.icbat.game.tradesong.utils.Constants;
-import com.icbat.game.tradesong.utils.Point;
+import com.icbat.game.tradesong.Constants;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -343,6 +342,32 @@ public class MapScreen extends AbstractScreen {
                 notificationCenter.notifyWatchers(new GatherNotification(owner));
             }
 
+        }
+    }
+
+    /**
+     * Immutable representation of a 2D point.
+     * */
+    public static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        @Override
+        public String toString() {
+            return x + ", " + y;
         }
     }
 }

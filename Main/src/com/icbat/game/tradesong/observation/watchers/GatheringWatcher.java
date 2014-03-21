@@ -9,7 +9,7 @@ import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
-import com.icbat.game.tradesong.utils.Constants;
+import com.icbat.game.tradesong.Constants;
 
 /**
  * Responds appropriately to an item node being gathered

@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.utils;
+package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
