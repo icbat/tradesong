@@ -1,5 +1,4 @@
-package com.icbat.game.tradesong.screens.stages;
-
+package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.Constants;
 import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Portal;
@@ -18,8 +18,6 @@ import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
-import com.icbat.game.tradesong.utils.Constants;
-import com.icbat.game.tradesong.utils.Point;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -184,6 +182,29 @@ public class MapStage extends BaseStage {
         spawnTimer.stop();
         spawnTimer.clear();
         notificationCenter.notifyWatchers(new StopNotification());
+    }
+
+    public static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        @Override
+        public String toString() {
+            return x + ", " + y;
+        }
     }
 
     /**

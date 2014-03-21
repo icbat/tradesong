@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Rarity;
-import com.icbat.game.tradesong.utils.Constants;
 
 import java.io.IOException;
 import java.util.HashSet;

@@ -12,13 +12,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.utils.UIStyles;
+import com.icbat.game.tradesong.screens.MapScreen;
 
 public class Tradesong extends Game {
 
     public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
-    public static UIStyles uiStyles;
+    public static GameSkin uiStyles;
     public static Items items;
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
@@ -42,7 +42,7 @@ public class Tradesong extends Game {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
         state = new GameState();
-        uiStyles = new UIStyles();
+        uiStyles = GameSkin.makeDefaultUIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());
@@ -101,10 +101,12 @@ public class Tradesong extends Game {
     }
 
     static void startGame() {
-        // TODO go to a map here.
+        Gdx.app.debug("main", "going to the screen");
+        screenManager.goToScreen(new MapScreen("fairy_fountain"));
     }
 
     public static void setupNewGame() {
+        Gdx.app.debug("main", "new game started");
         state = new GameState();
         clock.startDay();
         startGame();
@@ -114,9 +116,11 @@ public class Tradesong extends Game {
      * Tries to load from this slot. If no save file is found here, starts a new game in that slot.
      * */
     public static void tryLoadingSlot(int slotNumber) {
-        if (!state.canLoadSlot(slotNumber)) {
+        if (state.canLoadSlot(slotNumber)) {
+            Gdx.app.debug("main", "loaded a game");
+            startGame();
+        } else {
             setupNewGame();
         }
-        startGame();
     }
 }

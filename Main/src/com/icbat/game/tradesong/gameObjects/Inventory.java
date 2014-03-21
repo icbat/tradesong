@@ -18,6 +18,7 @@ public class Inventory {
     public boolean addItem(String newItem) {
         if (canAdd()) {
             items.add(newItem);
+            Gdx.app.log("inventory added", newItem);
             return true;
         } else {
             Gdx.app.debug("couldn't add", newItem);

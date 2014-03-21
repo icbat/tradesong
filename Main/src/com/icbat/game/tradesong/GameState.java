@@ -28,8 +28,6 @@ public class GameState {
     }
 
     public void saveGame(int saveSlotNumber) {
-        dumpDebug();
-
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
         Json json = new Json();
         gameSaveFile.delete();
@@ -43,22 +41,11 @@ public class GameState {
             FileHandle gameSaveFile = Gdx.files.external(path);
             Json json = new Json();
             Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
-            Tradesong.startGame();
-
-            dumpDebug();
             return true;
         } catch (GdxRuntimeException rte) {
             Gdx.app.log("Starting new game. No save file found at", path);
             return false;
         }
-    }
-
-    private void dumpDebug() {
-        Gdx.app.debug("## State info ##", "");
-        Gdx.app.debug("  # Inventory", inventory.toString());
-        Gdx.app.debug("  # Current Contracts", contractList.toString());
-        Gdx.app.debug("  # Gather Delay", gatherTimeMultiplier + "");
-        Gdx.app.debug("  # Seeded RNG", seededRNG.toString());
     }
 
     public float getGatherTimeMultiplier() {

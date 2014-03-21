@@ -8,18 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.stages.BaseStage;
-import com.icbat.game.tradesong.utils.Constants;
+import com.icbat.game.tradesong.Constants;
 
 public class MainMenuScreen extends AbstractScreen {
 
     public MainMenuScreen() {
         this.stages.add(new MainMenuStage());
-    }
-
-    @Override
-    public String getScreenName() {
-        return "MAIN-MENU-SCREEN";
     }
 
     public static class MainMenuStage extends BaseStage {
@@ -37,18 +31,18 @@ public class MainMenuScreen extends AbstractScreen {
                 table.add(makeDeleteButton(i)).row();
             }
 
-            table.add(makeOptionsButton()).spaceTop(15).colspan(2).row();
+            table.add(makeSettingsButton()).spaceTop(15).colspan(2).row();
             table.add(makeExitButton()).colspan(2).row();
 
             this.addActor(table);
         }
 
         private Actor makeTitleLabel() {
-            return new Label("Tradesong", Tradesong.uiStyles.getLabelStyle());
+            return new Label("Tradesong", Tradesong.uiStyles);
         }
 
         private Actor makeSlotButton(final int slotNumber) {
-            TextButton start = new TextButton("Slot " + slotNumber, Tradesong.uiStyles.getTextButtonStyle());
+            TextButton start = new TextButton("Slot " + slotNumber, Tradesong.uiStyles);
             start.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -60,17 +54,15 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private Actor makeDeleteButton(final int slotNumber) {
-            TextButton deleteButton = new TextButton("X", Tradesong.uiStyles.getDisabledButtonStyle());
-
-            return deleteButton;
+            return new TextButton("X", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
         }
 
-        private Actor makeOptionsButton() {
-            return new TextButton("Settings", Tradesong.uiStyles.getDisabledButtonStyle());
+        private Actor makeSettingsButton() {
+            return new TextButton("Settings", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
         }
 
         private Actor makeExitButton() {
-            TextButton exit = new TextButton("Exit", Tradesong.uiStyles.getTextButtonStyle());
+            TextButton exit = new TextButton("Exit", Tradesong.uiStyles);
             exit.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -81,5 +73,10 @@ public class MainMenuScreen extends AbstractScreen {
 
             return exit;
         }
+    }
+
+    @Override
+    public String getScreenName() {
+        return "mainMenuScreen";
     }
 }

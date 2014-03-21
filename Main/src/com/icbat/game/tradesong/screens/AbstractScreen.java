@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.icbat.game.tradesong.screens.stages.BaseStage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,4 +78,9 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public abstract String getScreenName();
+
+    public void setupStages() {
+        this.stages.clear();
+//        this.stages.add(new HUD());
+    }
 }
