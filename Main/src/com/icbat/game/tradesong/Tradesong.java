@@ -13,13 +13,13 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
-import com.icbat.game.tradesong.utils.UIStyles;
+import com.icbat.game.tradesong.utils.GameSkin;
 
 public class Tradesong extends Game {
 
     public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
-    public static UIStyles uiStyles;
+    public static GameSkin uiStyles;
     public static Items items;
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
@@ -43,7 +43,7 @@ public class Tradesong extends Game {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
         state = new GameState();
-        uiStyles = new UIStyles();
+        uiStyles = GameSkin.makeDefaultUIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());

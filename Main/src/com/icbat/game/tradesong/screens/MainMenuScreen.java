@@ -39,11 +39,11 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private Actor makeTitleLabel() {
-            return new Label("Tradesong", Tradesong.uiStyles.getLabelStyle());
+            return new Label("Tradesong", Tradesong.uiStyles);
         }
 
         private Actor makeSlotButton(final int slotNumber) {
-            TextButton start = new TextButton("Slot " + slotNumber, Tradesong.uiStyles.getTextButtonStyle());
+            TextButton start = new TextButton("Slot " + slotNumber, Tradesong.uiStyles);
             start.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -55,17 +55,17 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private Actor makeDeleteButton(final int slotNumber) {
-            TextButton deleteButton = new TextButton("X", Tradesong.uiStyles.getDisabledButtonStyle());
+            TextButton deleteButton = new TextButton("X", Tradesong.uiStyles);
 
             return deleteButton;
         }
 
         private Actor makeOptionsButton() {
-            return new TextButton("Settings", Tradesong.uiStyles.getDisabledButtonStyle());
+            return new TextButton("Settings", Tradesong.uiStyles);
         }
 
         private Actor makeExitButton() {
-            TextButton exit = new TextButton("Exit", Tradesong.uiStyles.getTextButtonStyle());
+            TextButton exit = new TextButton("Exit", Tradesong.uiStyles);
             exit.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

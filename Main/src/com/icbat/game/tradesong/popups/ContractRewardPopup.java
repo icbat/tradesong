@@ -22,8 +22,8 @@ public class ContractRewardPopup extends Table {
     private Table makeContentTable(Contract contractCompleted) {
         Table contentTable = new Table();
 
-        contentTable.add(new Label("Contract completed!", Tradesong.uiStyles.getLabelStyle())).spaceBottom(10).row();
-        contentTable.add(new Label("Rewards:  " + contractCompleted.getRewardMoney(), Tradesong.uiStyles.getLabelStyle())).row();
+        contentTable.add(new Label("Contract completed!", Tradesong.uiStyles)).spaceBottom(10).row();
+        contentTable.add(new Label("Rewards:  " + contractCompleted.getRewardMoney(), Tradesong.uiStyles)).row();
         for (String itemName : contractCompleted.getRewardItems()) {
             contentTable.add(Tradesong.items.getItem(itemName)).spaceRight(5);
         }
