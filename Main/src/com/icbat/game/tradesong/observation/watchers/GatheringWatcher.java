@@ -60,6 +60,7 @@ public class GatheringWatcher implements Watcher {
                     gatherSound.stop();
                     completionSound.play();
                     Tradesong.state.inventory().addItem(owner.getName());
+                    owner.remove();
                 }
             }, Constants.GATHER_TIME_BASE.value() * Tradesong.state.getGatherTimeMultiplier());
         }
