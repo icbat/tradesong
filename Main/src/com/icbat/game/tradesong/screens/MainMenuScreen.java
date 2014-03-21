@@ -32,9 +32,9 @@ public class MainMenuScreen extends AbstractScreen {
 
             table.add(makeTitleLabel()).spaceBottom(25).colspan(2).row();
 
-            for (int i=0; i < Constants.NUMBER_OF_SAVE_SLOTS.value(); ++i) {
-                table.add(makeDeleteButton(i)).spaceRight(5);
-                table.add(makeSlotButton(i)).row();
+            for (int i=1; i < Constants.NUMBER_OF_SAVE_SLOTS.value(); ++i) {
+                table.add(makeSlotButton(i)).spaceRight(5);
+                table.add(makeDeleteButton(i)).row();
             }
 
             table.add(makeOptionsButton()).spaceTop(15).colspan(2).row();
@@ -47,21 +47,21 @@ public class MainMenuScreen extends AbstractScreen {
             return new Label("Tradesong", Tradesong.uiStyles.getLabelStyle());
         }
 
-        private Actor makeSlotButton(int i) {
-            TextButton start = new TextButton("Slot " + (i+1), Tradesong.uiStyles.getDisabledButtonStyle());
-
-            return start;
-        }
-
-        private Actor makeDeleteButton(int i) {
-            TextButton deleteButton = new TextButton("Overwrite?", Tradesong.uiStyles.getTextButtonStyle());
-            deleteButton.addListener(new ClickListener() {
+        private Actor makeSlotButton(final int slotNumber) {
+            TextButton start = new TextButton("Slot " + slotNumber, Tradesong.uiStyles.getTextButtonStyle());
+            start.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    Tradesong.setupNewGame();
+                    Tradesong.tryLoadingSlot(slotNumber);
                 }
             });
+            return start;
+        }
+
+        private Actor makeDeleteButton(final int slotNumber) {
+            TextButton deleteButton = new TextButton("X", Tradesong.uiStyles.getDisabledButtonStyle());
+
             return deleteButton;
         }
 

@@ -36,12 +36,6 @@ public class Tradesong extends Game {
     }
 
     private void debugMode() {
-        setupNewGame();
-        state.inventory().addItem("Blackberry");
-        state.inventory().addMoney(1337);
-        state.saveGame();
-
-        state.loadGame();
     }
 
     private void initializeStaticData() {
@@ -107,12 +101,22 @@ public class Tradesong extends Game {
     }
 
     static void startGame() {
-//        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+        // TODO go to a map here.
     }
 
     public static void setupNewGame() {
         state = new GameState();
         clock.startDay();
+        startGame();
+    }
+
+    /**
+     * Tries to load from this slot. If no save file is found here, starts a new game in that slot.
+     * */
+    public static void tryLoadingSlot(int slotNumber) {
+        if (!state.canLoadSlot(slotNumber)) {
+            setupNewGame();
+        }
         startGame();
     }
 }
