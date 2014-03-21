@@ -22,10 +22,6 @@ public class MainMenuScreen extends AbstractScreen {
         return "MAIN-MENU-SCREEN";
     }
 
-
-    /**
-     * @author icbat
-     */
     public static class MainMenuStage extends BaseStage {
 
         public MainMenuStage() {
@@ -36,14 +32,10 @@ public class MainMenuScreen extends AbstractScreen {
             table.debug();
             table.setFillParent(true);
 
-            table.add(getTitleLabel());
-            table.row();
-            table.add(getStartButton());
-            table.row();
-            table.add(getLoadButton());
-            table.row();
+            table.add(getTitleLabel()).spaceBottom(30f).row();
+            table.add(getStartButton()).row();
+            table.add(getLoadButton()).row();
             table.add(getExitButton());
-
         }
 
         private Actor getTitleLabel() {
