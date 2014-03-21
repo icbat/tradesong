@@ -9,9 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.utils.SpacedTable;
 
-/***/
 public class EndOfDayPopup extends Table {
 
     public EndOfDayPopup() {
@@ -20,13 +18,11 @@ public class EndOfDayPopup extends Table {
     }
 
     private Table makeContentTable() {
-        SpacedTable contentTable = new SpacedTable();
+        Table contentTable = new Table();
 
-        contentTable.add(new Label("End of day", Tradesong.uiStyles.getLabelStyle()));
-        contentTable.spacedRows(2);
-        contentTable.add(new Label("New contracts generated!", Tradesong.uiStyles.getLabelStyle()));
-        contentTable.spacedRow();
-        contentTable.add(new Label("Rent collected:  200", Tradesong.uiStyles.getLabelStyle())); // TODO extract rent to a variable somewhere.
+        contentTable.add(new Label("End of day", Tradesong.uiStyles.getLabelStyle())).spaceBottom(10).row();
+        contentTable.add(new Label("New contracts generated!", Tradesong.uiStyles.getLabelStyle())).row();
+        contentTable.add(new Label("Rent collected:  200", Tradesong.uiStyles.getLabelStyle()));
 
         contentTable.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));
         contentTable.addListener(new ClickListener() {

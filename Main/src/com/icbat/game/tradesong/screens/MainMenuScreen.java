@@ -11,7 +11,6 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 import com.icbat.game.tradesong.utils.Constants;
 
-/***/
 public class MainMenuScreen extends AbstractScreen {
 
     public MainMenuScreen() {
@@ -82,7 +81,5 @@ public class MainMenuScreen extends AbstractScreen {
 
             return exit;
         }
-
-
     }
 }

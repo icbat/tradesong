@@ -10,18 +10,12 @@ import com.icbat.game.tradesong.screens.stages.BaseStage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Generic abstraction of things shared by all screens
- */
 public abstract class AbstractScreen implements Screen {
 
     protected List<BaseStage> stages = new ArrayList<BaseStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    public AbstractScreen() {
-//        stages.add();
-//        stages.add();
-    }
+    protected AbstractScreen() {}
 
     @Override
     public void render(float delta) {
@@ -47,12 +41,8 @@ public abstract class AbstractScreen implements Screen {
         for (Stage stage : stages) {
             stage.dispose();
         }
-
     }
 
-    /**
-     * This method does nothing, but must be here to allow the children to not implement this.
-     */
     @Override
     public void hide() {
         for (BaseStage stage : stages) {
