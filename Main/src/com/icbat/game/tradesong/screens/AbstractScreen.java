@@ -78,4 +78,9 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public abstract String getScreenName();
+
+    public void setupStages() {
+        this.stages.clear();
+//        this.stages.add(new HUD());
+    }
 }
