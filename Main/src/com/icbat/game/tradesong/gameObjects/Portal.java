@@ -6,12 +6,10 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.PortalTakenNotification;
 import com.icbat.game.tradesong.observation.watchers.PortalTakenWatcher;
-import com.icbat.game.tradesong.screens.MapScreen;
 
 /***/
 public class Portal extends Image {
@@ -49,7 +47,7 @@ public class Portal extends Image {
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
             Gdx.app.debug("portal clicked", linkedMapName);
-            ((MapScreen)Tradesong.screenManager.getCurrentScreen()).moveToMap(linkedMapName);
+//            ((MapScreen)Tradesong.screenManager.getCurrentScreen()).moveToMap(linkedMapName);
             notifications.notifyWatchers(new PortalTakenNotification(linkedMapName));
         }
     }

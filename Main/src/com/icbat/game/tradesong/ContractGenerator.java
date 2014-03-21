@@ -2,22 +2,20 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Rarity;
 
 import java.util.*;
 
-/***/
 public class ContractGenerator {
-    Map<Rarity, List<Item>> prototypes = new HashMap<Rarity, List<Item>>();
-    private final Random random = Tradesong.saveableState.getSeededRNG();
+    HashMap<Rarity, LinkedList<String>> prototypes = new HashMap<Rarity, LinkedList<String>>();
+    private final Random random = Tradesong.state.getSeededRNG();
 
-    public ContractGenerator(Set<Item> allItemPrototypes) {
+    public ContractGenerator(Set<Items.Item> allItemPrototypes) {
         for (Rarity rarity : Rarity.values()) {
-            List<Item> itemsAtThisRarity = new ArrayList<Item>();
-            for (Item item : allItemPrototypes) {
+            LinkedList<String> itemsAtThisRarity = new LinkedList<String>();
+            for (Items.Item item : allItemPrototypes) {
                 if (item.getRarity().equals(rarity)){
-                    itemsAtThisRarity.add(item);
+                    itemsAtThisRarity.add(item.getName());
                 }
             }
             prototypes.put(rarity, itemsAtThisRarity);
@@ -32,8 +30,8 @@ public class ContractGenerator {
     }
 
     public Contract generateContract(Rarity rarity) {
-        List<Item> requirements = getRequirements(rarity);
-        List<Item> rewards = getRewards(rarity);
+        LinkedList<String> requirements = getRequirements(rarity);
+        LinkedList<String> rewards = getRewards(rarity);
         int moneyReward = getMoneyReward(rarity);
         return new Contract(rarity, requirements, rewards, moneyReward);
     }
@@ -54,23 +52,23 @@ public class ContractGenerator {
         }
     }
 
-    private List<Item> getRequirements(Rarity rarity) {
+    private LinkedList<String> getRequirements(Rarity rarity) {
         int itemsToFind = 2 + random.nextInt(2);
         return getRandomItemList(rarity, itemsToFind);
     }
 
-    private List<Item> getRewards(Rarity rarity) {
+    private LinkedList<String> getRewards(Rarity rarity) {
         int itemsToFind = random.nextInt(2);
         if (itemsToFind > 0) {
 
             return getRandomRewards(rarity, itemsToFind);
         } else {
-            return new ArrayList<Item>();
+            return new LinkedList<String>();
         }
     }
 
-    private List<Item> getRandomItemList(Rarity rarity, int numberOfItems) {
-        List<Item> items = new ArrayList<Item>();
+    private LinkedList<String> getRandomItemList(Rarity rarity, int numberOfItems) {
+        LinkedList<String> items = new LinkedList<String>();
 
         for (int i=0; i < numberOfItems; ++i) {
             items.add(getRandomItem(rarity));
@@ -79,11 +77,11 @@ public class ContractGenerator {
         return items;
     }
 
-    private List<Item> getRandomRewards (Rarity rarity, int numberOfItems) {
-        List<Item> items = new ArrayList<Item>();
+    private LinkedList<String> getRandomRewards (Rarity rarity, int numberOfItems) {
+        LinkedList<String> items = new LinkedList<String>();
 
         for (int i=0; i < numberOfItems; ++i) {
-            Item randomItem;
+            String randomItem;
             do {
                 randomItem = getRandomItem(rarity);
             } while (items.contains(randomItem));
@@ -93,14 +91,14 @@ public class ContractGenerator {
         return items;
     }
 
-    private Item getRandomItem(Rarity rarity) {
-        List<Item> itemsAtRarity = prototypes.get(rarity);
+    private String getRandomItem(Rarity rarity) {
+        LinkedList<String> itemsAtRarity = prototypes.get(rarity);
         int randomIndex = random.nextInt(itemsAtRarity.size());
         return itemsAtRarity.get(randomIndex);
     }
 
     public void makeDailyContracts() {
-        List<Contract> contracts = new ArrayList<Contract>();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
         int contractsToday = 3 + random.nextInt(4);
         for (int i=0; i < contractsToday; ++i) {
             Contract contract = generateContract();
@@ -108,6 +106,6 @@ public class ContractGenerator {
             Gdx.app.debug("contract generated", contract.toString());
         }
         Gdx.app.debug("Contracts for today", contracts.size() + "");
-        Tradesong.saveableState.setContractList(contracts);
+        Tradesong.state.setContractList(contracts);
     }
 }

@@ -8,12 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.gameObjects.Item;
-import com.icbat.game.tradesong.screens.dragAndDrop.FrameTarget;
-import com.icbat.game.tradesong.screens.dragAndDrop.ItemSource;
 import com.icbat.game.tradesong.screens.listeners.InventoryClickListener;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
@@ -25,8 +22,6 @@ import java.util.List;
 public class InventoryStage extends BaseStage {
     private Label description;
     private Label itemName;
-    DragAndDrop dragAndDrop = new DragAndDrop();
-
 
     @Override
     public void layout() {
@@ -54,7 +49,7 @@ public class InventoryStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.saveableState.getInventory().sort();
+                Tradesong.state.inventory().sort();
                 layout();
             }
         });
@@ -71,12 +66,12 @@ public class InventoryStage extends BaseStage {
 
     protected Table makeInventoryTable() {
         SpacedTable inventory = new SpacedTable();
-        List<Item> inventoryCopy = Tradesong.saveableState.getInventory().getCopyOfInventory();
+        List<String> inventoryCopy = Tradesong.state.inventory().getCopyOfInventory();
 
-        for (int i = 1; i <= Tradesong.saveableState.getInventory().getMaxSize(); ++i) {
-            if (i - 1 < inventoryCopy.size() && inventoryCopy.get(i - 1) != null) {
-                Item item = inventoryCopy.get(i - 1);
-                dragAndDrop.addSource(new ItemSource(item, this));
+        for (int i = 1; i <= Tradesong.state.inventory().getMaxSize(); ++i) {
+            String itemName = inventoryCopy.get(i - 1);
+            if (i - 1 < inventoryCopy.size() && itemName != null) {
+                Items.Item item = Tradesong.items.getItem(itemName);
                 item.addListener(new InventoryClickListener(item) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -102,9 +97,8 @@ public class InventoryStage extends BaseStage {
         return makeFrame(isDropTarget, null);
     }
 
-    protected Image makeFrame(boolean isDropTarget, List<Item> backingList) {
+    protected Image makeFrame(boolean isDropTarget, List<Items.Item> backingList) {
         Image frame =  new Image(Tradesong.getTexture(TextureAssets.FRAME));
-        dragAndDrop.addTarget(new FrameTarget(frame, isDropTarget, backingList));
         return frame;
     }
 

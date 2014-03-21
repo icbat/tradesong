@@ -57,7 +57,7 @@ public class OptionsMenuStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.saveableState.saveGame();
+                Tradesong.state.saveGame();
             }
         });
         return saveButton;

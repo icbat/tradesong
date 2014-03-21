@@ -21,7 +21,7 @@ public class EndOfDayWatcher implements Watcher {
                 @Override
                 public void run() {
                     Tradesong.screenManager.getCurrentScreen().addPopup(new EndOfDayPopup());
-                    Tradesong.saveableState.getInventory().addMoney(-200);
+                    Tradesong.state.inventory().addMoney(-200);
                     Tradesong.clock.startDay();
                 }
             }, 3); // delay roughly the time of the soundeffect for some notice.

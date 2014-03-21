@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 public class Tradesong extends Game {
@@ -20,10 +19,10 @@ public class Tradesong extends Game {
     public static ScreenManager screenManager;
     public static AssetManager assetManager = new AssetManager();
     public static UIStyles uiStyles;
-    public static ItemPrototypes itemPrototypes;
+    public static Items items;
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
-    public static GameState saveableState;
+    public static GameState state;
     public static Clock clock;
 
     @Override
@@ -33,22 +32,31 @@ public class Tradesong extends Game {
         initializeStaticData();
         playLoopingMusic(MusicAssets.MYSTERIOUS);
         screenManager.goToMainMenu();
+        this.debugMode();
+    }
+
+    private void debugMode() {
+        setupNewGame();
+        state.inventory().addItem("Blackberry");
+        state.inventory().addMoney(1337);
+        state.saveGame();
+
+        state.loadGame();
     }
 
     private void initializeStaticData() {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
-        saveableState = new GameState();
+        state = new GameState();
         uiStyles = new UIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
-        itemPrototypes = new ItemPrototypes();
-        contractGenerator = new ContractGenerator(itemPrototypes.getAll());
+        items = Items.parsePrototypes();
+        contractGenerator = new ContractGenerator(items.getAll());
         workshopListing = new WorkshopListing();
         clock = new Clock();
     }
 
     private void initializeAssets() {
-
         for (TextureAssets texture : TextureAssets.values()) {
             assetManager.load(texture.getPath(), Texture.class);
         }
@@ -99,11 +107,11 @@ public class Tradesong extends Game {
     }
 
     static void startGame() {
-        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
+//        screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
     }
 
     public static void setupNewGame() {
-        saveableState = new GameState();
+        state = new GameState();
         clock.startDay();
         startGame();
     }

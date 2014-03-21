@@ -3,14 +3,16 @@ package com.icbat.game.tradesong.screens.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.maps.*;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Portal;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
@@ -19,7 +21,10 @@ import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
 import com.icbat.game.tradesong.utils.Constants;
 import com.icbat.game.tradesong.utils.Point;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class MapStage extends BaseStage {
     public static final String SPAWNABLE_ITEMS_KEY = "spawnableItems";
@@ -28,7 +33,7 @@ public class MapStage extends BaseStage {
     private List<ValidSpawnArea> spawnAreas = new LinkedList<ValidSpawnArea>();
     private Timer spawnTimer = new Timer();
     private int maxItemsOnMap = 0;
-    protected final Random seededRandom = Tradesong.saveableState.getSeededRNG();
+    protected final Random seededRandom = Tradesong.state.getSeededRNG();
 
     public MapStage(TiledMap map) {
         MapProperties mapProperties = map.getProperties();
@@ -97,7 +102,7 @@ public class MapStage extends BaseStage {
             if (layer.getName().startsWith("#SPAWN")) {
                 TiledMapTileLayer spawnLayer = (TiledMapTileLayer) layer;
                 List<Point> spawnableTiles = parseValidSpawnAreaZone(spawnLayer);
-                List<Item> spawnableItems = new LinkedList<Item>();
+                List<Items.Item> spawnableItems = new LinkedList<Items.Item>();
                 try {
                     spawnableItems = parseSpawnableItems(spawnLayer);
 
@@ -122,12 +127,12 @@ public class MapStage extends BaseStage {
         return spawnableTiles;
     }
 
-    private List<Item> parseSpawnableItems(TiledMapTileLayer spawnLayer) {
+    private List<Items.Item> parseSpawnableItems(TiledMapTileLayer spawnLayer) {
         String spawnableItemsBlob = (String) spawnLayer.getProperties().get(SPAWNABLE_ITEMS_KEY);
         String[] splitItems = spawnableItemsBlob.split(",");
-        List<Item> spawnableItems = new LinkedList<Item>();
+        List<Items.Item> spawnableItems = new LinkedList<Items.Item>();
         for (String itemName : splitItems) {
-            Item itemToAdd = Tradesong.itemPrototypes.get(itemName.trim());
+            Items.Item itemToAdd = Tradesong.items.getItem(itemName.trim());
             if (itemToAdd != null) {
                 spawnableItems.add(itemToAdd);
             } else {
@@ -148,7 +153,7 @@ public class MapStage extends BaseStage {
         int index;
         try {
             index = seededRandom.nextInt(spawnAreas.size());
-            Item item = spawnAreas.get(index).spawnItem();
+            Items.Item item = spawnAreas.get(index).spawnItem();
             return addItemToMap(item, maxItemsOnMap);
         } catch (IllegalArgumentException iea){
             Gdx.app.log("Error encountered spawning random item", "Suspect no areas or items found.", iea);
@@ -161,7 +166,7 @@ public class MapStage extends BaseStage {
      *
      * @return true if the item was successfully added.
      * */
-    private boolean addItemToMap(Item item, int maxItemsOnMap) {
+    private boolean addItemToMap(Items.Item item, int maxItemsOnMap) {
         if (this.getActors().size < maxItemsOnMap) {
             Gdx.app.debug("spawning item", item.getName());
             this.addActor(item);
@@ -188,19 +193,19 @@ public class MapStage extends BaseStage {
 
         private final int ICON_SIZE = Constants.SPRITE_DIMENSION.value();
         private final List<Point> spawnableTiles;
-        private final List<Item> weightedSpawnableItemsList;
+        private final List<Items.Item> weightedSpawnableItemsList;
 
-        public ValidSpawnArea(List<Point> spawnableTiles, List<Item> spawnableItems) {
+        public ValidSpawnArea(List<Point> spawnableTiles, List<Items.Item> spawnableItems) {
             this.spawnableTiles = spawnableTiles;
             this.weightedSpawnableItemsList = weightSpawnableItems(spawnableItems);
         }
 
-        private List<Item> weightSpawnableItems(List<Item> spawnableItems) {
-            List<Item> weightedSpawns = new ArrayList<Item>();
+        private List<Items.Item> weightSpawnableItems(List<Items.Item> spawnableItems) {
+            List<Items.Item> weightedSpawns = new ArrayList<Items.Item>();
 
-            for (Item item : spawnableItems) {
+            for (Items.Item item : spawnableItems) {
                 for (int i = 0; i < item.getRarity().getWeight(); ++i) {
-                    weightedSpawns.add(new Item(item));
+                    weightedSpawns.add(new Items.Item(item));
                 }
             }
 
@@ -210,9 +215,9 @@ public class MapStage extends BaseStage {
         /**
          * @return the Item to spawn regardless of max capacity
          * */
-        public Item spawnItem() {
+        public Items.Item spawnItem() {
             if (!weightedSpawnableItemsList.isEmpty() && !spawnableTiles.isEmpty()) {
-                Item itemToSpawn = getRandomItem(this.weightedSpawnableItemsList);
+                Items.Item itemToSpawn = getRandomItem(this.weightedSpawnableItemsList);
                 Point spawnPoint = getRandomSpawnPoint(this.spawnableTiles);
                 itemToSpawn.setPosition(spawnPoint.getX() * ICON_SIZE, spawnPoint.getY() * ICON_SIZE);
                 itemToSpawn.addListener(new GatherClickListener(itemToSpawn));
@@ -222,12 +227,12 @@ public class MapStage extends BaseStage {
             return null;
         }
 
-        private Item getRandomItem(List<Item> spawnableItems) {
+        private Items.Item getRandomItem(List<Items.Item> spawnableItems) {
             int i = seededRandom.nextInt(spawnableItems.size());
-            Item item = new Item(Tradesong.itemPrototypes.get("Sword"));
+            Items.Item item = new Items.Item(Tradesong.items.getItem("Sword"));
             try {
 
-                item = new Item(spawnableItems.get(i));
+                item = new Items.Item(spawnableItems.get(i));
             } catch (NullPointerException npe) {
                 Gdx.app.error("Current list trying to spawn from", spawnableItems.toString());
                 Gdx.app.error("Exception trying to spawn item from list", item.getName(), npe);
@@ -246,9 +251,9 @@ public class MapStage extends BaseStage {
      * Class to handle touching/clicking of items on levels.
      */
     class GatherClickListener extends ClickListener {
-        Item owner;
+        Items.Item owner;
 
-        GatherClickListener(Item owner) {
+        GatherClickListener(Items.Item owner) {
             this.owner = owner;
         }
 

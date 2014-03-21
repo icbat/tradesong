@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.utils.SpacedTable;
 
 /***/
@@ -28,8 +27,8 @@ public class ContractRewardPopup extends Table {
         contentTable.spacedRows(2);
         contentTable.add(new Label("Rewards:  " + contractCompleted.getRewardMoney(), Tradesong.uiStyles.getLabelStyle()));
         contentTable.spacedRow();
-        for (Item item : contractCompleted.getRewardItems()) {
-            contentTable.spacedAdd(new Item(item));
+        for (String itemName : contractCompleted.getRewardItems()) {
+            contentTable.spacedAdd(Tradesong.items.getItem(itemName));
         }
 
         contentTable.setBackground(new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));

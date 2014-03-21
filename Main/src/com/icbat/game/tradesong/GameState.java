@@ -15,15 +15,13 @@ import java.util.Random;
  * */
 public class GameState {
     private Inventory inventory;
-    private List<Contract> contractList;
+    private ArrayList<Contract> contractList;
     private int saveSlotNumber;
-    private float craftTimeMultiplier;
     private float gatherTimeMultiplier;
     private Random seededRNG;
 
     public GameState() {
         saveSlotNumber = 1;
-        craftTimeMultiplier = 1;
         gatherTimeMultiplier = 1;
         seededRNG = new Random(System.currentTimeMillis());
         inventory = new Inventory();
@@ -31,6 +29,8 @@ public class GameState {
     }
 
     public void saveGame() {
+        dumpDebug();
+
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
         Json json = new Json();
         gameSaveFile.delete();
@@ -41,8 +41,19 @@ public class GameState {
     public void loadGame() {
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
         Json json = new Json();
-        Tradesong.saveableState = json.fromJson(GameState.class, gameSaveFile.readString());
+        Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
         Tradesong.startGame();
+
+        dumpDebug();
+    }
+
+    private void dumpDebug() {
+        Gdx.app.debug("## State info ##", "");
+        Gdx.app.debug("  # Inventory", inventory.toString());
+        Gdx.app.debug("  # Current Contracts", contractList.toString());
+        Gdx.app.debug("  # Save slot", saveSlotNumber + "");
+        Gdx.app.debug("  # Gather Delay", gatherTimeMultiplier + "");
+        Gdx.app.debug("  # Seeded RNG", seededRNG.toString());
     }
 
     public float getGatherTimeMultiplier() {
@@ -54,7 +65,7 @@ public class GameState {
     }
 
 
-    public Inventory getInventory() {
+    public Inventory inventory() {
         return this.inventory;
     }
 
@@ -63,7 +74,7 @@ public class GameState {
         return contractList;
     }
 
-    public void setContractList(List<Contract> contractList) {
+    public void setContractList(ArrayList<Contract> contractList) {
         this.contractList = contractList;
     }
 }
