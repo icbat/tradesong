@@ -31,7 +31,7 @@ public class MainMenuScreen extends AbstractScreen {
                 table.add(makeDeleteButton(i)).row();
             }
 
-            table.add(makeOptionsButton()).spaceTop(15).colspan(2).row();
+            table.add(makeSettingsButton()).spaceTop(15).colspan(2).row();
             table.add(makeExitButton()).colspan(2).row();
 
             this.addActor(table);
@@ -54,13 +54,11 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private Actor makeDeleteButton(final int slotNumber) {
-            TextButton deleteButton = new TextButton("X", Tradesong.uiStyles);
-
-            return deleteButton;
+            return new TextButton("X", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
         }
 
-        private Actor makeOptionsButton() {
-            return new TextButton("Settings", Tradesong.uiStyles);
+        private Actor makeSettingsButton() {
+            return new TextButton("Settings", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
         }
 
         private Actor makeExitButton() {
