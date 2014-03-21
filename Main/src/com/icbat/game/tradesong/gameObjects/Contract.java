@@ -1,51 +1,52 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Way to represent/interact with a contract. Making these is left to a factory elsewhere.
  * */
 public class Contract {
-    List<Item> requirements = new ArrayList<Item>();
-    List<Item> rewards = new ArrayList<Item>();
+    LinkedList<String> requirements = new LinkedList<String>();
+    LinkedList<String> rewards = new LinkedList<String>();
     int rewardMoney = 0;
     private Rarity rarity;
 
-    private Contract(){}
+    private  Contract() {}
 
-    public Contract(Rarity rarity, List<Item> requirements, List<Item> rewards, int rewardMoney) {
+    public Contract(Rarity rarity, LinkedList<String> requirements, LinkedList<String> rewards, int rewardMoney) {
         this.rarity = rarity;
         this.requirements = requirements;
         this.rewards = rewards;
         this.rewardMoney = rewardMoney;
     }
 
-    public boolean canComplete(List<Item> inputs) {
+    public boolean canComplete(List<Items.Item> inputs) {
         return inputs.size() == requirements.size() && inputs.containsAll(requirements);
     }
 
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public boolean completeContract(List<Item> inputs) {
-        if (canComplete(inputs) && Tradesong.contractList.contains(this)) {
+    public boolean completeContract(List<Items.Item> inputs) {
+        if (canComplete(inputs) && Tradesong.state.getContractList().contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
 
-            for (Item rewardItem : rewards){
-                Tradesong.inventory.addItem(new Item(rewardItem));
+            for (String rewardItem : rewards){
+                Tradesong.state.inventory().addItem(rewardItem);
             }
 
             Gdx.app.debug("reward money", rewardMoney + "");
-            Gdx.app.debug("money before", Tradesong.inventory.getMoney() + "");
-            Tradesong.inventory.addMoney(rewardMoney);
-            Gdx.app.debug("money after", Tradesong.inventory.getMoney() + "");
+            Gdx.app.debug("money before", Tradesong.state.inventory().getMoney() + "");
+            Tradesong.state.inventory().addMoney(rewardMoney);
+            Gdx.app.debug("money after", Tradesong.state.inventory().getMoney() + "");
 
-            Tradesong.contractList.remove(this);
+            Tradesong.state.getContractList().remove(this);
             return true;
         }
         return false;
@@ -53,10 +54,12 @@ public class Contract {
 
     @Override
     public String toString() {
-        return rarity + " contract";
+        return rarity + " contract [" +
+                requirements.toString() +
+                "]";
     }
 
-    public List<Item> getRequirements() {
+    public LinkedList<String> getRequirements() {
         return requirements;
     }
 
@@ -64,7 +67,7 @@ public class Contract {
         return rewardMoney;
     }
 
-    public List<Item> getRewardItems() {
+    public LinkedList<String> getRewardItems() {
         return rewards;
     }
 }

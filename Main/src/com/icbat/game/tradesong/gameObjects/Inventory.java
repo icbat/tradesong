@@ -1,44 +1,32 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.PersistantData;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Inventory with persistence
  */
-public class Inventory extends PersistantData {
+public class Inventory {
     private int maxSize = 18;
-    private List<Item> items = new ArrayList<Item>(maxSize);
+    private ArrayList<String> items = new ArrayList<String>(maxSize);
     private Integer money = 0;
 
     public Inventory() {}
 
-    public boolean addItem(Item newItem) {
+    public boolean addItem(String newItem) {
         if (canAdd()) {
-            items.add(new Item(newItem));
+            items.add(newItem);
             return true;
         } else {
-            Gdx.app.debug("couldn't add", newItem.toString());
+            Gdx.app.debug("couldn't add", newItem);
             return false;
         }
     }
 
-    /**
-     * Attempts to remove the item. Will return payload regardless of removal's success.
-     *
-     * @return the same payload you gave it.
-     * */
-    public Item takeOutItem(Item payload) {
-        items.remove(payload);
-        return payload;
-    }
-
-    public List<Item> getCopyOfInventory() {
-        return new ArrayList<Item>(items);
+    public ArrayList<String> getCopyOfInventory() {
+        return new ArrayList<String>(items);
     }
 
     public boolean canAdd() {
@@ -47,10 +35,6 @@ public class Inventory extends PersistantData {
 
     public int getMaxSize() {
         return maxSize;
-    }
-
-    public int getCurrentSize() {
-        return items.size();
     }
 
     /**
@@ -71,13 +55,15 @@ public class Inventory extends PersistantData {
         money += newInput;
     }
 
-    @Override
-    public void save() {
-
+    public int getSlotsFree() {
+        return maxSize - items.size();
     }
 
     @Override
-    public void load() {
-
+    public String toString() {
+        return "Inventory{" +
+                "money=" + money +
+                ", items=" + items +
+                '}';
     }
 }

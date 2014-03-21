@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.icbat.game.tradesong.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Workshop extends Image{
         return name;
     }
 
-    public Item getOutput(List<Item> itemsInput) {
+    public Items.Item getOutput(List<Items.Item> itemsInput) {
         for (Recipe recipe : recipesAssociated) {
             if (recipe.inputCanCraftThis(itemsInput)) {
                 return recipe.getOutput();

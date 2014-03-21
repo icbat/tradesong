@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
-import com.icbat.game.tradesong.screens.stages.HUD;
-import com.icbat.game.tradesong.screens.stages.PopupStage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,9 +106,7 @@ public abstract class AbstractScreen implements Screen {
     protected void setupStages(BaseStage... stages) {
         disposeAllStages(this.stages);
         this.stages = new ArrayList<BaseStage>();
-        this.stages.add(new HUD());
         Collections.addAll(this.stages, stages);
-        this.stages.add(new PopupStage());
         this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // TODO make this logic more clear.
     }
 

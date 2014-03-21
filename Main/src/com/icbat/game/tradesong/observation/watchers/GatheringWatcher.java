@@ -2,13 +2,14 @@ package com.icbat.game.tradesong.observation.watchers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
+import com.icbat.game.tradesong.utils.Constants;
 
 /**
  * Responds appropriately to an item node being gathered
@@ -26,7 +27,7 @@ public class GatheringWatcher implements Watcher {
         }
 
         if (notification instanceof GatherNotification) {
-            startGathering((Item) notification.getContents());
+            startGathering((Items.Item) notification.getContents());
         } else if (notification instanceof StopNotification) {
             stopGathering();
         }
@@ -46,8 +47,8 @@ public class GatheringWatcher implements Watcher {
         return true;
     }
 
-    private void startGathering(final Item owner) {
-        if (Tradesong.inventory.canAdd()) {
+    private void startGathering(final Items.Item owner) {
+        if (Tradesong.state.inventory().canAdd()) {
             gatherSound.stop();
             completionSound.stop();
 
@@ -58,10 +59,9 @@ public class GatheringWatcher implements Watcher {
                 public void run() {
                     gatherSound.stop();
                     completionSound.play();
-                    Tradesong.inventory.addItem(new Item(owner));
-                    owner.remove();
+                    Tradesong.state.inventory().addItem(owner.getName());
                 }
-            }, 3f);
+            }, Constants.GATHER_TIME_BASE.value() * Tradesong.state.getGatherTimeMultiplier());
         }
     }
 

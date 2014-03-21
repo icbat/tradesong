@@ -26,8 +26,19 @@ public class Clock extends NotificationManager {
         currentTime = 0;
         stop();
         dayTimer.start();
-        dayTimer.scheduleTask(new dayEndTask(), dayLengthInMinutes * SECONDS_TO_MINUTE);
-        dayTimer.scheduleTask(new countUpTask(), 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
+        dayTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.debug("clock says", "day ended!");
+                notifyWatchers(new DayEndedNotification());
+            }
+        }, dayLengthInMinutes * SECONDS_TO_MINUTE);
+        dayTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                currentTime += 1;
+            }
+        }, 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
         Tradesong.contractGenerator.makeDailyContracts();
     }
 
@@ -51,21 +62,5 @@ public class Clock extends NotificationManager {
 
     public void scheduleNonRepeatingTask(Timer.Task task, int secondsIntheFuture) {
         dayTimer.scheduleTask(task, secondsIntheFuture);
-    }
-
-    private class dayEndTask extends Timer.Task {
-        @Override
-        public void run() {
-            Gdx.app.debug("clock says", "day ended!");
-            notifyWatchers(new DayEndedNotification());
-        }
-    }
-
-    private class countUpTask extends Timer.Task {
-
-        @Override
-        public void run() {
-            currentTime += 1;
-        }
     }
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.gameObjects.Item;
 import com.icbat.game.tradesong.gameObjects.Recipe;
 import com.icbat.game.tradesong.gameObjects.Workshop;
 
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is similar to ItemPrototypes, but for a workshop and its recipes
+ * This is similar to Items, but for a workshop and its recipes
  * */
 public class WorkshopListing {
     Map<String, Workshop> workshops = new HashMap<String, Workshop>();
@@ -92,9 +91,9 @@ public class WorkshopListing {
 
         String outputName = recipeXml.get("output");
         boolean isCatchAll = false;
-        Item output = Tradesong.itemPrototypes.get(outputName);
+        Items.Item output = Tradesong.items.getItem(outputName);
 
-        List<Item> ingredients = new ArrayList<Item>();
+        List<Items.Item> ingredients = new ArrayList<Items.Item>();
 
         Array<XmlReader.Element> ingredientListXml = recipeXml.getChildByName("ingredients").getChildrenByName("ingredient");
 
@@ -110,9 +109,9 @@ public class WorkshopListing {
         return new Recipe(output, ingredients, craftTime, isCatchAll);
     }
 
-    private Item parseIngredient(XmlReader.Element ingredientXml) {
+    private Items.Item parseIngredient(XmlReader.Element ingredientXml) {
         String ingredientName = ingredientXml.getText();
-        return Tradesong.itemPrototypes.get(ingredientName);
+        return Tradesong.items.getItem(ingredientName);
     }
 
     public Workshop getWorkshop(String name) {

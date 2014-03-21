@@ -42,14 +42,22 @@ public class MainMenuStage extends BaseStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tradesong.startNewGame();
+                Tradesong.setupNewGame();
             }
         });
         return start;
     }
 
     private Actor getLoadButton() {
-        return new TextButton("Load Saved Game", Tradesong.uiStyles.getDisabledButtonStyle());
+        TextButton loadButton = new TextButton("Load Saved Game", Tradesong.uiStyles.getTextButtonStyle());
+        loadButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Tradesong.state.loadGame();
+            }
+        });
+        return loadButton;
     }
 
     private Actor getExitButton() {

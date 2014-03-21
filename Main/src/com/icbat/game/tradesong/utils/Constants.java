@@ -4,7 +4,9 @@ package com.icbat.game.tradesong.utils;
  * A handful of game-wide, numerical constants
  * */
 public enum Constants {
-    SPRITE_DIMENSION(32);
+    SPRITE_DIMENSION(32),
+    GATHER_TIME_BASE(3),
+    ;
 
     private int value;
 
