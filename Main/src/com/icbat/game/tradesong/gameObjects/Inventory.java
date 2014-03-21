@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.PersistantData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * Inventory with persistence
  */
-public class Inventory extends PersistantData {
+public class Inventory {
     private int maxSize = 18;
     private List<Item> items = new ArrayList<Item>(maxSize);
     private Integer money = 0;
@@ -49,10 +48,6 @@ public class Inventory extends PersistantData {
         return maxSize;
     }
 
-    public int getCurrentSize() {
-        return items.size();
-    }
-
     /**
      * Sorts inventory based on item name
      * */
@@ -71,13 +66,7 @@ public class Inventory extends PersistantData {
         money += newInput;
     }
 
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void load() {
-
+    public int getSlotsFree() {
+        return maxSize - items.size();
     }
 }

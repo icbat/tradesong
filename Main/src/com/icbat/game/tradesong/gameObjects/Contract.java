@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.GameState;
+import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,6 @@ public class Contract {
     List<Item> rewards = new ArrayList<Item>();
     int rewardMoney = 0;
     private Rarity rarity;
-
-    private Contract(){}
 
     public Contract(Rarity rarity, List<Item> requirements, List<Item> rewards, int rewardMoney) {
         this.rarity = rarity;
@@ -32,20 +30,20 @@ public class Contract {
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
     public boolean completeContract(List<Item> inputs) {
-        if (canComplete(inputs) && GameState.contractList.contains(this)) {
+        if (canComplete(inputs) && Tradesong.saveableState.getContractList().contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
 
             for (Item rewardItem : rewards){
-                GameState.inventory.addItem(new Item(rewardItem));
+                Tradesong.saveableState.getInventory().addItem(new Item(rewardItem));
             }
 
             Gdx.app.debug("reward money", rewardMoney + "");
-            Gdx.app.debug("money before", GameState.inventory.getMoney() + "");
-            GameState.inventory.addMoney(rewardMoney);
-            Gdx.app.debug("money after", GameState.inventory.getMoney() + "");
+            Gdx.app.debug("money before", Tradesong.saveableState.getInventory().getMoney() + "");
+            Tradesong.saveableState.getInventory().addMoney(rewardMoney);
+            Gdx.app.debug("money after", Tradesong.saveableState.getInventory().getMoney() + "");
 
-            GameState.contractList.remove(this);
+            Tradesong.saveableState.getContractList().remove(this);
             return true;
         }
         return false;

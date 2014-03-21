@@ -6,24 +6,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.Json;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
-/**
- * This class:
- * - sets up the game initially
- * - tracks/exposes game variables
- * - loads common/global assets
- * - Violates all sorts of principles like doing one thing.
- */
 public class Tradesong extends Game {
 
     public static ScreenManager screenManager;
@@ -33,7 +24,7 @@ public class Tradesong extends Game {
     public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
     public static GameState saveableState;
-    private static int saveSlotNumber = 1;
+    public static Clock clock;
 
     @Override
     public void create() {
@@ -50,10 +41,10 @@ public class Tradesong extends Game {
         saveableState = new GameState();
         uiStyles = new UIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
-        GameState.clock = new Clock();
         itemPrototypes = new ItemPrototypes();
         contractGenerator = new ContractGenerator(itemPrototypes.getAll());
         workshopListing = new WorkshopListing();
+        clock = new Clock();
     }
 
     private void initializeAssets() {
@@ -107,27 +98,13 @@ public class Tradesong extends Game {
         currentTrack.setVolume(0.9f);
     }
 
-    public static void saveGame() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
-        Json json = new Json();
-        gameSaveFile.delete();
-        gameSaveFile.writeString(json.prettyPrint(saveableState), true);
-    }
-
-    public static void loadGame() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
-        Json json = new Json();
-        saveableState = json.fromJson(GameState.class, gameSaveFile.readString());
-        startGame();
-    }
-
-    private static void startGame() {
+    static void startGame() {
         screenManager.goToScreen(new MapScreen("bigger_static_wyld"));
     }
 
-    public static void startNewGame() {
+    public static void setupNewGame() {
         saveableState = new GameState();
-        GameState.clock.startDay();
+        clock.startDay();
         startGame();
     }
 }

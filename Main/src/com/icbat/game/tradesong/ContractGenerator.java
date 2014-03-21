@@ -108,6 +108,6 @@ public class ContractGenerator {
             Gdx.app.debug("contract generated", contract.toString());
         }
         Gdx.app.debug("Contracts for today", contracts.size() + "");
-        GameState.contractList = contracts;
+        Tradesong.saveableState.setContractList(contracts);
     }
 }

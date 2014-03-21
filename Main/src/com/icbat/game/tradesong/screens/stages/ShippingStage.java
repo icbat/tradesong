@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
@@ -58,7 +57,7 @@ public class ShippingStage extends InventoryStage {
     public void hide() {
         super.hide();
         for (Item itemOnTable : shipmentBoxContents) {
-            GameState.inventory.addItem(itemOnTable);
+            Tradesong.saveableState.getInventory().addItem(itemOnTable);
         }
     }
 
@@ -92,7 +91,7 @@ public class ShippingStage extends InventoryStage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                for (Contract contract : GameState.contractList) {
+                for (Contract contract : Tradesong.saveableState.getContractList()) {
                     if (contract.canComplete(shipmentBoxContents)) {
                         toggleCompleteButton(true);
                         contractMatched = contract;

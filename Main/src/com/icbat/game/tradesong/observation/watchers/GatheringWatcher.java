@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.observation.watchers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.GameState;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.gameObjects.Item;
@@ -49,7 +48,7 @@ public class GatheringWatcher implements Watcher {
     }
 
     private void startGathering(final Item owner) {
-        if (GameState.inventory.canAdd()) {
+        if (Tradesong.saveableState.getInventory().canAdd()) {
             gatherSound.stop();
             completionSound.stop();
 
@@ -60,7 +59,7 @@ public class GatheringWatcher implements Watcher {
                 public void run() {
                     gatherSound.stop();
                     completionSound.play();
-                    GameState.inventory.addItem(new Item(owner));
+                    Tradesong.saveableState.getInventory().addItem(new Item(owner));
                     owner.remove();
                 }
             }, Constants.GATHER_TIME_BASE.value() * Tradesong.saveableState.getGatherTimeMultiplier());
