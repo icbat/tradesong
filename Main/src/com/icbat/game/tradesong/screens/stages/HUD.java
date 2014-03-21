@@ -113,9 +113,7 @@ public class HUD extends BaseStage {
         craftingButton.setTouchable(Touchable.enabled);
         craftingButton.addListener(new GoToScreenListener() {
             @Override
-            protected void goToTargetScreen() {
-                Tradesong.screenManager.goToScreen(new CraftingScreen());
-            }
+            protected void goToTargetScreen() {}
         });
         return craftingButton;
     }
@@ -126,7 +124,6 @@ public class HUD extends BaseStage {
         shipmentBoxButton.addListener(new GoToScreenListener() {
             @Override
             protected void goToTargetScreen() {
-                Tradesong.screenManager.goToScreen(new ShippingScreen());
             }
         });
         return shipmentBoxButton;
