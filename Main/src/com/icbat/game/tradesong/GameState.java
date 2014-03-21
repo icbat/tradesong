@@ -29,7 +29,6 @@ public class GameState {
 
     public void saveGame(int saveSlotNumber) {
         dumpDebug();
-
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
         Json json = new Json();
         gameSaveFile.delete();
@@ -43,8 +42,6 @@ public class GameState {
             FileHandle gameSaveFile = Gdx.files.external(path);
             Json json = new Json();
             Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
-            Tradesong.startGame();
-
             dumpDebug();
             return true;
         } catch (GdxRuntimeException rte) {

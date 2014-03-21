@@ -17,11 +17,6 @@ public class MainMenuScreen extends AbstractScreen {
         this.stages.add(new MainMenuStage());
     }
 
-    @Override
-    public String getScreenName() {
-        return "MAIN-MENU-SCREEN";
-    }
-
     public static class MainMenuStage extends BaseStage {
 
         public MainMenuStage() {
@@ -81,5 +76,10 @@ public class MainMenuScreen extends AbstractScreen {
 
             return exit;
         }
+    }
+
+    @Override
+    public String getScreenName() {
+        return "mainMenuScreen";
     }
 }

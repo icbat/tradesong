@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utils.UIStyles;
 
 public class Tradesong extends Game {
@@ -101,10 +102,12 @@ public class Tradesong extends Game {
     }
 
     static void startGame() {
-        // TODO go to a map here.
+        Gdx.app.debug("main", "going to the screen");
+        screenManager.goToScreen(new MapScreen("fairy_fountain"));
     }
 
     public static void setupNewGame() {
+        Gdx.app.debug("main", "new game started");
         state = new GameState();
         clock.startDay();
         startGame();
@@ -114,9 +117,11 @@ public class Tradesong extends Game {
      * Tries to load from this slot. If no save file is found here, starts a new game in that slot.
      * */
     public static void tryLoadingSlot(int slotNumber) {
-        if (!state.canLoadSlot(slotNumber)) {
+        if (state.canLoadSlot(slotNumber)) {
+            Gdx.app.debug("main", "loaded a game");
+            startGame();
+        } else {
             setupNewGame();
         }
-        startGame();
     }
 }

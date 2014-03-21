@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.screens.stages;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.maps.MapLayer;
