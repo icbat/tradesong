@@ -21,8 +21,6 @@ public class ContractCompletedWatcher implements Watcher {
             Actor popup = new ContractRewardPopup((Contract) notification.getContents());
 
             completionSound.play();
-            Tradesong.screenManager.getCurrentScreen().addPopup(popup);
-
         }
     }
 

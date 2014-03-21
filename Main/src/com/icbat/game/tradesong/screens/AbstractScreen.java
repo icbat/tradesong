@@ -4,29 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.screens.stages.BaseStage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * Generic abstraction of things shared by all screens
- */
 public abstract class AbstractScreen implements Screen {
 
     protected List<BaseStage> stages = new ArrayList<BaseStage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    public AbstractScreen() {
-
-    }
-
-    public AbstractScreen(BaseStage... specificStages) {
-        this.setupStages(specificStages);
-    }
+    protected AbstractScreen() {}
 
     @Override
     public void render(float delta) {
@@ -52,12 +41,8 @@ public abstract class AbstractScreen implements Screen {
         for (Stage stage : stages) {
             stage.dispose();
         }
-
     }
 
-    /**
-     * This method does nothing, but must be here to allow the children to not implement this.
-     */
     @Override
     public void hide() {
         for (BaseStage stage : stages) {
@@ -65,21 +50,11 @@ public abstract class AbstractScreen implements Screen {
         }
     }
 
-    /**
-     * This method does nothing, but must be here to allow the children to not implement this.
-     */
     @Override
-    public void pause() {
+    public void pause() {}
 
-    }
-
-    /**
-     * This method does nothing, but must be here to allow the children to not implement this.
-     */
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
     public void resize(int width, int height) {
@@ -103,27 +78,5 @@ public abstract class AbstractScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    protected void setupStages(BaseStage... stages) {
-        disposeAllStages(this.stages);
-        this.stages = new ArrayList<BaseStage>();
-        Collections.addAll(this.stages, stages);
-        this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // TODO make this logic more clear.
-    }
-
-    private void disposeAllStages(List<BaseStage> stages) {
-        if (stages != null) {
-            for (BaseStage stage : stages) {
-                stage.dispose();
-            }
-        }
-    }
-
-
     public abstract String getScreenName();
-
-    /** Allows adding of popups from other things. Adds the Actor to the first stage in the list (usually HUD) */
-    public void addPopup(Actor actor) {
-        stages.get(stages.size() - 1).addActor(actor);
-    }
-
 }

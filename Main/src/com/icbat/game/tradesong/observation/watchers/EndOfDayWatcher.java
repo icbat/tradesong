@@ -6,7 +6,6 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;
-import com.icbat.game.tradesong.popups.EndOfDayPopup;
 
 /***/
 public class EndOfDayWatcher implements Watcher {
@@ -20,7 +19,6 @@ public class EndOfDayWatcher implements Watcher {
             Tradesong.clock.scheduleNonRepeatingTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    Tradesong.screenManager.getCurrentScreen().addPopup(new EndOfDayPopup());
                     Tradesong.state.inventory().addMoney(-200);
                     Tradesong.clock.startDay();
                 }

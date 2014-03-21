@@ -4,6 +4,7 @@ import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.ScreenSwapNotification;
 import com.icbat.game.tradesong.observation.watchers.ScreenSwapWatcher;
 import com.icbat.game.tradesong.screens.AbstractScreen;
+import com.icbat.game.tradesong.screens.MainMenuScreen;
 
 /**
  * With this implementation, certain "sticky" screens should never call back. This keeps the last map screen seen or the last main menu screen as the back target.
@@ -51,9 +52,7 @@ public class ShallowSelectiveScreenStack extends NotificationManager implements 
     }
 
     @Override
-    public void goToMainMenu() {
-
-    }
+    public void goToMainMenu() { goToScreen(new MainMenuScreen()); }
 
     @Override
     public AbstractScreen getCurrentScreen() {

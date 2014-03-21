@@ -2,6 +2,7 @@ package com.icbat.game.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
@@ -16,19 +17,17 @@ import java.util.Random;
 public class GameState {
     private Inventory inventory;
     private ArrayList<Contract> contractList;
-    private int saveSlotNumber;
     private float gatherTimeMultiplier;
     private Random seededRNG;
 
     public GameState() {
-        saveSlotNumber = 1;
         gatherTimeMultiplier = 1;
         seededRNG = new Random(System.currentTimeMillis());
         inventory = new Inventory();
         contractList = new ArrayList<Contract>();
     }
 
-    public void saveGame() {
+    public void saveGame(int saveSlotNumber) {
         dumpDebug();
 
         FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
@@ -38,20 +37,26 @@ public class GameState {
         gameSaveFile.writeString(json.prettyPrint(this), true);
     }
 
-    public void loadGame() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + saveSlotNumber + ".json");
-        Json json = new Json();
-        Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
-        Tradesong.startGame();
+    public boolean canLoadSlot(int saveSlotNumber) {
+        String path = "Tradesong/tradesong_save_" + saveSlotNumber + ".json";
+        try {
+            FileHandle gameSaveFile = Gdx.files.external(path);
+            Json json = new Json();
+            Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
+            Tradesong.startGame();
 
-        dumpDebug();
+            dumpDebug();
+            return true;
+        } catch (GdxRuntimeException rte) {
+            Gdx.app.log("Starting new game. No save file found at", path);
+            return false;
+        }
     }
 
     private void dumpDebug() {
         Gdx.app.debug("## State info ##", "");
         Gdx.app.debug("  # Inventory", inventory.toString());
         Gdx.app.debug("  # Current Contracts", contractList.toString());
-        Gdx.app.debug("  # Save slot", saveSlotNumber + "");
         Gdx.app.debug("  # Gather Delay", gatherTimeMultiplier + "");
         Gdx.app.debug("  # Seeded RNG", seededRNG.toString());
     }
