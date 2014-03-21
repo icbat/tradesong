@@ -1,6 +1,7 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,7 +33,20 @@ public class MapScreen extends AbstractScreen {
         this.setupStages();
         this.stages.add(mapStage);
         this.setupInputMultiplexer();
+
+        debug();
         centerCamera(map.getProperties());
+    }
+
+    private void debug() {
+        Gdx.app.debug("map screen", "stages now");
+        for (BaseStage stage : stages) {
+            Gdx.app.debug("    ", stage.toString());
+        }
+        Gdx.app.debug("map screen", "processors in order");
+        for (InputProcessor inputProcessor : inputMultiplexer.getProcessors()) {
+            Gdx.app.debug("    ", inputProcessor.toString());
+        }
     }
 
     private void centerCamera(MapProperties properties) {

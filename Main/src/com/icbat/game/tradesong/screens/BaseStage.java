@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Common base for my stages. Most stages don't actually need Layout, but they should probably know about it
  */
-public abstract class BaseStage extends Stage {
+public class BaseStage extends Stage {
     List<Timer> timers = new ArrayList<Timer>();
     NotificationManager notificationCenter = new NotificationManager();
 
@@ -24,7 +24,6 @@ public abstract class BaseStage extends Stage {
             timer.clear();
         }
     }
-
 
     @Override
     public void dispose() {

@@ -73,7 +73,6 @@ public abstract class AbstractScreen implements Screen {
         for (Stage stage : stages) {
             inputMultiplexer.addProcessor(stage);
         }
-
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -81,6 +80,7 @@ public abstract class AbstractScreen implements Screen {
 
     public void setupStages() {
         this.stages.clear();
-//        this.stages.add(new HUD());
+        this.stages.add(new BaseStage() {
+        });
     }
 }
