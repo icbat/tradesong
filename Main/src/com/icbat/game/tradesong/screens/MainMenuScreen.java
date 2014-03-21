@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.stages.BaseStage;
 import com.icbat.game.tradesong.utils.Constants;
 
 public class MainMenuScreen extends AbstractScreen {

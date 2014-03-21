@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.screens.stages;
+package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
