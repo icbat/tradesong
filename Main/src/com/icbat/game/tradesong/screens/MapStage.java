@@ -32,6 +32,9 @@ public class MapStage extends Stage {
         }
     }
 
+    // TODO keep track of current items separately
+    // TODO start and stop timers.
+
     public void setDragListener(Camera camera) {
         this.addListener(new DragMoveListener(camera));
     }

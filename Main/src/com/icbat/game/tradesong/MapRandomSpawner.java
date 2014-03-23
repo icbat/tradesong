@@ -6,11 +6,12 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
+import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
+import com.icbat.game.tradesong.screens.MapStage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,15 +31,16 @@ public class MapRandomSpawner implements Spawner {
     private List<ValidSpawnArea> validAreas;
     private int initialSpawnCount = 0;
     private int maxCapacity = 0;
-    private Stage owner;
+    private MapStage owner;
 
     private NotificationManager notificationCenter = new NotificationManager();
 
     private MapRandomSpawner() {}
 
-    public static MapRandomSpawner make(TiledMap map, Stage owner) {
+    public static MapRandomSpawner make(TiledMap map, MapStage owner) {
         MapRandomSpawner spawner = new MapRandomSpawner();
         spawner.setOwner(owner);
+        spawner.notificationCenter.addWatcher(new GatheringWatcher());
         spawner.setupValidAreas(map);
 
         MapProperties properties = map.getProperties();
@@ -89,7 +91,7 @@ public class MapRandomSpawner implements Spawner {
         spawnTimer.clear();
     }
 
-    private void setOwner(Stage owner) {
+    private void setOwner(MapStage owner) {
         this.owner = owner;
     }
 
