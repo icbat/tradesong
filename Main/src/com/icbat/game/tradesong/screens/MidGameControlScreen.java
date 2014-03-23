@@ -97,7 +97,7 @@ public class MidGameControlScreen extends AbstractScreen {
         }
 
         private void saveGame() {
-            Tradesong.state.saveGame(1); // TODO OH GOD CHANGE THIS.
+            Tradesong.saveSlot.save();
         }
     }
 }

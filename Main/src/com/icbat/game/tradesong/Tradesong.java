@@ -14,6 +14,8 @@ import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.screens.MapScreen;
 
+import java.util.ArrayList;
+
 public class Tradesong extends Game {
 
     public static ScreenManager screenManager;
@@ -25,15 +27,24 @@ public class Tradesong extends Game {
     public static GameState state;
     public static Clock clock;
     public static PopupQueue popupQueue;
+    private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
+    public static SaveSlot saveSlot;
 
     @Override
     public void create() {
         Gdx.app.setLogLevel(3);
 
+        initializeSaveSlots();
         initializeStaticData();
         playLoopingMusic(MusicAssets.MYSTERIOUS);
         screenManager.goToMainMenu();
         this.debugMode();
+    }
+
+    private void initializeSaveSlots() {
+        for (int i=1; i < Constants.NUMBER_OF_SAVE_SLOTS.value(); ++i) {
+            saveSlots.add(new SaveSlot(i));
+        }
     }
 
     private void debugMode() {
@@ -118,7 +129,8 @@ public class Tradesong extends Game {
      * Tries to load from this slot. If no save file is found here, starts a new game in that slot.
      * */
     public static void tryLoadingSlot(int slotNumber) {
-        if (state.canLoadSlot(slotNumber)) {
+        saveSlot = saveSlots.get(slotNumber - 1);
+        if (saveSlot.tryToLoad()) {
             Gdx.app.debug("main", "loaded a game");
             startGame();
         } else {
