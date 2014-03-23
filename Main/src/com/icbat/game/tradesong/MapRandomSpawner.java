@@ -5,13 +5,13 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
-import com.icbat.game.tradesong.screens.MapStage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,19 +27,20 @@ public class MapRandomSpawner implements Spawner {
     private static final int INTERVAL_SECONDS = 1;
 
     private final Random seededRandom = Tradesong.state.getSeededRNG();
-    private Timer spawnTimer = new Timer();
+    private final Timer spawnTimer = new Timer();
     private List<ValidSpawnArea> validAreas;
     private int initialSpawnCount = 0;
+    private Group ownersItems;
+
     private int maxCapacity = 0;
-    private MapStage owner;
 
     private NotificationManager notificationCenter = new NotificationManager();
 
     private MapRandomSpawner() {}
 
-    public static MapRandomSpawner make(TiledMap map, MapStage owner) {
+    public static MapRandomSpawner make(TiledMap map, Group itemsGroupReference) {
         MapRandomSpawner spawner = new MapRandomSpawner();
-        spawner.setOwner(owner);
+        spawner.setOwnersItems(itemsGroupReference);
         spawner.notificationCenter.addWatcher(new GatheringWatcher());
         spawner.setupValidAreas(map);
 
@@ -68,15 +69,18 @@ public class MapRandomSpawner implements Spawner {
     @Override
     public Items.Item spawnOneItem() {
         Items.Item item = null;
-        if (!validAreas.isEmpty()) {
-            // TODO check for capacity
+        if (!validAreas.isEmpty() && !isFull(ownersItems, maxCapacity)) {
             int areaIndex = seededRandom.nextInt(validAreas.size() - 1);
             ValidSpawnArea area = validAreas.get(areaIndex);
             item = area.spawnItem();
             item.addListener(new GatherClickListener(item));
-            owner.addActor(item);
+            ownersItems.addActor(item);
         }
         return item;
+    }
+
+    private boolean isFull(Group ownersItems, int maxCapacity) {
+        return ownersItems.getChildren().size >= maxCapacity;
     }
 
     @Override
@@ -92,8 +96,8 @@ public class MapRandomSpawner implements Spawner {
         spawnTimer.clear();
     }
 
-    private void setOwner(MapStage owner) {
-        this.owner = owner;
+    private void setOwnersItems(Group ownersItems) {
+        this.ownersItems = ownersItems;
     }
 
     private void setInitialSpawnCount(MapProperties properties) {
@@ -108,7 +112,7 @@ public class MapRandomSpawner implements Spawner {
 
         @Override
         public void run() {
-            int spawnChance = seededRandom.nextInt(4);
+            int spawnChance = seededRandom.nextInt(5);
             if (spawnChance == 0) {
                 spawnOneItem();
             }
