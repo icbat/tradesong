@@ -1,0 +1,43 @@
+package com.icbat.game.tradesong.screens.components;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
+
+public class InfoBlock extends Table {
+
+    public InfoBlock() {
+        this.add(new MoneyCounter());
+        this.setFillParent(true);
+        this.align(Align.top + Align.left);
+    }
+
+    private class MoneyCounter extends Table {
+        public MoneyCounter() {
+            this.layout();
+            this.add(makeIcon());
+            this.add(makeCount());
+        }
+
+        private Actor makeIcon() {
+            return new Image(TextureAssets.ITEMS.getRegion(4,30));
+        }
+
+        private Actor makeCount() {
+            return new Label("", Tradesong.uiStyles) {
+                @Override
+                public void draw(SpriteBatch batch, float parentAlpha) {
+                    this.setText(Tradesong.state.inventory().getMoney().toString());
+                    super.draw(batch, parentAlpha);
+                }
+            };
+        }
+
+
+    }
+}
