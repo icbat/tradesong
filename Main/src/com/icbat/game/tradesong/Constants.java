@@ -5,9 +5,9 @@ package com.icbat.game.tradesong;
  * */
 public enum Constants {
     SPRITE_DIMENSION(32),
-//    GATHER_TIME_BASE(3),
     GATHER_TIME_BASE(1),
     NUMBER_OF_SAVE_SLOTS(4),
+    RENT_AMOUNT(-300),
     ;
 
     private int value;
