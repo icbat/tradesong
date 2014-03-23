@@ -148,11 +148,12 @@ public class MapRandomSpawner implements Spawner {
         String spawnableBlob = (String) layer.getProperties().get(spawnableItemsKey);
 
         for (String itemName : spawnableBlob.split(",")) {
-            Items.Item item = Tradesong.items.getItem(itemName);
+            Items.Item item = Tradesong.items.getItem(itemName.trim());
             if (item != null) {
                 spawnableItems.add(item);
             } else {
                 Gdx.app.error("Check properties in layer " + layer.getName() + "! Failed to find item by name", itemName);
+                Gdx.app.debug("Possible items", Tradesong.items.getAll().toString());
             }
         }
 
