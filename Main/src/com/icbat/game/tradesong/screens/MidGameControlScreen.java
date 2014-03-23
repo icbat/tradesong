@@ -33,7 +33,7 @@ public class MidGameControlScreen extends AbstractScreen {
             table.add(new Image(TextureAssets.ITEMS.getRegion(12,17)));
             table.add(makeResumeButton()).row();
             table.add(new Image(TextureAssets.ITEMS.getRegion(13,17)));
-            table.add(makeSaveButton()).row();
+            table.add(makeSaveAndResumeButton()).row();
             table.add(new Image(TextureAssets.ITEMS.getRegion(14,4)));
             table.add(makeSettingsButton()).row();
             table.add(new Image(TextureAssets.ITEMS.getRegion(15,16)));
@@ -61,8 +61,17 @@ public class MidGameControlScreen extends AbstractScreen {
             return resumeButton;
         }
 
-        private Actor makeSaveButton() {
-            return new TextButton("Save and Resume", Tradesong.uiStyles);
+        private Actor makeSaveAndResumeButton() {
+            TextButton saveButton = new TextButton("Save and Resume", Tradesong.uiStyles);
+            saveButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    saveGame();
+                    resumeGame();
+                }
+            });
+            return saveButton;
         }
 
         private Actor makeSettingsButton() {
@@ -70,12 +79,25 @@ public class MidGameControlScreen extends AbstractScreen {
         }
 
         private Actor makeSaveAndExitButton() {
-            return new TextButton("Save and Exit", Tradesong.uiStyles);
+            TextButton saveAndExitButton = new TextButton("Save and Exit", Tradesong.uiStyles);
+            saveAndExitButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    saveGame();
+                    Tradesong.screenManager.goToMainMenu();
+                }
+            });
+            return saveAndExitButton;
         }
 
         private void resumeGame() {
             Tradesong.clock.resume();
             Tradesong.screenManager.goBack();
+        }
+
+        private void saveGame() {
+            Tradesong.state.saveGame(1); // TODO OH GOD CHANGE THIS.
         }
     }
 }
