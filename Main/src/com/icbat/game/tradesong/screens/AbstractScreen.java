@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AbstractScreen implements Screen {
@@ -64,9 +65,12 @@ public abstract class AbstractScreen implements Screen {
         setupInputMultiplexer();
     }
 
+    /** Stages are added highest level -> lowest level. Opposite of stage rendering */
     protected void setupInputMultiplexer() {
         inputMultiplexer.clear();
-        for (Stage stage : stages) {
+        List<Stage> stagesCopy = new LinkedList<Stage>(stages);
+        Collections.reverse(stagesCopy);
+        for (Stage stage : stagesCopy) {
             inputMultiplexer.addProcessor(stage);
         }
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -74,6 +78,7 @@ public abstract class AbstractScreen implements Screen {
 
     public abstract String getScreenName();
 
+    /** Stages are added lowest level -> highest level. Opposite of multiplexer */
     public void setupStages(Stage... extraStages) {
         for (Stage stage : stages) {
             stage.dispose();
