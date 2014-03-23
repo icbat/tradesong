@@ -1,11 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.esotericsoftware.tablelayout.Cell;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -24,6 +27,7 @@ public class MidGameControlScreen extends AbstractScreen {
 
     private class MidGameControlStage extends Stage {
         private MidGameControlStage() {
+            Tradesong.clock.pause();
             Table table = new Table(Tradesong.uiStyles);
             table.setFillParent(true);
             table.add(new Image(TextureAssets.ITEMS.getRegion(12,17)));
@@ -45,7 +49,16 @@ public class MidGameControlScreen extends AbstractScreen {
         }
 
         private Actor makeResumeButton() {
-            return new TextButton("Resume", Tradesong.uiStyles);
+            final TextButton resumeButton = new TextButton("Resume", Tradesong.uiStyles);
+            resumeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.debug("resume", "clicked");
+                    super.clicked(event, x, y);
+                    resumeGame();
+                }
+            });
+            return resumeButton;
         }
 
         private Actor makeSaveButton() {
@@ -58,6 +71,11 @@ public class MidGameControlScreen extends AbstractScreen {
 
         private Actor makeSaveAndExitButton() {
             return new TextButton("Save and Exit", Tradesong.uiStyles);
+        }
+
+        private void resumeGame() {
+            Tradesong.clock.resume();
+            Tradesong.screenManager.goBack();
         }
     }
 }
