@@ -18,6 +18,7 @@ public class MapStage extends Stage {
     public MapStage(TiledMap map) {
         setupPortals(map);
         spawner = MapRandomSpawner.make(map, this);
+        spawner.start();
     }
 
     private void setupPortals(TiledMap map) {
@@ -33,10 +34,22 @@ public class MapStage extends Stage {
     }
 
     // TODO keep track of current items separately
-    // TODO start and stop timers.
 
     public void setDragListener(Camera camera) {
         this.addListener(new DragMoveListener(camera));
     }
 
+    public void onHide() {
+        spawner.stop();
+    }
+
+    public void onShow() {
+        spawner.start();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        spawner.stop();
+    }
 }

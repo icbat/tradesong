@@ -82,6 +82,7 @@ public class MapRandomSpawner implements Spawner {
     @Override
     public void start() {
         spawnTimer.start();
+        spawnTimer.clear();
         spawnTimer.scheduleTask(new SpawnTask(), DELAY_SECONDS, INTERVAL_SECONDS);
     }
 
@@ -107,7 +108,7 @@ public class MapRandomSpawner implements Spawner {
 
         @Override
         public void run() {
-            int spawnChance = seededRandom.nextInt(5);
+            int spawnChance = seededRandom.nextInt(4);
             if (spawnChance == 0) {
                 spawnOneItem();
             }

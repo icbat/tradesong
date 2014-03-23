@@ -74,6 +74,9 @@ public abstract class AbstractScreen implements Screen {
     public abstract String getScreenName();
 
     public void setupStages() {
+        for (Stage stage : stages) {
+            stage.dispose();
+        }
         this.stages.clear();
         this.stages.add(StageFactory.makeHUD());
     }

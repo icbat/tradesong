@@ -106,4 +106,21 @@ public class MapScreen extends AbstractScreen {
         camera.translate(oldPosition);
     }
 
+    @Override
+    public void hide() {
+        super.hide();
+        MapStage mapStage = this.getMapStage();
+        mapStage.onHide();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        MapStage mapStage = this.getMapStage();
+        mapStage.onShow();
+    }
+
+    private MapStage getMapStage() {
+        return (MapStage) stages.get(stages.size() - 1);
+    }
 }
