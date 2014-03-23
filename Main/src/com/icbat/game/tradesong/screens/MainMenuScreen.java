@@ -55,7 +55,19 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         private Actor makeDeleteButton(final int slotNumber) {
-            return new TextButton("X", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
+            final TextButton deleteButton = new TextButton("X", Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
+            if (Tradesong.slotExists(slotNumber)) {
+                deleteButton.setStyle(Tradesong.uiStyles.get("redText", TextButton.TextButtonStyle.class));
+                deleteButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        Tradesong.deleteSlot(slotNumber);
+                        deleteButton.setStyle(Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class));
+                    }
+                });
+            }
+            return deleteButton;
         }
 
         private Actor makeSettingsButton() {

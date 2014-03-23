@@ -27,6 +27,11 @@ public class GameSkin extends Skin {
         disabledButton.fontColor = Color.GRAY;
         skin.add("disabled", disabledButton);
 
+        TextButton.TextButtonStyle redButton = new TextButton.TextButtonStyle();
+        redButton.font = skin.getFont("default");
+        redButton.fontColor = Color.RED;
+        skin.add("redText", redButton);
+
         return skin;
     }
 }
