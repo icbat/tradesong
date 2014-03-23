@@ -103,12 +103,12 @@ public class Tradesong extends Game {
     static void startGame() {
         Gdx.app.debug("main", "going to the screen");
         screenManager.goToScreen(new MapScreen("fairy_fountain"));
+        clock.startDay();
     }
 
     public static void setupNewGame() {
         Gdx.app.debug("main", "new game started");
         state = new GameState();
-        clock.startDay();
         startGame();
     }
 

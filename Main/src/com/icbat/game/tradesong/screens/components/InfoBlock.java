@@ -12,14 +12,14 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 public class InfoBlock extends Table {
 
     public InfoBlock() {
-        this.add(new MoneyCounter());
+        this.add(new MoneyCounter()).align(Align.left).row();
+        this.add(new TimeTracker());
         this.setFillParent(true);
         this.align(Align.top + Align.left);
     }
 
     private class MoneyCounter extends Table {
         public MoneyCounter() {
-            this.layout();
             this.add(makeIcon());
             this.add(makeCount());
         }
@@ -37,7 +37,27 @@ public class InfoBlock extends Table {
                 }
             };
         }
+    }
+
+    private class TimeTracker extends Table {
+        private TimeTracker() {
+            this.add(makeIcon());
+            this.add(makeClockText());
+        }
 
 
+
+        private Actor makeIcon() {
+            return new Image(TextureAssets.ITEMS.getRegion(14,16));
+        }
+        private Actor makeClockText() {
+            return new Label("", Tradesong.uiStyles) {
+                @Override
+                public void draw(SpriteBatch batch, float parentAlpha) {
+                    this.setText(Tradesong.clock.getTimeString());
+                    super.draw(batch, parentAlpha);
+                }
+            };
+        }
     }
 }

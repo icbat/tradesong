@@ -32,8 +32,7 @@ public class MapScreen extends AbstractScreen {
         TiledMap map = Tradesong.assetManager.get(mapFile);
         this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
         MapStage mapStage = setupMapStage(map);
-        this.setupStages();
-        this.stages.add(mapStage);
+        this.setupStages(mapStage);
         this.setupInputMultiplexer();
 
         debug();
@@ -121,6 +120,6 @@ public class MapScreen extends AbstractScreen {
     }
 
     private MapStage getMapStage() {
-        return (MapStage) stages.get(stages.size() - 1);
+        return (MapStage) stages.get(0);
     }
 }

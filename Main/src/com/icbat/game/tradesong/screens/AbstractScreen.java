@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractScreen implements Screen {
@@ -73,11 +74,12 @@ public abstract class AbstractScreen implements Screen {
 
     public abstract String getScreenName();
 
-    public void setupStages() {
+    public void setupStages(Stage... extraStages) {
         for (Stage stage : stages) {
             stage.dispose();
         }
         this.stages.clear();
+        Collections.addAll(this.stages, extraStages);
         this.stages.add(StageFactory.makeHUD());
     }
 }
