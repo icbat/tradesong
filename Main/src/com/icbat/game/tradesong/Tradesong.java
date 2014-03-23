@@ -24,6 +24,7 @@ public class Tradesong extends Game {
     public static ContractGenerator contractGenerator;
     public static GameState state;
     public static Clock clock;
+    public static PopupQueue popupQueue;
 
     @Override
     public void create() {
@@ -47,6 +48,7 @@ public class Tradesong extends Game {
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());
         workshopListing = new WorkshopListing();
+        popupQueue = new PopupQueue();
         clock = new Clock();
     }
 
@@ -103,12 +105,12 @@ public class Tradesong extends Game {
     static void startGame() {
         Gdx.app.debug("main", "going to the screen");
         screenManager.goToScreen(new MapScreen("fairy_fountain"));
+        clock.startDay();
     }
 
     public static void setupNewGame() {
         Gdx.app.debug("main", "new game started");
         state = new GameState();
-        clock.startDay();
         startGame();
     }
 

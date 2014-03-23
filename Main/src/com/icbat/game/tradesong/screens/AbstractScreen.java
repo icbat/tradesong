@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AbstractScreen implements Screen {
 
-    protected List<BaseStage> stages = new ArrayList<BaseStage>();
+    protected List<Stage> stages = new ArrayList<Stage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     protected AbstractScreen() {}
@@ -23,9 +25,8 @@ public abstract class AbstractScreen implements Screen {
     }
 
     protected void renderStages(float delta) {
-        for (BaseStage stage : stages) {
+        for (Stage stage : stages) {
             stage.act(delta);
-            stage.onRender();
             stage.draw();
         }
     }
@@ -44,9 +45,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void hide() {
-        for (BaseStage stage : stages) {
-            stage.hide();
-        }
     }
 
     @Override
@@ -57,9 +55,8 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        for (BaseStage stage : stages) {
+        for (Stage stage : stages) {
             stage.setViewport(width, height, false);
-            stage.layout();
         }
     }
 
@@ -68,19 +65,26 @@ public abstract class AbstractScreen implements Screen {
         setupInputMultiplexer();
     }
 
+    /** Stages are added highest level -> lowest level. Opposite of stage rendering */
     protected void setupInputMultiplexer() {
         inputMultiplexer.clear();
-        for (Stage stage : stages) {
+        List<Stage> stagesCopy = new LinkedList<Stage>(stages);
+        Collections.reverse(stagesCopy);
+        for (Stage stage : stagesCopy) {
             inputMultiplexer.addProcessor(stage);
         }
-
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     public abstract String getScreenName();
 
-    public void setupStages() {
+    /** Stages are added lowest level -> highest level. Opposite of multiplexer */
+    public void setupStages(Stage... extraStages) {
+        for (Stage stage : stages) {
+            stage.dispose();
+        }
         this.stages.clear();
-//        this.stages.add(new HUD());
+        Collections.addAll(this.stages, extraStages);
+        this.stages.add(StageFactory.makeHUD());
     }
 }

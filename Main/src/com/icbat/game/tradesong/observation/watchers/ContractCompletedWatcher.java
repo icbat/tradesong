@@ -3,7 +3,7 @@ package com.icbat.game.tradesong.observation.watchers;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.popups.ContractRewardPopup;
+import com.icbat.game.tradesong.screens.components.ContractRewardPopup;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.observation.Notification;

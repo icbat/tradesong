@@ -12,7 +12,7 @@ import com.icbat.game.tradesong.observation.watchers.EndOfDayWatcher;
 public class Clock extends NotificationManager {
 
     private static final int dayLengthInMinutes = 5;
-    public static final int SECONDS_TO_MINUTE = 60;
+    private static final int SECONDS_TO_MINUTE = 1;
     /** Current time in minutes. Initialized to 0 every time you startDay */
     private int currentTime = 0;
     private final Timer dayTimer = new Timer();
@@ -62,5 +62,9 @@ public class Clock extends NotificationManager {
 
     public void scheduleNonRepeatingTask(Timer.Task task, int secondsIntheFuture) {
         dayTimer.scheduleTask(task, secondsIntheFuture);
+    }
+
+    public String getTimeString() {
+        return currentTime + 6 + " o' Clock";
     }
 }
