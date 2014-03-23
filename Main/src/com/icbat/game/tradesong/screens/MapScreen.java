@@ -8,9 +8,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.listeners.ZoomOnScrollListener;
 import com.icbat.game.tradesong.Constants;
+import com.icbat.game.tradesong.Point;
 
 public class MapScreen extends AbstractScreen {
     private TiledMapRenderer mapRenderer;
@@ -40,7 +42,7 @@ public class MapScreen extends AbstractScreen {
 
     private void debug() {
         Gdx.app.debug("map screen", "stages now");
-        for (BaseStage stage : stages) {
+        for (Stage stage : stages) {
             Gdx.app.debug("    ", stage.toString());
         }
         Gdx.app.debug("map screen", "processors in order");
@@ -50,20 +52,20 @@ public class MapScreen extends AbstractScreen {
     }
 
     private void centerCamera(MapProperties properties) {
-        MapStage.Point center = findCenter(properties);
+        Point center = findCenter(properties);
         zeroCamera(camera);
         camera.translate(center.getX(), center.getY());
         camera.update();
     }
 
-    private MapStage.Point findCenter(MapProperties properties) {
+    private Point findCenter(MapProperties properties) {
         Integer height = (Integer) properties.get("height");
         height = height * Constants.SPRITE_DIMENSION.value();
         height = height / 2;
         Integer width = (Integer) properties.get("width");
         width = width * Constants.SPRITE_DIMENSION.value();
         width = width / 2;
-        return new MapStage.Point(width, height);
+        return new Point(width, height);
     }
 
     private MapStage setupMapStage(TiledMap map) {

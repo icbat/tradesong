@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class AbstractScreen implements Screen {
 
-    protected List<BaseStage> stages = new ArrayList<BaseStage>();
+    protected List<Stage> stages = new ArrayList<Stage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     protected AbstractScreen() {}
@@ -23,9 +23,8 @@ public abstract class AbstractScreen implements Screen {
     }
 
     protected void renderStages(float delta) {
-        for (BaseStage stage : stages) {
+        for (Stage stage : stages) {
             stage.act(delta);
-            stage.onRender();
             stage.draw();
         }
     }
@@ -44,9 +43,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void hide() {
-        for (BaseStage stage : stages) {
-            stage.hide();
-        }
     }
 
     @Override
@@ -57,9 +53,8 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        for (BaseStage stage : stages) {
+        for (Stage stage : stages) {
             stage.setViewport(width, height, false);
-            stage.layout();
         }
     }
 
@@ -80,7 +75,6 @@ public abstract class AbstractScreen implements Screen {
 
     public void setupStages() {
         this.stages.clear();
-        this.stages.add(new BaseStage() {
-        });
+        this.stages.add(StageFactory.makeHUD());
     }
 }

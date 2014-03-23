@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -16,7 +17,7 @@ public class MainMenuScreen extends AbstractScreen {
         this.stages.add(new MainMenuStage());
     }
 
-    public static class MainMenuStage extends BaseStage {
+    public static class MainMenuStage extends Stage {
 
         public MainMenuStage() {
             Tradesong.clock.stop();
