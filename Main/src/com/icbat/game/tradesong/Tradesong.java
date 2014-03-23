@@ -137,4 +137,12 @@ public class Tradesong extends Game {
             setupNewGame();
         }
     }
+
+    public static void deleteSlot(int slotNumber) {
+        saveSlots.get(slotNumber - 1).delete();
+    }
+
+    public static boolean slotExists(int slowNumber) {
+        return saveSlots.get(slowNumber - 1).fileExists();
+    }
 }

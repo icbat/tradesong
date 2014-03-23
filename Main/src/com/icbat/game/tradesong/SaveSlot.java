@@ -32,4 +32,15 @@ public class SaveSlot {
             return false;
         }
     }
+
+    public void delete() {
+        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + slotNumber + ".json");
+        gameSaveFile.delete();
+    }
+
+    public boolean fileExists() {
+        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + slotNumber + ".json");
+
+        return gameSaveFile.exists();
+    }
 }
