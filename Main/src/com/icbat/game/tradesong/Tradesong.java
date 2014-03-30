@@ -48,6 +48,10 @@ public class Tradesong extends Game {
     }
 
     private void debugMode() {
+        for (Items.Item item : items.getAll()) {
+            state.inventory().addItem(item.getName());
+        }
+//        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
