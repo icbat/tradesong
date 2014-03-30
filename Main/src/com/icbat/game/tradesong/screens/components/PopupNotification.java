@@ -1,15 +1,17 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.screens.components;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 
 /***/
 public abstract class PopupNotification extends Table {
     TextureRegionDrawable background = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG)));
+
     public PopupNotification() {
         super(Tradesong.uiStyles);
         this.setBackground(background);

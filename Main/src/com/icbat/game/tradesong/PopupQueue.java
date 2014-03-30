@@ -1,5 +1,7 @@
 package com.icbat.game.tradesong;
 
+import com.icbat.game.tradesong.screens.components.PopupNotification;
+
 import java.util.LinkedList;
 
 public class PopupQueue {
