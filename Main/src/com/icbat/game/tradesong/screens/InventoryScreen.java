@@ -3,11 +3,8 @@ package com.icbat.game.tradesong.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.components.ItemBox;
-
-import java.util.ArrayList;
 
 /***/
 public class InventoryScreen extends AbstractScreen {
@@ -24,9 +21,6 @@ public class InventoryScreen extends AbstractScreen {
         ItemBox inventory = ItemBox.makeInventoryBox();
         layout.add(inventory).row();
 
-        layout.add("Discard").row();
-        ItemBox discardBox = ItemBox.make(new ArrayList<Items.Item>());
-        layout.add(discardBox);
         inventoryStage.addActor(layout);
         setupStages(inventoryStage);
     }
