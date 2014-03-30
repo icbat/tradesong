@@ -33,9 +33,11 @@ public class ItemBox extends Table {
     }
 
     public static ItemBox makeInventoryBox() {
-        ItemBox inventory = new ItemBox(Tradesong.state.inventory().getCopyOfInventory());
+        return new ItemBox(Tradesong.state.inventory().getCopyOfInventory());
+    }
 
-        return inventory;
+    public static ItemBox make(List<Items.Item> itemList) {
+        return new ItemBox(itemList);
     }
 
     private class NameDisplayListener extends ClickListener {
