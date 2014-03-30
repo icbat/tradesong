@@ -1,10 +1,12 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.components.ItemBox;
+
+import java.util.ArrayList;
 
 /***/
 public class InventoryScreen extends AbstractScreen {
@@ -17,13 +19,12 @@ public class InventoryScreen extends AbstractScreen {
         layout.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         layout.add("Inventory");
-
         ItemBox inventory = ItemBox.makeInventoryBox();
-        Label itemText = new Label("", Tradesong.uiStyles);
-        itemText.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-
         layout.add(inventory).row();
-        layout.add(itemText);
+
+        layout.add("Discard");
+        ItemBox discardBox = ItemBox.make(new ArrayList<Items.Item>());
+        layout.add(discardBox);
         setupStages(StageFactory.makeStage(layout));
     }
 

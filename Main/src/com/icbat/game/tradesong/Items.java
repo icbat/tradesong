@@ -10,6 +10,7 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Rarity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -81,6 +82,14 @@ public class Items {
         Items proto = new Items();
         proto.parseItemPrototypes();
         return proto;
+    }
+
+    public ArrayList<Item> getItemsByName(ArrayList<String> itemNames) {
+        ArrayList<Item> itemEntities = new ArrayList<Item>();
+        for (String itemName : itemNames) {
+            itemEntities.add(getItem(itemName));
+        }
+        return itemEntities;
     }
 
     /**

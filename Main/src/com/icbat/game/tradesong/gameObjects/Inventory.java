@@ -29,13 +29,7 @@ public class Inventory {
     }
 
     public ArrayList<Items.Item> getCopyOfInventory() {
-        ArrayList<Items.Item> copy = new ArrayList<Items.Item>();
-
-        for (String itemName : items) {
-            copy.add(Tradesong.items.getItem(itemName));
-        }
-
-        return copy;
+        return Tradesong.items.getItemsByName(items);
     }
 
     public boolean canAdd() {
