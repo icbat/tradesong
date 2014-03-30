@@ -30,6 +30,7 @@ public class Tradesong extends Game {
     public static PopupQueue popupQueue;
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
     public static SaveSlot saveSlot;
+    public static Items.Item focusedItem;
 
     @Override
     public void create() {

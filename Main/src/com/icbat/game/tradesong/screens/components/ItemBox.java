@@ -1,7 +1,9 @@
 package com.icbat.game.tradesong.screens.components;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -45,18 +47,20 @@ public class ItemBox extends Table {
 
         public NameDisplayListener(Items.Item item) {
             this.item = item;
-//            this.popupDestination = popupDestination;
         }
 
         @Override
-        public boolean mouseMoved(InputEvent event, float x, float y) {
+        public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            super.enter(event, x, y, pointer, fromActor);
+            item.setColor(Color.YELLOW);
+            Tradesong.focusedItem = item;
+        }
 
-            if (isOver()) {
-//                popupDestination.addActor(new ItemDescriptionPopup(item));
-                Gdx.app.debug("moused over", item.getName());
-            }
-
-            return super.mouseMoved(event, x, y);
+        @Override
+        public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            super.exit(event, x, y, pointer, toActor);
+            item.setColor(Color.WHITE);
+            Tradesong.focusedItem = null;
         }
     }
 }
