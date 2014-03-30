@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
 import com.icbat.game.tradesong.Constants;
-import com.icbat.game.tradesong.PopupNotification;
+import com.icbat.game.tradesong.screens.components.PopupNotification;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.observation.Notification;

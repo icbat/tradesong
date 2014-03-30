@@ -85,6 +85,6 @@ public abstract class AbstractScreen implements Screen {
         }
         this.stages.clear();
         Collections.addAll(this.stages, extraStages);
-        this.stages.add(StageFactory.makeHUD());
+        this.stages.add(new HUD());
     }
 }

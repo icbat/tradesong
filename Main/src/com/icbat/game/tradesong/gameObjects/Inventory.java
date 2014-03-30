@@ -1,6 +1,8 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.icbat.game.tradesong.Items;
+import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +28,8 @@ public class Inventory {
         }
     }
 
-    public ArrayList<String> getCopyOfInventory() {
-        return new ArrayList<String>(items);
+    public ArrayList<Items.Item> getCopyOfInventory() {
+        return Tradesong.items.getItemsByName(items);
     }
 
     public boolean canAdd() {

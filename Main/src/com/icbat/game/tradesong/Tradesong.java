@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.MapScreen;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Tradesong extends Game {
     public static PopupQueue popupQueue;
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
     public static SaveSlot saveSlot;
+    public static Items.Item focusedItem;
 
     @Override
     public void create() {
@@ -48,6 +50,10 @@ public class Tradesong extends Game {
     }
 
     private void debugMode() {
+        for (Items.Item item : items.getAll()) {
+            state.inventory().addItem(item.getName());
+        }
+        screenManager.goToScreen(new InventoryScreen());
     }
 
     private void initializeStaticData() {
