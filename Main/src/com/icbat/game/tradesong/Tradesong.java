@@ -23,7 +23,6 @@ public class Tradesong extends Game {
     public static AssetManager assetManager = new AssetManager();
     public static GameSkin uiStyles;
     public static Items items;
-    public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
     public static GameState state;
     public static Clock clock;
@@ -64,7 +63,6 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());
-        workshopListing = new WorkshopListing();
         popupQueue = new PopupQueue();
         clock = new Clock();
     }
