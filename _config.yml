@@ -1,2 +1,4 @@
 permalink:    none
 url:   http://tradesonggame.com
+gems:
+- jekyll-mentions
