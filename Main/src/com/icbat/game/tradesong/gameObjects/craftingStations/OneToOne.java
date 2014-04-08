@@ -10,6 +10,7 @@ public class OneToOne implements CraftingStation {
 
     public OneToOne() {
         inputToOutput = new HashMap<String, String>();
+        craftingNodeName = "";
     }
 
     public OneToOne(String craftingNodeName) {

@@ -7,6 +7,7 @@ public class AnythingToOne implements CraftingStation {
     public String craftingStationName;
     public String output;
 
+    public AnythingToOne() {craftingStationName = ""; }
     public AnythingToOne(String craftingStationName) {
         this.craftingStationName = craftingStationName;
     }

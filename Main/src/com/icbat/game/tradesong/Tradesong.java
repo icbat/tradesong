@@ -34,7 +34,7 @@ public class Tradesong extends Game {
 
     @Override
     public void create() {
-        Gdx.app.setLogLevel(2);
+        Gdx.app.setLogLevel(3);
 
         initializeSaveSlots();
         initializeStaticData();
