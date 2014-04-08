@@ -15,8 +15,8 @@ public class CraftingNodes {
     private CraftingNodes() {}
 
     public static CraftingNodes parseFromJson() {
-        // TODO REMOVE
-        setupFirst();
+
+        setupFirst();// TODO REMOVE
 
         CraftingNodes craftingNodes;
         try {
