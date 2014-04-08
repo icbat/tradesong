@@ -5,13 +5,13 @@ import com.icbat.game.tradesong.gameObjects.CraftingStation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ManyToOne implements CraftingStation {
+public class Combiner implements CraftingStation {
     private String name;
     private HashMap<ArrayList<String>, String> inputToOutput = new HashMap<ArrayList<String>, String>();
 
-    public ManyToOne() { name = ""; }
+    public Combiner() { name = ""; }
 
-    public ManyToOne(String name) {
+    public Combiner(String name) {
         this.name = name;
     }
 

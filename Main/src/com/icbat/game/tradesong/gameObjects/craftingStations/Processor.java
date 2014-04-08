@@ -4,16 +4,16 @@ import com.icbat.game.tradesong.gameObjects.CraftingStation;
 
 import java.util.HashMap;
 
-public class OneToOne implements CraftingStation {
+public class Processor implements CraftingStation {
     public String craftingNodeName;
     public final HashMap<String, String> inputToOutput;       // TODO tighter scope
 
-    public OneToOne() {
+    public Processor() {
         inputToOutput = new HashMap<String, String>();
         craftingNodeName = "";
     }
 
-    public OneToOne(String craftingNodeName) {
+    public Processor(String craftingNodeName) {
         this();
         this.craftingNodeName = craftingNodeName;
     }

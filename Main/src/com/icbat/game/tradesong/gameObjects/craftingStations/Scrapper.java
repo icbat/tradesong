@@ -2,13 +2,13 @@ package com.icbat.game.tradesong.gameObjects.craftingStations;
 
 import com.icbat.game.tradesong.gameObjects.CraftingStation;
 
-public class AnythingToOne implements CraftingStation {
+public class Scrapper implements CraftingStation {
     // TODO SCOPE
     public String craftingStationName;
     public String output;
 
-    public AnythingToOne() {craftingStationName = ""; }
-    public AnythingToOne(String craftingStationName) {
+    public Scrapper() {craftingStationName = ""; }
+    public Scrapper(String craftingStationName) {
         this.craftingStationName = craftingStationName;
     }
 

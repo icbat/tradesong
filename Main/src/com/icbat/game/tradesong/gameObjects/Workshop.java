@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
-import com.icbat.game.tradesong.gameObjects.craftingStations.AnythingToOne;
-import com.icbat.game.tradesong.gameObjects.craftingStations.OneToOne;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Scrapper;
 
 import java.util.LinkedList;
 
@@ -9,19 +9,19 @@ public class Workshop {
     LinkedList<CraftingStation> orderedNodes = new LinkedList<CraftingStation>();
 
     public Workshop() { // TODO This is for debugging! Fix it!
-        OneToOne oneToOne = new OneToOne("Smelter");
-        oneToOne.inputToOutput.put("Ore", "Ingot");
-        oneToOne.inputToOutput.put("Tomato", "Tomato Sauce");
-        orderedNodes.add(oneToOne);
+        Processor processor = new Processor("Smelter");
+        processor.inputToOutput.put("Ore", "Ingot");
+        processor.inputToOutput.put("Tomato", "Tomato Sauce");
+        orderedNodes.add(processor);
 
-        OneToOne cutter = new OneToOne("Cutter");
+        Processor cutter = new Processor("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         orderedNodes.add(cutter);
 
-        AnythingToOne scrapper = new AnythingToOne("Scrapper");
+        Scrapper scrapper = new Scrapper("Scrapper");
         scrapper.output = "Scrap";
         orderedNodes.add(scrapper);
     }

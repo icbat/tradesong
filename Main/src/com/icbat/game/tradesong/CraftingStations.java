@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.icbat.game.tradesong.gameObjects.CraftingStation;
-import com.icbat.game.tradesong.gameObjects.craftingStations.AnythingToOne;
-import com.icbat.game.tradesong.gameObjects.craftingStations.OneToOne;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Scrapper;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
 
 import java.util.ArrayList;
 
@@ -33,19 +33,19 @@ public class CraftingStations {
     private static void setupFirst() {
         CraftingStations nodes = new CraftingStations();
 
-        OneToOne oneToOne = new OneToOne("Smelter");
-        oneToOne.inputToOutput.put("Ore", "Ingot");
-        oneToOne.inputToOutput.put("Tomato", "Tomato Sauce");
-        nodes.nodes.add(oneToOne);
+        Processor processor = new Processor("Smelter");
+        processor.inputToOutput.put("Ore", "Ingot");
+        processor.inputToOutput.put("Tomato", "Tomato Sauce");
+        nodes.nodes.add(processor);
 
-        OneToOne cutter = new OneToOne("Cutter");
+        Processor cutter = new Processor("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         nodes.nodes.add(cutter);
 
-        AnythingToOne scrapper = new AnythingToOne("Scrapper");
+        Scrapper scrapper = new Scrapper("Scrapper");
         scrapper.output = "Scrap";
         nodes.nodes.add(scrapper);
 
