@@ -3,26 +3,26 @@ package com.icbat.game.tradesong;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.icbat.game.tradesong.gameObjects.CraftingNode;
-import com.icbat.game.tradesong.gameObjects.craftingStations.AnythingToOneNode;
-import com.icbat.game.tradesong.gameObjects.craftingStations.OneToOneNode;
+import com.icbat.game.tradesong.gameObjects.CraftingStation;
+import com.icbat.game.tradesong.gameObjects.craftingStations.AnythingToOne;
+import com.icbat.game.tradesong.gameObjects.craftingStations.OneToOne;
 
 import java.util.ArrayList;
 
-public class CraftingNodes {
+public class CraftingStations {
     public static final String NODES_JSON = "nodes.json";
-    private final ArrayList<CraftingNode> nodes = new ArrayList<CraftingNode>();
-    private CraftingNodes() {}
+    private final ArrayList<CraftingStation> nodes = new ArrayList<CraftingStation>();
+    private CraftingStations() {}
 
-    public static CraftingNodes parseFromJson() {
+    public static CraftingStations parseFromJson() {
 
         setupFirst();// TODO REMOVE
 
-        CraftingNodes craftingNodes;
+        CraftingStations craftingStations;
         try {
             Json json = new Json();
-            craftingNodes = json.fromJson(CraftingNodes.class, Gdx.files.internal(NODES_JSON));
-            return craftingNodes;
+            craftingStations = json.fromJson(CraftingStations.class, Gdx.files.internal(NODES_JSON));
+            return craftingStations;
         } catch (SerializationException se) {
             Gdx.app.error("Missing or malformed file: "+NODES_JSON, "Cannot read crafting nodes");
             Gdx.app.debug("", "", se);
@@ -31,21 +31,21 @@ public class CraftingNodes {
     }
 
     private static void setupFirst() {
-        CraftingNodes nodes = new CraftingNodes();
+        CraftingStations nodes = new CraftingStations();
 
-        OneToOneNode oneToOne = new OneToOneNode("Smelter");
+        OneToOne oneToOne = new OneToOne("Smelter");
         oneToOne.inputToOutput.put("Ore", "Ingot");
         oneToOne.inputToOutput.put("Tomato", "Tomato Sauce");
         nodes.nodes.add(oneToOne);
 
-        OneToOneNode cutter = new OneToOneNode("Cutter");
+        OneToOne cutter = new OneToOne("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
         nodes.nodes.add(cutter);
 
-        AnythingToOneNode scrapper = new AnythingToOneNode("Scrapper");
+        AnythingToOne scrapper = new AnythingToOne("Scrapper");
         scrapper.output = "Scrap";
         nodes.nodes.add(scrapper);
 
@@ -53,7 +53,7 @@ public class CraftingNodes {
         Gdx.app.log("NODES", json.prettyPrint(nodes));
     }
 
-    public ArrayList<CraftingNode> getNodesCopy() {
-        return new ArrayList<CraftingNode>(nodes);
+    public ArrayList<CraftingStation> getNodesCopy() {
+        return new ArrayList<CraftingStation>(nodes);
     }
 }

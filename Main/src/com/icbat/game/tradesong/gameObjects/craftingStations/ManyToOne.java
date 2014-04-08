@@ -1,9 +1,9 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.icbat.game.tradesong.gameObjects.CraftingNode;
+import com.icbat.game.tradesong.gameObjects.CraftingStation;
 
 /***/
-public class ManyToOneNode implements CraftingNode {
+public class ManyToOne implements CraftingStation {
     private String name;
 
     @Override

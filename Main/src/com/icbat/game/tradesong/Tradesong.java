@@ -30,7 +30,7 @@ public class Tradesong extends Game {
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
     public static SaveSlot saveSlot;
     public static Items.Item focusedItem;
-    public static CraftingNodes craftingNodes;
+    public static CraftingStations craftingStations;
 
     @Override
     public void create() {
@@ -64,7 +64,7 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());
-        craftingNodes = CraftingNodes.parseFromJson();
+        craftingStations = CraftingStations.parseFromJson();
         popupQueue = new PopupQueue();
         clock = new Clock();
     }

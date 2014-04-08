@@ -1,16 +1,16 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.icbat.game.tradesong.gameObjects.CraftingNode;
+import com.icbat.game.tradesong.gameObjects.CraftingStation;
 
 /***/
-public class StorageNode implements CraftingNode {
+public class Storage implements CraftingStation {
     private String name;
 
-    public StorageNode() {
+    public Storage() {
         name = "";
     }
 
-    public StorageNode(String name) {
+    public Storage(String name) {
         this();
         this.name = name;
     }
