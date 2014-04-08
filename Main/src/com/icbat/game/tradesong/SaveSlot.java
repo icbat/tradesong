@@ -13,7 +13,7 @@ public class SaveSlot {
     }
 
     public void save() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + slotNumber + ".json");
+        FileHandle gameSaveFile = getSaveFileLocation();
         Json json = new Json();
         gameSaveFile.delete();
         Gdx.app.debug("", json.prettyPrint(Tradesong.state));
@@ -34,13 +34,17 @@ public class SaveSlot {
     }
 
     public void delete() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + slotNumber + ".json");
+        FileHandle gameSaveFile = getSaveFileLocation();
         gameSaveFile.delete();
     }
 
     public boolean fileExists() {
-        FileHandle gameSaveFile = Gdx.files.external("Tradesong/tradesong_save_" + slotNumber + ".json");
+        FileHandle gameSaveFile = getSaveFileLocation();
 
         return gameSaveFile.exists();
+    }
+
+    public FileHandle getSaveFileLocation() {
+        return Gdx.files.external("Game Saves/Tradesong/tradesong_save_" + slotNumber + ".json");
     }
 }
