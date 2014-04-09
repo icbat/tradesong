@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Workshop;
 import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
-import com.icbat.game.tradesong.screens.components.CraftingStationActor;
 
 public class CraftingScreen extends AbstractScreen {
 
@@ -37,7 +36,7 @@ public class CraftingScreen extends AbstractScreen {
         public WorkshopTable(Workshop workshop) {
             this.setFillParent(true);
             for (BaseCraftingStation station : workshop.getOrderedNodes()) {
-                this.add(new CraftingStationActor(station)).row();
+                this.add(station.getActor()).row();
             }
         }
     }

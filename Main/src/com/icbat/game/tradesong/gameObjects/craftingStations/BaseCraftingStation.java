@@ -1,5 +1,8 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.icbat.game.tradesong.Tradesong;
+
 import java.util.LinkedList;
 
 public abstract class BaseCraftingStation {
@@ -24,4 +27,18 @@ public abstract class BaseCraftingStation {
 
     public abstract boolean isValidInput(String inputItemName);
     public abstract void process();
+
+    public CraftingStationActor getActor() {
+        return new CraftingStationActor(this);
+    }
+
+    static class CraftingStationActor extends Label {
+        BaseCraftingStation backingNode;
+
+    //    private CraftingStationActor() {}
+        public CraftingStationActor(BaseCraftingStation backingNode) {
+            super(backingNode.getStationName(), Tradesong.uiStyles);
+            this.backingNode = backingNode;
+        }
+    }
 }
