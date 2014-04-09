@@ -15,8 +15,8 @@ public abstract class BaseCraftingStation {
     String name = "";
     LinkedList<String> itemsBeingProcessed = new LinkedList<String>();
     LinkedList<String> readyForOutput = new LinkedList<String>();
-    int iconX = 0;
-    int iconY = 0;
+    public int iconX = 0;
+    public int iconY = 0;
 
     public final String getStationName() {
         return name;

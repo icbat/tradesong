@@ -37,8 +37,8 @@ public class CraftingScreen extends AbstractScreen {
             super(Tradesong.uiStyles);
             this.setFillParent(true);
             this.add("Worskhop List").colspan(2).row();
-            this.add(new StationListing("Current Setup", new Workshop().getOrderedNodes())).align(Align.left + Align.top);
-            this.add(new StationListing("Available Stations", Tradesong.craftingStations.getNodesCopy())).align(Align.left + Align.top);
+            this.add(new StationListing("Current Setup", new Workshop().getOrderedNodes())).align(Align.left + Align.top).pad(5);
+            this.add(new StationListing("Available Stations", Tradesong.craftingStations.getNodesCopy())).align(Align.left + Align.top).pad(5);
             this.pad(20);
         }
     }
