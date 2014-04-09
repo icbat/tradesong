@@ -1,27 +1,23 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.icbat.game.tradesong.gameObjects.CraftingStation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Combiner implements CraftingStation {
-    private String name;
+public class Combiner extends BaseCraftingStation {
     private HashMap<ArrayList<String>, String> inputToOutput = new HashMap<ArrayList<String>, String>();
 
-    public Combiner() { name = ""; }
-
+    public Combiner() {}
     public Combiner(String name) {
         this.name = name;
     }
 
     @Override
-    public String getNodeName() {
-        return this.name;
+    public boolean isValidInput(String inputItemName) {
+        return false;//TODO
     }
 
     @Override
-    public boolean isValidInput(String inputItemName) {
-        return false;//TODO
+    public void process() {
+
     }
 }

@@ -3,15 +3,15 @@ package com.icbat.game.tradesong;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.icbat.game.tradesong.gameObjects.CraftingStation;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Scrapper;
+import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
 import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Scrapper;
 
 import java.util.ArrayList;
 
 public class CraftingStations {
     public static final String NODES_JSON = "nodes.json";
-    private final ArrayList<CraftingStation> nodes = new ArrayList<CraftingStation>();
+    private final ArrayList<BaseCraftingStation> nodes = new ArrayList<BaseCraftingStation>();
     private CraftingStations() {}
 
     public static CraftingStations parseFromJson() {
@@ -53,7 +53,7 @@ public class CraftingStations {
         Gdx.app.log("NODES", json.prettyPrint(nodes));
     }
 
-    public ArrayList<CraftingStation> getNodesCopy() {
-        return new ArrayList<CraftingStation>(nodes);
+    public ArrayList<BaseCraftingStation> getNodesCopy() {
+        return new ArrayList<BaseCraftingStation>(nodes);
     }
 }

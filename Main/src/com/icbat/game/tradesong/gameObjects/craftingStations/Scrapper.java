@@ -1,24 +1,20 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.icbat.game.tradesong.gameObjects.CraftingStation;
-
-public class Scrapper implements CraftingStation {
+public class Scrapper extends BaseCraftingStation {
     // TODO SCOPE
-    public String craftingStationName;
     public String output;
 
-    public Scrapper() {craftingStationName = ""; }
-    public Scrapper(String craftingStationName) {
-        this.craftingStationName = craftingStationName;
-    }
-
-    @Override
-    public String getNodeName() {
-        return this.craftingStationName;
+    public Scrapper() {}
+    public Scrapper(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean isValidInput(String inputItemName) {
         return true;
+    }
+    @Override
+    public void process() {
+
     }
 }
