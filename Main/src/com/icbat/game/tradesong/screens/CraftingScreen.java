@@ -2,28 +2,30 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Workshop;
 import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
 
+import java.util.List;
+
 public class CraftingScreen extends AbstractScreen {
 
+    protected final Stage craftingStage;
+    protected final HolderTable holdingTable;
+
     public CraftingScreen() {
-        Stage craftingStage = new Stage();
-
-        Table layout = new Table();
-        layout.setFillParent(true);
-        craftingStage.addActor(layout);
-
-        layout.add(new WorkshopTable(Tradesong.state.getWorkshops().get(0)));
-
+        craftingStage = new Stage();
         setupStages(craftingStage);
-
+        holdingTable = new HolderTable();
+        craftingStage.addActor(holdingTable);
     }
 
     @Override
     public void render(float delta) {
-        drawBackground(0,0,0.2f,1);
+        drawBackground(0.2f,0.2f,0.8f,1);
+//        holdingTable.debug();
+//        Table.drawDebug(craftingStage);
         renderStages(delta);
     }
 
@@ -32,11 +34,23 @@ public class CraftingScreen extends AbstractScreen {
         return "craftingScreen";
     }
 
-    private class WorkshopTable extends Table {
-        public WorkshopTable(Workshop workshop) {
+    private class HolderTable extends Table {
+        private HolderTable() {
+            super(Tradesong.uiStyles);
             this.setFillParent(true);
-            for (BaseCraftingStation station : workshop.getOrderedNodes()) {
-                this.add(station.getActor()).row();
+            this.add("Worskhop List").colspan(2).row();
+            this.add(new StationListing("Current Setup", new Workshop().getOrderedNodes())).align(Align.left + Align.top);
+            this.add(new StationListing("Available Stations", Tradesong.craftingStations.getNodesCopy())).align(Align.left + Align.top);
+            this.pad(20);
+        }
+    }
+
+    private class StationListing extends Table {
+        private StationListing(String name, List<BaseCraftingStation> stations) {
+            super(Tradesong.uiStyles);
+            this.add(name).row();
+            for (BaseCraftingStation station : stations) {
+                this.add(station.getActor()).align(Align.left).space(10).row();
             }
         }
     }

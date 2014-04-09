@@ -1,7 +1,12 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
 
 import java.util.LinkedList;
 
@@ -32,13 +37,23 @@ public abstract class BaseCraftingStation {
         return new CraftingStationActor(this);
     }
 
-    static class CraftingStationActor extends Label {
+    protected static class CraftingStationActor extends Table {
         BaseCraftingStation backingNode;
 
-    //    private CraftingStationActor() {}
         public CraftingStationActor(BaseCraftingStation backingNode) {
-            super(backingNode.getStationName(), Tradesong.uiStyles);
+            super(Tradesong.uiStyles);
             this.backingNode = backingNode;
+            NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.SLIDER_BG), Color.BLACK));
+
+            this.setBackground(background);
+            this.add(backingNode.getStationName()).pad(10).space(10);
+
+        }
+
+        @Override
+        public void draw(SpriteBatch batch, float parentAlpha) {
+            super.draw(batch, parentAlpha);
+            this.debug();
         }
     }
 }

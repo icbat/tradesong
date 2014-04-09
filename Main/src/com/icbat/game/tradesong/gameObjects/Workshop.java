@@ -12,7 +12,7 @@ public class Workshop {
 
     public Workshop() { // TODO This is for debugging! Remove it
 
-        Storage inputChest = new Storage("input");
+        Storage inputChest = new Storage("Input Chest");
         orderedNodes.add(inputChest);
 
         Processor processor = new Processor("Smelter");
@@ -29,7 +29,7 @@ public class Workshop {
         scrapper.output = "Scrap";
         orderedNodes.add(scrapper);
 
-        Storage outputChest = new Storage("output");
+        Storage outputChest = new Storage("Output Chest");
         orderedNodes.add(outputChest);
     }
 
