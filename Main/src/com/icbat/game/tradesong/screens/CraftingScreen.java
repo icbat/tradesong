@@ -24,8 +24,6 @@ public class CraftingScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         drawBackground(0.2f,0.2f,0.8f,1);
-//        holdingTable.debug();
-//        Table.drawDebug(craftingStage);
         renderStages(delta);
     }
 
