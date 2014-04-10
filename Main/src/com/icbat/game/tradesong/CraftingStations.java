@@ -42,15 +42,15 @@ public class CraftingStations {
         Processor processor = new Processor("Smelter");
         processor.inputToOutput.put("Ore", "Ingot");
         processor.inputToOutput.put("Tomato", "Tomato Sauce");
-        processor.iconX = 10;
-        processor.iconY = 10;
+        processor.iconX = 15;
+        processor.iconY = 17;
         nodes.nodes.add(processor);
 
         Processor cutter = new Processor("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
-        cutter.iconX = 15;
-        cutter.iconY = 17;
+        cutter.iconX = 1;
+        cutter.iconY = 10;
         nodes.nodes.add(cutter);
 
         Scrapper scrapper = new Scrapper("Scrapper");

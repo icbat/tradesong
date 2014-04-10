@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,7 +44,7 @@ public abstract class BaseCraftingStation {
         public CraftingStationActor(BaseCraftingStation backingNode, int iconX, int iconY) {
             super(Tradesong.uiStyles);
             this.backingNode = backingNode;
-            NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.SLIDER_BG), Color.BLACK));
+            NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
             this.setBackground(background);
 
             this.add(new Image(TextureAssets.ITEMS.getRegion(iconX,iconY))).pad(10);
