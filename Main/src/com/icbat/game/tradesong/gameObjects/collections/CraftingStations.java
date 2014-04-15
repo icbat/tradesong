@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.gameObjects.collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;

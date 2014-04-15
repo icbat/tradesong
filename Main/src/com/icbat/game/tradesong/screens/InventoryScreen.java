@@ -7,7 +7,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.components.ItemBox;
 
 /***/
-public class InventoryScreen extends AbstractScreen {
+public class InventoryScreen extends BaseInGameScreen {
 
     protected final Table layout;
 
@@ -26,11 +26,8 @@ public class InventoryScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
-        drawBackground(0,0.3f,0,1);
-        renderStages(delta);
-        layout.debug();
-        layout.debugTable();
+    protected void doRenderWork() {
+        drawBgColor(0, 0.3f, 0, 1);
     }
 
     @Override

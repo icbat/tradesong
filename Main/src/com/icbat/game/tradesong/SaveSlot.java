@@ -25,7 +25,7 @@ public class SaveSlot {
         try {
             FileHandle gameSaveFile = Gdx.files.external(path);
             Json json = new Json();
-            Tradesong.state = json.fromJson(GameState.class, gameSaveFile.readString());
+            Tradesong.state = json.fromJson(SaveableState.class, gameSaveFile.readString());
             return true;
         } catch (GdxRuntimeException rte) {
             Gdx.app.log("Starting new game. No save file found at", path);

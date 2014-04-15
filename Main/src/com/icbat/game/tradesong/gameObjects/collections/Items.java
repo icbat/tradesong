@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.gameObjects.collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Rarity;
+import com.icbat.game.tradesong.utility.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -16,22 +16,28 @@ public abstract class AbstractScreen implements Screen {
     protected List<Stage> stages = new ArrayList<Stage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    protected AbstractScreen() {}
+    protected AbstractScreen(Stage... stages) {
+        setupStages(stages);
+    }
 
     @Override
     public void render(float delta) {
-        drawBackground(0.1f, 0.1f, 0.1f, 1);
+        doRenderWork();
         renderStages(delta);
     }
 
-    protected void renderStages(float delta) {
+    protected void doRenderWork() {
+        drawBgColor(0.1f, 0.1f, 0.1f, 1);
+    }
+
+    final protected void renderStages(float delta) {
         for (Stage stage : stages) {
             stage.act(delta);
             stage.draw();
         }
     }
 
-    final void drawBackground(float r, float g, float b, float a) {
+    final protected void drawBgColor(float r, float g, float b, float a) {
         Gdx.gl.glClearColor(r, g, b, a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     }
@@ -85,6 +91,5 @@ public abstract class AbstractScreen implements Screen {
         }
         this.stages.clear();
         Collections.addAll(this.stages, extraStages);
-        this.stages.add(new HUD());
     }
 }

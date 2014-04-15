@@ -10,11 +10,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.screens.components.MapStage;
 import com.icbat.game.tradesong.screens.listeners.ZoomOnScrollListener;
-import com.icbat.game.tradesong.Constants;
-import com.icbat.game.tradesong.Point;
+import com.icbat.game.tradesong.utility.Constants;
+import com.icbat.game.tradesong.utility.Point;
 
-public class MapScreen extends AbstractScreen {
+public class MapScreen extends BaseInGameScreen {
     private TiledMapRenderer mapRenderer;
     private OrthographicCamera camera = new OrthographicCamera();
 
@@ -91,12 +92,11 @@ public class MapScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
-        drawBackground(0.7f, 0.99f, 1, delta);
+    protected void doRenderWork() {
+        drawBgColor(0.7f, 0.99f, 1, 1);
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
-        renderStages(delta);
     }
 
     private void zeroCamera(OrthographicCamera camera) {

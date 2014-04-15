@@ -8,11 +8,12 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public abstract class BaseCraftingStation {
 
     String name = "";
-    LinkedList<String> itemsBeingProcessed = new LinkedList<String>();
+    LinkedList<String> inputs = new LinkedList<String>();
     LinkedList<String> readyForOutput = new LinkedList<String>();
     public int iconX = 0;
     public int iconY = 0;
@@ -21,18 +22,30 @@ public abstract class BaseCraftingStation {
         return name;
     }
 
-    public final void ingest(String inputItemName) {
-        if (isValidInput(inputItemName)) {
-            itemsBeingProcessed.addLast(inputItemName);
+    public final void ingest(List<String> possibleInputs) {
+
+        for (int i=0; i < possibleInputs.size(); ++i) {
+            if (isValidInput(possibleInputs.get(i))) {
+                inputs.addLast(possibleInputs.remove(i));
+            }
         }
     }
 
-    public final String extractOutput() {
-        return readyForOutput.removeFirst();
+    public final String getNextOutput() {
+        if (!readyForOutput.isEmpty()) {
+            return readyForOutput.removeFirst();
+        }
+        return null;
     }
 
     public abstract boolean isValidInput(String inputItemName);
-    public abstract void process();
+    public final void process() {
+        if (!this.inputs.isEmpty()) {
+            this.readyForOutput.add(process(this.inputs.removeFirst()));
+        }
+    }
+
+    protected abstract String process(String processedItem);
 
     public CraftingStationActor getActor() {
         return new CraftingStationActor(this, iconX, iconY);
@@ -51,5 +64,13 @@ public abstract class BaseCraftingStation {
             this.add(backingNode.getStationName()).padRight(10);
 
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "inputs=" + inputs +
+                ", readyForOutput=" + readyForOutput +
+                '}';
     }
 }

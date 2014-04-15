@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.utility;
 
 /**
  * A handful of game-wide, numerical constants

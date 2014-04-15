@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
 public class Scrapper extends BaseCraftingStation {
-    // TODO SCOPE
     public String output;
 
     public Scrapper() {}
@@ -14,7 +13,7 @@ public class Scrapper extends BaseCraftingStation {
         return true;
     }
     @Override
-    public void process() {
-
+    public String process(String processedItem) {
+        return "Scrap";
     }
 }

@@ -9,7 +9,7 @@ import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation
 
 import java.util.List;
 
-public class CraftingScreen extends AbstractScreen {
+public class CraftingScreen extends BaseInGameScreen {
 
     protected final Stage craftingStage;
     protected final HolderTable holdingTable;
@@ -22,9 +22,8 @@ public class CraftingScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
-        drawBackground(0.2f,0.2f,0.8f,1);
-        renderStages(delta);
+    protected void doRenderWork() {
+        drawBgColor(0.2f, 0.2f, 0.8f, 1);
     }
 
     @Override

@@ -1,8 +1,10 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Rarity;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.*;
 

@@ -2,7 +2,7 @@ package com.icbat.game.tradesong.assetReferences;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.Constants;
+import com.icbat.game.tradesong.utility.Constants;
 
 public enum TextureAssets {
     ITEMS("items"),

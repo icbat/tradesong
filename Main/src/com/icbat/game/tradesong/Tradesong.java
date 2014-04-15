@@ -12,7 +12,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.Clock;
+import com.icbat.game.tradesong.gameObjects.ContractGenerator;
+import com.icbat.game.tradesong.gameObjects.collections.CraftingStations;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.screens.MapScreen;
+import com.icbat.game.tradesong.utility.Constants;
+import com.icbat.game.tradesong.utility.GameSkin;
 
 import java.util.ArrayList;
 
@@ -23,7 +29,7 @@ public class Tradesong extends Game {
     public static GameSkin uiStyles;
     public static Items items;
     public static ContractGenerator contractGenerator;
-    public static GameState state;
+    public static SaveableState state;
     public static Clock clock;
     public static PopupQueue popupQueue;
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
@@ -52,13 +58,12 @@ public class Tradesong extends Game {
         for (Items.Item item : items.getAll()) {
             state.inventory().addItem(item.getName());
         }
-//        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
-        state = new GameState();
+        state = new SaveableState();
         uiStyles = GameSkin.makeDefaultUIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
@@ -126,7 +131,7 @@ public class Tradesong extends Game {
 
     public static void setupNewGame() {
         Gdx.app.debug("main", "new game started");
-        state = new GameState();
+        state = new SaveableState();
         startGame();
     }
 

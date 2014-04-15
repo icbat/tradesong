@@ -8,16 +8,24 @@ public class Combiner extends BaseCraftingStation {
 
     public Combiner() {}
     public Combiner(String name) {
+        this();
         this.name = name;
     }
 
     @Override
     public boolean isValidInput(String inputItemName) {
-        return false;//TODO
+        for (ArrayList<String> keyList : inputToOutput.keySet()) {
+            for (String key : keyList) {
+                if (key.equalsIgnoreCase(inputItemName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
-    public void process() {
-
+    protected String process(String processedItem) {
+        return null; //TODO impl
     }
 }

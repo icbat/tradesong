@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.utility;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

@@ -1,7 +1,7 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.Items;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
