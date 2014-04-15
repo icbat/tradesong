@@ -15,10 +15,12 @@ public class Storage extends BaseCraftingStation {
 
     @Override
     public void process() {
-
+        this.readyForOutput.addAll(this.itemsBeingProcessed);
+        this.itemsBeingProcessed.clear();
     }
 
     public void add(String itemName) {
         this.readyForOutput.add(itemName);
     }
+
 }
