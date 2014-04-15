@@ -14,7 +14,7 @@ import com.icbat.game.tradesong.screens.listeners.ZoomOnScrollListener;
 import com.icbat.game.tradesong.Constants;
 import com.icbat.game.tradesong.Point;
 
-public class MapScreen extends AbstractScreen {
+public class MapScreen extends BaseInGameScreen {
     private TiledMapRenderer mapRenderer;
     private OrthographicCamera camera = new OrthographicCamera();
 

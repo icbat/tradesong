@@ -16,12 +16,15 @@ public abstract class AbstractScreen implements Screen {
     protected List<Stage> stages = new ArrayList<Stage>();
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    protected AbstractScreen() {}
+    protected AbstractScreen(Stage... stages) {
+        setupStages(stages);
+    }
 
     @Override
     public void render(float delta) {
         drawBackground(0.1f, 0.1f, 0.1f, 1);
         renderStages(delta);
+
     }
 
     protected void renderStages(float delta) {
@@ -85,6 +88,5 @@ public abstract class AbstractScreen implements Screen {
         }
         this.stages.clear();
         Collections.addAll(this.stages, extraStages);
-        this.stages.add(new HUD());
     }
 }

@@ -7,7 +7,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.components.ItemBox;
 
 /***/
-public class InventoryScreen extends AbstractScreen {
+public class InventoryScreen extends BaseInGameScreen {
 
     protected final Table layout;
 

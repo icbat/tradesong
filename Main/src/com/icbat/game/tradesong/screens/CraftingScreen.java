@@ -9,7 +9,7 @@ import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation
 
 import java.util.List;
 
-public class CraftingScreen extends AbstractScreen {
+public class CraftingScreen extends BaseInGameScreen {
 
     protected final Stage craftingStage;
     protected final HolderTable holdingTable;
