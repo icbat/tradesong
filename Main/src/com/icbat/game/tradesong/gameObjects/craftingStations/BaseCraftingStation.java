@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class BaseCraftingStation {
 
     String name = "";
-    LinkedList<String> itemsBeingProcessed = new LinkedList<String>();
+    LinkedList<String> inputs = new LinkedList<String>();
     LinkedList<String> readyForOutput = new LinkedList<String>();
     public int iconX = 0;
     public int iconY = 0;
@@ -26,7 +26,7 @@ public abstract class BaseCraftingStation {
 
         for (int i=0; i < possibleInputs.size(); ++i) {
             if (isValidInput(possibleInputs.get(i))) {
-                itemsBeingProcessed.addLast(possibleInputs.remove(i));
+                inputs.addLast(possibleInputs.remove(i));
             }
         }
     }

@@ -18,6 +18,7 @@ public class Processor extends BaseCraftingStation {
 
     @Override
     public void process() {
-
+        String processedItem = this.inputs.removeFirst();
+        this.readyForOutput.add(inputToOutput.get(processedItem));
     }
 }

@@ -15,8 +15,8 @@ public class Storage extends BaseCraftingStation {
 
     @Override
     public void process() {
-        this.readyForOutput.addAll(this.itemsBeingProcessed);
-        this.itemsBeingProcessed.clear();
+        this.readyForOutput.addAll(this.inputs);
+        this.inputs.clear();
     }
 
     public void add(String itemName) {
