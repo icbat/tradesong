@@ -42,16 +42,15 @@ public class Workshop {
 
     public void doWork() {
         for (BaseCraftingStation station : orderedNodes) {
-            Gdx.app.debug("before Ingest", fallingItems.toString());
+            Gdx.app.debug(station.getStationName(), station.toString());
             station.ingest(fallingItems);
-            Gdx.app.debug("before process", fallingItems.toString());
             station.process();
-            Gdx.app.debug("before getOutput", fallingItems.toString());
-            String nextOutput = station.getNextOutput();
-            if (nextOutput != null && nextOutput != "") {
-                fallingItems.add(nextOutput);
+            if (station != orderedNodes.getLast()) {
+                String nextOutput = station.getNextOutput();
+                if (nextOutput != null && nextOutput != "") {
+                    fallingItems.add(nextOutput);
+                }
             }
-            Gdx.app.debug("after getOutput", fallingItems.toString());
         }
     }
 }

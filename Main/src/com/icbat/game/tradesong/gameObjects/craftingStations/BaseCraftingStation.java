@@ -65,4 +65,12 @@ public abstract class BaseCraftingStation {
 
         }
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "inputs=" + inputs +
+                ", readyForOutput=" + readyForOutput +
+                '}';
+    }
 }
