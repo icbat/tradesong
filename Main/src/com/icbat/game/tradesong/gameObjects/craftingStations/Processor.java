@@ -3,7 +3,7 @@ package com.icbat.game.tradesong.gameObjects.craftingStations;
 import java.util.HashMap;
 
 public class Processor extends BaseCraftingStation {
-    public final HashMap<String, String> inputToOutput = new HashMap<String, String>();       // TODO tighter scope
+    public final HashMap<String, String> inputToOutput = new HashMap<String, String>();
 
     public Processor() {}
     public Processor(String craftingNodeName) {

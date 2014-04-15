@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
 public class Scrapper extends BaseCraftingStation {
-    // TODO SCOPE
     public String output;
 
     public Scrapper() {}
