@@ -25,7 +25,7 @@ public class Combiner extends BaseCraftingStation {
     }
 
     @Override
-    public void process() {
-
+    protected String process(String processedItem) {
+        return null; //TODO impl
     }
 }

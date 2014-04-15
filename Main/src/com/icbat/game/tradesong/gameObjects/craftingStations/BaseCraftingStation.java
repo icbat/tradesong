@@ -39,7 +39,13 @@ public abstract class BaseCraftingStation {
     }
 
     public abstract boolean isValidInput(String inputItemName);
-    public abstract void process();
+    public final void process() {
+        if (!this.inputs.isEmpty()) {
+            this.readyForOutput.add(process(this.inputs.removeFirst()));
+        }
+    }
+
+    protected abstract String process(String processedItem);
 
     public CraftingStationActor getActor() {
         return new CraftingStationActor(this, iconX, iconY);

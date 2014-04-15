@@ -13,8 +13,7 @@ public class Scrapper extends BaseCraftingStation {
         return true;
     }
     @Override
-    public void process() {
-        this.inputs.removeFirst();
-        this.readyForOutput.add("Scrap");
+    public String process(String processedItem) {
+        return "Scrap";
     }
 }
