@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.screens.components;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Tradesong;
+import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.MidGameControlScreen;
 
@@ -21,6 +22,13 @@ public class HudButtonsBlock extends Table {
             @Override
             void onClick() {
                 Tradesong.screenManager.goToScreen(new InventoryScreen());
+            }
+        });
+
+        this.add(new IconButton(14,3) {
+            @Override
+            void onClick() {
+                Tradesong.screenManager.goToScreen(new CraftingScreen());
             }
         });
     }
