@@ -14,6 +14,6 @@ public abstract class BaseInGameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        Tradesong.state.actOnEachWorkshop(delta);
+        Tradesong.state.getWorkshopManager().actOnEachWorkshop(delta);
     }
 }
