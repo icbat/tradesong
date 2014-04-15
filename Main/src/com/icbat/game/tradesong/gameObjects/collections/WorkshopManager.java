@@ -18,7 +18,7 @@ public class WorkshopManager {
         if (timeCount > TIME_PER_STEP) {
             timeCount -= TIME_PER_STEP;
             for (Workshop shop : workshops) {
-                shop.doWork(delta);
+                shop.doWork();
             }
         }
     }

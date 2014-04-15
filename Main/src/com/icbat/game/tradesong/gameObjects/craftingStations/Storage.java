@@ -17,4 +17,8 @@ public class Storage extends BaseCraftingStation {
     public void process() {
 
     }
+
+    public void add(String itemName) {
+        this.readyForOutput.add(itemName);
+    }
 }

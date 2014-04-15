@@ -9,12 +9,18 @@ import java.util.LinkedList;
 
 public class Workshop {
     LinkedList<BaseCraftingStation> orderedNodes = new LinkedList<BaseCraftingStation>();
+    protected LinkedList<String> fallingItems = new LinkedList<String>();
 
     public Workshop() {
 
         Storage inputChest = new Storage("Input Chest");
         inputChest.iconX = 8;
         inputChest.iconY = 29;
+        inputChest.add("Ore");
+        inputChest.add("Sword");
+        inputChest.add("Tomato");
+        inputChest.add("Sword213123");
+
         orderedNodes.add(inputChest);
 
         Processor processor = new Processor("Smelter");
@@ -34,7 +40,18 @@ public class Workshop {
         return orderedNodes;
     }
 
-    public void doWork(float delta) {
-        Gdx.app.debug("Delta", "" + delta);
+    public void doWork() {
+        for (BaseCraftingStation station : orderedNodes) {
+            Gdx.app.debug("before Ingest", fallingItems.toString());
+            station.ingest(fallingItems);
+            Gdx.app.debug("before process", fallingItems.toString());
+            station.process();
+            Gdx.app.debug("before getOutput", fallingItems.toString());
+            String nextOutput = station.getNextOutput();
+            if (nextOutput != null && nextOutput != "") {
+                fallingItems.add(nextOutput);
+            }
+            Gdx.app.debug("after getOutput", fallingItems.toString());
+        }
     }
 }

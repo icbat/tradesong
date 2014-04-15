@@ -8,6 +8,7 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public abstract class BaseCraftingStation {
 
@@ -21,14 +22,20 @@ public abstract class BaseCraftingStation {
         return name;
     }
 
-    public final void ingest(String inputItemName) {
-        if (isValidInput(inputItemName)) {
-            itemsBeingProcessed.addLast(inputItemName);
+    public final void ingest(List<String> possibleInputs) {
+
+        for (int i=0; i < possibleInputs.size(); ++i) {
+            if (isValidInput(possibleInputs.get(i))) {
+                itemsBeingProcessed.addLast(possibleInputs.remove(i));
+            }
         }
     }
 
-    public final String extractOutput() {
-        return readyForOutput.removeFirst();
+    public final String getNextOutput() {
+        if (!readyForOutput.isEmpty()) {
+            return readyForOutput.removeFirst();
+        }
+        return null;
     }
 
     public abstract boolean isValidInput(String inputItemName);
