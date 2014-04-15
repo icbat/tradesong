@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.utility;
 
 /***/
 public class Point {

@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.components.MapStage;
 import com.icbat.game.tradesong.screens.listeners.ZoomOnScrollListener;
-import com.icbat.game.tradesong.Constants;
-import com.icbat.game.tradesong.Point;
+import com.icbat.game.tradesong.utility.Constants;
+import com.icbat.game.tradesong.utility.Point;
 
 public class MapScreen extends BaseInGameScreen {
     private TiledMapRenderer mapRenderer;

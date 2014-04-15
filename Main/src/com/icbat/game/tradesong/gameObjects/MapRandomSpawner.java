@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
@@ -9,9 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
+import com.icbat.game.tradesong.utility.Point;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.watchers.GatheringWatcher;
+import com.icbat.game.tradesong.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -2,14 +2,14 @@ package com.icbat.game.tradesong.observation.watchers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
-import com.icbat.game.tradesong.Items;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.observation.Notification;
 import com.icbat.game.tradesong.observation.Watcher;
 import com.icbat.game.tradesong.observation.notifications.GatherNotification;
 import com.icbat.game.tradesong.observation.notifications.StopNotification;
-import com.icbat.game.tradesong.Constants;
+import com.icbat.game.tradesong.utility.Constants;
 
 /**
  * Responds appropriately to an item node being gathered

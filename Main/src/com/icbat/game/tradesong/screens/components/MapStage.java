@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.icbat.game.tradesong.MapRandomSpawner;
-import com.icbat.game.tradesong.Spawner;
+import com.icbat.game.tradesong.gameObjects.MapRandomSpawner;
+import com.icbat.game.tradesong.gameObjects.Spawner;
 import com.icbat.game.tradesong.gameObjects.Portal;
 import com.icbat.game.tradesong.screens.listeners.DragMoveListener;
 
@@ -35,8 +35,6 @@ public class MapStage extends Stage {
             }
         }
     }
-
-    // TODO keep track of current items separately
 
     public void setDragListener(Camera camera) {
         this.addListener(new DragMoveListener(camera));

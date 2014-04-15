@@ -1,7 +1,8 @@
-package com.icbat.game.tradesong;
+package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.observation.NotificationManager;
 import com.icbat.game.tradesong.observation.notifications.DayEndedNotification;
 import com.icbat.game.tradesong.observation.watchers.EndOfDayWatcher;
