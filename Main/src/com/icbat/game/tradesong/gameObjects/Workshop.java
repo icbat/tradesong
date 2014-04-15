@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
 import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
 import com.icbat.game.tradesong.gameObjects.craftingStations.Storage;
@@ -31,5 +32,9 @@ public class Workshop {
 
     public LinkedList<BaseCraftingStation> getOrderedNodes() {
         return orderedNodes;
+    }
+
+    public void doWork(float delta) {
+        Gdx.app.debug("Delta", "" + delta);
     }
 }

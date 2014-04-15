@@ -26,11 +26,8 @@ public class InventoryScreen extends BaseInGameScreen {
     }
 
     @Override
-    public void render(float delta) {
-        drawBackground(0,0.3f,0,1);
-        renderStages(delta);
-        layout.debug();
-        layout.debugTable();
+    protected void doRenderWork() {
+        drawBgColor(0, 0.3f, 0, 1);
     }
 
     @Override

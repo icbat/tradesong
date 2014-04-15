@@ -1,4 +1,4 @@
-package com.icbat.game.tradesong.screens;
+package com.icbat.game.tradesong.screens.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;

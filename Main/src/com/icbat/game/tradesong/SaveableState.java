@@ -12,21 +12,19 @@ import java.util.Random;
 /**
  * Abstraction of a bunch of game variables in an easy save/load-able place. Also easy enough to know where to look/reference.
  * */
-public class GameState {
+public class SaveableState {
     private Inventory inventory;
     private ArrayList<Contract> contractList;
     private float gatherTimeMultiplier;
     private Random seededRNG;
     private LinkedList<Workshop> workshops;
 
-    public GameState() {
+    public SaveableState() {
         gatherTimeMultiplier = 1;
         seededRNG = new Random(System.currentTimeMillis());
         inventory = new Inventory();
         contractList = new ArrayList<Contract>();
         workshops = new LinkedList<Workshop>();
-
-        // TODO this is for debugging! REMOVE
         workshops.add(new Workshop());
     }
 
@@ -54,5 +52,12 @@ public class GameState {
 
     public void setContractList(ArrayList<Contract> contractList) {
         this.contractList = contractList;
+    }
+
+    // TODO this is suuuuuuper smelly. Refactor.
+    public void actOnEachWorkshop(float delta) {
+        for (Workshop shop : workshops) {
+            shop.doWork(delta);
+        }
     }
 }

@@ -22,9 +22,8 @@ public class CraftingScreen extends BaseInGameScreen {
     }
 
     @Override
-    public void render(float delta) {
-        drawBackground(0.2f,0.2f,0.8f,1);
-        renderStages(delta);
+    protected void doRenderWork() {
+        drawBgColor(0.2f, 0.2f, 0.8f, 1);
     }
 
     @Override
