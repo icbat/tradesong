@@ -15,6 +15,7 @@ public class Scrapper extends BaseCraftingStation {
     }
     @Override
     public void process() {
-
+        this.itemsBeingProcessed.removeFirst();
+        this.readyForOutput.add("Scrap");
     }
 }
