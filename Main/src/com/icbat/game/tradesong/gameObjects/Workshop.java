@@ -1,49 +1,35 @@
 package com.icbat.game.tradesong.gameObjects;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.icbat.game.tradesong.Items;
+import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
+import com.icbat.game.tradesong.gameObjects.craftingStations.Storage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
-/***/
-public class Workshop extends Image{
-    List<Recipe> recipesAssociated = new ArrayList<Recipe>();
-    private final String name;
-    private final TextureRegion sprite;
+public class Workshop {
+    LinkedList<BaseCraftingStation> orderedNodes = new LinkedList<BaseCraftingStation>();
 
-    public Workshop(String workshopName, List<Recipe> recipes, TextureRegion sprite) {
-        super(sprite);
-        recipesAssociated = recipes;
-        name = workshopName;
-        this.sprite = sprite;
+    public Workshop() {
+
+        Storage inputChest = new Storage("Input Chest");
+        inputChest.iconX = 8;
+        inputChest.iconY = 29;
+        orderedNodes.add(inputChest);
+
+        Processor processor = new Processor("Smelter");
+        processor.inputToOutput.put("Ore", "Ingot");
+        processor.inputToOutput.put("Tomato", "Tomato Sauce");
+        processor.iconX = 10;
+        processor.iconY = 10;
+        orderedNodes.add(processor);
+
+        Storage outputChest = new Storage("Output Chest");
+        outputChest.iconX = 7;
+        outputChest.iconY = 29;
+        orderedNodes.add(outputChest);
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public Items.Item getOutput(List<Items.Item> itemsInput) {
-        for (Recipe recipe : recipesAssociated) {
-            if (recipe.inputCanCraftThis(itemsInput)) {
-                return recipe.getOutput();
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "Workshop{" +
-                "recipesAssociated=" + recipesAssociated.size() +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public TextureRegion getSprite() {
-        return sprite;
+    public LinkedList<BaseCraftingStation> getOrderedNodes() {
+        return orderedNodes;
     }
 }

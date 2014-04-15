@@ -12,7 +12,7 @@ import com.icbat.game.tradesong.observation.watchers.EndOfDayWatcher;
 public class Clock extends NotificationManager {
 
     private static final int dayLengthInMinutes = 5;
-    private static final int SECONDS_TO_MINUTE = 1;
+    private static final int SECONDS_TO_MINUTE = 60;
     /** Current time in minutes. Initialized to 0 every time you startDay */
     private int currentTime = 0;
     private final Timer dayTimer = new Timer();
@@ -40,10 +40,6 @@ public class Clock extends NotificationManager {
             }
         }, 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
         Tradesong.contractGenerator.makeDailyContracts();
-    }
-
-    public int getTime() {
-        return currentTime;
     }
 
     public void stop() {

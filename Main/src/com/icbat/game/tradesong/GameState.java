@@ -2,8 +2,10 @@ package com.icbat.game.tradesong;
 
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.gameObjects.Inventory;
+import com.icbat.game.tradesong.gameObjects.Workshop;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,12 +17,21 @@ public class GameState {
     private ArrayList<Contract> contractList;
     private float gatherTimeMultiplier;
     private Random seededRNG;
+    private LinkedList<Workshop> workshops;
 
     public GameState() {
         gatherTimeMultiplier = 1;
         seededRNG = new Random(System.currentTimeMillis());
         inventory = new Inventory();
         contractList = new ArrayList<Contract>();
+        workshops = new LinkedList<Workshop>();
+
+        // TODO this is for debugging! REMOVE
+        workshops.add(new Workshop());
+    }
+
+    public LinkedList<Workshop> getWorkshops() {
+        return workshops;
     }
 
     public float getGatherTimeMultiplier() {

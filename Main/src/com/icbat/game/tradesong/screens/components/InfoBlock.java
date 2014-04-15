@@ -45,8 +45,6 @@ public class InfoBlock extends Table {
             this.add(makeClockText());
         }
 
-
-
         private Actor makeIcon() {
             return new Image(TextureAssets.ITEMS.getRegion(14,16));
         }

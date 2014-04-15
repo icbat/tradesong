@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.InventoryScreen;
 import com.icbat.game.tradesong.screens.MapScreen;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class Tradesong extends Game {
     public static AssetManager assetManager = new AssetManager();
     public static GameSkin uiStyles;
     public static Items items;
-    public static WorkshopListing workshopListing;
     public static ContractGenerator contractGenerator;
     public static GameState state;
     public static Clock clock;
@@ -31,6 +29,7 @@ public class Tradesong extends Game {
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
     public static SaveSlot saveSlot;
     public static Items.Item focusedItem;
+    public static CraftingStations craftingStations;
 
     @Override
     public void create() {
@@ -53,7 +52,7 @@ public class Tradesong extends Game {
         for (Items.Item item : items.getAll()) {
             state.inventory().addItem(item.getName());
         }
-        screenManager.goToScreen(new InventoryScreen());
+//        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
@@ -64,7 +63,7 @@ public class Tradesong extends Game {
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
         contractGenerator = new ContractGenerator(items.getAll());
-        workshopListing = new WorkshopListing();
+        craftingStations = CraftingStations.parseFromJson();
         popupQueue = new PopupQueue();
         clock = new Clock();
     }
