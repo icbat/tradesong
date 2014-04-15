@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.MapScreen;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class Tradesong extends Game {
         for (Items.Item item : items.getAll()) {
             state.inventory().addItem(item.getName());
         }
-        screenManager.goToScreen(new CraftingScreen());
+//        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
