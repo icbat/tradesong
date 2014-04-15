@@ -16,6 +16,7 @@ import com.icbat.game.tradesong.gameObjects.Clock;
 import com.icbat.game.tradesong.gameObjects.ContractGenerator;
 import com.icbat.game.tradesong.gameObjects.collections.CraftingStations;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
+import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utility.Constants;
 import com.icbat.game.tradesong.utility.GameSkin;
@@ -58,6 +59,7 @@ public class Tradesong extends Game {
         for (Items.Item item : items.getAll()) {
             state.inventory().addItem(item.getName());
         }
+        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
