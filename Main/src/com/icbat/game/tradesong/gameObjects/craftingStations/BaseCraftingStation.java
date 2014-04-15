@@ -51,7 +51,7 @@ public abstract class BaseCraftingStation {
         return new CraftingStationActor(this, iconX, iconY);
     }
 
-    protected static class CraftingStationActor extends Table {
+    public static class CraftingStationActor extends Table {
         BaseCraftingStation backingNode;
 
         public CraftingStationActor(BaseCraftingStation backingNode, int iconX, int iconY) {
@@ -62,6 +62,8 @@ public abstract class BaseCraftingStation {
 
             this.add(new Image(TextureAssets.ITEMS.getRegion(iconX,iconY))).pad(10);
             this.add(backingNode.getStationName()).padRight(10);
+
+            this.setWidth(10);
 
         }
     }
