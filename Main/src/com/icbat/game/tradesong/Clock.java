@@ -42,10 +42,6 @@ public class Clock extends NotificationManager {
         Tradesong.contractGenerator.makeDailyContracts();
     }
 
-    public int getTime() {
-        return currentTime;
-    }
-
     public void stop() {
         dayTimer.stop();
         dayTimer.clear();
