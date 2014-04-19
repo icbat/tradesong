@@ -1,21 +1,25 @@
 package com.icbat.game.tradesong.screens.components;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 
-/***/
 public class ItemDescriptionPopup extends Table {
 
     public ItemDescriptionPopup(Items.Item item) {
         super(Tradesong.uiStyles);
-        this.setBackground( new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG))));
+        Label description = new Label(item.getDescription(), Tradesong.uiStyles);
+        description.setWrap(true);
 
-        this.add(item.getName()).row();
-        this.add(item.getDescription()).row();
-        this.add(item.getRarity().toString()).row();
+        this.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
+        this.add(new Image(item.getIcon())).prefWidth(32).space(5);
+        this.add(item.getName()).prefWidth(125).space(5).row();
+        this.add(description).colspan(2).prefWidth(125).space(5).row();
+        this.add(item.getRarity().toString()).colspan(2).prefWidth(125).space(5).row();
     }
 }
