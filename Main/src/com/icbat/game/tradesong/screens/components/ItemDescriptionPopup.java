@@ -16,7 +16,9 @@ public class ItemDescriptionPopup extends Table {
         Label description = new Label(item.getDescription(), Tradesong.uiStyles);
         description.setWrap(true);
 
-        this.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
+        NinePatch bgPatch = new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2);
+        bgPatch.setColor(item.getRarity().getColor());
+        this.setBackground(new NinePatchDrawable(bgPatch));
         this.add(new Image(item.getIcon())).prefWidth(32).space(5);
         this.add(item.getName()).prefWidth(125).space(5).row();
         this.add(description).colspan(2).prefWidth(125).space(5).row();
