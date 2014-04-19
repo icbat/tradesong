@@ -8,7 +8,7 @@ public class Processor extends BaseCraftingStation {
     public Processor() {}
     public Processor(String craftingNodeName) {
         this();
-        this.name = craftingNodeName;
+        this.stationName = craftingNodeName;
     }
 
     @Override

@@ -37,29 +37,35 @@ public class CraftingStations {
         Storage inputChest = new Storage("Input Chest");
         inputChest.iconX = 8;
         inputChest.iconY = 29;
+        inputChest.description = "Where the items go in";
         nodes.nodes.add(inputChest);
 
         Processor processor = new Processor("Smelter");
         processor.inputToOutput.put("Ore", "Ingot");
         processor.inputToOutput.put("Tomato", "Tomato Sauce");
+        processor.description = "Processes with the power of heat!";
         processor.iconX = 15;
         processor.iconY = 17;
+
         nodes.nodes.add(processor);
 
         Processor cutter = new Processor("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
+        cutter.description = "Chops, slices, etc.";
         cutter.iconX = 1;
         cutter.iconY = 10;
         nodes.nodes.add(cutter);
 
         Scrapper scrapper = new Scrapper("Scrapper");
+        scrapper.description = "Turns anything in to junk. Because it's a cannon.";
         scrapper.output = "Scrap";
         scrapper.iconX = 9;
         scrapper.iconY = 29;
         nodes.nodes.add(scrapper);
 
         Storage outputChest = new Storage("Output Chest");
+        outputChest.description = "Where the output is stored";
         outputChest.iconX = 7;
         outputChest.iconY = 29;
         nodes.nodes.add(outputChest);

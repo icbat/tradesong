@@ -5,7 +5,7 @@ public class Scrapper extends BaseCraftingStation {
 
     public Scrapper() {}
     public Scrapper(String name) {
-        this.name = name;
+        this.stationName = name;
     }
 
     @Override

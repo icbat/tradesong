@@ -5,7 +5,7 @@ public class Storage extends BaseCraftingStation {
     public Storage() {}
     public Storage(String name) {
         this();
-        this.name = name;
+        this.stationName = name;
     }
 
     @Override
