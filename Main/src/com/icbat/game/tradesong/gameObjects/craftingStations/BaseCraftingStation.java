@@ -56,7 +56,7 @@ public abstract class BaseCraftingStation {
     public Actor getActor() {
         return new CraftingStationActor(this, iconX, iconY);
     }
-    private Actor getDescriptorPopup() { return new StationDescriptor(this, stationName, description, iconX, iconY); }
+    private Actor getDescriptorPopup() { return new StationDescriptor(this); }
 
     public static class CraftingStationActor extends Table {
         BaseCraftingStation backingNode;
@@ -106,16 +106,34 @@ public abstract class BaseCraftingStation {
     }
 
     private class StationDescriptor extends Table {
-        public StationDescriptor(BaseCraftingStation baseCraftingStation, String stationName, String stationDescription, int iconX, int iconY) {
+        public StationDescriptor(BaseCraftingStation station) {
             super(Tradesong.uiStyles);
-            Label description = new Label(stationDescription, Tradesong.uiStyles);
+            Label description = new Label(station.description, Tradesong.uiStyles);
             description.setWrap(true);
             NinePatch bgPatch = new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2);
             this.setBackground(new NinePatchDrawable(bgPatch));
 
             this.add(new Image(TextureAssets.ITEMS.getRegion(iconX, iconY))).prefWidth(32).space(5);
-            this.add(BaseCraftingStation.this.stationName).prefWidth(125).space(5).row();
-            this.add(description).colspan(2).prefWidth(125).space(5).row();
+            this.add(station.stationName).prefWidth(125).space(5).row();
+            this.add(description).colspan(2).prefWidth(125).space(5).spaceBottom(10).row();
+
+            if (!inputs.isEmpty()) {
+                this.add("Items awaiting processing").colspan(2).prefWidth(125).space(5).spaceBottom(10).row();
+                addIconsFromList(station.inputs);
+                this.row();
+            }
+
+            if (!readyForOutput.isEmpty()) {
+                this.add("Finished items").colspan(2).prefWidth(125).space(5).spaceTop(10).row();
+                addIconsFromList(station.readyForOutput);
+                this.row();
+            }
+        }
+
+        public void addIconsFromList(List<String> itemNames) {
+            for (String itemName : itemNames) {
+                this.add(Tradesong.items.getItem(itemName)).space(2);
+            }
         }
     }
 }
