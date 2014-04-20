@@ -12,25 +12,38 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBox extends Table {
 
-    private ItemBox(String name, List<Items.Item> backingList) {
-        this(name, backingList, null);
-    }
+    private final List<String> backingList;
+    private List<String> linkedBackingList;
+    private final String name;
 
-    private ItemBox(String name, List<Items.Item> backingList, List<Items.Item> linkedBackingList) {
+    private ItemBox(String name, List<String> backingList) {
         super(Tradesong.uiStyles);
+        this.name = name;
+        this.backingList = backingList;
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
-        this.add(name).colspan(6).space(10).prefWidth(Gdx.graphics.getWidth() /2).row();
+    }
 
+    private ItemBox(String name, List<String> backingList, List<String> linkedBackingList) {
+        this(name, backingList);
+        this.linkedBackingList = linkedBackingList;
+    }
+
+    public void forceLayout() {
+        this.clear();
+        this.add(name).colspan(6).space(10).prefWidth(Gdx.graphics.getWidth() /2).row();
         int columnCount = 0;
-        for (Items.Item item : backingList) {
+
+        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(backingList);
+
+        for (Items.Item item : itemsByName) {
             item.addListener(new NameDisplayListener(item));
             if (linkedBackingList != null) {
-                Gdx.app.debug("backed by a box", "");
             }
             this.add(item);
             columnCount++;
@@ -42,18 +55,18 @@ public class ItemBox extends Table {
     }
 
     public static ItemBox makeInventoryBox() {
-        return make("Inventory", Tradesong.state.inventory().getCopyOfInventory());
+        return make("Inventory", Tradesong.state.inventory().getEditableInventory());
     }
 
-    public static ItemBox makeInventoryBox(List<Items.Item> linkedBackingList) {
-        return make("Inventory", Tradesong.state.inventory().getCopyOfInventory(), linkedBackingList);
+    public static ItemBox makeInventoryBox(List<String> linkedBackingList) {
+        return make("Inventory", Tradesong.state.inventory().getEditableInventory(), linkedBackingList);
     }
 
-    public static ItemBox make(String boxName, List<Items.Item> backingList, List<Items.Item> linkedBackingList) {
+    public static ItemBox make(String boxName, List<String> backingList, List<String> linkedBackingList) {
         return new ItemBox(boxName, backingList, linkedBackingList);
     }
 
-    public static ItemBox make(String boxName, List<Items.Item> itemList) {
+    public static ItemBox make(String boxName, List<String> itemList) {
         return new ItemBox(boxName, itemList);
     }
 

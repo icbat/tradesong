@@ -1,15 +1,11 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.gameObjects.collections.Items;
-import com.icbat.game.tradesong.Tradesong;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-/**
- * Inventory with persistence
- */
 public class Inventory {
     private int maxSize = 18;
     private ArrayList<String> items = new ArrayList<String>(maxSize);
@@ -26,10 +22,6 @@ public class Inventory {
             Gdx.app.debug("couldn't add", newItem);
             return false;
         }
-    }
-
-    public ArrayList<Items.Item> getCopyOfInventory() {
-        return Tradesong.items.getItemsByName(items);
     }
 
     public boolean canAdd() {
@@ -68,5 +60,9 @@ public class Inventory {
                 "money=" + money +
                 ", items=" + items +
                 '}';
+    }
+
+    public List<String> getEditableInventory() {
+        return items;
     }
 }

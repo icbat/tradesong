@@ -9,6 +9,10 @@ import com.icbat.game.tradesong.screens.components.ItemBox;
 
 /***/
 public class StorageScreen extends BaseInGameScreen {
+
+    protected final ItemBox inventoryBox;
+    protected final ItemBox storageBox;
+
     @Override
     public String getScreenName() {
         return "storage-screen";
@@ -22,8 +26,10 @@ public class StorageScreen extends BaseInGameScreen {
 
         layout.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        layout.add(ItemBox.makeInventoryBox(station.getCombinedItems())).row();
-        layout.add(ItemBox.make(station.getStationName(), station.getCombinedItems(), Tradesong.state.inventory().getCopyOfInventory()));
+        inventoryBox = ItemBox.makeInventoryBox(station.getReadyForOutput());
+        layout.add(inventoryBox).row();
+        storageBox = ItemBox.make(station.getStationName(), station.getReadyForOutput(), Tradesong.state.inventory().getEditableInventory());
+        layout.add(storageBox);
 
         inventoryStage.addActor(layout);
         setupStages(inventoryStage);
@@ -32,5 +38,7 @@ public class StorageScreen extends BaseInGameScreen {
     @Override
     protected void doRenderWork() {
         drawBgColor(0, 0, 0, 1);
+        inventoryBox.forceLayout();
+        storageBox.forceLayout();
     }
 }
