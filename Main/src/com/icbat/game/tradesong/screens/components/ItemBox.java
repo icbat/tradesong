@@ -2,25 +2,26 @@ package com.icbat.game.tradesong.screens.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.icbat.game.tradesong.gameObjects.collections.Items;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.List;
 
 public class ItemBox extends Table {
 
-    TextureRegionDrawable background = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG)));
+    NinePatchDrawable background = new NinePatchDrawable( new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2) );
 
-    private ItemBox(List<Items.Item> backingList) {
+    private ItemBox(String name, List<Items.Item> backingList) {
+        super(Tradesong.uiStyles);
         this.setBackground(background);
-        this.setSize(Gdx.graphics.getWidth() / 2 , Gdx.graphics.getHeight());
+        this.add(name).colspan(6).space(10).prefWidth(Gdx.graphics.getWidth() /2).row();
 
         int columnCount = 0;
         for (Items.Item item : backingList) {
@@ -35,11 +36,11 @@ public class ItemBox extends Table {
     }
 
     public static ItemBox makeInventoryBox() {
-        return new ItemBox(Tradesong.state.inventory().getCopyOfInventory());
+        return make("Inventory", Tradesong.state.inventory().getCopyOfInventory());
     }
 
-    public static ItemBox make(List<Items.Item> itemList) {
-        return new ItemBox(itemList);
+    public static ItemBox make(String boxName, List<Items.Item> itemList) {
+        return new ItemBox(boxName, itemList);
     }
 
     private class NameDisplayListener extends ClickListener {

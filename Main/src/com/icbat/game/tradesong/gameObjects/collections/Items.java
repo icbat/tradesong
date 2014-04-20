@@ -14,6 +14,7 @@ import com.icbat.game.tradesong.utility.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Set of all spawnable/existing items for quick reference. Get returns a copy of the Item called.
@@ -86,7 +87,7 @@ public class Items {
         return proto;
     }
 
-    public ArrayList<Item> getItemsByName(ArrayList<String> itemNames) {
+    public ArrayList<Item> getItemsByName(List<String> itemNames) {
         ArrayList<Item> itemEntities = new ArrayList<Item>();
         for (String itemName : itemNames) {
             itemEntities.add(getItem(itemName));

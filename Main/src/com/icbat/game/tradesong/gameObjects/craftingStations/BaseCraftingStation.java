@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +58,13 @@ public abstract class BaseCraftingStation {
         return new CraftingStationActor(this, iconX, iconY);
     }
     private Actor getDescriptorPopup() { return new StationDescriptor(this); }
+
+    public LinkedList<Items.Item> getCombinedItems() {
+        LinkedList<Items.Item> allItems = new LinkedList<Items.Item>();
+        allItems.addAll(Tradesong.items.getItemsByName(inputs));
+        allItems.addAll(Tradesong.items.getItemsByName(readyForOutput));
+        return allItems;
+    }
 
     public static class CraftingStationActor extends Table {
         BaseCraftingStation backingNode;
