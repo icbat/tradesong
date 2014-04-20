@@ -16,16 +16,22 @@ import java.util.List;
 
 public class ItemBox extends Table {
 
-    NinePatchDrawable background = new NinePatchDrawable( new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2) );
-
     private ItemBox(String name, List<Items.Item> backingList) {
+        this(name, backingList, null);
+    }
+
+    private ItemBox(String name, List<Items.Item> backingList, List<Items.Item> linkedBackingList) {
         super(Tradesong.uiStyles);
+        NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
         this.add(name).colspan(6).space(10).prefWidth(Gdx.graphics.getWidth() /2).row();
 
         int columnCount = 0;
         for (Items.Item item : backingList) {
             item.addListener(new NameDisplayListener(item));
+            if (linkedBackingList != null) {
+                Gdx.app.debug("backed by a box", "");
+            }
             this.add(item);
             columnCount++;
             if (columnCount == 6) {
@@ -37,6 +43,14 @@ public class ItemBox extends Table {
 
     public static ItemBox makeInventoryBox() {
         return make("Inventory", Tradesong.state.inventory().getCopyOfInventory());
+    }
+
+    public static ItemBox makeInventoryBox(List<Items.Item> linkedBackingList) {
+        return make("Inventory", Tradesong.state.inventory().getCopyOfInventory(), linkedBackingList);
+    }
+
+    public static ItemBox make(String boxName, List<Items.Item> backingList, List<Items.Item> linkedBackingList) {
+        return new ItemBox(boxName, backingList, linkedBackingList);
     }
 
     public static ItemBox make(String boxName, List<Items.Item> itemList) {

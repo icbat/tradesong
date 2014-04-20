@@ -22,8 +22,8 @@ public class StorageScreen extends BaseInGameScreen {
 
         layout.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        layout.add(ItemBox.makeInventoryBox()).row();
-        layout.add(ItemBox.make(station.getStationName(), station.getCombinedItems()));
+        layout.add(ItemBox.makeInventoryBox(station.getCombinedItems())).row();
+        layout.add(ItemBox.make(station.getStationName(), station.getCombinedItems(), Tradesong.state.inventory().getCopyOfInventory()));
 
         inventoryStage.addActor(layout);
         setupStages(inventoryStage);
