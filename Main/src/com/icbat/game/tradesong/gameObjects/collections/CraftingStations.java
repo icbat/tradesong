@@ -17,7 +17,7 @@ public class CraftingStations {
 
     public static CraftingStations parseFromJson() {
 
-        setupFirst();// TODO REMOVE
+        printStationsToConsole();
 
         CraftingStations craftingStations;
         try {
@@ -31,7 +31,20 @@ public class CraftingStations {
         }
     }
 
-    private static void setupFirst() {
+    public BaseCraftingStation getStation(String stationName) {
+        for (BaseCraftingStation station : this.nodes) {
+            if (station.getStationName().equalsIgnoreCase(stationName)) {
+                return station;
+            }
+        }
+        Gdx.app.error("No station known by name", stationName);
+        return null;
+    }
+
+    /**
+     * If the JSON ever gets out of sync of from the classes, this can be used to match them up (provided everything in it is setup correctly)
+     * */
+    private static void printStationsToConsole() {
         CraftingStations nodes = new CraftingStations();
 
         Storage inputChest = new Storage("Input Chest");
@@ -71,7 +84,7 @@ public class CraftingStations {
         nodes.nodes.add(outputChest);
 
         Json json = new Json();
-        Gdx.app.log("NODES", json.prettyPrint(nodes));
+        Gdx.app.debug("NODES", json.prettyPrint(nodes));
     }
 
     public ArrayList<BaseCraftingStation> getNodesCopy() {

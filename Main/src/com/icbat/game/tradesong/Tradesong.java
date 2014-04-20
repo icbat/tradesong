@@ -66,14 +66,15 @@ public class Tradesong extends Game {
     private void initializeStaticData() {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
-        state = new SaveableState();
+        craftingStations = CraftingStations.parseFromJson();
         uiStyles = GameSkin.makeDefaultUIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
-        contractGenerator = new ContractGenerator(items.getAll());
-        craftingStations = CraftingStations.parseFromJson();
+
         popupQueue = new PopupQueue();
         clock = new Clock();
+        state = new SaveableState();
+        contractGenerator = new ContractGenerator(items.getAll());
     }
 
     private void initializeAssets() {
