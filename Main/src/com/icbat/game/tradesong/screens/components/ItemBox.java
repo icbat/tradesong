@@ -17,32 +17,12 @@ import java.util.List;
 public class ItemBox extends Table {
 
     private final List<String> backingList;
-    private List<String> linkedBackingList;
 
     private ItemBox(List<String> backingList) {
         super(Tradesong.uiStyles);
         this.backingList = backingList;
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
-    }
-
-    public void forceLayout() {
-        this.clear();
-        int columnCount = 0;
-
-        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(backingList);
-
-        for (Items.Item item : itemsByName) {
-            item.addListener(new NameDisplayListener(item));
-            if (linkedBackingList != null) {
-            }
-            this.add(item);
-            columnCount++;
-            if (columnCount == 6) {
-                this.row();
-                columnCount = 0;
-            }
-        }
     }
 
     public static ItemBox makeInventoryBox() {
@@ -56,14 +36,15 @@ public class ItemBox extends Table {
     public Table makeTable() {
         Table boxTable = new Table();
         boxTable.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
-
-        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.linkedBackingList);
+        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
         int i=0;
         for (Items.Item itemInBox : itemsByName) {
+            itemInBox.addListener(new NameDisplayListener(itemInBox));
             boxTable.add(itemInBox);
             ++i;
             if (i==6) {
                 boxTable.row();
+                i = 0;
             }
         }
 
