@@ -3,15 +3,13 @@ package com.icbat.game.tradesong.gameObjects.collections;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Scrapper;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Storage;
+import com.icbat.game.tradesong.gameObjects.craftingStations.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CraftingStations {
-    public static final String NODES_JSON = "nodes.json";
+    public static final String NODES_JSON = "allCraftingStations.json";
     private final ArrayList<BaseCraftingStation> nodes = new ArrayList<BaseCraftingStation>();
     private CraftingStations() {}
 
@@ -53,25 +51,47 @@ public class CraftingStations {
         inputChest.description = "Where the items go in";
         nodes.nodes.add(inputChest);
 
-        Processor processor = new Processor("Smelter");
-        processor.inputToOutput.put("Ore", "Ingot");
-        processor.inputToOutput.put("Tomato", "Tomato Sauce");
-        processor.description = "Processes with the power of heat!";
-        processor.iconX = 15;
-        processor.iconY = 17;
+        Processor smelter = new Processor("Smelter");
+        smelter.inputToOutput.put("Ore", "Ingot");
+        smelter.inputToOutput.put("Gleaming Ore", "Better Ingot");
+        smelter.inputToOutput.put("Encrusted Ore", "Awesome Ingot");
+        smelter.inputToOutput.put("Tomato", "Tomato Sauce");
+        smelter.inputToOutput.put("Wood", "Charcoal");
+        smelter.inputToOutput.put("Better Wood", "Charcoal");
+        smelter.inputToOutput.put("Awesome Wood", "Charcoal");
+        smelter.description = "Processes with the power of heat!";
+        smelter.iconX = 15;
+        smelter.iconY = 17;
+        nodes.nodes.add(smelter);
 
-        nodes.nodes.add(processor);
+        Combiner assembler = new Combiner("Assembler");
+        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Scrap, Better Scrap, Better Scrap")), "Best Scrap");
+        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Scrap, Scrap, Scrap")), "Better Scrap");
+        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Ingot, Wood")), "Dagger");
+        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Ingot, Better Ingot, Better Wood")), "Sword");
+        assembler.iconX = 14;
+        assembler.iconY = 4;
+        assembler.description = "How the coolest of kids make something out of nothing.";
+        nodes.nodes.add(assembler);
 
-        Processor cutter = new Processor("Cutter");
-        cutter.inputToOutput.put("Wood", "Sword");
-        cutter.inputToOutput.put("Better Wood", "Sword");
-        cutter.description = "Chops, slices, etc.";
-        cutter.iconX = 1;
-        cutter.iconY = 10;
-        nodes.nodes.add(cutter);
+        Combiner mixer = new Combiner("Mixer");
+        mixer.inputToOutput.put(new ArrayList<String>(Arrays.asList("Black Ink, Charcoal, Charcoal")), "True-Black Ink");
+        mixer.iconX = 2;
+        mixer.iconY = 22;
+        mixer.description = "Mixes liquids with the awesome power of stirring.";
+        nodes.nodes.add(mixer);
+
+        Processor masher = new Processor("M.A.S.H");
+        masher.inputToOutput.put("Blackberry", "Black Ink");
+        masher.inputToOutput.put("Tomato", "Crimson Ink");
+        masher.inputToOutput.put("Crystallized Goodie", "Glittering Shards");
+        masher.description = "Must Apply Solid Hammer";
+        masher.iconX = 14;
+        masher.iconY = 9;
+        nodes.nodes.add(masher);
 
         Scrapper scrapper = new Scrapper("Scrapper");
-        scrapper.description = "Turns anything in to junk. Because it's a cannon.";
+        scrapper.description = "Simply load the cannon with anything, receive scraps.";
         scrapper.output = "Scrap";
         scrapper.iconX = 9;
         scrapper.iconY = 29;
