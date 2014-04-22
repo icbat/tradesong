@@ -9,25 +9,25 @@ import com.icbat.game.tradesong.screens.components.ItemBox;
 public class LinkedChestsScreen extends BaseInGameScreen {
 
     private Table layoutTable;
+    protected ItemBox inventory;
 
     public LinkedChestsScreen() {
-        this(null);
-    }
-
-    public LinkedChestsScreen(Storage linkedTo) {
         Stage mainStage = new Stage();
         layoutTable = new Table(Tradesong.uiStyles);
         layoutTable.setFillParent(true);
-        ItemBox inventory = ItemBox.makeInventoryBox();
+        inventory = ItemBox.makeInventoryBox();
         addBox("Inventory", inventory);
+        mainStage.addActor(layoutTable);
+        setupStages(mainStage);
+    }
+
+    public LinkedChestsScreen(Storage linkedTo) {
+        this();
         if (linkedTo != null) {
             ItemBox linkedBox = ItemBox.make(linkedTo.getReadyForOutput());
             addBox(linkedTo.getStationName(), linkedBox);
             linkBoxes(inventory, linkedBox);
         }
-
-        mainStage.addActor(layoutTable);
-        setupStages(mainStage);
     }
 
     public void addBox(String boxName, ItemBox box) {
@@ -35,7 +35,7 @@ public class LinkedChestsScreen extends BaseInGameScreen {
         displayBox(box);
     }
 
-    private void displayBox(ItemBox inventory) {
+    private void displayBox(ItemBox box) {
 
     }
 
