@@ -36,6 +36,7 @@ public class ItemBox extends Table {
     }
 
     public Table makeTable() {
+        this.clear();
         ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
         Collections.sort(itemsByName);
         int i=0;
