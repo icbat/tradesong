@@ -26,11 +26,6 @@ public class ItemBox extends Table {
         this.setBackground(background);
     }
 
-    private ItemBox(List<String> backingList, List<String> linkedBackingList) {
-        this(backingList);
-        this.linkedBackingList = linkedBackingList;
-    }
-
     public void forceLayout() {
         this.clear();
         int columnCount = 0;
@@ -52,14 +47,6 @@ public class ItemBox extends Table {
 
     public static ItemBox makeInventoryBox() {
         return make(Tradesong.state.inventory().getEditableInventory());
-    }
-
-    public static ItemBox makeInventoryBox(List<String> linkedBackingList) {
-        return make(Tradesong.state.inventory().getEditableInventory(), linkedBackingList);
-    }
-
-    public static ItemBox make(List<String> backingList, List<String> linkedBackingList) {
-        return new ItemBox(backingList, linkedBackingList);
     }
 
     public static ItemBox make(List<String> itemList) {

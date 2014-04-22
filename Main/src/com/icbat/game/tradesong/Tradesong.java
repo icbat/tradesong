@@ -47,7 +47,7 @@ public class Tradesong extends Game {
         initializeStaticData();
         playLoopingMusic(MusicAssets.MYSTERIOUS);
         screenManager.goToMainMenu();
-//        this.debugMode();
+        this.debugMode();
     }
 
     private void initializeSaveSlots() {
