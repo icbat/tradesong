@@ -1,6 +1,5 @@
 package com.icbat.game.tradesong.screens.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,24 +18,21 @@ public class ItemBox extends Table {
 
     private final List<String> backingList;
     private List<String> linkedBackingList;
-    private final String name;
 
-    private ItemBox(String name, List<String> backingList) {
+    private ItemBox(List<String> backingList) {
         super(Tradesong.uiStyles);
-        this.name = name;
         this.backingList = backingList;
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
     }
 
-    private ItemBox(String name, List<String> backingList, List<String> linkedBackingList) {
-        this(name, backingList);
+    private ItemBox(List<String> backingList, List<String> linkedBackingList) {
+        this(backingList);
         this.linkedBackingList = linkedBackingList;
     }
 
     public void forceLayout() {
         this.clear();
-        this.add(name).colspan(6).space(10).prefWidth(Gdx.graphics.getWidth() /2).row();
         int columnCount = 0;
 
         ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(backingList);
@@ -55,19 +51,19 @@ public class ItemBox extends Table {
     }
 
     public static ItemBox makeInventoryBox() {
-        return make("Inventory", Tradesong.state.inventory().getEditableInventory());
+        return make(Tradesong.state.inventory().getEditableInventory());
     }
 
     public static ItemBox makeInventoryBox(List<String> linkedBackingList) {
-        return make("Inventory", Tradesong.state.inventory().getEditableInventory(), linkedBackingList);
+        return make(Tradesong.state.inventory().getEditableInventory(), linkedBackingList);
     }
 
-    public static ItemBox make(String boxName, List<String> backingList, List<String> linkedBackingList) {
-        return new ItemBox(boxName, backingList, linkedBackingList);
+    public static ItemBox make(List<String> backingList, List<String> linkedBackingList) {
+        return new ItemBox(backingList, linkedBackingList);
     }
 
-    public static ItemBox make(String boxName, List<String> itemList) {
-        return new ItemBox(boxName, itemList);
+    public static ItemBox make(List<String> itemList) {
+        return new ItemBox(itemList);
     }
 
     private class NameDisplayListener extends ClickListener {

@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.screens.StorageScreen;
+import com.icbat.game.tradesong.screens.LinkedChestsScreen;
 
 public class Storage extends BaseCraftingStation {
 
@@ -49,7 +49,7 @@ public class Storage extends BaseCraftingStation {
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
             Gdx.app.debug(owner.getStationName(), "clicked!");
-            Tradesong.screenManager.goToScreen(new StorageScreen(owner));
+            Tradesong.screenManager.goToScreen(new LinkedChestsScreen(owner));
         }
     }
 }
