@@ -2,8 +2,6 @@ package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Rarity;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.*;
@@ -55,7 +53,7 @@ public class ContractGenerator {
     }
 
     private LinkedList<String> getRequirements(Rarity rarity) {
-        int itemsToFind = 2 + random.nextInt(2);
+        int itemsToFind = 1 + random.nextInt(2);
         return getRandomItemList(rarity, itemsToFind);
     }
 

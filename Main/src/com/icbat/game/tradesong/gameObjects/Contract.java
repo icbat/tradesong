@@ -54,9 +54,10 @@ public class Contract {
 
     @Override
     public String toString() {
-        return rarity + " contract [" +
+        return rarity + " contract: " +
                 requirements.toString() +
-                "]";
+                "  ::  " +
+                rewardMoney + " :: " + rewards.toString();
     }
 
     public LinkedList<String> getRequirements() {
