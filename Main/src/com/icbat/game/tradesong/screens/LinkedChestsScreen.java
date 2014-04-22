@@ -62,6 +62,11 @@ public class LinkedChestsScreen extends BaseInGameScreen {
 
 
     private void linkBoxes(ItemBox inventory, ItemBox linkedBox) {
+        linkLeftToRight(inventory, linkedBox);
+        linkLeftToRight(linkedBox, inventory);
+    }
+
+    private void linkLeftToRight(ItemBox inventory, ItemBox linkedBox) {
         for (Actor actor : inventory.getChildren()) {
             actor.addListener(new LinkingListener((Items.Item) actor, inventory, linkedBox));
         }
