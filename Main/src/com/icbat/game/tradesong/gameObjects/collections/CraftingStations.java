@@ -17,7 +17,7 @@ public class CraftingStations {
 
     public static CraftingStations parseFromJson() {
 
-        setupFirst();// TODO REMOVE
+        printStationsToConsole();
 
         CraftingStations craftingStations;
         try {
@@ -31,41 +31,60 @@ public class CraftingStations {
         }
     }
 
-    private static void setupFirst() {
+    public BaseCraftingStation getStation(String stationName) {
+        for (BaseCraftingStation station : this.nodes) {
+            if (station.getStationName().equalsIgnoreCase(stationName)) {
+                return station;
+            }
+        }
+        Gdx.app.error("No station known by name", stationName);
+        return null;
+    }
+
+    /**
+     * If the JSON ever gets out of sync of from the classes, this can be used to match them up (provided everything in it is setup correctly)
+     * */
+    private static void printStationsToConsole() {
         CraftingStations nodes = new CraftingStations();
 
         Storage inputChest = new Storage("Input Chest");
         inputChest.iconX = 8;
         inputChest.iconY = 29;
+        inputChest.description = "Where the items go in";
         nodes.nodes.add(inputChest);
 
         Processor processor = new Processor("Smelter");
         processor.inputToOutput.put("Ore", "Ingot");
         processor.inputToOutput.put("Tomato", "Tomato Sauce");
+        processor.description = "Processes with the power of heat!";
         processor.iconX = 15;
         processor.iconY = 17;
+
         nodes.nodes.add(processor);
 
         Processor cutter = new Processor("Cutter");
         cutter.inputToOutput.put("Wood", "Sword");
         cutter.inputToOutput.put("Better Wood", "Sword");
+        cutter.description = "Chops, slices, etc.";
         cutter.iconX = 1;
         cutter.iconY = 10;
         nodes.nodes.add(cutter);
 
         Scrapper scrapper = new Scrapper("Scrapper");
+        scrapper.description = "Turns anything in to junk. Because it's a cannon.";
         scrapper.output = "Scrap";
         scrapper.iconX = 9;
         scrapper.iconY = 29;
         nodes.nodes.add(scrapper);
 
         Storage outputChest = new Storage("Output Chest");
+        outputChest.description = "Where the output is stored";
         outputChest.iconX = 7;
         outputChest.iconY = 29;
         nodes.nodes.add(outputChest);
 
         Json json = new Json();
-        Gdx.app.log("NODES", json.prettyPrint(nodes));
+        Gdx.app.debug("NODES", json.prettyPrint(nodes));
     }
 
     public ArrayList<BaseCraftingStation> getNodesCopy() {

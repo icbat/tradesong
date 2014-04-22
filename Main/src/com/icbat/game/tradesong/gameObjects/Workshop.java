@@ -1,9 +1,8 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Processor;
-import com.icbat.game.tradesong.gameObjects.craftingStations.Storage;
 
 import java.util.LinkedList;
 
@@ -12,28 +11,9 @@ public class Workshop {
     protected LinkedList<String> fallingItems = new LinkedList<String>();
 
     public Workshop() {
-
-        Storage inputChest = new Storage("Input Chest");
-        inputChest.iconX = 8;
-        inputChest.iconY = 29;
-        inputChest.add("Ore");
-        inputChest.add("Sword");
-        inputChest.add("Tomato");
-        inputChest.add("Sword213123");
-
-        orderedNodes.add(inputChest);
-
-        Processor processor = new Processor("Smelter");
-        processor.inputToOutput.put("Ore", "Ingot");
-        processor.inputToOutput.put("Tomato", "Tomato Sauce");
-        processor.iconX = 10;
-        processor.iconY = 10;
-        orderedNodes.add(processor);
-
-        Storage outputChest = new Storage("Output Chest");
-        outputChest.iconX = 7;
-        outputChest.iconY = 29;
-        orderedNodes.add(outputChest);
+        orderedNodes.add(Tradesong.craftingStations.getStation("Input Chest"));
+        orderedNodes.add(Tradesong.craftingStations.getStation("Smelter"));
+        orderedNodes.add(Tradesong.craftingStations.getStation("Output Chest"));
     }
 
     public LinkedList<BaseCraftingStation> getOrderedNodes() {

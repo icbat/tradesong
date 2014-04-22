@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -47,7 +48,8 @@ public class CraftingScreen extends BaseInGameScreen {
             super(Tradesong.uiStyles);
             this.add(name).row();
             for (BaseCraftingStation station : stations) {
-                this.add(station.getActor()).align(Align.left).space(10).row();
+                Actor actor = station.getActor();
+                this.add(actor).align(Align.left).space(10).prefHeight(64).prefWidth(200).row();
             }
         }
     }

@@ -9,7 +9,7 @@ public class Combiner extends BaseCraftingStation {
     public Combiner() {}
     public Combiner(String name) {
         this();
-        this.name = name;
+        this.stationName = name;
     }
 
     @Override

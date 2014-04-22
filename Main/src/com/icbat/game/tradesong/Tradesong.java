@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
@@ -16,6 +17,7 @@ import com.icbat.game.tradesong.gameObjects.Clock;
 import com.icbat.game.tradesong.gameObjects.ContractGenerator;
 import com.icbat.game.tradesong.gameObjects.collections.CraftingStations;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
+import com.icbat.game.tradesong.screens.CraftingScreen;
 import com.icbat.game.tradesong.screens.MapScreen;
 import com.icbat.game.tradesong.utility.Constants;
 import com.icbat.game.tradesong.utility.GameSkin;
@@ -34,7 +36,7 @@ public class Tradesong extends Game {
     public static PopupQueue popupQueue;
     private static ArrayList<SaveSlot> saveSlots = new ArrayList<SaveSlot>(Constants.NUMBER_OF_SAVE_SLOTS.value());
     public static SaveSlot saveSlot;
-    public static Items.Item focusedItem;
+    public static Actor focusedItem;
     public static CraftingStations craftingStations;
 
     @Override
@@ -58,19 +60,21 @@ public class Tradesong extends Game {
         for (Items.Item item : items.getAll()) {
             state.inventory().addItem(item.getName());
         }
+        screenManager.goToScreen(new CraftingScreen());
     }
 
     private void initializeStaticData() {
         Tradesong.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeAssets();
-        state = new SaveableState();
+        craftingStations = CraftingStations.parseFromJson();
         uiStyles = GameSkin.makeDefaultUIStyles();
         screenManager = new ShallowSelectiveScreenStack(this);
         items = Items.parsePrototypes();
-        contractGenerator = new ContractGenerator(items.getAll());
-        craftingStations = CraftingStations.parseFromJson();
+
         popupQueue = new PopupQueue();
         clock = new Clock();
+        state = new SaveableState();
+        contractGenerator = new ContractGenerator(items.getAll());
     }
 
     private void initializeAssets() {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.screens.CraftingScreen;
-import com.icbat.game.tradesong.screens.InventoryScreen;
+import com.icbat.game.tradesong.screens.LinkedChestsScreen;
 import com.icbat.game.tradesong.screens.MidGameControlScreen;
 
 public class HudButtonsBlock extends Table {
@@ -21,7 +21,7 @@ public class HudButtonsBlock extends Table {
         this.add(new IconButton(2,30) {
             @Override
             void onClick() {
-                Tradesong.screenManager.goToScreen(new InventoryScreen());
+                Tradesong.screenManager.goToScreen(new LinkedChestsScreen());
             }
         });
 

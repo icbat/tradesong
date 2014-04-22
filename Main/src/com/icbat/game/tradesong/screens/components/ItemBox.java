@@ -1,45 +1,72 @@
 package com.icbat.game.tradesong.screens.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.icbat.game.tradesong.gameObjects.collections.Items;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ItemBox extends Table {
 
-    TextureRegionDrawable background = new TextureRegionDrawable(new TextureRegion(Tradesong.getTexture(TextureAssets.POPUP_BG)));
+    private final List<String> backingList;
 
-    private ItemBox(List<Items.Item> backingList) {
+    private ItemBox(List<String> backingList) {
+        super(Tradesong.uiStyles);
+        this.backingList = backingList;
+        NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
-        this.setSize(Gdx.graphics.getWidth() / 2 , Gdx.graphics.getHeight());
-
-        int columnCount = 0;
-        for (Items.Item item : backingList) {
-            item.addListener(new NameDisplayListener(item));
-            this.add(item);
-            columnCount++;
-            if (columnCount == 6) {
-                this.row();
-                columnCount = 0;
-            }
-        }
+        this.pad(5);
     }
 
     public static ItemBox makeInventoryBox() {
-        return new ItemBox(Tradesong.state.inventory().getCopyOfInventory());
+        return make(Tradesong.state.inventory().getEditableInventory());
     }
 
-    public static ItemBox make(List<Items.Item> itemList) {
+    public static ItemBox make(List<String> itemList) {
         return new ItemBox(itemList);
+    }
+
+    public Table makeTable() {
+        this.clear();
+        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
+        Collections.sort(itemsByName);
+        int i=0;
+        for (Items.Item itemInBox : itemsByName) {
+            itemInBox.addListener(new NameDisplayListener(itemInBox));
+            this.add(itemInBox).space(5);
+            ++i;
+            if (i==6) {
+                this.row();
+                i = 0;
+            }
+        }
+
+        return this;
+    }
+
+    public void removeItem(String name) {
+        int i = this.backingList.indexOf(name);
+        this.backingList.remove(i);
+    }
+
+    public void addItem(String name) {
+        this.backingList.add(name);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemBox{" +
+                "backingList=" + backingList +
+                '}';
     }
 
     private class NameDisplayListener extends ClickListener {
@@ -52,8 +79,8 @@ public class ItemBox extends Table {
         @Override
         public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
             super.enter(event, x, y, pointer, fromActor);
-            item.setColor(Color.YELLOW);
-            Tradesong.focusedItem = item;
+            item.setColor(Color.LIGHT_GRAY);
+            Tradesong.focusedItem = new ItemDescriptionPopup(item);
         }
 
         @Override
