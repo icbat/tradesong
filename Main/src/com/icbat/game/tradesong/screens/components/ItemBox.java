@@ -12,6 +12,7 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ItemBox extends Table {
@@ -36,6 +37,7 @@ public class ItemBox extends Table {
 
     public Table makeTable() {
         ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
+        Collections.sort(itemsByName);
         int i=0;
         for (Items.Item itemInBox : itemsByName) {
             itemInBox.addListener(new NameDisplayListener(itemInBox));
@@ -48,6 +50,22 @@ public class ItemBox extends Table {
         }
 
         return this;
+    }
+
+    public void removeItem(String name) {
+        int i = this.backingList.indexOf(name);
+        this.backingList.remove(i);
+    }
+
+    public void addItem(String name) {
+        this.backingList.add(name);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemBox{" +
+                "backingList=" + backingList +
+                '}';
     }
 
     private class NameDisplayListener extends ClickListener {
