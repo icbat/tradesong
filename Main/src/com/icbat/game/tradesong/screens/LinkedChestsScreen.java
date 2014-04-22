@@ -23,11 +23,9 @@ public class LinkedChestsScreen extends BaseInGameScreen {
 
     public LinkedChestsScreen(Storage linkedTo) {
         this();
-        if (linkedTo != null) {
-            ItemBox linkedBox = ItemBox.make(linkedTo.getReadyForOutput());
-            addBox(linkedTo.getStationName(), linkedBox);
-            linkBoxes(inventory, linkedBox);
-        }
+        ItemBox linkedBox = ItemBox.make(linkedTo.getReadyForOutput());
+        addBox(linkedTo.getStationName(), linkedBox);
+        linkBoxes(inventory, linkedBox);
     }
 
     public void addBox(String boxName, ItemBox box) {
