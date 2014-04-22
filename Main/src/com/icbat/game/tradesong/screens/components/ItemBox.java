@@ -23,6 +23,7 @@ public class ItemBox extends Table {
         this.backingList = backingList;
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
+        this.pad(5);
     }
 
     public static ItemBox makeInventoryBox() {
@@ -34,21 +35,19 @@ public class ItemBox extends Table {
     }
 
     public Table makeTable() {
-        Table boxTable = new Table();
-        boxTable.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
         ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
         int i=0;
         for (Items.Item itemInBox : itemsByName) {
             itemInBox.addListener(new NameDisplayListener(itemInBox));
-            boxTable.add(itemInBox);
+            this.add(itemInBox).space(5);
             ++i;
             if (i==6) {
-                boxTable.row();
+                this.row();
                 i = 0;
             }
         }
 
-        return boxTable;
+        return this;
     }
 
     private class NameDisplayListener extends ClickListener {

@@ -43,7 +43,7 @@ public class LinkedChestsScreen extends BaseInGameScreen {
 
 
     private void linkBoxes(ItemBox inventory, ItemBox linkedBox) {
-
+//        inventory.
     }
 
     @Override
