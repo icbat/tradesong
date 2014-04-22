@@ -1,38 +1,48 @@
 package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.craftingStations.Storage;
 import com.icbat.game.tradesong.screens.components.ItemBox;
 
 public class LinkedChestsScreen extends BaseInGameScreen {
 
-    private final ItemBox inventory = ItemBox.makeInventoryBox();
-    private ItemBox linkedBox = null;
-    protected Stage mainStage;
+    private Table layoutTable;
 
     public LinkedChestsScreen() {
         this(null);
     }
 
     public LinkedChestsScreen(Storage linkedTo) {
-        mainStage = new Stage();
-        displayInventory();
+        Stage mainStage = new Stage();
+        layoutTable = new Table(Tradesong.uiStyles);
+        layoutTable.setFillParent(true);
+        ItemBox inventory = ItemBox.makeInventoryBox();
+        addBox("Inventory", inventory);
         if (linkedTo != null) {
-            this.linkedBox = ItemBox.make(linkedTo.getReadyForOutput());
-            displayLinkedBox();
-            linkBoxes(inventory, this.linkedBox);
+            ItemBox linkedBox = ItemBox.make(linkedTo.getReadyForOutput());
+            addBox(linkedTo.getStationName(), linkedBox);
+            linkBoxes(inventory, linkedBox);
         }
 
+        mainStage.addActor(layoutTable);
         setupStages(mainStage);
     }
 
-    private void displayInventory() {
+    public void addBox(String boxName, ItemBox box) {
+        addBoxTitle(boxName);
+        displayBox(box);
+    }
+
+    private void displayBox(ItemBox inventory) {
 
     }
 
-    private void displayLinkedBox() {
-
+    public void addBoxTitle(String boxName) {
+        layoutTable.add(boxName).spaceBottom(10).row();
     }
+
 
     private void linkBoxes(ItemBox inventory, ItemBox linkedBox) {
 
