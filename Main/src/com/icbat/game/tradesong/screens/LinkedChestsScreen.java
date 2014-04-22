@@ -34,11 +34,11 @@ public class LinkedChestsScreen extends BaseInGameScreen {
     }
 
     private void displayBox(ItemBox box) {
-
+        layoutTable.add(box.makeTable()).row();
     }
 
     public void addBoxTitle(String boxName) {
-        layoutTable.add(boxName).spaceBottom(10).row();
+        layoutTable.add(boxName).space(10).row();
     }
 
 

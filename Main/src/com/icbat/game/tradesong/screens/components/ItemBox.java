@@ -66,6 +66,23 @@ public class ItemBox extends Table {
         return new ItemBox(itemList);
     }
 
+    public Table makeTable() {
+        Table boxTable = new Table();
+        boxTable.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
+
+        ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.linkedBackingList);
+        int i=0;
+        for (Items.Item itemInBox : itemsByName) {
+            boxTable.add(itemInBox);
+            ++i;
+            if (i==6) {
+                boxTable.row();
+            }
+        }
+
+        return boxTable;
+    }
+
     private class NameDisplayListener extends ClickListener {
         private final Items.Item item;
 

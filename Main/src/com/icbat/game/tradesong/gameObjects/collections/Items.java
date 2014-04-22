@@ -89,8 +89,10 @@ public class Items {
 
     public ArrayList<Item> getItemsByName(List<String> itemNames) {
         ArrayList<Item> itemEntities = new ArrayList<Item>();
-        for (String itemName : itemNames) {
-            itemEntities.add(getItem(itemName));
+        if (itemNames != null && !itemNames.isEmpty()) {
+            for (String itemName : itemNames) {
+                itemEntities.add(getItem(itemName));
+            }
         }
         return itemEntities;
     }
