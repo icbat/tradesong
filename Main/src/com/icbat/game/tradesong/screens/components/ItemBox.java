@@ -78,7 +78,7 @@ public class ItemBox extends Table {
         @Override
         public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
             super.enter(event, x, y, pointer, fromActor);
-            item.setColor(Color.YELLOW);
+            item.setColor(Color.LIGHT_GRAY);
             Tradesong.focusedItem = new ItemDescriptionPopup(item);
         }
 
