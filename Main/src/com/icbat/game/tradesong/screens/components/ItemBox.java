@@ -76,6 +76,7 @@ public class ItemBox extends Table {
 
     private class NameDisplayListener extends ClickListener {
         private final Items.Item item;
+        Color originalColor = Color.WHITE;
 
         public NameDisplayListener(Items.Item item) {
             this.item = item;
@@ -84,6 +85,7 @@ public class ItemBox extends Table {
         @Override
         public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
             super.enter(event, x, y, pointer, fromActor);
+            originalColor = new Color(item.getColor());
             item.setColor(Color.LIGHT_GRAY);
             Tradesong.focusedItem = new ItemDescriptionPopup(item);
         }
@@ -91,7 +93,7 @@ public class ItemBox extends Table {
         @Override
         public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
             super.exit(event, x, y, pointer, toActor);
-            item.setColor(Color.WHITE);
+            item.setColor(originalColor);
             Tradesong.focusedItem = null;
         }
     }
