@@ -3,11 +3,13 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
@@ -84,13 +86,16 @@ public class ContractScreen extends BaseInGameScreen {
 
         private TextButton makeCompletionButton(Contract contract) {
             TextButton.TextButtonStyle style;
-            if (contract.canComplete(Tradesong.state.inventory().getEditableInventory())) {
+            boolean canComplete = contract.canComplete(Tradesong.state.inventory().getEditableInventory());
+            if (canComplete) {
                 style = Tradesong.uiStyles.get("default", TextButton.TextButtonStyle.class);
             } else {
                 style = Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class);
             }
 
-            return new TextButton("Complete this!", style);
+            TextButton completionButton = new TextButton("Complete this!", style);
+            completionButton.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
+            return completionButton;
         }
     }
 }
