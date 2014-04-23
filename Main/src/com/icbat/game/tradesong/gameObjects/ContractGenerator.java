@@ -53,12 +53,12 @@ public class ContractGenerator {
     }
 
     private LinkedList<String> getRequirements(Rarity rarity) {
-        int itemsToFind = 1 + random.nextInt(2);
+        int itemsToFind = 1 + random.nextInt(3);
         return getRandomItemList(rarity, itemsToFind);
     }
 
     private LinkedList<String> getRewards(Rarity rarity) {
-        int itemsToFind = random.nextInt(2);
+        int itemsToFind = random.nextInt(3);
         if (itemsToFind > 0) {
 
             return getRandomRewards(rarity, itemsToFind);

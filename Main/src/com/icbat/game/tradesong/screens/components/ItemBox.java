@@ -25,6 +25,7 @@ public class ItemBox extends Table {
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2));
         this.setBackground(background);
         this.pad(5);
+        makeTable();
     }
 
     public static ItemBox makeInventoryBox() {
