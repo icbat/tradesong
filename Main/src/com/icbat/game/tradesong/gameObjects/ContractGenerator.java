@@ -31,7 +31,7 @@ public class ContractGenerator {
 
     public Contract generateContract(Rarity rarity) {
         LinkedList<String> requirements = getRequirements(rarity);
-        LinkedList<String> rewards = getRewards(rarity);
+        LinkedList<String> rewards = getRewards(rarity, requirements);
         int moneyReward = getMoneyReward(rarity);
         return new Contract(rarity, requirements, rewards, moneyReward);
     }
@@ -57,11 +57,10 @@ public class ContractGenerator {
         return getRandomItemList(rarity, itemsToFind);
     }
 
-    private LinkedList<String> getRewards(Rarity rarity) {
+    private LinkedList<String> getRewards(Rarity rarity, LinkedList<String> requirements) {
         int itemsToFind = random.nextInt(3);
         if (itemsToFind > 0) {
-
-            return getRandomRewards(rarity, itemsToFind);
+            return getRandomRewards(rarity, itemsToFind, requirements);
         } else {
             return new LinkedList<String>();
         }
@@ -77,18 +76,18 @@ public class ContractGenerator {
         return items;
     }
 
-    private LinkedList<String> getRandomRewards (Rarity rarity, int numberOfItems) {
-        LinkedList<String> items = new LinkedList<String>();
+    private LinkedList<String> getRandomRewards(Rarity rarity, int numberOfItems, LinkedList<String> requirements) {
+        LinkedList<String> rewards = new LinkedList<String>();
 
         for (int i=0; i < numberOfItems; ++i) {
             String randomItem;
             do {
                 randomItem = getRandomItem(rarity);
-            } while (items.contains(randomItem));
-            items.add(randomItem);
+            } while (requirements.contains(randomItem));
+            rewards.add(randomItem);
         }
 
-        return items;
+        return rewards;
     }
 
     private String getRandomItem(Rarity rarity) {
