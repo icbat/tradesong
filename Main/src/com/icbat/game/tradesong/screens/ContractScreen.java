@@ -1,11 +1,13 @@
 package com.icbat.game.tradesong.screens;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
@@ -21,6 +23,7 @@ public class ContractScreen extends BaseInGameScreen {
     public static final int COLSPAN = 3;
 
     public ContractScreen() {
+        Gdx.app.debug("contractScreen", Tradesong.state.inventory().getEditableInventory().toString());
         Stage stage = new Stage();
         Table table = new Table(Tradesong.uiStyles);
 
@@ -54,6 +57,7 @@ public class ContractScreen extends BaseInGameScreen {
             this.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
             this.add(contract.getRewardMoney() + "").row();
             this.add(ItemBox.make(contract.getRewardItems())).colspan(COLSPAN).row();
+            this.add(makeCompletionButton(contract)).colspan(COLSPAN).row();
         }
 
         public ItemBox getHighlightedReqiurementsBox(Contract contract) {
@@ -76,6 +80,17 @@ public class ContractScreen extends BaseInGameScreen {
             }
 
             return requirementsBox;
+        }
+
+        private TextButton makeCompletionButton(Contract contract) {
+            TextButton.TextButtonStyle style;
+            if (contract.canComplete(Tradesong.state.inventory().getEditableInventory())) {
+                style = Tradesong.uiStyles.get("default", TextButton.TextButtonStyle.class);
+            } else {
+                style = Tradesong.uiStyles.get("disabled", TextButton.TextButtonStyle.class);
+            }
+
+            return new TextButton("Complete this!", style);
         }
     }
 }

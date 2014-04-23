@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.Tradesong;
 
 import java.util.LinkedList;
@@ -25,14 +24,14 @@ public class Contract {
         this.rewardMoney = rewardMoney;
     }
 
-    public boolean canComplete(List<Items.Item> inputs) {
-        return inputs.size() == requirements.size() && inputs.containsAll(requirements);
+    public boolean canComplete(List<String> inputs) {
+        return inputs.containsAll(requirements);
     }
 
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public boolean completeContract(List<Items.Item> inputs) {
+    public boolean completeContract(List<String> inputs) {
         if (canComplete(inputs) && Tradesong.state.getContractList().contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
