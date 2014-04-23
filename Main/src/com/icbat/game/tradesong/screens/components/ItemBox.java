@@ -41,15 +41,20 @@ public class ItemBox extends Table {
         ArrayList<Items.Item> itemsByName = Tradesong.items.getItemsByName(this.backingList);
         Collections.sort(itemsByName);
         int i=0;
-        for (Items.Item itemInBox : itemsByName) {
-            itemInBox.addListener(new NameDisplayListener(itemInBox));
-            this.add(itemInBox).space(5);
-            ++i;
-            if (i==6) {
-                this.row();
-                i = 0;
+        if (itemsByName.isEmpty()) {
+            this.add("Nothing.");
+        } else {
+            for (Items.Item itemInBox : itemsByName) {
+                itemInBox.addListener(new NameDisplayListener(itemInBox));
+                this.add(itemInBox).space(5);
+                ++i;
+                if (i==6) {
+                    this.row();
+                    i = 0;
+                }
             }
         }
+
 
         return this;
     }
