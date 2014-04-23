@@ -71,4 +71,8 @@ public class Contract {
     public LinkedList<String> getRewardItems() {
         return rewards;
     }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
 }

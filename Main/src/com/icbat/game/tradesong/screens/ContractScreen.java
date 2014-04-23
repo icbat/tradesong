@@ -39,7 +39,7 @@ public class ContractScreen extends AbstractScreen {
     private class ContractActor extends Table {
         public ContractActor(Contract contract) {
             super(Tradesong.uiStyles);
-            this.add("Contract").colspan(COLSPAN).space(10).row();
+            this.add(contract.getRarity() + " Contract").colspan(COLSPAN).space(10).row();
             this.add("Requirements");
             this.add(ItemBox.make(contract.getRequirements())).colspan(COLSPAN).row();
             this.add("Reward Money");
