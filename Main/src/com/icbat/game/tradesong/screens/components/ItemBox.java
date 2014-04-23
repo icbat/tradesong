@@ -42,7 +42,7 @@ public class ItemBox extends Table {
         Collections.sort(itemsByName);
         int i=0;
         if (itemsByName.isEmpty()) {
-            this.add("Nothing.");
+            this.add("No items.");
         } else {
             for (Items.Item itemInBox : itemsByName) {
                 itemInBox.addListener(new NameDisplayListener(itemInBox));
@@ -54,7 +54,6 @@ public class ItemBox extends Table {
                 }
             }
         }
-
 
         return this;
     }

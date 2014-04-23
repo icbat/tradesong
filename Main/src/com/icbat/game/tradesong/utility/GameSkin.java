@@ -18,6 +18,12 @@ public class GameSkin extends Skin {
         labelStyle.font = skin.getFont("default");
         skin.add("default", labelStyle);
 
+        Label.LabelStyle headerStyle = new Label.LabelStyle();
+        headerStyle.font = new BitmapFont();
+        headerStyle.fontColor = Color.GREEN;
+        headerStyle.font.setScale(1.1f);
+        skin.add("header", headerStyle);
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
