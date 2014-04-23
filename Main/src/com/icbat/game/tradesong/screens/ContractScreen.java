@@ -20,7 +20,7 @@ public class ContractScreen extends BaseInGameScreen {
         java.util.List<Contract> contractList = Tradesong.state.getContractList();
         int i = 1;
         for (Contract contract : contractList) {
-            table.add(new ContractActor(contract));
+            table.add(new ContractActor(contract)).space(50);
             if (i % 2 == 0) {
                 table.row();
             }
@@ -40,12 +40,12 @@ public class ContractScreen extends BaseInGameScreen {
         public ContractActor(Contract contract) {
             super(Tradesong.uiStyles);
             this.add(contract.getRarity() + " Contract").colspan(COLSPAN).space(10).row();
-            this.add("Requirements");
+            this.add("Requirements").row();
             this.add(ItemBox.make(contract.getRequirements())).colspan(COLSPAN).row();
             this.add("Reward Money");
             this.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
             this.add(contract.getRewardMoney() + "").row();
-            this.add("Rewards");
+            this.add("Rewards").row();
             this.add(ItemBox.make(contract.getRewardItems())).colspan(COLSPAN).row();
         }
     }
