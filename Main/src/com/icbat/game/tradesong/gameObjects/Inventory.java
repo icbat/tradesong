@@ -47,6 +47,8 @@ public class Inventory {
         return items;
     }
 
+    public List<String> getInventoryCopy() {return new ArrayList<String>(items);}
+
     public List<String> getMatchList(List<String> itemsToMatch) {
         List<String> matchesFound = new ArrayList<String>();
         List<String> copyOfInput = new ArrayList<String>(itemsToMatch);

@@ -24,15 +24,17 @@ public class Contract {
         this.rewardMoney = rewardMoney;
     }
 
-    public boolean canComplete(List<String> inputs) {
-        return inputs.containsAll(requirements);
+    public boolean canComplete() {
+        List<String> matchList = Tradesong.state.inventory().getMatchList(requirements);
+
+        return matchList.containsAll(requirements) && matchList.size() >= requirements.size(); // TODO handle odd case where you have 3 of X and 1 of Y, but contract requires 1+ x and 2+ y
     }
 
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
     public boolean completeContract(List<String> inputs) {
-        if (canComplete(inputs) && Tradesong.state.getContractList().contains(this)) {
+        if (canComplete() && Tradesong.state.getContractList().contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
 

@@ -78,7 +78,6 @@ public class ContractScreen extends BaseInGameScreen {
                     matchList.remove(item.getName());
                     item.setColor(Color.GREEN);
                 }
-
             }
 
             return requirementsBox;
@@ -86,7 +85,7 @@ public class ContractScreen extends BaseInGameScreen {
 
         private TextButton makeCompletionButton(Contract contract) {
             TextButton.TextButtonStyle style;
-            boolean canComplete = contract.canComplete(Tradesong.state.inventory().getEditableInventory());
+            boolean canComplete = contract.canComplete();
             if (canComplete) {
                 style = Tradesong.uiStyles.get("default", TextButton.TextButtonStyle.class);
             } else {
