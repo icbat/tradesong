@@ -1,15 +1,14 @@
 package com.icbat.game.tradesong.screens;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
@@ -23,13 +22,19 @@ import java.util.List;
 public class ContractScreen extends BaseInGameScreen {
 
     public static final int COLSPAN = 3;
+    protected final Stage stage = new Stage();
+    protected final Table table = new Table(Tradesong.uiStyles);
 
     public ContractScreen() {
-        Gdx.app.debug("contractScreen", Tradesong.state.inventory().getEditableInventory().toString());
-        Stage stage = new Stage();
-        Table table = new Table(Tradesong.uiStyles);
+        setupStages(stage);
+        table.setFillParent(true);
+        stage.addActor(table);
+        forceRelayout();
+    }
 
-        java.util.List<Contract> contractList = Tradesong.state.getContractList();
+    private void forceRelayout() {
+        table.clear();
+        List<Contract> contractList = Tradesong.state.getContractList();
         int i = 1;
         for (Contract contract : contractList) {
             table.add(new ContractActor(contract)).space(35);
@@ -38,9 +43,6 @@ public class ContractScreen extends BaseInGameScreen {
             }
             ++i;
         }
-        stage.addActor(table);
-        table.setFillParent(true);
-        setupStages(stage);
     }
 
     @Override
@@ -93,8 +95,27 @@ public class ContractScreen extends BaseInGameScreen {
             }
 
             TextButton completionButton = new TextButton("Complete this!", style);
-            completionButton.setBackground(new NinePatchDrawable(new NinePatch(Tradesong.getTexture(TextureAssets.POPUP_BG), 2, 2, 2, 2)));
+            if (canComplete) {
+                completionButton.addListener(new ContractCompletionListener(contract));
+            }
             return completionButton;
         }
+
+        private class ContractCompletionListener extends ClickListener {
+            private final Contract contract;
+
+            public ContractCompletionListener(Contract contract) {
+                this.contract = contract;
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+//                contract.completeContract();
+                forceRelayout();
+            }
+        }
     }
+
+
 }
