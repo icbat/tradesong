@@ -9,7 +9,7 @@ import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
 import com.icbat.game.tradesong.screens.components.ItemBox;
 
-public class ContractScreen extends AbstractScreen {
+public class ContractScreen extends BaseInGameScreen {
 
     public static final int COLSPAN = 3;
 
