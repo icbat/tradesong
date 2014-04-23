@@ -1,13 +1,20 @@
 package com.icbat.game.tradesong.screens;
 
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Contract;
+import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.screens.components.ItemBox;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ContractScreen extends BaseInGameScreen {
 
@@ -41,11 +48,34 @@ public class ContractScreen extends BaseInGameScreen {
             super(Tradesong.uiStyles);
             this.add(contract.getRarity() + " Contract", "header").colspan(COLSPAN).row();
             this.add("Requirements").row();
-            this.add(ItemBox.make(contract.getRequirements())).colspan(COLSPAN).row();
+            ItemBox requirementsBox = getHighlightedReqiurementsBox(contract);
+            this.add(requirementsBox).colspan(COLSPAN).row();
             this.add("Rewards").row();
             this.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
             this.add(contract.getRewardMoney() + "").row();
             this.add(ItemBox.make(contract.getRewardItems())).colspan(COLSPAN).row();
+        }
+
+        public ItemBox getHighlightedReqiurementsBox(Contract contract) {
+            LinkedList<String> requirements = contract.getRequirements();
+            Collections.sort(requirements);
+            ItemBox requirementsBox = ItemBox.make(requirements);
+
+            for (Actor actor : requirementsBox.getChildren()) {
+                actor.setColor(Color.RED);
+            }
+
+            List<String> matchList = Tradesong.state.inventory().getMatchList(requirements);
+            for (Actor actor : requirementsBox.getChildren()) {
+                Items.Item item = (Items.Item) actor;
+                if (matchList.contains(item.getName())) {
+                    matchList.remove(item.getName());
+                    item.setColor(Color.GREEN);
+                }
+
+            }
+
+            return requirementsBox;
         }
     }
 }
