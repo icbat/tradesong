@@ -5,8 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-/***/
-class ColorOnHoverListener extends ClickListener {
+public class ColorOnHoverListener extends ClickListener {
     private final Actor item;
     Color originalColor = Color.WHITE;
     protected final Color onHoverColor;
