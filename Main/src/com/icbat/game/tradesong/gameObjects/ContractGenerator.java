@@ -2,8 +2,6 @@ package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.Tradesong;
-import com.icbat.game.tradesong.gameObjects.Contract;
-import com.icbat.game.tradesong.gameObjects.Rarity;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.*;
@@ -33,7 +31,7 @@ public class ContractGenerator {
 
     public Contract generateContract(Rarity rarity) {
         LinkedList<String> requirements = getRequirements(rarity);
-        LinkedList<String> rewards = getRewards(rarity);
+        LinkedList<String> rewards = getRewards(rarity, requirements);
         int moneyReward = getMoneyReward(rarity);
         return new Contract(rarity, requirements, rewards, moneyReward);
     }
@@ -55,15 +53,14 @@ public class ContractGenerator {
     }
 
     private LinkedList<String> getRequirements(Rarity rarity) {
-        int itemsToFind = 2 + random.nextInt(2);
+        int itemsToFind = 1 + random.nextInt(3);
         return getRandomItemList(rarity, itemsToFind);
     }
 
-    private LinkedList<String> getRewards(Rarity rarity) {
-        int itemsToFind = random.nextInt(2);
+    private LinkedList<String> getRewards(Rarity rarity, LinkedList<String> requirements) {
+        int itemsToFind = random.nextInt(3);
         if (itemsToFind > 0) {
-
-            return getRandomRewards(rarity, itemsToFind);
+            return getRandomRewards(rarity, itemsToFind, requirements);
         } else {
             return new LinkedList<String>();
         }
@@ -79,18 +76,18 @@ public class ContractGenerator {
         return items;
     }
 
-    private LinkedList<String> getRandomRewards (Rarity rarity, int numberOfItems) {
-        LinkedList<String> items = new LinkedList<String>();
+    private LinkedList<String> getRandomRewards(Rarity rarity, int numberOfItems, LinkedList<String> requirements) {
+        LinkedList<String> rewards = new LinkedList<String>();
 
         for (int i=0; i < numberOfItems; ++i) {
             String randomItem;
             do {
                 randomItem = getRandomItem(rarity);
-            } while (items.contains(randomItem));
-            items.add(randomItem);
+            } while (requirements.contains(randomItem));
+            rewards.add(randomItem);
         }
 
-        return items;
+        return rewards;
     }
 
     private String getRandomItem(Rarity rarity) {

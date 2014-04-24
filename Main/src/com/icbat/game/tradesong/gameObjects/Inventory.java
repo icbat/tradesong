@@ -3,7 +3,6 @@ package com.icbat.game.tradesong.gameObjects;
 import com.badlogic.gdx.Gdx;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Inventory {
@@ -28,30 +27,12 @@ public class Inventory {
         return items.size() < maxSize;
     }
 
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    /**
-     * Sorts inventory based on item name
-     * */
-    public void sort() {
-        Collections.sort(items);
-    }
-
     public Integer getMoney() {
         return money;
     }
 
-    /**
-     * I'm lazy, use this for add and subtract.
-     * */
     public void addMoney(Integer newInput) {
         money += newInput;
-    }
-
-    public int getSlotsFree() {
-        return maxSize - items.size();
     }
 
     @Override
@@ -64,5 +45,27 @@ public class Inventory {
 
     public List<String> getEditableInventory() {
         return items;
+    }
+
+    public List<String> getInventoryCopy() {return new ArrayList<String>(items);}
+
+    public List<String> getMatchList(List<String> itemsToMatch) {
+        List<String> matchesFound = new ArrayList<String>();
+        List<String> copyOfInput = new ArrayList<String>(itemsToMatch);
+        List<String> copyOfInventory = new ArrayList<String>(items);
+
+        for (String name : copyOfInventory) {
+            if (copyOfInput.contains(name)) {
+                matchesFound.add(name);
+                copyOfInput.remove(name);
+            }
+        }
+
+        return matchesFound;
+
+    }
+
+    public int slotsFree() {
+        return maxSize - items.size();
     }
 }

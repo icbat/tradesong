@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Combiner extends BaseCraftingStation {
-    private HashMap<ArrayList<String>, String> inputToOutput = new HashMap<ArrayList<String>, String>();
+    public HashMap<ArrayList<String>, String> inputToOutput = new HashMap<ArrayList<String>, String>();
 
     public Combiner() {}
     public Combiner(String name) {

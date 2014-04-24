@@ -1,9 +1,9 @@
 package com.icbat.game.tradesong.gameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.Tradesong;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class Contract {
     int rewardMoney = 0;
     private Rarity rarity;
 
-    private  Contract() {}
+    private Contract() {}
 
     public Contract(Rarity rarity, LinkedList<String> requirements, LinkedList<String> rewards, int rewardMoney) {
         this.rarity = rarity;
@@ -25,16 +25,33 @@ public class Contract {
         this.rewardMoney = rewardMoney;
     }
 
-    public boolean canComplete(List<Items.Item> inputs) {
-        return inputs.size() == requirements.size() && inputs.containsAll(requirements);
+    public boolean canComplete() {
+        return inventoryContainsAllRequirements() && wouldNotOverflowInv();
+    }
+
+    public boolean inventoryContainsAllRequirements() {
+        List<String> matchList = Tradesong.state.inventory().getMatchList(requirements);
+        List<String> copyOfRequirements = new ArrayList<String>(requirements);
+
+        for (String requirement : copyOfRequirements) {
+            boolean wasRemoved = matchList.remove(requirement);
+            if (!wasRemoved) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean wouldNotOverflowInv() {
+        return Tradesong.state.inventory().slotsFree() >= rewards.size();
     }
 
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public boolean completeContract(List<Items.Item> inputs) {
-        if (canComplete(inputs) && Tradesong.state.getContractList().contains(this)) {
-
+    public boolean completeContract() {
+        if (canComplete() && Tradesong.state.getContractList().contains(this)) {
             Gdx.app.debug("reward items", rewards.toString());
 
             for (String rewardItem : rewards){
@@ -54,9 +71,10 @@ public class Contract {
 
     @Override
     public String toString() {
-        return rarity + " contract [" +
+        return rarity + " contract: " +
                 requirements.toString() +
-                "]";
+                "  ::  " +
+                rewardMoney + " :: " + rewards.toString();
     }
 
     public LinkedList<String> getRequirements() {
@@ -69,5 +87,9 @@ public class Contract {
 
     public LinkedList<String> getRewardItems() {
         return rewards;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
     }
 }
