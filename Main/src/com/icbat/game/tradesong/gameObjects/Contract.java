@@ -3,6 +3,7 @@ package com.icbat.game.tradesong.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.icbat.game.tradesong.Tradesong;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Contract {
     int rewardMoney = 0;
     private Rarity rarity;
 
-    private  Contract() {}
+    private Contract() {}
 
     public Contract(Rarity rarity, LinkedList<String> requirements, LinkedList<String> rewards, int rewardMoney) {
         this.rarity = rarity;
@@ -25,9 +26,25 @@ public class Contract {
     }
 
     public boolean canComplete() {
-        List<String> matchList = Tradesong.state.inventory().getMatchList(requirements);
+        return inventoryContainsAllRequirements() && wouldNotOverflowInv();
+    }
 
-        return matchList.containsAll(requirements) && matchList.size() >= requirements.size(); // TODO handle odd case where you have 3 of X and 1 of Y, but contract requires 1+ x and 2+ y
+    public boolean inventoryContainsAllRequirements() {
+        List<String> matchList = Tradesong.state.inventory().getMatchList(requirements);
+        List<String> copyOfRequirements = new ArrayList<String>(requirements);
+
+        for (String requirement : copyOfRequirements) {
+            boolean wasRemoved = matchList.remove(requirement);
+            if (!wasRemoved) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean wouldNotOverflowInv() {
+        return Tradesong.state.inventory().slotsFree() >= rewards.size();
     }
 
     /**
@@ -35,7 +52,6 @@ public class Contract {
      * */
     public boolean completeContract() {
         if (canComplete() && Tradesong.state.getContractList().contains(this)) {
-
             Gdx.app.debug("reward items", rewards.toString());
 
             for (String rewardItem : rewards){

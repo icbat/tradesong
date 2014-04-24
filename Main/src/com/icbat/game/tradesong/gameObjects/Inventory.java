@@ -64,4 +64,8 @@ public class Inventory {
         return matchesFound;
 
     }
+
+    public int slotsFree() {
+        return maxSize - items.size();
+    }
 }
