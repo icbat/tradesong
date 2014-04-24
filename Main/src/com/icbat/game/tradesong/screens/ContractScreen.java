@@ -78,7 +78,7 @@ public class ContractScreen extends BaseInGameScreen {
                 Items.Item item = (Items.Item) actor;
                 if (matchList.contains(item.getName())) {
                     matchList.remove(item.getName());
-                    item.setColor(Color.GREEN);
+                    item.setColor(Color.WHITE);
                 }
             }
 
@@ -111,7 +111,7 @@ public class ContractScreen extends BaseInGameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-//                contract.completeContract();
+                contract.completeContract();
                 forceRelayout();
             }
         }

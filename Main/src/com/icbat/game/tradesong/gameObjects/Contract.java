@@ -33,7 +33,7 @@ public class Contract {
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public boolean completeContract(List<String> inputs) {
+    public boolean completeContract() {
         if (canComplete() && Tradesong.state.getContractList().contains(this)) {
 
             Gdx.app.debug("reward items", rewards.toString());
