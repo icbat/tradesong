@@ -53,7 +53,7 @@ public abstract class BaseCraftingStation {
 
     protected abstract String process(String processedItem);
 
-    public Actor getActor() {
+    public CraftingStationActor getActor() {
         return new CraftingStationActor(this, iconX, iconY);
     }
     private Actor getDescriptorPopup() { return new StationDescriptor(this); }

@@ -2,7 +2,6 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -63,7 +62,7 @@ public class CraftingScreen extends BaseInGameScreen {
             super(Tradesong.uiStyles);
             this.add(name).colspan(3).row();
             for (BaseCraftingStation station : stations) {
-                Actor actor = station.getActor();
+                BaseCraftingStation.CraftingStationActor actor = station.getActor();
                 actor.addListener(new ColorOnHoverListener(actor, Color.PINK));
                 if (isRearrangeable) {
                     Label up = new Label("Up", Tradesong.uiStyles);
@@ -82,9 +81,9 @@ public class CraftingScreen extends BaseInGameScreen {
         }
 
         public void linkTo(StationListing otherStations, boolean shouldRemoveWhenAdding) {
-            for(Actor actor : this.getChildren()) {
-
-            }
+//            for(Actor actor : this.getChildren()) {
+//                actor.addListener(new SwapListener(actor, otherStations, shouldRemoveWhenAdding));
+//            }
         }
 
         private class MoveUpListener extends ClickListener {
@@ -136,6 +135,24 @@ public class CraftingScreen extends BaseInGameScreen {
                     Gdx.app.debug("after add", backingList.toString());
                     forceReload();
                 }
+            }
+        }
+
+        private class SwapListener extends ClickListener {
+            private final BaseCraftingStation actor;
+            private final StationListing otherStations;
+            private final boolean shouldRemoveWhenAdding;
+
+            public SwapListener(BaseCraftingStation actor, StationListing otherStations, boolean shouldRemoveWhenAdding) {
+                this.actor = actor;
+                this.otherStations = otherStations;
+                this.shouldRemoveWhenAdding = shouldRemoveWhenAdding;
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
             }
         }
     }

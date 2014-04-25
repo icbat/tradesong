@@ -1,7 +1,6 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
@@ -32,8 +31,8 @@ public class Storage extends BaseCraftingStation {
     }
 
     @Override
-    public Actor getActor() {
-        Actor actor = super.getActor();
+    public CraftingStationActor getActor() {
+        CraftingStationActor actor = super.getActor();
         actor.addListener(new ChestListener(this));
         return actor;
     }
