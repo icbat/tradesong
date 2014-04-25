@@ -2,6 +2,7 @@ package com.icbat.game.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,6 +14,8 @@ import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.gameObjects.craftingStations.BaseCraftingStation;
 import com.icbat.game.tradesong.screens.components.ColorOnHoverListener;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CraftingScreen extends BaseInGameScreen {
@@ -46,10 +49,10 @@ public class CraftingScreen extends BaseInGameScreen {
             super(Tradesong.uiStyles);
             this.setFillParent(true);
             this.add("Worskhop List").colspan(2).row();
-            StationListing currentWorkshop = new StationListing("Current Setup", Tradesong.state.getWorkshopManager().get(0).getOrderedNodes(), true);
-            StationListing possibleStations = new StationListing("Available Stations", Tradesong.craftingStations.getNodesCopy(), false);
-            currentWorkshop.linkTo(possibleStations, true);
-            possibleStations.linkTo(currentWorkshop, false);
+            LinkedList<BaseCraftingStation> currentShop = Tradesong.state.getWorkshopManager().get(0).getOrderedNodes();
+            ArrayList<BaseCraftingStation> allNodesCopy = Tradesong.craftingStations.getNodesCopy();
+            StationListing currentWorkshop = new StationListing("Current Setup", currentShop, allNodesCopy, true);
+            StationListing possibleStations = new StationListing("Available Stations", allNodesCopy, currentShop, false);
 
             this.add(currentWorkshop).align(Align.left + Align.top).pad(5);
             this.add(possibleStations).align(Align.left + Align.top).pad(5);
@@ -58,13 +61,13 @@ public class CraftingScreen extends BaseInGameScreen {
     }
 
     private class StationListing extends Table {
-        private StationListing(String name, List<BaseCraftingStation> stations, boolean isRearrangeable) {
+        private StationListing(String name, List<BaseCraftingStation> stations, List<BaseCraftingStation> linkedStationList, boolean isCurrentWorkshop) {
             super(Tradesong.uiStyles);
             this.add(name).colspan(3).row();
             for (BaseCraftingStation station : stations) {
                 BaseCraftingStation.CraftingStationActor actor = station.getActor();
                 actor.addListener(new ColorOnHoverListener(actor, Color.PINK));
-                if (isRearrangeable) {
+                if (isCurrentWorkshop) {
                     Label up = new Label("Up", Tradesong.uiStyles);
                     Label down = new Label("Down", Tradesong.uiStyles);
 
@@ -76,14 +79,31 @@ public class CraftingScreen extends BaseInGameScreen {
                     this.add(up).space(3);
                     this.add(down).space(3);
                 }
-                this.add(actor).align(Align.left).space(10).prefHeight(64).prefWidth(200).row();
+
+                if (!isCurrentWorkshop) {
+                    Label swapButton = new Label("< Swap", Tradesong.uiStyles);
+                    swapButton.addListener(new SwapListener(station, stations, linkedStationList, isCurrentWorkshop));
+                    this.add(swapButton);
+                }
+                this.add(actor).align(Align.left).space(10).prefHeight(64).prefWidth(200);
+                if (isCurrentWorkshop) {
+                    Label swapButton = new Label("Swap >", Tradesong.uiStyles);
+                    swapButton.addListener(new SwapListener(station, stations, linkedStationList, isCurrentWorkshop));
+                    this.add(swapButton);
+                }
+                this.row();
             }
         }
 
-        public void linkTo(StationListing otherStations, boolean shouldRemoveWhenAdding) {
-//            for(Actor actor : this.getChildren()) {
-//                actor.addListener(new SwapListener(actor, otherStations, shouldRemoveWhenAdding));
-//            }
+        private List<BaseCraftingStation.CraftingStationActor> getStations() {
+            List<BaseCraftingStation.CraftingStationActor> stations = new ArrayList<BaseCraftingStation.CraftingStationActor>();
+            for (Actor actor : this.getChildren()) {
+                if (actor instanceof BaseCraftingStation.CraftingStationActor) {
+                    stations.add((BaseCraftingStation.CraftingStationActor) actor);
+                }
+            }
+
+            return stations;
         }
 
         private class MoveUpListener extends ClickListener {
@@ -138,21 +158,29 @@ public class CraftingScreen extends BaseInGameScreen {
             }
         }
 
-        private class SwapListener extends ClickListener {
-            private final BaseCraftingStation actor;
-            private final StationListing otherStations;
-            private final boolean shouldRemoveWhenAdding;
+        protected class SwapListener extends ClickListener {
+            private final BaseCraftingStation station;
+            private final List<BaseCraftingStation> stations;
+            private final List<BaseCraftingStation> linkedStationList;
+            private final boolean isCurrentWorkshop;
 
-            public SwapListener(BaseCraftingStation actor, StationListing otherStations, boolean shouldRemoveWhenAdding) {
-                this.actor = actor;
-                this.otherStations = otherStations;
-                this.shouldRemoveWhenAdding = shouldRemoveWhenAdding;
+            public SwapListener(BaseCraftingStation station, List<BaseCraftingStation> stations, List<BaseCraftingStation> linkedStationList, boolean isCurrentWorkshop) {
+                this.station = station;
+                this.stations = stations;
+                this.linkedStationList = linkedStationList;
+                this.isCurrentWorkshop = isCurrentWorkshop;
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
+                Gdx.app.debug("is this the workshop?",isCurrentWorkshop +"");
+                if (isCurrentWorkshop) {
+                    stations.remove(station);
+                } else {
+                    linkedStationList.add(station);
+                }
+                forceReload();
             }
         }
     }
