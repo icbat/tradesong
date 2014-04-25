@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class WorkshopManager {
     private LinkedList<Workshop> workshops = new LinkedList<Workshop>();
     private float timeCount = 0;
-    private static final int TIME_PER_STEP = 30;
+    private static final int TIME_PER_STEP = 10;
 
     public WorkshopManager() {
         workshops.add(new Workshop());
