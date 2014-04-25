@@ -1,5 +1,8 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.Tradesong;
+
 public class Scrapper extends BaseCraftingStation {
     public String output;
 
@@ -15,5 +18,15 @@ public class Scrapper extends BaseCraftingStation {
     @Override
     public String process(String processedItem) {
         return "Scrap";
+    }
+
+    @Override
+    public Table getProcessDisplayTable() {
+        Table table = new Table(Tradesong.uiStyles);
+        table.add("Anything");
+        table.add(">").space(5);
+        table.add(Tradesong.items.getItem("Scrap"));
+        return table;
+
     }
 }

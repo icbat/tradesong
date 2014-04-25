@@ -65,10 +65,15 @@ public class CraftingStations {
         nodes.nodes.add(smelter);
 
         Combiner assembler = new Combiner("Assembler");
-        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Scrap, Better Scrap, Better Scrap")), "Best Scrap");
-        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Scrap, Scrap, Scrap")), "Better Scrap");
-        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Ingot, Wood")), "Dagger");
-        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Ingot, Better Ingot, Better Wood")), "Sword");
+        ArrayList<String> inputs = new ArrayList<String>();
+        inputs.add("Better Scrap");
+        inputs.add("Better Scrap");
+        inputs.add("Better Scrap");
+        assembler.inputToOutput.put(inputs, "Best Scrap");
+//        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Scrap, Better Scrap, Better Scrap".split(","))), "Best Scrap");
+//        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Scrap, Scrap, Scrap".split(","))), "Scrap");
+//        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Ingot, Wood".split(","))), "Dagger");
+//        assembler.inputToOutput.put(new ArrayList<String>(Arrays.asList("Better Ingot, Better Ingot, Better Wood".split(","))), "Sword");
         assembler.iconX = 14;
         assembler.iconY = 4;
         assembler.description = "How the coolest of kids make something out of nothing.";

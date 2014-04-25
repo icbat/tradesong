@@ -1,5 +1,8 @@
 package com.icbat.game.tradesong.gameObjects.craftingStations;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.icbat.game.tradesong.Tradesong;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,5 +30,19 @@ public class Combiner extends BaseCraftingStation {
     @Override
     protected String process(String processedItem) {
         return null; //TODO impl
+    }
+
+    @Override
+    public Table getProcessDisplayTable() {
+        Table table = new Table(Tradesong.uiStyles);
+//        for (Map.Entry<ArrayList<String>, String> entry : inputToOutput.entrySet()) {
+//            ArrayList<String> inputs = entry.getKey();
+//            for (String inputName : inputs) {
+//                table.add(Tradesong.items.getItem(inputName));
+//            }
+//            table.add(">").spaceLeft(5).spaceRight(5);
+//            table.add(Tradesong.items.getItem(entry.getValue())).row();
+//        }
+        return table;
     }
 }

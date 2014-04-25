@@ -41,13 +41,13 @@ public class Tradesong extends Game {
 
     @Override
     public void create() {
-        Gdx.app.setLogLevel(1);
+        Gdx.app.setLogLevel(3);
 
         initializeSaveSlots();
         initializeStaticData();
         playLoopingMusic(MusicAssets.MYSTERIOUS);
         screenManager.goToMainMenu();
-//        this.debugMode();
+        this.debugMode();
     }
 
     private void initializeSaveSlots() {
