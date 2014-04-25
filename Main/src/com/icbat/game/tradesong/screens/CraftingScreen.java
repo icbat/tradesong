@@ -69,6 +69,7 @@ public class CraftingScreen extends BaseInGameScreen {
                     Label down = new Label("Down", Tradesong.uiStyles);
 
                     up.addListener(new MoveUpListener(station, stations));
+                    down.addListener(new MoveDownListener(station, stations));
 
                     this.add(up).space(3);
                     this.add(down).space(3);
@@ -107,6 +108,32 @@ public class CraftingScreen extends BaseInGameScreen {
                     Gdx.app.debug("after remove", backingList.toString());
                     Gdx.app.debug("adding at ", (i - 1) + "" );
                     backingList.add(i - 1, moving);
+                    Gdx.app.debug("after add", backingList.toString());
+                    forceReload();
+                }
+            }
+        }
+
+        private class MoveDownListener extends ClickListener {
+            private final BaseCraftingStation actor;
+            private final List<BaseCraftingStation> backingList;
+
+            public MoveDownListener(BaseCraftingStation actor, List<BaseCraftingStation> backingList) {
+                this.actor = actor;
+                this.backingList = backingList;
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                int i = backingList.indexOf(actor);
+                Gdx.app.debug("i is", i +"");
+                if (i < backingList.size() - 1) {
+                    Gdx.app.debug("before remove", backingList.toString());
+                    BaseCraftingStation moving = backingList.remove(i);
+                    Gdx.app.debug("after remove", backingList.toString());
+                    Gdx.app.debug("adding at ", (i +1) + "" );
+                    backingList.add(i + 1, moving);
                     Gdx.app.debug("after add", backingList.toString());
                     forceReload();
                 }
