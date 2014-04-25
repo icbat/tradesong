@@ -1,6 +1,6 @@
 package com.icbat.game.tradesong;
 
-import com.icbat.game.tradesong.gameObjects.Contract;
+import com.icbat.game.tradesong.gameObjects.Request;
 import com.icbat.game.tradesong.gameObjects.Inventory;
 import com.icbat.game.tradesong.gameObjects.collections.WorkshopManager;
 
@@ -13,7 +13,7 @@ import java.util.Random;
  * */
 public class SaveableState {
     private Inventory inventory;
-    private ArrayList<Contract> contractList;
+    private ArrayList<Request> requestList;
     private float gatherTimeMultiplier;
     private Random seededRNG;
     private WorkshopManager workshopManager;
@@ -22,7 +22,7 @@ public class SaveableState {
         gatherTimeMultiplier = 1;
         seededRNG = new Random(System.currentTimeMillis());
         inventory = new Inventory();
-        contractList = new ArrayList<Contract>();
+        requestList = new ArrayList<Request>();
         workshopManager = new WorkshopManager();
     }
 
@@ -40,12 +40,12 @@ public class SaveableState {
     }
 
 
-    public List<Contract> getContractList() {
-        return contractList;
+    public List<Request> getRequestList() {
+        return requestList;
     }
 
-    public void setContractList(ArrayList<Contract> contractList) {
-        this.contractList = contractList;
+    public void setRequestList(ArrayList<Request> requestList) {
+        this.requestList = requestList;
     }
 
     public WorkshopManager getWorkshopManager() {

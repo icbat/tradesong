@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
+import com.icbat.game.tradesong.screens.StationSummaryScreen;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,13 +55,29 @@ public abstract class BaseCraftingStation {
     protected abstract String process(String processedItem);
 
     public CraftingStationActor getActor() {
-        return new CraftingStationActor(this, iconX, iconY);
+        CraftingStationActor craftingStationActor = new CraftingStationActor(this, iconX, iconY);
+        craftingStationActor.addListener(getClickListener());
+        return craftingStationActor;
     }
     private Actor getDescriptorPopup() { return new StationDescriptor(this); }
 
     public LinkedList<String> getReadyForOutput() {
         return readyForOutput;
     }
+
+    public ClickListener getClickListener() {
+        return new GoToStationDescriptorListener(this);
+    }
+
+    public Image getIcon() {
+        return new Image(TextureAssets.ITEMS.getRegion(iconX, iconY));
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public abstract Table getProcessDisplayTable();
 
     public static class CraftingStationActor extends Table {
         BaseCraftingStation backingNode;
@@ -135,6 +152,21 @@ public abstract class BaseCraftingStation {
             for (String itemName : itemNames) {
                 this.add(Tradesong.items.getItem(itemName)).space(2);
             }
+        }
+    }
+
+    private class GoToStationDescriptorListener extends ClickListener {
+
+        private final BaseCraftingStation station;
+
+        private GoToStationDescriptorListener(BaseCraftingStation station) {
+            this.station = station;
+        }
+
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y);
+            Tradesong.screenManager.goToScreen(new StationSummaryScreen(station));
         }
     }
 }

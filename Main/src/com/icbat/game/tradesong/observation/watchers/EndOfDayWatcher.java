@@ -1,8 +1,10 @@
 package com.icbat.game.tradesong.observation.watchers;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
+import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.utility.Constants;
 import com.icbat.game.tradesong.screens.components.PopupNotification;
 import com.icbat.game.tradesong.Tradesong;
@@ -34,8 +36,9 @@ public class EndOfDayWatcher implements Watcher {
                         @Override
                         protected Table addContentBox() {
                             Table table = new Table(Tradesong.uiStyles);
-                            table.add("New contracts were generated").row();
+                            table.add("New requests were generated").colspan(2).row();
                             table.add("Rent was paid:  " + Constants.RENT_AMOUNT.value());
+                            table.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
                             return table;
                         }
                     });
