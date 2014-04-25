@@ -22,4 +22,8 @@ public class WorkshopManager {
             }
         }
     }
+
+    public Workshop get(int i) {
+        return workshops.get(i);
+    }
 }
