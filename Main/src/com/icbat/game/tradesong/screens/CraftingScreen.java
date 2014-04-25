@@ -64,28 +64,27 @@ public class CraftingScreen extends BaseInGameScreen {
             this.add(name).colspan(3).row();
             for (BaseCraftingStation station : stations) {
                 Actor actor = station.getActor();
+                actor.addListener(new ColorOnHoverListener(actor, Color.PINK));
                 if (isRearrangeable) {
                     Label up = new Label("Up", Tradesong.uiStyles);
                     Label down = new Label("Down", Tradesong.uiStyles);
 
                     up.addListener(new MoveUpListener(station, stations));
+                    up.addListener(new ColorOnHoverListener(up, Color.PINK));
                     down.addListener(new MoveDownListener(station, stations));
+                    down.addListener(new ColorOnHoverListener(down, Color.PINK));
 
                     this.add(up).space(3);
                     this.add(down).space(3);
                 }
                 this.add(actor).align(Align.left).space(10).prefHeight(64).prefWidth(200).row();
             }
-
-            for (Actor actor : this.getChildren()) {
-                actor.addListener(new ColorOnHoverListener(actor, Color.PINK));
-            }
         }
 
         public void linkTo(StationListing otherStations, boolean shouldRemoveWhenAdding) {
-//            for(Actor actor : this.getChildren()) {
-//                actor.addListener(new ColorOnHoverListener(actor, Color.PINK));
-//            }
+            for(Actor actor : this.getChildren()) {
+
+            }
         }
 
         private class MoveUpListener extends ClickListener {
