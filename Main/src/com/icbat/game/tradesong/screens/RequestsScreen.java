@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.icbat.game.tradesong.Tradesong;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
-import com.icbat.game.tradesong.gameObjects.Contract;
+import com.icbat.game.tradesong.gameObjects.Request;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.screens.components.ItemBox;
 
@@ -19,13 +19,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ContractScreen extends BaseInGameScreen {
+public class RequestsScreen extends BaseInGameScreen {
 
     public static final int COLSPAN = 3;
     protected final Stage stage = new Stage();
     protected final Table table = new Table(Tradesong.uiStyles);
 
-    public ContractScreen() {
+    public RequestsScreen() {
         setupStages(stage);
         table.setFillParent(true);
         stage.addActor(table);
@@ -34,10 +34,10 @@ public class ContractScreen extends BaseInGameScreen {
 
     private void forceRelayout() {
         table.clear();
-        List<Contract> contractList = Tradesong.state.getContractList();
+        List<Request> requestList = Tradesong.state.getRequestList();
         int i = 1;
-        for (Contract contract : contractList) {
-            table.add(new ContractActor(contract)).space(35);
+        for (Request request : requestList) {
+            table.add(new RequestActor(request)).space(35);
             if (i % 2 == 0) {
                 table.row();
             }
@@ -47,25 +47,25 @@ public class ContractScreen extends BaseInGameScreen {
 
     @Override
     public String getScreenName() {
-        return "contractsScreen";
+        return "requestsScreen";
     }
 
-    private class ContractActor extends Table {
-        public ContractActor(Contract contract) {
+    private class RequestActor extends Table {
+        public RequestActor(Request request) {
             super(Tradesong.uiStyles);
-            this.add(contract.getRarity() + " Contract", "header").colspan(COLSPAN).row();
+            this.add(request.getRarity() + " Request", "header").colspan(COLSPAN).row();
             this.add("Requirements").row();
-            ItemBox requirementsBox = getHighlightedReqiurementsBox(contract);
+            ItemBox requirementsBox = getHighlightedReqiurementsBox(request);
             this.add(requirementsBox).colspan(COLSPAN).row();
             this.add("Rewards").row();
             this.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
-            this.add(contract.getRewardMoney() + "").row();
-            this.add(ItemBox.make(contract.getRewardItems())).colspan(COLSPAN).row();
-            this.add(makeCompletionButton(contract)).colspan(COLSPAN).row();
+            this.add(request.getRewardMoney() + "").row();
+            this.add(ItemBox.make(request.getRewardItems())).colspan(COLSPAN).row();
+            this.add(makeCompletionButton(request)).colspan(COLSPAN).row();
         }
 
-        public ItemBox getHighlightedReqiurementsBox(Contract contract) {
-            LinkedList<String> requirements = contract.getRequirements();
+        public ItemBox getHighlightedReqiurementsBox(Request request) {
+            LinkedList<String> requirements = request.getRequirements();
             Collections.sort(requirements);
             ItemBox requirementsBox = ItemBox.make(requirements);
 
@@ -85,9 +85,9 @@ public class ContractScreen extends BaseInGameScreen {
             return requirementsBox;
         }
 
-        private TextButton makeCompletionButton(Contract contract) {
+        private TextButton makeCompletionButton(Request request) {
             TextButton.TextButtonStyle style;
-            boolean canComplete = contract.canComplete();
+            boolean canComplete = request.canComplete();
             if (canComplete) {
                 style = Tradesong.uiStyles.get("default", TextButton.TextButtonStyle.class);
             } else {
@@ -96,22 +96,22 @@ public class ContractScreen extends BaseInGameScreen {
 
             TextButton completionButton = new TextButton("Complete this!", style);
             if (canComplete) {
-                completionButton.addListener(new ContractCompletionListener(contract));
+                completionButton.addListener(new RequestCompletionListener(request));
             }
             return completionButton;
         }
 
-        private class ContractCompletionListener extends ClickListener {
-            private final Contract contract;
+        private class RequestCompletionListener extends ClickListener {
+            private final Request request;
 
-            public ContractCompletionListener(Contract contract) {
-                this.contract = contract;
+            public RequestCompletionListener(Request request) {
+                this.request = request;
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                contract.completeContract();
+                request.completeRequest();
                 forceRelayout();
             }
         }

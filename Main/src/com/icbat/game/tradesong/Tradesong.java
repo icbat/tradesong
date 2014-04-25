@@ -14,7 +14,7 @@ import com.icbat.game.tradesong.assetReferences.MusicAssets;
 import com.icbat.game.tradesong.assetReferences.SoundAssets;
 import com.icbat.game.tradesong.assetReferences.TextureAssets;
 import com.icbat.game.tradesong.gameObjects.Clock;
-import com.icbat.game.tradesong.gameObjects.ContractGenerator;
+import com.icbat.game.tradesong.gameObjects.RequestGenerator;
 import com.icbat.game.tradesong.gameObjects.collections.CraftingStations;
 import com.icbat.game.tradesong.gameObjects.collections.Items;
 import com.icbat.game.tradesong.screens.CraftingScreen;
@@ -30,7 +30,7 @@ public class Tradesong extends Game {
     public static AssetManager assetManager = new AssetManager();
     public static GameSkin uiStyles;
     public static Items items;
-    public static ContractGenerator contractGenerator;
+    public static RequestGenerator requestGenerator;
     public static SaveableState state;
     public static Clock clock;
     public static PopupQueue popupQueue;
@@ -75,7 +75,7 @@ public class Tradesong extends Game {
         popupQueue = new PopupQueue();
         clock = new Clock();
         state = new SaveableState();
-        contractGenerator = new ContractGenerator(items.getAll());
+        requestGenerator = new RequestGenerator(items.getAll());
     }
 
     private void initializeAssets() {

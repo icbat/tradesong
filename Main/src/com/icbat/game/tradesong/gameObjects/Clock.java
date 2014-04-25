@@ -40,7 +40,7 @@ public class Clock extends NotificationManager {
                 currentTime += 1;
             }
         }, 0, SECONDS_TO_MINUTE, dayLengthInMinutes * SECONDS_TO_MINUTE);
-        Tradesong.contractGenerator.makeDailyContracts();
+        Tradesong.requestGenerator.makeDailyRequests();
     }
 
     public void stop() {

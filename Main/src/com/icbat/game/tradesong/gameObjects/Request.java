@@ -7,18 +7,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Way to represent/interact with a contract. Making these is left to a factory elsewhere.
- * */
-public class Contract {
+public class Request {
     LinkedList<String> requirements = new LinkedList<String>();
     LinkedList<String> rewards = new LinkedList<String>();
     int rewardMoney = 0;
     private Rarity rarity;
 
-    private Contract() {}
-
-    public Contract(Rarity rarity, LinkedList<String> requirements, LinkedList<String> rewards, int rewardMoney) {
+    public Request(Rarity rarity, LinkedList<String> requirements, LinkedList<String> rewards, int rewardMoney) {
         this.rarity = rarity;
         this.requirements = requirements;
         this.rewards = rewards;
@@ -50,8 +45,8 @@ public class Contract {
     /**
      * Checks for completion, and then gives you rewards and kills it from the list..
      * */
-    public boolean completeContract() {
-        if (canComplete() && Tradesong.state.getContractList().contains(this)) {
+    public boolean completeRequest() {
+        if (canComplete() && Tradesong.state.getRequestList().contains(this)) {
             Gdx.app.debug("reward items", rewards.toString());
 
             for (String rewardItem : rewards){
@@ -63,7 +58,7 @@ public class Contract {
             Tradesong.state.inventory().addMoney(rewardMoney);
             Gdx.app.debug("money after", Tradesong.state.inventory().getMoney() + "");
 
-            Tradesong.state.getContractList().remove(this);
+            Tradesong.state.getRequestList().remove(this);
             return true;
         }
         return false;
@@ -71,7 +66,7 @@ public class Contract {
 
     @Override
     public String toString() {
-        return rarity + " contract: " +
+        return rarity + " request: " +
                 requirements.toString() +
                 "  ::  " +
                 rewardMoney + " :: " + rewards.toString();

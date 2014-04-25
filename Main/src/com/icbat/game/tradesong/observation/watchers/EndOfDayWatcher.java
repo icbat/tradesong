@@ -36,7 +36,7 @@ public class EndOfDayWatcher implements Watcher {
                         @Override
                         protected Table addContentBox() {
                             Table table = new Table(Tradesong.uiStyles);
-                            table.add("New contracts were generated").colspan(2).row();
+                            table.add("New requests were generated").colspan(2).row();
                             table.add("Rent was paid:  " + Constants.RENT_AMOUNT.value());
                             table.add(new Image(TextureAssets.ITEMS.getRegion(4,30)));
                             return table;

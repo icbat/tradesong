@@ -6,11 +6,11 @@ import com.icbat.game.tradesong.gameObjects.collections.Items;
 
 import java.util.*;
 
-public class ContractGenerator {
+public class RequestGenerator {
     HashMap<Rarity, LinkedList<String>> prototypes = new HashMap<Rarity, LinkedList<String>>();
     private final Random random = Tradesong.state.getSeededRNG();
 
-    public ContractGenerator(Set<Items.Item> allItemPrototypes) {
+    public RequestGenerator(Set<Items.Item> allItemPrototypes) {
         for (Rarity rarity : Rarity.values()) {
             LinkedList<String> itemsAtThisRarity = new LinkedList<String>();
             for (Items.Item item : allItemPrototypes) {
@@ -23,17 +23,17 @@ public class ContractGenerator {
         }
     }
 
-    public Contract generateContract() {
+    public Request generateRequest() {
         Rarity[] rarities = Rarity.values();
         int rarity = random.nextInt(rarities.length);
-        return generateContract(rarities[rarity]);
+        return generateRequest(rarities[rarity]);
     }
 
-    public Contract generateContract(Rarity rarity) {
+    public Request generateRequest(Rarity rarity) {
         LinkedList<String> requirements = getRequirements(rarity);
         LinkedList<String> rewards = getRewards(rarity, requirements);
         int moneyReward = getMoneyReward(rarity);
-        return new Contract(rarity, requirements, rewards, moneyReward);
+        return new Request(rarity, requirements, rewards, moneyReward);
     }
 
     private int getMoneyReward(Rarity rarity) {
@@ -96,15 +96,15 @@ public class ContractGenerator {
         return itemsAtRarity.get(randomIndex);
     }
 
-    public void makeDailyContracts() {
-        ArrayList<Contract> contracts = new ArrayList<Contract>();
-        int contractsToday = 3 + random.nextInt(4);
-        for (int i=0; i < contractsToday; ++i) {
-            Contract contract = generateContract();
-            contracts.add(contract);
-            Gdx.app.debug("contract generated", contract.toString());
+    public void makeDailyRequests() {
+        ArrayList<Request> requests = new ArrayList<Request>();
+        int requestsToday = 3 + random.nextInt(4);
+        for (int i=0; i < requestsToday; ++i) {
+            Request request = generateRequest();
+            requests.add(request);
+            Gdx.app.debug("request generated", request.toString());
         }
-        Gdx.app.debug("Contracts for today", contracts.size() + "");
-        Tradesong.state.setContractList(contracts);
+        Gdx.app.debug("requestss for today", requests.size() + "");
+        Tradesong.state.setRequestList(requests);
     }
 }
