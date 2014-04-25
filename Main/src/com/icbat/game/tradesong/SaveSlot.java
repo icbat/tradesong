@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.Json;
 
 public class SaveSlot {
     private final int slotNumber;
+    protected String path;
 
     public SaveSlot(int slotNumber) {
         this.slotNumber = slotNumber;
+        this.path = "Game Saves/Tradesong/tradesong_save_" + slotNumber + ".json";
     }
 
     public void save() {
@@ -21,7 +23,6 @@ public class SaveSlot {
     }
 
     public boolean tryToLoad() {
-        String path = "Tradesong/tradesong_save_" + slotNumber + ".json";
         try {
             FileHandle gameSaveFile = Gdx.files.external(path);
             Json json = new Json();
@@ -45,6 +46,6 @@ public class SaveSlot {
     }
 
     public FileHandle getSaveFileLocation() {
-        return Gdx.files.external("Game Saves/Tradesong/tradesong_save_" + slotNumber + ".json");
+        return Gdx.files.external(path);
     }
 }
