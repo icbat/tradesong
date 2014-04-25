@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="terrain_atlas" tilewidth="32" tileheight="32">
+  <image source="../tilesets/terrain_atlas.png" trans="ffffff" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="1025" source="../tilesets/base_out_atlas.tsx"/>
+ <layer name="Dirt" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAqIB+osqBiXPDGAA4s6NRZMO6iNNbDY6wYUc6cx9sBibxpQLJ3GOAOLvW1AsXYa4w4i08FwBABH/yYH
+  </data>
+ </layer>
+ <layer name="Grass" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztk+ENwiAQhQnBGdxAnUSdwDiBOoF1EnUS7sYTf5BeX49yxPSPSvLShvbxcY/Dud8ch+DccjGvjmHMvaa5ziBOiuKZ38ngvVW4XPDFyrpv9so7txba+N5X45bYZKhrmzg7ob3vPRZu5rDYBzJZKOetcVvqxfUzMwoW5kAFbuv55nqneodhH6fEOQtdGri5TykMs6YwzoDA1wkvPi1cCsN7omUq5yJwsf8tXKwP/ZgBKf9qZ9LaV6V7K7OOYj8E31u4MjcGBitrWu5Ca72fiie49zT3mFlPhfsf3zleHfO+YQ==
+  </data>
+ </layer>
+ <layer name="TownFeatures" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAwXmMTMwzAfiBcz0tXcf0L79QHyATHsvMEMwqeAeUM99IH5Apr0fmCGYVPAPqOc/SB8LefZOgNopQOd42gC1z4ACewdLGhNhY2AQZaO+PduYUPnoacwEaKcpDexFB5SmMWLBbqB/9wDxdibCam8B1ZhCw8ECLf7NofwfSGoEgWwhIBbGYvZtoNgdIuwUA5p1E6juBhBfh+JbUP4NKBuEQWquQbEhEBsBsTER5uMC4kj+/IpmDrrfYfKBQDoIiIMpsHcUjAJ8AABVLi18
+  </data>
+ </layer>
+ <layer name="GuildHall" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh8oJGVgeEQHtwEpZtZqWvvQiLtXTxM7D04QPZ2sDEwMAIxExpeSGN7VwDtUARiJTRMa3tPAO1wBGInNExre0EgEWhPEhoGxftDIF4ExI+B+DAN7MUGkOOdGYg72ehjL3K8KwPxSjrZC4t3VWD4OgPpk3SyFwRA8e4KtDcZSL+ko72jYBSMAgQAAPxzPBE=
+  </data>
+ </layer>
+ <layer name="GuildHallFeatures" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D+QJMVP59WwJMVP38UDF+gNkBx7Qa1V32A7HcfTeOjYBQMCAAACr4B5w==
+  </data>
+ </layer>
+</map>

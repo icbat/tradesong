@@ -1,0 +1,6 @@
+<workshopList>
+    <workshopFile>blacksmith.xml</workshopFile>
+    <workshopFile>chef.xml</workshopFile>
+    <workshopFile>scribe.xml</workshopFile>
+    <workshopFile>tinker.xml</workshopFile>
+</workshopList>

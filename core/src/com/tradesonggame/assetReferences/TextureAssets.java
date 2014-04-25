@@ -1,0 +1,31 @@
+package com.tradesonggame.assetReferences;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.tradesonggame.Tradesong;
+import com.tradesonggame.utility.Constants;
+
+public enum TextureAssets {
+    ITEMS("items"),
+    HUD_BG("hud-bg"),
+    FRAME("frame"),
+    SLIDER_HEAD("slider-icon"),
+    SLIDER_BG("slider-bg"),
+    POPUP_BG("popup-bg"),
+    ;
+
+    private String path;
+
+    private TextureAssets(String pathVal) {
+        this.path = "sprites/" + pathVal + ".png";
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public TextureRegion getRegion(int x, int y) {
+        final int spriteDimension = Constants.SPRITE_DIMENSION.value();
+        return new TextureRegion(Tradesong.getTexture(this), x * spriteDimension, y * spriteDimension, spriteDimension, spriteDimension);
+    }
+}
+

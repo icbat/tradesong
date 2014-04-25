@@ -1,0 +1,61 @@
+<workshop>
+    <name>Tinker</name>
+    <icon>
+        <sheet>items.png</sheet>
+        <x>14</x>
+        <y>4</y>
+    </icon>
+    <recipes>
+        <recipe>
+            <output>Better Scrap</output>
+            <ingredients>
+                <ingredient>Scrap</ingredient>
+                <ingredient>Scrap</ingredient>
+                <ingredient>Scrap</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Best Scrap</output>
+            <ingredients>
+                <ingredient>Better Scrap</ingredient>
+                <ingredient>Better Scrap</ingredient>
+                <ingredient>Better Scrap</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>CLR-Jack</output>
+            <ingredients>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Tool Sharpener</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>CLR-Smiley</output>
+            <ingredients>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Blackberry Jam</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>CLR-Mule</output>
+            <ingredients>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Best Scrap</ingredient>
+                <ingredient>Awesome Wood</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Scrap</output>
+            <ingredients>
+                <ingredient>*</ingredient>
+            </ingredients>
+        </recipe>
+    </recipes>
+</workshop>

@@ -1,23 +1,60 @@
-## Do not edit this with windows-whitespace! Use the web interface if necessary ##
+## Java
 
-# Project-specific
-assets/
-libs/
+*.class
+*.war
+*.ear
+hs_err_pid*
+
+## GWT
+war/
+war/gwt_bree/
+gwt-unitCache/
+.apt_generated/
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+.gwt/
+gwt-unitCache/
+www-test/
+.gwt-tmp/
+
+## Android Studio and Intellij and Android in general
+libs/armeabi/
+libs/armeabi-v7a/
+libs/x86/
+gen/
+.idea/
+*.ipr
+*.iws
+*.iml
 out/
+com_crashlytics_export_strings.xml
 
-# Eclipse
+## Eclipse
 .classpath
 .project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 .settings/
+.loadpath
+.externalToolBuilders/
+*.launch
 
-# Intellij
-.idea/
-*.iml
-*.iws
+## NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
-# Mac
-.DS_Store
+## Gradle
 
-# Maven
-log/
-target/
+.gradle
+build/

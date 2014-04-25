@@ -1,0 +1,59 @@
+<workshop>
+    <name>Blacksmith</name>
+    <icon>
+        <sheet>items.png</sheet>
+        <x>14</x>
+        <y>3</y>
+    </icon>
+    <recipes>
+        <recipe>
+            <output>Ingot</output>
+            <ingredients>
+                <ingredient>Ore</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Dagger</output>
+            <ingredients>
+                <ingredient>Ingot</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Spear</output>
+            <ingredients>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Wood</ingredient>
+                <ingredient>Wood</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Sword</output>
+            <ingredients>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Wood</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Sharper Sword</output>
+            <ingredients>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Sword</ingredient>
+            </ingredients>
+        </recipe>
+
+        <recipe>
+            <output>Tool Sharpener</output>
+            <ingredients>
+                <ingredient>Ingot</ingredient>
+                <ingredient>Scrap</ingredient>
+                <ingredient>Scrap</ingredient>
+            </ingredients>
+        </recipe>
+    </recipes>
+</workshop>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="terrain_atlas" tilewidth="32" tileheight="32">
+  <image source="../tilesets/terrain_atlas.png" trans="ffffff" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Ground" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoGD1ADYnUaYw0s9roBsTuNsQcWe9OAOJ3GOAOLvW1A3E5j3IHF3pECAPjmI1k=
+  </data>
+ </layer>
+ <layer name="Grass" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztk20OwiAMhuFaHmR6EgR3D/UkdMcTIs26WqBb3B8nyRsXafv0gxpzzDMknXfWReC6pGvSVH57Otm3+P9QYkTBxze4TRFOINyJ5Ivfzs454J2WS3OGSr0YG4o9MJ+4kuuEWjh3tMue1mbk7bY+81r5fMF89lTkV7g5zs3OMTUKSrvcmxa3JikfTY7UZvN7rvRZqxZX2rv8xiK749xoljZ05rh/Pa4j8bKvF+oaCZfuCr4t9FHtL4nPfaU+h8b92j5jjb1Y35rvPemxs54C939+87wADACpHQ==
+  </data>
+ </layer>
+ <layer name="Detail" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPTGJiYJjMRLx6eSBWINMuSuy1B2IHEu04gMV8Uu2NB+IEEu19gMX8CqBYJQn21gNxA5Fqa4Hm1gFxPZL5/YzY1eISh4H5QLyASHvnAu2bB8TzkewVweHHrQTspRScx2E+LnFcoJQJgstIiCtyQQkTwr7pUDyDDvZOR7JvKhRPw2Eveh7ClX7eExHOU5DsIwTQ89B6HObjEqcWMMHhVlLTFSFQBbSnGohriIz/yUD7p6C5oYIMN80C2jcbiOcQae9moB1baBjmpJbPo/aO2ksMILX+RQcAsZUtTA==
+  </data>
+ </layer>
+ <layer name="Detail2" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt1MsRQEAURNEekwYiQSTIC5H4BeKXyYzSEYzNeGXxblWvz66B/+UM4LnbyLppAmRcnsi6Bb2Sq4Tdml7DtcKupn1Vx8/ouSHwHYsFVhvXHelN3BxwT5pXZHejt3NHwHU0fWRX07T3HhsWEQI=
+  </data>
+ </layer>
+ <layer name="N Roadblock" width="30" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPxDAzMMQyk6mZAlADtLOWzvZaA+37w8TA8BeI5ehstwzQPtkBCGfbAbBzFIyCUTAKRsEoGC4AAJ33BJo=
+  </data>
+ </layer>
+ <layer name="E Roadblock" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDCWwn4m+9u0G2rcHiO/T2d7bQPvu0NnOUTAKRsEooBYAANysBNk=
+  </data>
+ </layer>
+ <layer name="W Roadblock" width="30" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2B4gv1MA2PvfaC9B+hs926gfXuA+AGd7b0NtO/OAIXzKBgFo2AUDGYAAOCkBn0=
+  </data>
+ </layer>
+ <layer name="S Roadblock" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAooA/uZGBi2MUHYB5joZ+99oF27gXgPED+go70gcBto3x062zkKhg4AAOg0BzU=
+  </data>
+ </layer>
+</map>

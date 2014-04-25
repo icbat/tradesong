@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="initialSpawnCount" value="0"/>
+  <property name="maxSpawnCapacity" value="7"/>
+ </properties>
+ <tileset firstgid="1" name="terrain_atlas" tilewidth="32" tileheight="32">
+  <image source="../tilesets/terrain_atlas.png" trans="000000" width="1024" height="1024"/>
+  <terraintypes>
+   <terrain name="cliffs" tile="37"/>
+   <terrain name="sand" tile="352"/>
+   <terrain name="sandWater" tile="420"/>
+  </terraintypes>
+  <tile id="5" terrain=",,,0"/>
+  <tile id="6" terrain=",,0,0"/>
+  <tile id="7" terrain=",,0,"/>
+  <tile id="8" terrain=",0,0,0"/>
+  <tile id="9" terrain="0,,0,0"/>
+  <tile id="37" terrain=",0,,0"/>
+  <tile id="38" terrain="0,0,0,0"/>
+  <tile id="39" terrain="0,,0,"/>
+  <tile id="40" terrain="0,0,,0"/>
+  <tile id="41" terrain="0,0,0,"/>
+  <tile id="69" terrain=",0,,"/>
+  <tile id="70" terrain="0,0,,"/>
+  <tile id="71" terrain="0,,,"/>
+  <tile id="289" terrain="1,1,1,"/>
+  <tile id="290" terrain="1,1,,1"/>
+  <tile id="291" terrain="2,2,2,2"/>
+  <tile id="292" terrain=",,,2"/>
+  <tile id="293" terrain=",,2,"/>
+  <tile id="321" terrain="1,,1,1"/>
+  <tile id="322" terrain=",1,1,1"/>
+  <tile id="323" terrain="2,2,2,2"/>
+  <tile id="324" terrain=",2,,"/>
+  <tile id="325" terrain="2,,,"/>
+  <tile id="352" terrain=",,,1"/>
+  <tile id="353" terrain=",,1,1"/>
+  <tile id="354" terrain=",,1,"/>
+  <tile id="355" terrain="2,2,2,"/>
+  <tile id="356" terrain="2,2,,"/>
+  <tile id="357" terrain="2,2,,2"/>
+  <tile id="384" terrain=",1,,1"/>
+  <tile id="385" terrain="1,1,1,1"/>
+  <tile id="386" terrain="1,,1,"/>
+  <tile id="387" terrain="2,,2,"/>
+  <tile id="389" terrain=",2,,2"/>
+  <tile id="394" terrain="2,2,2,2"/>
+  <tile id="416" terrain=",1,,"/>
+  <tile id="417" terrain="1,1,,"/>
+  <tile id="418" terrain="1,,,"/>
+  <tile id="419" terrain="2,,2,2"/>
+  <tile id="420" terrain=",,2,2"/>
+  <tile id="421" terrain=",2,2,2"/>
+  <tile id="448" terrain="1,1,1,1"/>
+  <tile id="449" terrain="1,1,1,1"/>
+  <tile id="450" terrain="1,1,1,1"/>
+  <tile id="451" terrain="2,2,2,2"/>
+  <tile id="452" terrain="2,2,2,2"/>
+  <tile id="453" terrain="2,2,2,2"/>
+  <tile id="470" terrain="2,2,2,2"/>
+  <tile id="565" terrain="2,2,2,2"/>
+  <tile id="566" terrain="2,2,2,2"/>
+  <tile id="567" terrain="2,2,2,2"/>
+ </tileset>
+ <tileset firstgid="1025" source="../tilesets/objects.tsx"/>
+ <layer name="reallyBehind" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzgENAAAIA6C3t7YxrhskIAEAAAAAAIC/ph0AAADOWIxKAIg=
+  </data>
+ </layer>
+ <layer name="cliffBehind" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmGEKwyAMhT3d2EnmTjJ77NEfpRKiNvpiFPJBYHMjiTWvRkNwHMdxHGdlonUCIJJ1AiBeyv5juNc8ku8jPikfgN9SrNNSuNc8ZTYyH66GfoXxUfL8e34vYa1nVHxrPc+Kj9KgJrXcqB5T4/+WSPVmXYMcrbXYgateSqz43Dl2ybPGLjVTo1VP6FgaPp/OAbm/Ivae3IekZ0GuF9f/SS33sQKp0xzHcXaAvoNHfVnxDpjzz8w+hov9JWO9c7Hch87YR2FcgvfFPJL7ScQz1NKE5H4SEV9LE5L7ydE72VU00XMnS3v9XZnV63M6R+3TM+voqvmWPcmtdtbVntNV8y0bPeuuog0/6/LM1o8GeQ3uPJdU+Ez5Az3yYP4=
+  </data>
+ </layer>
+ <layer name="cliffs" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztWlFuwzAI9de67SBd14O0O0nUk0Q99mqpqE8MDDYk6aY9CalTUszDYANdKf/4rXi5ye4urxvbEsH+Jh93eS/rcSH/ZaxXdb2VB48qh0F7NNHsJP/1rietzznQnlh+QtslHVwf14VrR3hoHCw+ZL/1XS7c1n3jWQ9QjyXEZ8R+bU+24JElaO/pJp9BHp6YWprHVOJ5vsVecHtnsGP0rLd4HMtjz+vnM/w9KlXPF7MDY6uXSyumyOav8nPPT0E+Vc9FsGf0Dm7tBdl8EXhMju9be3Fltkg+9XLx8Kjrkf8pFuYAD74X1h3kyXsPjwryP4+FUR7Xhg6eg1EeuKfkf1x/5Lzm+Y06MB8reAyM8tDic7QWkWJKusfpuRYDIzyIy67EaxEpv/fsWYHnUgxEeGQI2anll3YOe7EWD7KT+xZ5ePy+JQ/tvuA8IliahxZP2Tywpsm2/wwctJjpOVtbmEDXOcjpCHrIrhYHWp/ei2AGXYVx6hX0Kdll5W7P2Wphhs+T+pYN9GmGXRHM9isqtrb9WfAX5pi85oyewyPr7xTx+jRjhhmFt+7XoNX+a/KQegd+B7W4aBykGcSS0GaAvEaQfGtxiN6LtIYnvqXeoYJqBK0vbfWRWl08Am/tps3NqEaQ9FhzJq0uHoF3rteaLeN88FDsXjgznjz2Iaz5H/qj1Qsjh8yawDufxNiROHt7m8yc4ODzSeluq7HDOeM96JlHZOcEopWL3Favvdx2rPUzcwKxdK+LeV/3d6k6eSkerfn9EvD0hN7+V+t1s/ryKLz9r9br8r48838AeuDtf7VeF/tyPFc8v9Vnwtv/9sxm8fe7tfuPDGCuPEvejABzJWuetQUwV6x51jcJKb1X
+  </data>
+ </layer>
+ <layer name="sandLayer" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmA2OokAQhe2rjDdxTjLuSWBP4uxJaC42mPCSz2c10II6m1BJR0Wofq9+uzgcdvlf5SsdDudh/UnvRrJOmgF/N6zTi7lsbb8rjzysflh/X8hD9ttiz6tNPofVjus02ugRO33h2fOMHu27FY9m9EM/+qTD95L+El7hoo62oKfBfWt50BdXnR/DOo6/s/nG8Wbg1P19urfJHI/S/zXSgINi6hNYWuDp8F2f4p3Bo4O+6//fw/oX4LyMz/Yr6wvj0+0qTDnd8mjBUXHN+CAP4ot4yI5dejxHxKE3Dq3h0JJdj+YP+S+KLf2ewrfWJ7QD47xLt1wUO7Kn9qV/sq0WPJbEflNx79SzjCvZXbaP7NkAa8THfTuHTbZRftb4pAEOxZbXv1KP0nXWI8ZSlEORsHYzT2u4sOYxH7jnJcW1RvbL6T63PT4/gufFgXnl9WFJfDHHXcfS+FRs0Sed6ZvKccY1Y1mrVN9cR1Trl/KQHZjTrE+8FumjHUv+WiLsfd43lsRmY5hdx5xdZMe5mlzLg3Ee1XE/S7kvnMecP8RjjS+oh/hZ/9XfvJb09hz9kQOdJZxbndUbwyKM/uk8FS+t3cO+N1entubhtaUzPBnXFX/0B/3AZ1R7puJFdlzLg/U/G+4+3ccKc2cqr5fGe6kvPcrlO932M+aHz0Leq3ltiQ+eLeQT9aUj8DJ3eM878btcCrh4vbbf7rLLO0XnhdpZ8DcJz5xr+8kje5+DVWtPziBb9Pda4SzJ9xGnSj48r649M9YK40A9RD0mV9jV9by6jtOGwutnAz/3u2w1R5V0L4kJ8Yj2jzhG+8gPS+fwGhGGOb1TZ26+2/L/ZSfOYM+IJ+GbiwnxLd3nPInfz2fPyAnVoGiujXiU7uNswTygD555PmNMTPUkvvuL/EK/qjdwznlFj+CcOLWfuPTgohrB3sIZ5VU9wuuIsAlf6Z2JeKveygdtes+cxXdSPreeDLe/L+rsuUdm3S15EP8HYod52qV7P/SG+53zls991/1Ls+DR8P/WGXdOIs677LLLLmvkB8Lh7vU=
+  </data>
+ </layer>
+ <layer name="sandDetail" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmE1uwjAQhe20HIQWeoTClha4BwV6ElRVYsEpYMsl2l2rLln3h10rcQTeqEGyECQMSfyTzCc9eRHFnjfjsaMoJQhuedNKvWvXUWTnFx7+SuBDSKZTkRqTz7oDry7W5MCpf5qXkPbSMS9aJz8/Z06b+FKjLLlo4t25oZsDc/mQ6zSeEONtpNQrxi40OXNvuTq7CKrFAnqBWtH/OMnxzLA1D9ViGnugmjSYPnyBfKyMWjwzfPjUM+SjDQ8jjI9MHy6ZGTHuemMVx96DxlA/AB9LI8Zdb3B7uyg4d9THno9WvKe4NbDdG59Y7wv6hn6gtbF+ln2kLfqgnGnkO4IuoEuoFtlbP0+SfPh0bqZRlnrUEfcVdE13NdQUH04pi48O4r6D7qEu1AvUxwBxP0BDuu+gcQE+5F9mPoR0f5SdY7UI6d+VYIdT+1b62x5VzHWS500F81EEp3zrHKqDb/uR+63jW/yCIAhCdrZ9/DTY
+  </data>
+ </layer>
+ <objectgroup name="#PORTALS" width="50" height="50">
+  <object name="backExit" type="endpoint" gid="1025" x="603" y="923">
+   <properties>
+    <property name="linkedMap" value="bigger_static_wyld"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="#SPAWN basicWoodallOres" width="50" height="50" visible="0">
+  <properties>
+   <property name="spawnableItems" value="Ore, Wood, Crystallized Goodie, Encrusted Ore, Gleaming Ore"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztmFEPwjAIhKf//0f7YJYY7doDDobNfYlPQ3pnkY4ehxBC7MXz8fth5URjGYx8eHN7cmT7WPmzxFb48HhB/VnWzvYwi7/SbdUW9THTPtMyionWVsQLUh+Rdav2ZLQHaO6VF09tVfZJtiakjtH1MnxY1/asP+s16PdXNYVqiJB9diHPd/HBwHr2oTrQHFU+rOcjez+ZPlAd7F7n4eq3RvtRBw+feOqim4eTrrqEEEK8yZpdKvnWHplj7mKm1/NOcBeMd/IOddhlFozm987mVT2BNQeNnlX/Fxh7wuhjUaw+rmZcS64MrHcNo/hOZ+PqLmE2z3fxcOK9U/H0MiGY7FBnO3gQ/8sLxlUD0w==
+  </data>
+ </layer>
+</map>
