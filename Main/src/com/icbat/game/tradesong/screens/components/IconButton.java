@@ -1,5 +1,6 @@
 package com.icbat.game.tradesong.screens.components;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -16,6 +17,7 @@ public abstract class IconButton extends Image {
                 onClick();
             }
         });
+        this.addListener(new ColorOnHoverListener(this, Color.LIGHT_GRAY));
     }
 
     /** What happens if you click on this button? Default listener is assigned on construction. */
