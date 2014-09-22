@@ -1,5 +1,0 @@
-character.png - Jimp (@artjimp)
-items.png - Ails (deviantart - 7soul1)  Henrique Lazarini
-arrow.png, frame.png (@icbat)
-auto-repair.png, burning-book.png, hammer-drop.png, scales.png - Lorc (http://game-icons.net/,  http://lorcblog.blogspot.com/)
-goldCoin5.png - morgan3D (http://opengameart.org/users/morgan3d)
