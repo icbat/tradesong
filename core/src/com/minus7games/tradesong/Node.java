@@ -6,19 +6,41 @@ import java.util.List;
 
 /** All the 'buildings' */
 public class Node {
-    private List<CraftingStep> possibleCrafts = new LinkedList<CraftingStep>();
+    private final List<CraftingStep> possibleCrafts = new LinkedList<CraftingStep>();
+    private final List<Item> inputs = new LinkedList<Item>();
+    private final List<Item> outputs = new LinkedList<Item>();
 
     public Node(CraftingStep... mock) {
         Collections.addAll(possibleCrafts, mock);
     }
 
-    /** @return the matching output of a crafting step, or the input if no work was done */
-    public Item processesItem(Item input) {
-        for (CraftingStep possibleCraft : possibleCrafts) {
-            if (possibleCraft.takesAsInput(input)){
-                return possibleCraft.craft(input);
-            }
-        }
-        return input;
+    public Item getNextOutput() {
+        return outputs.remove(0);
     }
+
+    public void sendInput(Item input) {
+        inputs.add(input);
+    }
+
+    public List<Item> getInputCopy() {
+        List<Item> copy = new LinkedList<Item>();
+        copy.addAll(inputs);
+        return copy;
+    }
+
+    public void act() {
+        if (inputs.isEmpty()) {
+            return;
+        }
+
+        Item item = inputs.remove(0);
+
+        for (CraftingStep step : possibleCrafts) {
+            item = step.craft(item);
+        }
+
+        outputs.add(item);
+    }
+
+
 }

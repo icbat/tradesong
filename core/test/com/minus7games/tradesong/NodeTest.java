@@ -3,43 +3,47 @@ package com.minus7games.tradesong;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 public class NodeTest {
-
     private Node node;
     private Item validInput;
-    private Item invalidInput;
-    protected Item expectedOutput;
+    private CraftingStep craftingStep;
 
     @Before
     public void setUp() throws Exception {
         validInput = mock(Item.class);
-        invalidInput = mock(Item.class);
-        expectedOutput = mock(Item.class);
-
-        CraftingStep craftingStep = mock(CraftingStep.class);
-        when(craftingStep.takesAsInput(validInput)).thenReturn(true);
-        when(craftingStep.takesAsInput(invalidInput)).thenReturn(false);
-
-        when(craftingStep.craft(validInput)).thenReturn(expectedOutput);
-
+        craftingStep = mock(CraftingStep.class);
         node = new Node(craftingStep);
     }
 
     @Test
-    public void node_acceptsInput() throws Exception {
-        Item output = node.processesItem(validInput);
+    public void node_takesInput() throws Exception {
+        node.sendInput(validInput);
 
-        assertEquals("", expectedOutput, output);
+        assertFalse(node.getInputCopy().isEmpty());
     }
 
     @Test
-    public void node_RejectsInvalidInput() throws Exception {
-        Item output = node.processesItem(invalidInput);
+    public void node_withInput_doesWork() throws Exception {
+        node.sendInput(validInput);
 
-        assertEquals("", invalidInput, output);
+        node.act();
+
+        verify(craftingStep).craft(validInput);
     }
+
+    @Test
+    public void node_withoutInput_wontAct() throws Exception {
+        node.act();
+
+        verify(craftingStep, never()).craft(validInput);
+
+    }
+
+    // TODO impl max size of in/out buffer?
+
 }

@@ -3,11 +3,19 @@ package com.minus7games.tradesong;
 /***/
 public class CraftingStep {
 
-    public boolean takesAsInput(Item input) {
-        return false;
+    private final Item validInput;
+    private final Item output;
+
+    public CraftingStep(Item validInput, Item output) {
+        this.validInput = validInput;
+        this.output = output;
     }
 
     public Item craft(Item input) {
-        return null;
+        if (input.equals(validInput)) {
+            return output;
+        } else {
+            return input;
+        }
     }
 }
