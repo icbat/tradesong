@@ -41,9 +41,5 @@ public class NodeTest {
         node.act();
 
         verify(craftingStep, never()).craft(validInput);
-
     }
-
-    // TODO impl max size of in/out buffer?
-
 }
