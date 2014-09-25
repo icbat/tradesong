@@ -15,6 +15,10 @@ public class Item implements Comparable<Item> {
         this.description = description;
     }
 
+    public Item copy() {
+        return new Item(internalName, displayName, description);
+    }
+
     public static Item parseItem(JsonValue itemNode) {
         String internalName = itemNode.getString("internalName", "DEFAULT_ITEM_NAME");
         Gdx.app.debug("parsing item: internal name", internalName);

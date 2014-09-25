@@ -24,6 +24,15 @@ public class ItemIndex {
             itemNode = itemNode.next();
         }
         Gdx.app.debug("Item Index Init", "found "+ allTheItems.size()+" unique items");
+    }
 
+    public Item get(String internalName) {
+        for (Item item : allTheItems) {
+            if (item.getInternalName().equalsIgnoreCase(internalName)) {
+                return item.copy();
+            }
+        }
+        Gdx.app.error("Item not found with name", internalName);
+        throw new IllegalArgumentException("Item not found with name:  " + internalName);
     }
 }
