@@ -1,0 +1,49 @@
+[
+    {
+        internalName: "orchard",
+        displayName: "Orchard",
+        possibleCrafts: [
+            {
+                output: {
+                    internalName: "silkWyrms"
+                },
+                validInput: {
+                    internalName: "cloth_silk"
+                }
+            },
+            {
+                output: {
+                    internalName: "seed_apple"
+                },
+                validInput: {
+                    internalName: "apple"
+                }
+            },
+            {
+                output: {
+                    internalName: "seed_orange"
+                },
+                validInput: {
+                    internalName: "orange"
+                }
+            }
+        ]
+
+    },
+    {
+        internalName: "tailor",
+        displayName: "Tailor",
+        possibleCrafts: [
+            {
+                output: {
+                    internalName: "cloth_silk"
+                },
+                validInput: {
+                    internalName: "shirt_silk"
+                }
+            }
+        ]
+
+    }
+
+]

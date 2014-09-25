@@ -1,22 +1,38 @@
 [
     {
-        internalName: anInternalName,
-        displayName: "A Display Name",
-        description: "A decent description. Don't be dull!"
+        internalName: silkWyrms,
+        displayName: "Silk Wyrms",
+        description: "Giant glands make for good silk."
     },
     {
-        internalName: anInternalName,
-        displayName: "A Display Name",
-        description: "A decent description. Don't be dull!"
+        internalName: cloth_silk,
+        displayName: "Coarse Silk",
+        description: "Doesn't harm the Wyrms, but it's thread-count it a bit low..."
     },
     {
-        internalName: anInternalName,
-        displayName: "A Display Name",
-        description: "A decent description. Don't be dull!"
+        internalName: shirt_silk,
+        displayName: "Silken shirt",
+        description: "Peasants! Look upon me and despair."
     },
     {
-        internalName: anInternalName,
-        displayName: "A Display Name",
-        description: "A decent description. Don't be dull!"
+        internalName: apple,
+        displayName: "Apple",
+        description: "Just one will drive physicians crazy!"
+    },
+    {
+        internalName: seed_apple,
+        displayName: "Apple Seeds",
+        description: "Here's looking at you, Johnny."
+    },
+    {
+        internalName: orange,
+        displayName: "Orange",
+        description: "Definitely not an Apple."
+    },
+    {
+        internalName: seed_orange,
+        displayName: "Orange Seeds",
+        description: "Strange. They're only slightly orange."
     }
+
 ]

@@ -4,9 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class NodeTest {
     private Node node;
@@ -17,7 +15,7 @@ public class NodeTest {
     public void setUp() throws Exception {
         validInput = mock(Item.class);
         craftingStep = mock(CraftingStep.class);
-        node = new Node(craftingStep);
+        node = new Node("", "", craftingStep);
     }
 
     @Test

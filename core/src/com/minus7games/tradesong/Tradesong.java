@@ -14,5 +14,7 @@ public class Tradesong extends Game {
 
     private void setupGame() {
         ItemIndex items = new ItemIndex(Gdx.files.internal("items.json"));
+        NodeIndex nodes = new NodeIndex(Gdx.files.internal("nodes.json"));
+
     }
 }
