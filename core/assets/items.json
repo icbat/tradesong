@@ -1,0 +1,22 @@
+[
+    {
+        internalName: anInternalName,
+        displayName: "A Display Name",
+        description: "A decent description. Don't be dull!"
+    },
+    {
+        internalName: anInternalName,
+        displayName: "A Display Name",
+        description: "A decent description. Don't be dull!"
+    },
+    {
+        internalName: anInternalName,
+        displayName: "A Display Name",
+        description: "A decent description. Don't be dull!"
+    },
+    {
+        internalName: anInternalName,
+        displayName: "A Display Name",
+        description: "A decent description. Don't be dull!"
+    }
+]
