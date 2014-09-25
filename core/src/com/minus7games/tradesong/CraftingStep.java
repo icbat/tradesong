@@ -18,7 +18,7 @@ public class CraftingStep implements Displayable {
 
     /** @return the finished product if the input is valid; otherwise spits out the input */
     public Item craft(Item input) {
-        if (input.equals(validInput)) {
+        if (input.compareTo(validInput) == 0) {
             return output;
         } else {
             return input;

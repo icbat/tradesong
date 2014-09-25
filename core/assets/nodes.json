@@ -5,26 +5,26 @@
         possibleCrafts: [
             {
                 output: {
-                    internalName: "silkWyrms"
-                },
-                validInput: {
                     internalName: "cloth_silk"
+                },
+                validInput: {
+                    internalName: "silkWyrms"
                 }
             },
             {
                 output: {
-                    internalName: "seed_apple"
-                },
-                validInput: {
                     internalName: "apple"
+                },
+                validInput: {
+                    internalName: "seed_apple"
                 }
             },
             {
                 output: {
-                    internalName: "seed_orange"
+                    internalName: "orange"
                 },
                 validInput: {
-                    internalName: "orange"
+                    internalName: "seed_orange"
                 }
             }
         ]
@@ -36,10 +36,10 @@
         possibleCrafts: [
             {
                 output: {
-                    internalName: "cloth_silk"
+                    internalName: "shirt_silk"
                 },
                 validInput: {
-                    internalName: "shirt_silk"
+                    internalName: "cloth_silk"
                 }
             }
         ]

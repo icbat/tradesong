@@ -22,6 +22,10 @@ public class Node implements Displayable, Comparable<Node> {
         Collections.addAll(possibleCrafts, craftingSteps);
     }
 
+    public Node copy() {
+        return new Node(this.internalName, this.displayName, this.possibleCrafts.toArray(new CraftingStep[possibleCrafts.size()]));
+    }
+
     public static Node parseNode(JsonValue nodeNode) {
         String internalName = nodeNode.getString("internalName", "default internal name");
         Gdx.app.debug("parsing node: internal name", internalName);
@@ -56,6 +60,7 @@ public class Node implements Displayable, Comparable<Node> {
         return copy;
     }
 
+
     public void act() {
         if (inputs.isEmpty()) {
             return;
@@ -70,20 +75,15 @@ public class Node implements Displayable, Comparable<Node> {
         outputs.add(item);
     }
 
-
     @Override
     public Actor getActor() {
         return null;
     }
 
+
+
     @Override
     public int compareTo(Node o) {
         return this.getInternalName().compareTo(o.getInternalName());
-    }
-
-
-
-    public Node copy() {
-        return null;
     }
 }

@@ -23,7 +23,7 @@ public class ItemIndex {
             allTheItems.add(Item.parseItem(itemNode));
             itemNode = itemNode.next();
         }
-        Gdx.app.debug("Item Index Init", "found "+ allTheItems.size()+" unique items");
+        Gdx.app.log("Item Index Init", "found "+ allTheItems.size()+" unique items");
     }
 
     public static Item get(String internalName) {

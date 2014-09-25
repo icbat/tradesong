@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 /***/
 public class NodeIndex {
-    private final Set<Node> allTheItems = new TreeSet<Node>();
+    private static final Set<Node> allTheNodes = new TreeSet<Node>();
     public NodeIndex(FileHandle nodesDotJson) {
         Gdx.app.debug("Node Index Init", "reading from file " + nodesDotJson.path());
         JsonReader reader = new JsonReader();
@@ -20,14 +20,17 @@ public class NodeIndex {
         Gdx.app.debug("Node Index Init", "reading in nodes");
 
         while (nodeNode != null) {
-            allTheItems.add(Node.parseNode(nodeNode));
+            allTheNodes.add(Node.parseNode(nodeNode));
             nodeNode = nodeNode.next();
         }
-        Gdx.app.debug("Node Index Init", "loaded "+ allTheItems.size()+" nodes (unique)");
+        Gdx.app.log("Node Index Init", "loaded "+ allTheNodes.size()+" nodes (unique)");
     }
 
-    public Node get(String internalName) {
-        for (Node node : allTheItems) {
+    public static Node get(String internalName) {
+        if (allTheNodes.isEmpty()) {
+            throw new IllegalStateException("No nodes have been read!");
+        }
+        for (Node node : allTheNodes) {
             if (node.getInternalName().equalsIgnoreCase(internalName)) {
                 return node.copy();
             }
