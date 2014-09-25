@@ -1,11 +1,13 @@
 package com.minus7games.tradesong;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 /** All the 'buildings' */
-public class Node {
+public class Node implements Displayable {
     private final List<CraftingStep> possibleCrafts = new LinkedList<CraftingStep>();
     private final List<Item> inputs = new LinkedList<Item>();
     private final List<Item> outputs = new LinkedList<Item>();
@@ -43,4 +45,8 @@ public class Node {
     }
 
 
+    @Override
+    public Actor getActor() {
+        return null;
+    }
 }

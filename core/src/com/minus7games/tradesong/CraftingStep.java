@@ -1,6 +1,8 @@
 package com.minus7games.tradesong;
 
-public class CraftingStep {
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class CraftingStep implements Displayable {
 
     private final Item validInput;
     private final Item output;
@@ -17,5 +19,10 @@ public class CraftingStep {
         } else {
             return input;
         }
+    }
+
+    @Override
+    public Actor getActor() {
+        return null;
     }
 }
