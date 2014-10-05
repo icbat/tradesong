@@ -78,7 +78,7 @@ public class NodeActor extends Group {
 
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                Gdx.app.log("Node actor", "Something was dropped!");
+                Gdx.app.log("Node actor", "Something was dropped at " + x + ", " + y);
             }
         });
 
@@ -99,8 +99,8 @@ public class NodeActor extends Group {
 
     private Image setupUsableSpace(float width, float height, float x, float y) {
         Image image = new Image((com.badlogic.gdx.graphics.Texture) Tradesong.assets.get("1p.png"));
-        image.setSize(width, height);
-        image.setPosition(x, y);
+        image.setSize(width * 4, height);
+        image.setPosition(x - width * 2, y);
         image.setColor(Color.DARK_GRAY);
         return image;
     }
