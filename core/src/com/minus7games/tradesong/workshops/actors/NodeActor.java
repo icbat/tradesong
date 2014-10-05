@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -49,13 +50,14 @@ public class NodeActor extends Group {
 
     private void setupDragAndDrop() {
         Gdx.app.log("Node Actor", "Setting up Drag and Drop");
-        for (final Actor possibleStep : this.potentialSteps) {
+        for (Actor possibleStep : this.potentialSteps) {
+
             dragAndDrop.addSource(new DragAndDrop.Source(possibleStep) {
                 @Override
                 public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                     Gdx.app.log("drag started", this.getActor().toString());
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                    payload.setDragActor(possibleStep);
+                    payload.setDragActor(copyOf(getActor()));
                     return payload;
                 }
             });
@@ -64,8 +66,14 @@ public class NodeActor extends Group {
         dragAndDrop.addTarget(new DragAndDrop.Target(droppableSpace) {
             @Override
             public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                getActor().setColor(Color.GREEN);
+                getActor().setColor(Color.GRAY);
                 return true;
+            }
+
+            @Override
+            public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
+                super.reset(source, payload);
+                getActor().setColor(Color.DARK_GRAY);
             }
 
             @Override
@@ -74,6 +82,10 @@ public class NodeActor extends Group {
             }
         });
 
+    }
+
+    private Actor copyOf(Actor actor) {
+        return new Label("I am a copy!", GameSkin.get());
     }
 
     private void addInUseActors() {
