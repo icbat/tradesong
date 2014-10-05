@@ -25,6 +25,11 @@ public class CraftingStep implements Displayable {
         this.validInput.addAll(inputs);
     }
 
+    /** Creates a step with no inputs or outputs, useful as a buffer that acts like any other step. */
+    public CraftingStep(String displayName) {
+        this.displayName = displayName;
+    }
+
     /** Gives an item to this step. If the step can use it, it is stored in the step for processing; otherwise it's queued in to the output buffer */
     public void send(Item input) {
         if (validInput.contains(input)) {

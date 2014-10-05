@@ -4,17 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /** All the 'buildings' */
 public class Node implements Displayable, Comparable<Node> {
     private final String internalName;
     private final String displayName;
-    private final LinkedList<CraftingStep> possibleCrafts = new LinkedList<CraftingStep>();
-    private final LinkedList<Item> inputs = new LinkedList<Item>();
-    private final LinkedList<Item> outputs = new LinkedList<Item>();
+    /** All the possible crafting steps this node can use */
+    private final ArrayList<CraftingStep> possibleCrafts = new ArrayList<CraftingStep>();
+    private final ArrayList<CraftingStep> currentSteps = new ArrayList<CraftingStep>();
+    private final CraftingStep inputBuffer = new CraftingStep("Incoming Items");
+    private final CraftingStep outputBuffer = new CraftingStep("Outgoing Items");
 
     public Node(String internalName, String displayName, CraftingStep... craftingSteps) {
         this.displayName = displayName;
@@ -52,30 +54,8 @@ public class Node implements Displayable, Comparable<Node> {
         return displayName;
     }
 
-    public Item getNextOutput() {
-        return outputs.remove(0);
-    }
-
-    public void sendInput(Item input) {
-        inputs.add(input);
-    }
-
-    public List<Item> getInputCopy() {
-        List<Item> copy = new LinkedList<Item>();
-        copy.addAll(inputs);
-        return copy;
-    }
-
-
     public void act() {
 
-        Item item = inputs.remove(0);
-
-        for (CraftingStep step : possibleCrafts) {
-//            item = step.craft(item);
-        }
-
-        outputs.add(item);
     }
 
     @Override
@@ -88,5 +68,13 @@ public class Node implements Displayable, Comparable<Node> {
     @Override
     public int compareTo(Node o) {
         return this.getInternalName().compareTo(o.getInternalName());
+    }
+
+    public void addToWorkflow(CraftingStep validCraftingStep) {
+        currentSteps.add(validCraftingStep);
+    }
+
+    public ArrayList<CraftingStep> getCurrentSteps() {
+        return currentSteps;
     }
 }
