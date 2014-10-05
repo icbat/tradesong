@@ -15,7 +15,7 @@ public class Node implements Displayable, Comparable<Node> {
     private final String displayName;
     /** All the possible crafting steps this node can use */
     private final ArrayList<CraftingStep> possibleCraftSteps = new ArrayList<CraftingStep>();
-    private final ArrayList<CraftingStep> currentSteps = new ArrayList<CraftingStep>();
+    private final ArrayList<CraftingStepInUse> currentSteps = new ArrayList<CraftingStepInUse>();
     private final CraftingStep inputBuffer = new CraftingStep("Incoming Items");
     private final CraftingStep outputBuffer = new CraftingStep("Outgoing Items");
 
@@ -66,14 +66,18 @@ public class Node implements Displayable, Comparable<Node> {
     }
 
     /** Adds the step to shop if and only if it is a possible step for this. */
-    public void addToWorkflow(CraftingStep validCraftingStep) {
-        if (possibleCraftSteps.contains(validCraftingStep)) {
-            currentSteps.add(validCraftingStep);
+    public void addToWorkflow(CraftingStep step) {
+        if (possibleCraftSteps.contains(step)) {
+            currentSteps.add(new CraftingStepInUse(step));
         }
     }
 
-    public ArrayList<CraftingStep> getCurrentSteps() {
-        return currentSteps;
+    public List<CraftingStep> getCurrentSteps() {
+        List<CraftingStep> steps = new ArrayList<CraftingStep>();
+        for (CraftingStepInUse inUse : currentSteps) {
+            steps.add(inUse.get());
+        }
+        return steps;
     }
 
     public ArrayList<CraftingStep> getPossibleCraftSteps() {
