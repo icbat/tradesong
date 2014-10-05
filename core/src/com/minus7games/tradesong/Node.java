@@ -79,10 +79,15 @@ public class Node implements Displayable, Comparable<Node> {
         Table possibleNodes = new Table(GameSkin.get());
         possibleNodes.setFillParent(true);
         possibleNodes.align(Align.bottom);
-        possibleNodes.add("Possible Crafting Steps").row();
+        int maxColumns = 10;
+        possibleNodes.add("Possible Crafting Steps").colspan(maxColumns).row();
+        int i=1;
         for (CraftingStep step : this.possibleCraftSteps) {
             Gdx.app.debug("Showing crafting step", step.getDisplayName());
-            possibleNodes.add(step.getActor());
+            possibleNodes.add(step.getActor()).pad(5);
+            if (i++ >= maxColumns) {
+                possibleNodes.row();
+            }
         }
         return possibleNodes;
     }
