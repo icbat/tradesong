@@ -2,6 +2,9 @@ package com.minus7games.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class Node implements Displayable, Comparable<Node> {
     }
 
     public Node copy() {
-        return new Node(this.internalName, this.displayName, this.possibleCraftSteps.toArray(new CraftingStep[possibleCraftSteps.size()]));
+        return new Node(this.internalName, this.displayName, this.possibleCraftSteps);
     }
 
     public static Node parseNode(JsonValue nodeNode) {
@@ -54,16 +57,35 @@ public class Node implements Displayable, Comparable<Node> {
         return displayName;
     }
 
-    public void act() {
-
-    }
-
     @Override
     public Actor getActor() {
-        return null;
+        Group mainTable = new Group();
+        mainTable.setPosition(0,0);
+        mainTable.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mainTable.addActor(setupTopTable());
+        mainTable.addActor(setupPossibleStepsTable());
+        return mainTable;
     }
 
+    private Table setupTopTable() {
+        Table topTable = new Table(GameSkin.get());
+        topTable.setFillParent(true);
+        topTable.align(Align.top);
+        topTable.add(getDisplayName());
+        return topTable;
+    }
 
+    private Table setupPossibleStepsTable() {
+        Table possibleNodes = new Table(GameSkin.get());
+        possibleNodes.setFillParent(true);
+        possibleNodes.align(Align.bottom);
+        possibleNodes.add("Possible Crafting Steps").row();
+        for (CraftingStep step : this.possibleCraftSteps) {
+            Gdx.app.debug("Showing crafting step", step.getDisplayName());
+            possibleNodes.add(step.getActor());
+        }
+        return possibleNodes;
+    }
 
     @Override
     public int compareTo(Node o) {

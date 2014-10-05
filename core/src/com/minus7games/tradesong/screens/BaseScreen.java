@@ -1,4 +1,4 @@
-package com.minus7games.tradesong;
+package com.minus7games.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -20,12 +20,10 @@ public class BaseScreen implements Screen {
     }
 
     protected void renderStep(float delta) {
-
+        stage.draw();
     }
 
-    protected void postRenderStep(float delta) {
-
-    }
+    protected void postRenderStep(float delta) {}
 
     @Override
     public void resize(int width, int height) {

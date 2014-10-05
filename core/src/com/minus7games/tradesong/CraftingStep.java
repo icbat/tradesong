@@ -2,6 +2,7 @@ package com.minus7games.tradesong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.JsonValue;
 import com.minus7games.tradesong.indices.ItemIndex;
 
@@ -75,7 +76,7 @@ public class CraftingStep implements Displayable {
 
     @Override
     public Actor getActor() {
-        return null;
+        return new Label(this.displayName, GameSkin.get());
     }
 
     public static List<CraftingStep> parseSteps(JsonValue craftingStepsNode) {
@@ -86,9 +87,10 @@ public class CraftingStep implements Displayable {
         while (currentStep != null) {
             List<Item> inputs = readItemChildren(currentStep.getChild("validInput"));
             List<Item> outputs = readItemChildren(currentStep.getChild("outputs"));
+            String displayName = currentStep.getString("displayName", "SOME DEFAULT VALUE");
 
             currentStep = currentStep.next();
-            stepsFound.add(new CraftingStep("", inputs, outputs));
+            stepsFound.add(new CraftingStep(displayName, inputs, outputs));
         }
 
         Gdx.app.debug("Crafting step parsing", "found " + stepsFound.size() + " steps");
@@ -107,5 +109,9 @@ public class CraftingStep implements Displayable {
             itemJson = itemJson.next();
         }
         return items;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }
