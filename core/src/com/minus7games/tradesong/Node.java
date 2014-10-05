@@ -79,4 +79,12 @@ public class Node implements Displayable, Comparable<Node> {
     public ArrayList<CraftingStep> getPossibleCraftSteps() {
         return possibleCraftSteps;
     }
+
+    public CraftingStep getInputBuffer() {
+        return inputBuffer;
+    }
+
+    public CraftingStep getOutputBuffer() {
+        return outputBuffer;
+    }
 }
