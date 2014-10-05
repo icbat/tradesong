@@ -24,8 +24,8 @@ public class SampleJsonGeneration {
     @Test
     public void generateNodes() throws Exception {
         List<Node> nodes = new LinkedList<Node>();
-        Item output = new Item("input internal name", "input display name ", "input description");
-        Item input = new Item("outputInternalName", "output display name", "output description");
+        Item input = new Item("input internal name", "input display name ", "input description");
+        Item output = new Item("outputInternalName", "output display name", "output description");
 
         CraftingStep simpleCraftingStep = new CraftingStep(Arrays.asList(input), Arrays.asList(output));
         CraftingStep complexCraftingStep = new CraftingStep(Arrays.asList(input, input, input), Arrays.asList(output, output, output));

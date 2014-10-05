@@ -10,6 +10,11 @@
         description: "Doesn't harm the Wyrms, but it's thread-count it a bit low..."
     },
     {
+        internalName: thread_silk,
+        displayName: "Silken Thread",
+        description: "Why did we have to make the cloth first?"
+    },
+    {
         internalName: shirt_silk,
         displayName: "Silken shirt",
         description: "Peasants! Look upon me and despair."
@@ -23,11 +28,5 @@
         internalName: orange,
         displayName: "Orange",
         description: "Definitely not an Apple."
-    },
-    {
-        internalName: seed_orange,
-        displayName: "Orange Seeds",
-        description: "Strange. They're only slightly orange."
     }
-
 ]
