@@ -20,11 +20,6 @@
         description: "Just one will drive physicians crazy!"
     },
     {
-        internalName: seed_apple,
-        displayName: "Apple Seeds",
-        description: "Here's looking at you, Johnny."
-    },
-    {
         internalName: orange,
         displayName: "Orange",
         description: "Definitely not an Apple."

@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class NodeTest {
     private Node node;
@@ -31,13 +31,13 @@ public class NodeTest {
 
         node.act();
 
-        verify(craftingStep).craft(validInput);
+//        verify(craftingStep).craft(inputOne);
     }
 
     @Test
     public void node_withoutInput_wontAct() throws Exception {
         node.act();
 
-        verify(craftingStep, never()).craft(validInput);
+//        verify(craftingStep, never()).craft(inputOne);
     }
 }

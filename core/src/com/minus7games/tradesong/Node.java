@@ -69,7 +69,7 @@ public class Node implements Displayable, Comparable<Node> {
         Item item = inputs.remove(0);
 
         for (CraftingStep step : possibleCrafts) {
-            item = step.craft(item);
+//            item = step.craft(item);
         }
 
         outputs.add(item);

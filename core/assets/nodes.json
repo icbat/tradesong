@@ -1,49 +1,174 @@
 [
     {
-        internalName: "orchard",
-        displayName: "Orchard",
         possibleCrafts: [
             {
-                output: {
-                    internalName: "cloth_silk"
-                },
-                validInput: {
-                    internalName: "silkWyrms"
-                }
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    }
+                ],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
             },
             {
-                output: {
-                    internalName: "apple"
-                },
-                validInput: {
-                    internalName: "seed_apple"
-                }
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    },
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    },
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    }
+                ],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    },
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    },
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
             },
             {
-                output: {
-                    internalName: "orange"
-                },
-                validInput: {
-                    internalName: "seed_orange"
-                }
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
             }
-        ]
-
+        ],
+        internalName: nodeWithAllSteps,
+        inputs: [],
+        displayName: "some display name",
+        outputs: []
     },
     {
-        internalName: "tailor",
-        displayName: "Tailor",
+
         possibleCrafts: [
             {
-                output: {
-                    internalName: "shirt_silk"
-                },
-                validInput: {
-                    internalName: "cloth_silk"
-                }
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
             }
-        ]
+        ],
+        internalName: justAProducer,
+        inputs: [],
+        displayName: "some display name",
+        outputs: []
+    },
+    {
 
+        possibleCrafts: [
+            {
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    }
+                ],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
+            }
+        ],
+        internalName: justSimpleStep,
+        inputs: [],
+        displayName: "some display name",
+        outputs: []
+    },
+    {
+
+        possibleCrafts: [
+            {
+                outputBuffer: [],
+                inputBuffer: [],
+                validInput: [
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    },
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    },
+                    {
+                        internalName: outputInternalName,
+                        displayName: "output display name",
+                        description: "output description"
+                    }
+                ],
+                outputs: [
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    },
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    },
+                    {
+                        internalName: "input internal name",
+                        displayName: "input display name ",
+                        description: "input description"
+                    }
+                ]
+            }
+        ],
+        internalName: justComplexStep,
+        inputs: [],
+        displayName: "some display name",
+        outputs: []
     }
-
 ]
+

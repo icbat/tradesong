@@ -3,6 +3,8 @@ package com.minus7games.tradesong;
 import com.badlogic.gdx.utils.Json;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,11 +24,17 @@ public class SampleJsonGeneration {
     @Test
     public void generateNodes() throws Exception {
         List<Node> nodes = new LinkedList<Node>();
-        Item output = new Item("intput internal name", "input display name ", "input description");
-        Item input = new Item("outputInternalName", "output Dsiplay name", "output description");
-        nodes.add(new Node("some internal name", "some display name", new CraftingStep(input, output)));
-        nodes.add(new Node("some internal name", "some display name", new CraftingStep(input, output)));
-        nodes.add(new Node("some internal name", "some display name", new CraftingStep(input, output)));
+        Item output = new Item("input internal name", "input display name ", "input description");
+        Item input = new Item("outputInternalName", "output display name", "output description");
+
+        CraftingStep simpleCraftingStep = new CraftingStep(Arrays.asList(input), Arrays.asList(output));
+        CraftingStep complexCraftingStep = new CraftingStep(Arrays.asList(input, input, input), Arrays.asList(output, output, output));
+        CraftingStep producerCraftingStep = new CraftingStep(new ArrayList<Item>(), Arrays.asList(output));
+        Node simpleNode = new Node("nodeWithAllSteps", "some display name", simpleCraftingStep, complexCraftingStep, producerCraftingStep);
+        nodes.add(simpleNode);
+        nodes.add(new Node("justAProducer", "some display name", producerCraftingStep));
+        nodes.add(new Node("justSimpleStep", "some display name", simpleCraftingStep));
+        nodes.add(new Node("justComplexStep", "some display name", complexCraftingStep));
         System.out.println(json.prettyPrint(nodes));
     }
 }

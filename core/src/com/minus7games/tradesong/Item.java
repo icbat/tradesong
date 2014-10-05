@@ -46,4 +46,21 @@ public class Item implements Comparable<Item> {
     public int compareTo(Item o) {
         return this.internalName.compareTo(o.getInternalName());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+
+        Item item = (Item) o;
+
+        if (!internalName.equals(item.internalName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return internalName.hashCode();
+    }
 }
