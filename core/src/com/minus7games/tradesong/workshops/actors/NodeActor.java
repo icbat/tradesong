@@ -1,4 +1,4 @@
-package com.minus7games.tradesong.actors;
+package com.minus7games.tradesong.workshops.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -7,7 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.minus7games.tradesong.*;
+import com.minus7games.tradesong.GameSkin;
+import com.minus7games.tradesong.Tradesong;
+import com.minus7games.tradesong.workshops.CraftingStep;
+import com.minus7games.tradesong.workshops.CraftingStepInUse;
+import com.minus7games.tradesong.workshops.Node;
 
 /** Actor representing a node. */
 public class NodeActor extends Group {

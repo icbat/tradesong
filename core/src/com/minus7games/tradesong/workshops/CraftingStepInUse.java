@@ -1,4 +1,4 @@
-package com.minus7games.tradesong;
+package com.minus7games.tradesong.workshops;
 
 /** Wraps a CraftingStep with display information, like where it is when displayed and possibly what it's linked to? */
 public class CraftingStepInUse {

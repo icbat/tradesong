@@ -1,6 +1,6 @@
 package com.minus7games.tradesong.screens;
 
-import com.minus7games.tradesong.Node;
+import com.minus7games.tradesong.workshops.Node;
 
 /** Screen to represent a node */
 public class NodeScreen extends ScreenWithHUD {

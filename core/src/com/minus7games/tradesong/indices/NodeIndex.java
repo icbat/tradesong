@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.minus7games.tradesong.Node;
+import com.minus7games.tradesong.workshops.Node;
 
 import java.util.Set;
 import java.util.TreeSet;

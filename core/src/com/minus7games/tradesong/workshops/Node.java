@@ -1,9 +1,10 @@
-package com.minus7games.tradesong;
+package com.minus7games.tradesong.workshops;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
-import com.minus7games.tradesong.actors.NodeActor;
+import com.minus7games.tradesong.Displayable;
+import com.minus7games.tradesong.workshops.actors.NodeActor;
 
 import java.util.ArrayList;
 import java.util.Collections;

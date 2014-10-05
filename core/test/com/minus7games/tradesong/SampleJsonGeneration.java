@@ -1,6 +1,8 @@
 package com.minus7games.tradesong;
 
 import com.badlogic.gdx.utils.Json;
+import com.minus7games.tradesong.workshops.CraftingStep;
+import com.minus7games.tradesong.workshops.Node;
 import org.junit.Test;
 
 import java.util.ArrayList;

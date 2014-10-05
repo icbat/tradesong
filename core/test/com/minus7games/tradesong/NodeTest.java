@@ -1,5 +1,7 @@
 package com.minus7games.tradesong;
 
+import com.minus7games.tradesong.workshops.CraftingStep;
+import com.minus7games.tradesong.workshops.Node;
 import org.junit.Before;
 import org.junit.Test;
 
