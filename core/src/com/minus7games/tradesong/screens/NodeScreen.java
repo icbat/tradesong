@@ -9,6 +9,12 @@ public class NodeScreen extends ScreenWithHUD {
 
     public NodeScreen(Node node) {
         this.node = node;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.clear();
         stage.addActor(node.getActor());
+        super.resize(width, height);
     }
 }
