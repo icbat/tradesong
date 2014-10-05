@@ -4,25 +4,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.minus7games.tradesong.GameSkin;
 import com.minus7games.tradesong.Tradesong;
 import com.minus7games.tradesong.workshops.CraftingStep;
 import com.minus7games.tradesong.workshops.CraftingStepInUse;
 import com.minus7games.tradesong.workshops.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Actor representing a node. */
 public class NodeActor extends Group {
     private final Node node;
-    private final Group potentialSteps = new Group();
-    private final Group actualSteps = new Group();
+    private final List<Actor> potentialSteps = new ArrayList<Actor>();
+    private final List<Actor> actualSteps = new ArrayList<Actor>();
+    private final DragAndDrop dragAndDrop = new DragAndDrop();
+    private final Image droppableSpace;
 
     public NodeActor(Node node) {
         this.node = node;
-        this.addActor(potentialSteps);
-        this.addActor(actualSteps);
         this.setPosition(0, 0);
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -32,18 +38,49 @@ public class NodeActor extends Group {
         Table possibleStepsTable = setupPossibleStepsTable();
 
         float height = Gdx.graphics.getHeight() - topTable.getPrefHeight() - possibleStepsTable.getPrefHeight();
-        this.addActor(setupUsableSpace(Gdx.graphics.getWidth(), height, 0, possibleStepsTable.getPrefHeight()));
+        droppableSpace = setupUsableSpace(Gdx.graphics.getWidth(), height, 0, possibleStepsTable.getPrefHeight());
+        this.addActor(droppableSpace);
 
         addInUseActors();
+        setupDragAndDrop();
 
         this.addActor(possibleStepsTable);
+    }
+
+    private void setupDragAndDrop() {
+        Gdx.app.log("Node Actor", "Setting up Drag and Drop");
+        for (final Actor possibleStep : this.potentialSteps) {
+            dragAndDrop.addSource(new DragAndDrop.Source(possibleStep) {
+                @Override
+                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                    Gdx.app.log("drag started", this.getActor().toString());
+                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                    payload.setDragActor(possibleStep);
+                    return payload;
+                }
+            });
+            Gdx.app.log("dnd source added for", possibleStep.toString());
+        }
+        dragAndDrop.addTarget(new DragAndDrop.Target(droppableSpace) {
+            @Override
+            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                getActor().setColor(Color.GREEN);
+                return true;
+            }
+
+            @Override
+            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                Gdx.app.log("Node actor", "Something was dropped!");
+            }
+        });
+
     }
 
     private void addInUseActors() {
         for (CraftingStepInUse step : node.getCurrentSteps()) {
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
-            actualSteps.addActor(actor);
+            actualSteps.add(actor);
         }
     }
 
@@ -74,7 +111,8 @@ public class NodeActor extends Group {
         for (CraftingStep step : node.getPossibleCraftSteps()) {
             Gdx.app.debug("Showing crafting step", step.getDisplayName());
             Actor stepActor = step.getActor();
-            potentialSteps.addActor(stepActor);
+            stepActor.setTouchable(Touchable.enabled);
+            potentialSteps.add(stepActor);
             possibleSteps.add(stepActor).pad(5);
             if (i++ >= maxColumns) {
                 possibleSteps.row();

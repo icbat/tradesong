@@ -2,12 +2,18 @@ package com.minus7games.tradesong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /***/
 public class BaseScreen implements Screen {
     public static final String BASE_SCREEN = "base screen";
     protected Stage stage = new Stage();
+
+    public BaseScreen() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
     @Override
     public void render(float delta) {
         actStep(delta);
@@ -20,6 +26,7 @@ public class BaseScreen implements Screen {
     }
 
     protected void renderStep(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
 
