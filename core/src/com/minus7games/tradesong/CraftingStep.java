@@ -3,6 +3,7 @@ package com.minus7games.tradesong;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
+import com.minus7games.tradesong.indices.ItemIndex;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

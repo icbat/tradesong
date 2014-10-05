@@ -1,9 +1,10 @@
-package com.minus7games.tradesong;
+package com.minus7games.tradesong.indices;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.minus7games.tradesong.Item;
 
 import java.util.Set;
 import java.util.TreeSet;

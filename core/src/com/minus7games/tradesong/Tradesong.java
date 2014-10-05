@@ -2,6 +2,8 @@ package com.minus7games.tradesong;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.minus7games.tradesong.indices.ItemIndex;
+import com.minus7games.tradesong.indices.NodeIndex;
 
 public class Tradesong extends Game {
     @Override
