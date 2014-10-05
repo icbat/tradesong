@@ -4,6 +4,7 @@
         displayName: "Orchard",
         possibleCrafts: [
             {
+                displayName: "Grow Silk",
                 validInput: [
                     {
                         internalName: silkWyrms
@@ -16,8 +17,7 @@
                 ]
             },
             {
-
-
+                displayName: "Grow Apples",
                 validInput: [],
                 outputs: [
                     {
@@ -27,7 +27,7 @@
             },
             {
 
-
+                displayName: "Grow Oranges",
                 validInput: [],
                 outputs: [
                     {
@@ -43,6 +43,7 @@
         displayName: "Tailor",
         possibleCrafts: [
             {
+                displayName: "Spin Silken Thread",
                 validInput: [
                     {
                         internalName: cloth_silk
@@ -56,6 +57,7 @@
                 ]
             },
             {
+                displayName: "Sew Silken Shirt",
                 validInput: [
                     {
                         internalName: cloth_silk

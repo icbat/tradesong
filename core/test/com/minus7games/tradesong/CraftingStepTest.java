@@ -34,10 +34,10 @@ public class CraftingStepTest {
         Item outputTwo = mock(Item.class, "second output");
         Item outputThree = mock(Item.class, "third output");
 
-        simpleStep = new CraftingStep(Arrays.asList(expectedInput), Arrays.asList(expectedOutput));
-        multipleInputStep = new CraftingStep(Arrays.asList(expectedInput, inputTwo, inputThree), Arrays.asList(expectedOutput));
-        oneInputMultipleOutputs = new CraftingStep(Arrays.asList(expectedInput), Arrays.asList(expectedOutput, outputTwo, outputThree));
-        producer = new CraftingStep(new ArrayList<Item>(), Arrays.asList(expectedOutput));
+        simpleStep = new CraftingStep("", Arrays.asList(expectedInput), Arrays.asList(expectedOutput));
+        multipleInputStep = new CraftingStep("", Arrays.asList(expectedInput, inputTwo, inputThree), Arrays.asList(expectedOutput));
+        oneInputMultipleOutputs = new CraftingStep("", Arrays.asList(expectedInput), Arrays.asList(expectedOutput, outputTwo, outputThree));
+        producer = new CraftingStep("", new ArrayList<Item>(), Arrays.asList(expectedOutput));
     }
 
     @Test

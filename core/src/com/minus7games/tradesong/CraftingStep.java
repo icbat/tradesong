@@ -17,8 +17,10 @@ public class CraftingStep implements Displayable {
     private final ArrayList<Item> outputs = new ArrayList<Item>();
     private final LinkedList<Item> inputBuffer = new LinkedList<Item>();
     private final LinkedList<Item> outputBuffer = new LinkedList<Item>();
+    private final String displayName;
 
-    public CraftingStep(List<Item> inputs, List<Item> outputs) {
+    public CraftingStep(String displayName, List<Item> inputs, List<Item> outputs) {
+        this.displayName = displayName;
         this.outputs.addAll(outputs);
         this.validInput.addAll(inputs);
     }
@@ -80,7 +82,7 @@ public class CraftingStep implements Displayable {
             List<Item> outputs = readItemChildren(currentStep.getChild("outputs"));
 
             currentStep = currentStep.next();
-            stepsFound.add(new CraftingStep(inputs, outputs));
+            stepsFound.add(new CraftingStep("", inputs, outputs));
         }
 
         Gdx.app.debug("Crafting step parsing", "found " + stepsFound.size() + " steps");

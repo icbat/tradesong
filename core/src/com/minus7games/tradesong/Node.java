@@ -68,9 +68,6 @@ public class Node implements Displayable, Comparable<Node> {
 
 
     public void act() {
-        if (inputs.isEmpty()) {
-            return;
-        }
 
         Item item = inputs.remove(0);
 

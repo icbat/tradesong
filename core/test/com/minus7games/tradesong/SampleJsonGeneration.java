@@ -27,9 +27,9 @@ public class SampleJsonGeneration {
         Item input = new Item("input internal name", "input display name ", "input description");
         Item output = new Item("outputInternalName", "output display name", "output description");
 
-        CraftingStep simpleCraftingStep = new CraftingStep(Arrays.asList(input), Arrays.asList(output));
-        CraftingStep complexCraftingStep = new CraftingStep(Arrays.asList(input, input, input), Arrays.asList(output, output, output));
-        CraftingStep producerCraftingStep = new CraftingStep(new ArrayList<Item>(), Arrays.asList(output));
+        CraftingStep simpleCraftingStep = new CraftingStep("simple crafting step example", Arrays.asList(input), Arrays.asList(output));
+        CraftingStep complexCraftingStep = new CraftingStep("complex crafting step example", Arrays.asList(input, input, input), Arrays.asList(output, output, output));
+        CraftingStep producerCraftingStep = new CraftingStep("producer-only crafting step example", new ArrayList<Item>(), Arrays.asList(output));
         Node simpleNode = new Node("nodeWithAllSteps", "some display name", simpleCraftingStep, complexCraftingStep, producerCraftingStep);
         nodes.add(simpleNode);
         nodes.add(new Node("justAProducer", "some display name", producerCraftingStep));
