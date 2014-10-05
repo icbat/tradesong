@@ -26,26 +26,65 @@ public class NodeActor extends Group {
     private final List<Actor> potentialSteps = new ArrayList<Actor>();
     private final List<Actor> actualSteps = new ArrayList<Actor>();
     private final DragAndDrop dragAndDrop = new DragAndDrop();
-    private final Image droppableSpace;
+    private Image droppableSpace;
+    private Actor inputBox;
+    private float usableMinX = 0;
+    private float usableMinY = 0;
+    private float usableWidth = Gdx.graphics.getWidth();
+    private float usableHeight = Gdx.graphics.getHeight();
 
     public NodeActor(Node node) {
         this.node = node;
         this.setPosition(0, 0);
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        setupChildActors();
+        setupDragAndDrop();
+    }
 
+    private void setupChildActors() {
         Table topTable = setupTopTable();
         this.addActor(topTable);
+        addOnTop(topTable.getPrefHeight());
 
         Table possibleStepsTable = setupPossibleStepsTable();
+        this.addActor(possibleStepsTable);
+        addOnBottom(possibleStepsTable.getPrefHeight());
 
-        float height = Gdx.graphics.getHeight() - topTable.getPrefHeight() - possibleStepsTable.getPrefHeight();
-        droppableSpace = setupUsableSpace(Gdx.graphics.getWidth(), height, 0, possibleStepsTable.getPrefHeight());
+        inputBox = inputBox(usableMinX, usableMinY, usableHeight);
+        this.addActor(inputBox);
+        addOnLeft(inputBox.getWidth());
+        droppableSpace = usableBackground(usableMinX, usableMinY, usableWidth, usableHeight);
         this.addActor(droppableSpace);
 
         addInUseActors();
-        setupDragAndDrop();
+    }
 
-        this.addActor(possibleStepsTable);
+    private void addOnBottom(float height) {
+        usableHeight -= height;
+        usableMinY += height;
+    }
+
+    private void addOnTop(float height) {
+        usableHeight -= height;
+    }
+
+    private void addOnLeft(float adjustBy) {
+        usableMinX += adjustBy;
+        usableWidth -= adjustBy;
+    }
+
+    private Image usableBackground(float usableX, float usableY, float usableWidth, float usableHeight) {
+        Image image = new Image((com.badlogic.gdx.graphics.Texture) Tradesong.assets.get("1p.png"));
+        final int padding = 10;
+        image.setBounds(usableX + padding, usableY + padding, usableWidth - padding, usableHeight - padding);
+        image.setColor(Color.DARK_GRAY);
+        return image;
+    }
+
+    private Actor inputBox(float usableX, float usableY, float usableHeight) {
+        Actor inputActor = node.getInputBuffer().getActor();
+        inputActor.setPosition(usableX, usableY + usableHeight /2);
+        return inputActor;
     }
 
     private void setupDragAndDrop() {
@@ -95,14 +134,6 @@ public class NodeActor extends Group {
             actor.setPosition(step.getX(), step.getY());
             actualSteps.add(actor);
         }
-    }
-
-    private Image setupUsableSpace(float width, float height, float x, float y) {
-        Image image = new Image((com.badlogic.gdx.graphics.Texture) Tradesong.assets.get("1p.png"));
-        image.setSize(width * 4, height);
-        image.setPosition(x - width * 2, y);
-        image.setColor(Color.DARK_GRAY);
-        return image;
     }
 
     private Table setupTopTable() {
