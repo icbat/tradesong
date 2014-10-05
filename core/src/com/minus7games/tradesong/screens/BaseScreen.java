@@ -54,5 +54,6 @@ public class BaseScreen implements Screen {
     @Override
     public void dispose() {
         Gdx.app.debug(BASE_SCREEN, "disposed");
+        stage.dispose();
     }
 }
