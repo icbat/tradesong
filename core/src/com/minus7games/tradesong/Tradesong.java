@@ -18,7 +18,7 @@ public class Tradesong extends Game {
 
     private void sanityCheck() {
         Node orchard = NodeIndex.get("orchard");
-        orchard.sendInput(ItemIndex.get("seed_apple"));
+        orchard.sendInput(ItemIndex.get("silkWyrms"));
         orchard.act();
         Gdx.app.log("", orchard.getNextOutput().getDisplayName());
     }

@@ -1,5 +1,6 @@
 package com.minus7games.tradesong;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -69,21 +70,34 @@ public class CraftingStep implements Displayable {
         return null;
     }
 
-    public static CraftingStep[] parseSteps(JsonValue craftingStepsNode) {
-//        Gdx.app.debug("parsing crafting steps", "");
-//        LinkedList<CraftingStep> stepsFound = new LinkedList<CraftingStep>();
-//        JsonValue currentStep = craftingStepsNode;
-//
-//        while (currentStep != null) {
-//            String inputInternalName = currentStep.getChild("validInput").asString();
-//            String outputInternalName = currentStep.getChild("output").asString();
-//            Gdx.app.debug("step found that turns", inputInternalName + " => " + outputInternalName);
-//            currentStep = currentStep.next();
-//            stepsFound.add(new CraftingStep(ItemIndex.get(outputInternalName), ItemIndex.get(inputInternalName)));
-//        }
-//
-//        Gdx.app.debug("Crafting step parsing", "found " + stepsFound.size() + " steps");
-//        return stepsFound.toArray(new CraftingStep[stepsFound.size()]);
-        return null;
+    public static List<CraftingStep> parseSteps(JsonValue craftingStepsNode) {
+        Gdx.app.debug("parsing crafting steps", "");
+        List<CraftingStep> stepsFound = new ArrayList<CraftingStep>();
+        JsonValue currentStep = craftingStepsNode;
+
+        while (currentStep != null) {
+            List<Item> inputs = readItemChildren(currentStep.getChild("validInput"));
+            List<Item> outputs = readItemChildren(currentStep.getChild("outputs"));
+
+            currentStep = currentStep.next();
+            stepsFound.add(new CraftingStep(inputs, outputs));
+        }
+
+        Gdx.app.debug("Crafting step parsing", "found " + stepsFound.size() + " steps");
+        return stepsFound;
+    }
+
+    private static List<Item> readItemChildren(JsonValue node) {
+        if (node == null) {
+            return new ArrayList<Item>();
+        }
+        List<Item> items = new ArrayList<Item>();
+        JsonValue itemJson = node.child();
+        while (itemJson != null) {
+            String itemName = itemJson.asString();
+            items.add(ItemIndex.get(itemName));
+            itemJson = itemJson.next();
+        }
+        return items;
     }
 }

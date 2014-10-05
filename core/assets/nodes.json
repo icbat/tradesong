@@ -1,7 +1,7 @@
 [
     {
-        internalName: grove,
-        displayName: "Grove",
+        internalName: orchard,
+        displayName: "Orchard",
         possibleCrafts: [
             {
                 validInput: [
