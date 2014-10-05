@@ -3,6 +3,7 @@ package com.minus7games.tradesong;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -21,11 +22,16 @@ public class NodeTest {
     }
 
     @Test
-    public void node_addToSection_validstep_accepted() throws Exception {
+    public void node_addStep_validstep_accepted() throws Exception {
         node.addToWorkflow(validCraftingStep);
 
-        node.act();
-
         assertTrue(node.getCurrentSteps().contains(validCraftingStep));
+    }
+
+    @Test
+    public void node_addStep_invalidStep_rejected() throws Exception {
+        node.addToWorkflow(invalidCraftingStep);
+
+        assertFalse(node.getCurrentSteps().contains(invalidCraftingStep));
     }
 }

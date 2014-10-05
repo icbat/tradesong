@@ -13,7 +13,7 @@ public class Node implements Displayable, Comparable<Node> {
     private final String internalName;
     private final String displayName;
     /** All the possible crafting steps this node can use */
-    private final ArrayList<CraftingStep> possibleCrafts = new ArrayList<CraftingStep>();
+    private final ArrayList<CraftingStep> possibleCraftSteps = new ArrayList<CraftingStep>();
     private final ArrayList<CraftingStep> currentSteps = new ArrayList<CraftingStep>();
     private final CraftingStep inputBuffer = new CraftingStep("Incoming Items");
     private final CraftingStep outputBuffer = new CraftingStep("Outgoing Items");
@@ -21,17 +21,17 @@ public class Node implements Displayable, Comparable<Node> {
     public Node(String internalName, String displayName, CraftingStep... craftingSteps) {
         this.displayName = displayName;
         this.internalName = internalName;
-        Collections.addAll(possibleCrafts, craftingSteps);
+        Collections.addAll(possibleCraftSteps, craftingSteps);
     }
 
     public Node(String internalName, String displayName, List<CraftingStep> craftingSteps) {
         this.displayName = displayName;
         this.internalName = internalName;
-        this.possibleCrafts.addAll(craftingSteps);
+        this.possibleCraftSteps.addAll(craftingSteps);
     }
 
     public Node copy() {
-        return new Node(this.internalName, this.displayName, this.possibleCrafts.toArray(new CraftingStep[possibleCrafts.size()]));
+        return new Node(this.internalName, this.displayName, this.possibleCraftSteps.toArray(new CraftingStep[possibleCraftSteps.size()]));
     }
 
     public static Node parseNode(JsonValue nodeNode) {
@@ -40,7 +40,7 @@ public class Node implements Displayable, Comparable<Node> {
         String displayName = nodeNode.getString("displayName", "default display name");
         Gdx.app.debug("parsing node: display name ", displayName);
 
-        JsonValue craftingStepsNode = nodeNode.getChild("possibleCrafts");
+        JsonValue craftingStepsNode = nodeNode.getChild("possibleCraftSteps");
         List<CraftingStep> steps = CraftingStep.parseSteps(craftingStepsNode);
 
         return new Node(internalName, displayName, steps);
@@ -70,8 +70,11 @@ public class Node implements Displayable, Comparable<Node> {
         return this.getInternalName().compareTo(o.getInternalName());
     }
 
+    /** Adds the step to shop if and only if it is a possible step for this. */
     public void addToWorkflow(CraftingStep validCraftingStep) {
-        currentSteps.add(validCraftingStep);
+        if (possibleCraftSteps.contains(validCraftingStep)) {
+            currentSteps.add(validCraftingStep);
+        }
     }
 
     public ArrayList<CraftingStep> getCurrentSteps() {

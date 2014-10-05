@@ -2,7 +2,7 @@
     {
         internalName: orchard,
         displayName: "Orchard",
-        possibleCrafts: [
+        possibleCraftSteps: [
             {
                 displayName: "Grow Silk",
                 validInput: [
@@ -41,7 +41,7 @@
     {
         internalName: tailor,
         displayName: "Tailor",
-        possibleCrafts: [
+        possibleCraftSteps: [
             {
                 displayName: "Spin Silken Thread",
                 validInput: [
