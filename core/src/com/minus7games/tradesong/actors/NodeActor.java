@@ -2,29 +2,45 @@ package com.minus7games.tradesong.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.minus7games.tradesong.CraftingStep;
-import com.minus7games.tradesong.GameSkin;
-import com.minus7games.tradesong.Node;
-import com.minus7games.tradesong.Tradesong;
+import com.minus7games.tradesong.*;
 
 /** Actor representing a node. */
 public class NodeActor extends Group {
     private final Node node;
+    private final Group potentialSteps = new Group();
+    private final Group actualSteps = new Group();
 
     public NodeActor(Node node) {
         this.node = node;
+        this.addActor(potentialSteps);
+        this.addActor(actualSteps);
         this.setPosition(0, 0);
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         Table topTable = setupTopTable();
         this.addActor(topTable);
+
         Table possibleStepsTable = setupPossibleStepsTable();
+
         float height = Gdx.graphics.getHeight() - topTable.getPrefHeight() - possibleStepsTable.getPrefHeight();
         this.addActor(setupUsableSpace(Gdx.graphics.getWidth(), height, 0, possibleStepsTable.getPrefHeight()));
+
+        addInUseActors();
+
         this.addActor(possibleStepsTable);
+    }
+
+    private void addInUseActors() {
+        for (CraftingStepInUse step : node.getCurrentSteps()) {
+            Actor actor = step.get().getActor();
+            actor.setPosition(step.getX(), step.getY());
+            actualSteps.addActor(actor);
+        }
     }
 
     private Image setupUsableSpace(float width, float height, float x, float y) {
@@ -53,7 +69,9 @@ public class NodeActor extends Group {
         int i = 1;
         for (CraftingStep step : node.getPossibleCraftSteps()) {
             Gdx.app.debug("Showing crafting step", step.getDisplayName());
-            possibleSteps.add(step.getActor()).pad(5);
+            Actor stepActor = step.getActor();
+            potentialSteps.addActor(stepActor);
+            possibleSteps.add(stepActor).pad(5);
             if (i++ >= maxColumns) {
                 possibleSteps.row();
             }

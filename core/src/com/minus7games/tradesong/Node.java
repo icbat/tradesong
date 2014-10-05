@@ -72,12 +72,16 @@ public class Node implements Displayable, Comparable<Node> {
         }
     }
 
-    public List<CraftingStep> getCurrentSteps() {
+    public List<CraftingStep> getCurrentStepsUnwrapped() {
         List<CraftingStep> steps = new ArrayList<CraftingStep>();
         for (CraftingStepInUse inUse : currentSteps) {
             steps.add(inUse.get());
         }
         return steps;
+    }
+
+    public ArrayList<CraftingStepInUse> getCurrentSteps() {
+        return currentSteps;
     }
 
     public ArrayList<CraftingStep> getPossibleCraftSteps() {
