@@ -85,7 +85,8 @@ public class NodeActor extends Group {
     }
 
     private Actor copyOf(Actor actor) {
-        return new Label("I am a copy!", GameSkin.get());
+        Label oldLabel = (Label) actor;
+        return new Label(oldLabel.getText(), GameSkin.get());
     }
 
     private void addInUseActors() {
