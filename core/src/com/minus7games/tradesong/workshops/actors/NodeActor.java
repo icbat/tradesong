@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -30,11 +29,8 @@ public class NodeActor extends Group {
     private final DragAndDrop dragAndDrop = new DragAndDrop();
     private Image droppableSpace;
     private Actor inputBox;
-    private float usableMinX;
-    private float usableMinY;
-    private float usableWidth;
-    private float usableHeight;
     private Actor outputBox;
+    public static final int USABLE_SPACE_PADDING = 10;
 
     public NodeActor(Node node) {
         this.node = node;
@@ -44,72 +40,52 @@ public class NodeActor extends Group {
     }
 
     private void redraw() {
-        usableMinX = 0;
-        usableMinY = 0;
-        usableWidth = Gdx.graphics.getWidth();
-        usableHeight = Gdx.graphics.getHeight();
         this.clear();
         setupChildActors();
         setupDragAndDrop();
     }
 
     private void setupChildActors() {
+        float usableMinX = 0;
+        float usableMinY = 0;
+        float usableWidth = Gdx.graphics.getWidth();
+        float usableHeight = Gdx.graphics.getHeight();
         Table topTable = setupTopTable();
         this.addActor(topTable);
-        addOnTop(topTable.getPrefHeight());
+        usableHeight -= topTable.getPrefHeight();
 
         Table possibleStepsTable = setupPossibleStepsTable();
         this.addActor(possibleStepsTable);
-        addOnBottom(possibleStepsTable.getPrefHeight());
+        float height = possibleStepsTable.getPrefHeight();
+        usableHeight -= height;
+        usableMinY += height;
 
-        inputBox = inputBox(usableMinX, usableMinY, usableHeight);
-        this.addActor(inputBox);
-        addOnLeft(inputBox.getWidth());
-        outputBox = outputBox(usableWidth, usableMinY, usableHeight);
-        this.addActor(outputBox);
-        final float width = outputBox.getWidth();
-        addOnRight(width);
         droppableSpace = usableBackground(usableMinX, usableMinY, usableWidth, usableHeight);
         this.addActor(droppableSpace);
+        inputBox = inputBox(usableMinX, usableMinY, usableHeight);
+        this.addActor(inputBox);
+        outputBox = outputBox(usableWidth, usableMinY, usableHeight);
+        this.addActor(outputBox);
 
         addInUseActors();
     }
 
-    private void addOnRight(float width) {
-        usableWidth -= width;
-    }
-
-    private void addOnBottom(float height) {
-        usableHeight -= height;
-        usableMinY += height;
-    }
-
-    private void addOnTop(float height) {
-        usableHeight -= height;
-    }
-
-    private void addOnLeft(float adjustBy) {
-        usableMinX += adjustBy;
-        usableWidth -= adjustBy;
-    }
-
     private Image usableBackground(float usableX, float usableY, float usableWidth, float usableHeight) {
         Image image = new Image((com.badlogic.gdx.graphics.Texture) Tradesong.assets.get("1p.png"));
-        final int padding = 10;
-        image.setBounds(usableX + padding, usableY + padding, usableWidth - padding, usableHeight - padding);
+        image.setBounds(usableX + USABLE_SPACE_PADDING, usableY + USABLE_SPACE_PADDING, usableWidth - USABLE_SPACE_PADDING * 2, usableHeight - USABLE_SPACE_PADDING * 2);
         image.setColor(Color.DARK_GRAY);
         return image;
     }
 
     private Actor inputBox(float usableX, float usableY, float usableHeight) {
         Actor inputActor = node.getInputBuffer().getActor();
-        inputActor.setPosition(usableX, usableY + usableHeight /2);
+        inputActor.setPosition(usableX + USABLE_SPACE_PADDING * 1.5f, usableY + usableHeight /2);
         return inputActor;
     }
 
     private Actor outputBox(float usableWidth, float usableMinY, float usableHeight) {
         Actor actor = node.getOutputBuffer().getActor();
-        actor.setPosition(usableWidth , usableMinY + usableHeight / 2);
+        actor.setPosition(usableWidth - actor.getWidth() - USABLE_SPACE_PADDING * 1.5f , usableMinY + usableHeight / 2);
         return actor;
     }
 
@@ -150,11 +126,6 @@ public class NodeActor extends Group {
             }
         });
 
-    }
-
-    private Actor copyOf(Actor actor) {
-        Label oldLabel = (Label) actor;
-        return new Label(oldLabel.getText(), GameSkin.get());
     }
 
     private void addInUseActors() {
