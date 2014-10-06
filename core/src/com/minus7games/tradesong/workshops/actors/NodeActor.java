@@ -18,26 +18,37 @@ import com.minus7games.tradesong.workshops.CraftingStepInUse;
 import com.minus7games.tradesong.workshops.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Actor representing a node. */
 public class NodeActor extends Group {
     private final Node node;
-    private final List<Actor> potentialSteps = new ArrayList<Actor>();
+    private final Map<CraftingStep, Actor> potentialSteps = new HashMap<CraftingStep, Actor>();
     private final List<Actor> actualSteps = new ArrayList<Actor>();
     private final DragAndDrop dragAndDrop = new DragAndDrop();
     private Image droppableSpace;
     private Actor inputBox;
-    private float usableMinX = 0;
-    private float usableMinY = 0;
-    private float usableWidth = Gdx.graphics.getWidth();
-    private float usableHeight = Gdx.graphics.getHeight();
+    private float usableMinX;
+    private float usableMinY;
+    private float usableWidth;
+    private float usableHeight;
     private Actor outputBox;
 
     public NodeActor(Node node) {
         this.node = node;
         this.setPosition(0, 0);
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        redraw();
+    }
+
+    private void redraw() {
+        usableMinX = 0;
+        usableMinY = 0;
+        usableWidth = Gdx.graphics.getWidth();
+        usableHeight = Gdx.graphics.getHeight();
+        this.clear();
         setupChildActors();
         setupDragAndDrop();
     }
@@ -104,18 +115,19 @@ public class NodeActor extends Group {
 
     private void setupDragAndDrop() {
         Gdx.app.log("Node Actor", "Setting up Drag and Drop");
-        for (Actor possibleStep : this.potentialSteps) {
+        for (final Map.Entry<CraftingStep, Actor> entry : this.potentialSteps.entrySet()) {
 
-            dragAndDrop.addSource(new DragAndDrop.Source(possibleStep) {
+            dragAndDrop.addSource(new DragAndDrop.Source(entry.getValue()) {
                 @Override
                 public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                     Gdx.app.log("drag started", this.getActor().toString());
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                    payload.setDragActor(copyOf(getActor()));
+                    payload.setObject(entry.getKey());
+                    payload.setDragActor(entry.getKey().getActor());
                     return payload;
                 }
             });
-            Gdx.app.log("dnd source added for", possibleStep.toString());
+            Gdx.app.log("dnd source added for", entry.getKey().getDisplayName());
         }
         dragAndDrop.addTarget(new DragAndDrop.Target(droppableSpace) {
             @Override
@@ -133,6 +145,8 @@ public class NodeActor extends Group {
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 Gdx.app.log("Node actor", "Something was dropped at " + x + ", " + y);
+                node.addToWorkflow((CraftingStep) payload.getObject(), x, y);
+                redraw();
             }
         });
 
@@ -145,6 +159,7 @@ public class NodeActor extends Group {
 
     private void addInUseActors() {
         for (CraftingStepInUse step : node.getCurrentSteps()) {
+            Gdx.app.debug("Displaying in-use step ("+step.get().getDisplayName()+") at", "" + step.getX() + ", " + step.getY());
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
             actualSteps.add(actor);
@@ -171,7 +186,7 @@ public class NodeActor extends Group {
             Gdx.app.debug("Showing crafting step", step.getDisplayName());
             Actor stepActor = step.getActor();
             stepActor.setTouchable(Touchable.enabled);
-            potentialSteps.add(stepActor);
+            potentialSteps.put(step, stepActor);
             possibleSteps.add(stepActor).pad(5);
             if (i++ >= maxColumns) {
                 possibleSteps.row();

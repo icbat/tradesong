@@ -25,14 +25,14 @@ public class NodeTest {
 
     @Test
     public void node_addStep_validstep_accepted() throws Exception {
-        node.addToWorkflow(validCraftingStep);
+        node.addToWorkflow(validCraftingStep, 0, 0);
 
         assertTrue(node.getCurrentStepsUnwrapped().contains(validCraftingStep));
     }
 
     @Test
     public void node_addStep_invalidStep_rejected() throws Exception {
-        node.addToWorkflow(invalidCraftingStep);
+        node.addToWorkflow(invalidCraftingStep, 0, 0);
 
         assertFalse(node.getCurrentStepsUnwrapped().contains(invalidCraftingStep));
     }

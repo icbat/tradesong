@@ -1,5 +1,6 @@
 package com.minus7games.tradesong;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,7 +14,7 @@ public class Tradesong extends Game {
 
     @Override
     public void create() {
-//        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
         setupGame();
         setScreen(new NodeScreen(NodeIndex.get("orchard")));
     }
