@@ -120,8 +120,10 @@ public class NodeActor extends Group {
 
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                Gdx.app.log("Node actor", "Something was dropped at " + x + ", " + y);
-                node.addToWorkflow((CraftingStep) payload.getObject(), x, y);
+                final float y1 = payload.getDragActor().getY();
+                final float x1 = payload.getDragActor().getX();
+                Gdx.app.log("Node actor", "Something was dropped at " + x1 + ", " + y1);
+                node.addToWorkflow((CraftingStep) payload.getObject(), x1, y1);
                 redraw();
             }
         });
