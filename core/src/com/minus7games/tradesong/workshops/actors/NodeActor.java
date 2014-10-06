@@ -163,6 +163,7 @@ public class NodeActor extends Group {
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
             actualSteps.add(actor);
+            this.addActor(actor);
         }
     }
 
