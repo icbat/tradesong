@@ -32,6 +32,7 @@ public class NodeActor extends Group {
     private float usableMinY = 0;
     private float usableWidth = Gdx.graphics.getWidth();
     private float usableHeight = Gdx.graphics.getHeight();
+    private Actor outputBox;
 
     public NodeActor(Node node) {
         this.node = node;
@@ -53,10 +54,18 @@ public class NodeActor extends Group {
         inputBox = inputBox(usableMinX, usableMinY, usableHeight);
         this.addActor(inputBox);
         addOnLeft(inputBox.getWidth());
+        outputBox = outputBox(usableWidth, usableMinY, usableHeight);
+        this.addActor(outputBox);
+        final float width = outputBox.getWidth();
+        addOnRight(width);
         droppableSpace = usableBackground(usableMinX, usableMinY, usableWidth, usableHeight);
         this.addActor(droppableSpace);
 
         addInUseActors();
+    }
+
+    private void addOnRight(float width) {
+        usableWidth -= width;
     }
 
     private void addOnBottom(float height) {
@@ -85,6 +94,12 @@ public class NodeActor extends Group {
         Actor inputActor = node.getInputBuffer().getActor();
         inputActor.setPosition(usableX, usableY + usableHeight /2);
         return inputActor;
+    }
+
+    private Actor outputBox(float usableWidth, float usableMinY, float usableHeight) {
+        Actor actor = node.getOutputBuffer().getActor();
+        actor.setPosition(usableWidth , usableMinY + usableHeight / 2);
+        return actor;
     }
 
     private void setupDragAndDrop() {
