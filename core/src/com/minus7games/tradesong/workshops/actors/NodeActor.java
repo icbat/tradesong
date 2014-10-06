@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -32,6 +31,10 @@ public class NodeActor extends Group {
     private Actor outputBox;
     public static final int USABLE_SPACE_PADDING = 10;
 
+    public Map<CraftingStep, Actor> getPotentialSteps() {
+        return potentialSteps;
+    }
+
     public NodeActor(Node node) {
         this.node = node;
         this.setPosition(0, 0);
@@ -39,10 +42,9 @@ public class NodeActor extends Group {
         redraw();
     }
 
-    private void redraw() {
+    public void redraw() {
         this.clear();
         setupChildActors();
-        setupDragAndDrop();
     }
 
     private void setupChildActors() {
@@ -89,47 +91,6 @@ public class NodeActor extends Group {
         return actor;
     }
 
-    private void setupDragAndDrop() {
-        Gdx.app.log("Node Actor", "Setting up Drag and Drop");
-        for (final Map.Entry<CraftingStep, Actor> entry : this.potentialSteps.entrySet()) {
-
-            dragAndDrop.addSource(new DragAndDrop.Source(entry.getValue()) {
-                @Override
-                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                    Gdx.app.log("drag started", this.getActor().toString());
-                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                    payload.setObject(entry.getKey());
-                    payload.setDragActor(entry.getKey().getActor());
-                    return payload;
-                }
-            });
-            Gdx.app.log("dnd source added for", entry.getKey().getDisplayName());
-        }
-        dragAndDrop.addTarget(new DragAndDrop.Target(droppableSpace) {
-            @Override
-            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                getActor().setColor(Color.GRAY);
-                return true;
-            }
-
-            @Override
-            public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
-                super.reset(source, payload);
-                getActor().setColor(Color.DARK_GRAY);
-            }
-
-            @Override
-            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                final float y1 = payload.getDragActor().getY();
-                final float x1 = payload.getDragActor().getX();
-                Gdx.app.log("Node actor", "Something was dropped at " + x1 + ", " + y1);
-                node.addToWorkflow((CraftingStep) payload.getObject(), x1, y1);
-                redraw();
-            }
-        });
-
-    }
-
     private void addInUseActors() {
         for (CraftingStepInUse step : node.getCurrentSteps()) {
             Gdx.app.debug("Displaying in-use step ("+step.get().getDisplayName()+") at", "" + step.getX() + ", " + step.getY());
@@ -167,5 +128,9 @@ public class NodeActor extends Group {
             }
         }
         return possibleSteps;
+    }
+
+    public Image getDroppableSpace() {
+        return droppableSpace;
     }
 }
