@@ -1,6 +1,8 @@
 package com.minus7games.tradesong.workshops;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.minus7games.tradesong.Displayable;
@@ -22,22 +24,25 @@ public class StepLink implements Displayable {
     public Actor getActor() {
         Image image = new Image((com.badlogic.gdx.graphics.Texture) Tradesong.assets.get("1p.png"));
         image.setHeight(2);
-        image.setWidth(calculateWidth());
         image.setPosition(input.getX() + input.getActor().getWidth() + PADDING, input.getY() - (image.getHeight() / 2) + (input.getActor().getHeight() / 2));
-        image.setRotation(calculateRotation());
+        image.setColor(Color.PINK);
+
+        float deltaX = (output.getX() - input.getX()) - (input.getActor().getWidth()) - PADDING * 2;
+        float deltaY = (output.getY() - input.getY());
+        image.setWidth(calculateWidth(deltaX, deltaY));
+        image.setRotation(calculateRotation(deltaX, deltaY));
         return image;
     }
 
-    private float calculateRotation() {
-        float deltaX = (output.getX() - input.getX());
-        float deltaY = (output.getY() - input.getY());
-
+    private float calculateRotation(float deltaX, float deltaY) {
         final float rotation = (float) Math.toDegrees(Math.atan2(deltaY, deltaX));
         Gdx.app.log("rotation found at degrees", rotation + "");
         return rotation;
     }
 
-    private float calculateWidth() {
-        return 100;
+    private float calculateWidth(float deltaX, float deltaY) {
+        Vector2 distance = new Vector2(deltaX, deltaY);
+
+        return distance.len();
     }
 }
