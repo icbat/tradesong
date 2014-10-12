@@ -123,12 +123,25 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
         return items;
     }
 
+    public ArrayList<Item> getValidInput() {
+        return validInput;
+    }
+
+    public ArrayList<Item> getOutputs() {
+        return outputs;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
 
     public boolean acceptsInput() {
         return !validInput.isEmpty();
+    }
+
+    public boolean acceptsInput(ArrayList<Item> outputs) {
+        // TODO
+        return false;
     }
 
     public float getX() {
@@ -155,5 +168,13 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
         }
         return 0;
 
+    }
+
+    @Override
+    public String toString() {
+        return "CraftingStep{" +
+                "displayName='" + displayName + '\'' +
+                ", x=" + x +
+                '}';
     }
 }

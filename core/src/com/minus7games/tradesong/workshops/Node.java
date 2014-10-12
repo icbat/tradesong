@@ -87,7 +87,31 @@ public class Node implements Displayable, Comparable<Node> {
         Collections.sort(currentSteps);
 
         if (stepBeingAdded.acceptsInput()) {
-            links.add(new StepLink(inputBuffer, stepBeingAdded));
+            linkThisInput(stepBeingAdded);
+        }
+        linkThisOutput(stepBeingAdded);
+    }
+
+    private void linkThisInput(CraftingStep stepBeingAdded) {
+        final List<CraftingStep> stepsToTheLeft = currentSteps.subList(0, currentSteps.indexOf(stepBeingAdded));
+        Gdx.app.log("Steps to the left", stepsToTheLeft.toString());
+        for (CraftingStep existingStep : stepsToTheLeft) {
+            if (stepBeingAdded.acceptsInput(existingStep.getOutputs())) {
+                links.add(new StepLink(existingStep, stepBeingAdded));
+                return;
+            }
+        }
+        links.add(new StepLink(inputBuffer, stepBeingAdded));
+    }
+
+    private void linkThisOutput(CraftingStep stepBeingAdded) {
+        final List<CraftingStep> stepsToTheRight = currentSteps.subList(currentSteps.indexOf(stepBeingAdded) + 1, currentSteps.size());
+        Gdx.app.log("Steps to the right", stepsToTheRight.toString());
+        for (CraftingStep existingStep : stepsToTheRight) {
+            if (existingStep.acceptsInput(stepBeingAdded.getOutputs())) {
+                links.add(new StepLink(stepBeingAdded, existingStep));
+                return;
+            }
         }
         links.add(new StepLink(stepBeingAdded, outputBuffer));
     }
