@@ -153,4 +153,14 @@ public class CraftingStepTest {
         assertNotNull("Producer should always have an output after act()",output);
         assertEquals("Wasn't the right output", expectedOutput, output);
     }
+
+    @Test
+    public void producer_acceptsInput_returnsFalse() throws Exception {
+        assertFalse(producer.acceptsInput());
+    }
+
+    @Test
+    public void step_acceptsInput_returnsTrue() throws Exception {
+        assertTrue(simpleStep.acceptsInput());
+    }
 }

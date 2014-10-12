@@ -17,7 +17,8 @@ public class Node implements Displayable, Comparable<Node> {
     private final String displayName;
     /** All the possible crafting steps this node can use */
     private final ArrayList<CraftingStep> possibleCraftSteps = new ArrayList<CraftingStep>();
-    private final ArrayList<CraftingStepInUse> currentSteps = new ArrayList<CraftingStepInUse>();
+    private final ArrayList<CraftingStep> currentSteps = new ArrayList<CraftingStep>();
+    private final ArrayList<StepLink> links = new ArrayList<StepLink>();
     private final CraftingStep inputBuffer = new CraftingStep("Incoming Items");
     private final CraftingStep outputBuffer = new CraftingStep("Outgoing Items");
 
@@ -71,19 +72,24 @@ public class Node implements Displayable, Comparable<Node> {
     public void addToWorkflow(CraftingStep step, float x, float y) {
         Gdx.app.log(displayName + " adding to workflow", step.getDisplayName());
         if (possibleCraftSteps.contains(step)) {
-            currentSteps.add(new CraftingStepInUse(step, x, y));
+            CraftingStep stepBeingAdded = step.getCopy();
+            stepBeingAdded.setPosition(x, y);
+            currentSteps.add(stepBeingAdded);
+            if (stepBeingAdded.acceptsInput()) {
+                // TODO logic
+            }
         }
     }
 
     public List<CraftingStep> getCurrentStepsUnwrapped() {
         List<CraftingStep> steps = new ArrayList<CraftingStep>();
-        for (CraftingStepInUse inUse : currentSteps) {
-            steps.add(inUse.get());
+        for (CraftingStep inUse : currentSteps) {
+            steps.add(inUse);
         }
         return steps;
     }
 
-    public ArrayList<CraftingStepInUse> getCurrentSteps() {
+    public ArrayList<CraftingStep> getCurrentSteps() {
         return currentSteps;
     }
 
@@ -99,7 +105,7 @@ public class Node implements Displayable, Comparable<Node> {
         return outputBuffer;
     }
 
-    public void setCurrentSteps(Collection<CraftingStepInUse> currentSteps) {
+    public void setCurrentSteps(Collection<CraftingStep> currentSteps) {
         this.currentSteps.clear();
         this.currentSteps.addAll(currentSteps);
     }

@@ -23,6 +23,8 @@ public class CraftingStep implements Displayable {
     private final LinkedList<Item> inputBuffer = new LinkedList<Item>();
     private final LinkedList<Item> outputBuffer = new LinkedList<Item>();
     private final String displayName;
+    private float x = 0;
+    private float y = 0;
 
     public CraftingStep(String displayName, List<Item> inputs, List<Item> outputs) {
         this.displayName = displayName;
@@ -33,6 +35,11 @@ public class CraftingStep implements Displayable {
     /** Creates a step with no inputs or outputs, useful as a buffer that acts like any other step. */
     public CraftingStep(String displayName) {
         this.displayName = displayName;
+    }
+
+    /** @return a new Crafting step with the same ins and outs and names. Will not set X and Y or the buffers */
+    public CraftingStep getCopy() {
+        return new CraftingStep(displayName, validInput, outputs);
     }
 
     /** Gives an item to this step. If the step can use it, it is stored in the step for processing; otherwise it's queued in to the output buffer */
@@ -118,5 +125,22 @@ public class CraftingStep implements Displayable {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean acceptsInput() {
+        return !validInput.isEmpty();
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 }
