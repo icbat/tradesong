@@ -8,18 +8,21 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NodeTest {
     private Node node;
-    private Item validInput;
     private CraftingStep validCraftingStep;
     private CraftingStep invalidCraftingStep;
 
     @Before
     public void setUp() throws Exception {
-        validInput = mock(Item.class);
         validCraftingStep = mock(CraftingStep.class);
+        when(validCraftingStep.getCopy()).thenReturn(validCraftingStep);
+        when(validCraftingStep.getDisplayName()).thenReturn("valid step");
         invalidCraftingStep = mock(CraftingStep.class);
+        when(invalidCraftingStep.getCopy()).thenReturn(invalidCraftingStep);
+        when(validCraftingStep.getDisplayName()).thenReturn("invalid step");
         node = new Node("", "", validCraftingStep);
     }
 
@@ -27,13 +30,13 @@ public class NodeTest {
     public void node_addStep_validstep_accepted() throws Exception {
         node.addToWorkflow(validCraftingStep, 0, 0);
 
-        assertTrue(node.getCurrentStepsUnwrapped().contains(validCraftingStep));
+        assertTrue(node.getCurrentSteps().contains(validCraftingStep));
     }
 
     @Test
     public void node_addStep_invalidStep_rejected() throws Exception {
         node.addToWorkflow(invalidCraftingStep, 0, 0);
 
-        assertFalse(node.getCurrentStepsUnwrapped().contains(invalidCraftingStep));
+        assertFalse(node.getCurrentSteps().contains(invalidCraftingStep));
     }
 }

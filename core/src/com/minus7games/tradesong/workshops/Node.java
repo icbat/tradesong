@@ -70,24 +70,19 @@ public class Node implements Displayable, Comparable<Node> {
 
     /** Adds the step to shop if and only if it is a possible step for this. */
     public void addToWorkflow(CraftingStep step, float x, float y) {
-        Gdx.app.log(displayName + " adding to workflow", step.getDisplayName());
         if (possibleCraftSteps.contains(step)) {
             CraftingStep stepBeingAdded = step.getCopy();
             stepBeingAdded.setPosition(x, y);
             currentSteps.add(stepBeingAdded);
-            if (stepBeingAdded.acceptsInput()) {
-                links.add(new StepLink(inputBuffer, stepBeingAdded));
-            }
-            links.add(new StepLink(stepBeingAdded, outputBuffer));
+            linkSteps(stepBeingAdded);
         }
     }
 
-    public List<CraftingStep> getCurrentStepsUnwrapped() {
-        List<CraftingStep> steps = new ArrayList<CraftingStep>();
-        for (CraftingStep inUse : currentSteps) {
-            steps.add(inUse);
+    private void linkSteps(CraftingStep stepBeingAdded) {
+        if (stepBeingAdded.acceptsInput()) {
+            links.add(new StepLink(inputBuffer, stepBeingAdded));
         }
-        return steps;
+        links.add(new StepLink(stepBeingAdded, outputBuffer));
     }
 
     public ArrayList<CraftingStep> getCurrentSteps() {
