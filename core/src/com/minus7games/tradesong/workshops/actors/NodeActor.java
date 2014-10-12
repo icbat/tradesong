@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.minus7games.tradesong.GameSkin;
 import com.minus7games.tradesong.Tradesong;
 import com.minus7games.tradesong.workshops.CraftingStep;
@@ -21,15 +20,14 @@ import java.util.Map;
 /** Actor representing a node. */
 public class NodeActor extends Group {
     private final Node node;
-    private final Map<CraftingStep, Actor> potentialSteps = new HashMap<CraftingStep, Actor>();
-    private final Map<CraftingStep, Actor> actualSteps = new HashMap<CraftingStep, Actor>();
-    private final DragAndDrop dragAndDrop = new DragAndDrop();
+    private final Map<Actor, CraftingStep> potentialSteps = new HashMap<Actor, CraftingStep>();
+    private final Map<Actor, CraftingStep> actualSteps = new HashMap<Actor, CraftingStep>();
     private Image droppableSpace;
     private Actor inputBox;
     private Actor outputBox;
     public static final int USABLE_SPACE_PADDING = 10;
 
-    public Map<CraftingStep, Actor> getPotentialSteps() {
+    public Map<Actor, CraftingStep> getPotentialSteps() {
         return potentialSteps;
     }
 
@@ -42,6 +40,8 @@ public class NodeActor extends Group {
 
     public void redraw() {
         this.clear();
+        potentialSteps.clear();
+        actualSteps.clear();
         setupChildActors();
     }
 
@@ -94,7 +94,7 @@ public class NodeActor extends Group {
             Gdx.app.debug("Displaying in-use step ("+step.get().getDisplayName()+") at", "" + step.getX() + ", " + step.getY());
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
-            actualSteps.put(step.get(), actor);
+            actualSteps.put(actor, step.get());
             this.addActor(actor);
         }
     }
@@ -119,7 +119,7 @@ public class NodeActor extends Group {
             Gdx.app.debug("Showing crafting step", step.getDisplayName());
             Actor stepActor = step.getActor();
             stepActor.setTouchable(Touchable.enabled);
-            potentialSteps.put(step, stepActor);
+            potentialSteps.put(stepActor, step);
             possibleSteps.add(stepActor).pad(5);
             if (i++ >= maxColumns) {
                 possibleSteps.row();
@@ -132,7 +132,7 @@ public class NodeActor extends Group {
         return droppableSpace;
     }
 
-    public Map<CraftingStep, Actor> getCurrentSteps() {
+    public Map<Actor, CraftingStep> getCurrentSteps() {
         return actualSteps;
     }
 }

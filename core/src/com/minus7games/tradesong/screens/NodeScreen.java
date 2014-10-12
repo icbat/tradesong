@@ -33,35 +33,48 @@ public class NodeScreen extends ScreenWithHUD {
     private void setupDragAndDrop() {
         Gdx.app.log("Node Actor", "Setting up Drag and Drop");
         DragAndDrop dragAndDrop = new DragAndDrop();
-        for (final Map.Entry<CraftingStep, Actor> entry : nodeActor.getPotentialSteps().entrySet()) {
-            final CraftingStep payloadObject = entry.getKey();
-            final Actor dragActor = entry.getKey().getActor();
-            final Actor owningActor = entry.getValue();
-            dragAndDrop.addSource(makeSource(owningActor, dragActor, payloadObject));
-            Gdx.app.log("dnd source added for 'potential'", entry.getKey().getDisplayName());
-        }
-        for (final Map.Entry<CraftingStep, Actor> entry : nodeActor.getCurrentSteps().entrySet()) {
-            final CraftingStep craftingStep = entry.getKey();
-            final Actor owningActor = entry.getValue();
-            final Actor dragActor = entry.getValue();
-            dragAndDrop.addSource(makeSource(owningActor, dragActor, craftingStep));
-            Gdx.app.log("dnd source added for 'in use'", craftingStep.getDisplayName());
-        }
 
+        addPotentialSteps(dragAndDrop);
+        addInUseSteps(dragAndDrop);
         addDroppableSpace(dragAndDrop);
     }
 
-    private DragAndDrop.Source makeSource(final Actor owningActor, final Actor dragActor, final CraftingStep payloadObject) {
-        return new DragAndDrop.Source(owningActor) {
-            @Override
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                Gdx.app.log("drag started", this.getActor().toString());
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject(payloadObject);
-                payload.setDragActor(dragActor);
-                return payload;
-            }
-        };
+    private void addPotentialSteps(DragAndDrop dragAndDrop) {
+        for (final Map.Entry<Actor, CraftingStep> entry : nodeActor.getPotentialSteps().entrySet()) {
+            final CraftingStep payloadObject = entry.getValue();
+            final Actor dragActor = entry.getValue().getActor();
+            final Actor owningActor = entry.getKey();
+            dragAndDrop.addSource(new DragAndDrop.Source(owningActor) {
+                @Override
+                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                    Gdx.app.log("drag started", this.getActor().toString());
+                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                    payload.setObject(payloadObject);
+                    payload.setDragActor(dragActor);
+                    return payload;
+                }
+            });
+            Gdx.app.log("dnd source added for 'potential'", entry.getValue().getDisplayName());
+        }
+    }
+
+    private void addInUseSteps(DragAndDrop dragAndDrop) {
+        for (final Map.Entry<Actor, CraftingStep> entry : nodeActor.getCurrentSteps().entrySet()) {
+            final CraftingStep craftingStep = entry.getValue();
+            final Actor owningActor = entry.getKey();
+            final Actor dragActor = entry.getKey();
+            dragAndDrop.addSource(new DragAndDrop.Source(owningActor) {
+                @Override
+                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                    Gdx.app.log("drag started", this.getActor().toString());
+                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                    payload.setObject(craftingStep);
+                    payload.setDragActor(dragActor);
+                    return payload;
+                }
+            });
+            Gdx.app.log("dnd source added for 'in use'", craftingStep.getDisplayName());
+        }
     }
 
     private void addDroppableSpace(DragAndDrop dragAndDrop) {
