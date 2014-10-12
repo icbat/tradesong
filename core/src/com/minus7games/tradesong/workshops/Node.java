@@ -76,8 +76,9 @@ public class Node implements Displayable, Comparable<Node> {
             stepBeingAdded.setPosition(x, y);
             currentSteps.add(stepBeingAdded);
             if (stepBeingAdded.acceptsInput()) {
-                // TODO logic
+                links.add(new StepLink(inputBuffer, stepBeingAdded));
             }
+            links.add(new StepLink(stepBeingAdded, outputBuffer));
         }
     }
 
