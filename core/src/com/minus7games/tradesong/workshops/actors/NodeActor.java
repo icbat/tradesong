@@ -12,6 +12,7 @@ import com.minus7games.tradesong.GameSkin;
 import com.minus7games.tradesong.Tradesong;
 import com.minus7games.tradesong.workshops.CraftingStep;
 import com.minus7games.tradesong.workshops.Node;
+import com.minus7games.tradesong.workshops.StepLink;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,8 +24,6 @@ public class NodeActor extends Group {
     private final Map<Actor, CraftingStep> potentialSteps = new HashMap<Actor, CraftingStep>();
     private final Map<Actor, CraftingStep> currentSteps = new HashMap<Actor, CraftingStep>();
     private Image droppableSpace;
-    private Actor inputBox;
-    private Actor outputBox;
     public static final int USABLE_SPACE_PADDING = 10;
 
     public Map<Actor, CraftingStep> getPotentialSteps() {
@@ -62,12 +61,21 @@ public class NodeActor extends Group {
 
         droppableSpace = usableBackground(usableMinX, usableMinY, usableWidth, usableHeight);
         this.addActor(droppableSpace);
-        inputBox = inputBox(usableMinX, usableMinY, usableHeight);
+        Actor inputBox = inputBox(usableMinX, usableMinY, usableHeight);
+        node.getInputBuffer().setPosition(inputBox.getX(), inputBox.getY());
         this.addActor(inputBox);
-        outputBox = outputBox(usableWidth, usableMinY, usableHeight);
+        Actor outputBox = outputBox(usableWidth, usableMinY, usableHeight);
+        node.getOutputBuffer().setPosition(outputBox.getX(), outputBox.getY());
         this.addActor(outputBox);
 
         addInUseActors();
+        addLinkActors();
+    }
+
+    private void addLinkActors() {
+        for (StepLink link : node.getLinks()) {
+            this.addActor(link.getActor());
+        }
     }
 
     private Image usableBackground(float usableX, float usableY, float usableWidth, float usableHeight) {

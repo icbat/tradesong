@@ -79,11 +79,6 @@ public class Node implements Displayable, Comparable<Node> {
     }
 
     private void linkSteps(CraftingStep stepBeingAdded) {
-        // TODO Loop through the ones to the left for input
-        // TODO loop through the ones from the right for output
-        // TODO check against the actual inputs/outputs
-        // TODO default to in/out if none found.
-
         Collections.sort(currentSteps);
 
         if (stepBeingAdded.acceptsAnyInput()) {
@@ -135,5 +130,9 @@ public class Node implements Displayable, Comparable<Node> {
     public void setCurrentSteps(Collection<CraftingStep> currentSteps) {
         this.currentSteps.clear();
         this.currentSteps.addAll(currentSteps);
+    }
+
+    public ArrayList<StepLink> getLinks() {
+        return links;
     }
 }
