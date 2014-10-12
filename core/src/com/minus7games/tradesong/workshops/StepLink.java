@@ -35,9 +35,7 @@ public class StepLink implements Displayable {
     }
 
     private float calculateRotation(float deltaX, float deltaY) {
-        final float rotation = (float) Math.toDegrees(Math.atan2(deltaY, deltaX));
-        Gdx.app.log("rotation found at degrees", rotation + "");
-        return rotation;
+        return (float) Math.toDegrees(Math.atan2(deltaY, deltaX));
     }
 
     private float calculateWidth(float deltaX, float deltaY) {
