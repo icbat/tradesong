@@ -1,10 +1,14 @@
 package com.minus7games.tradesong;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.JsonValue;
 
 /***/
-public class Item implements Comparable<Item> {
+public class Item implements Comparable<Item>, Displayable {
     private final String internalName;
     private final String displayName;
     private final String description;
@@ -62,5 +66,13 @@ public class Item implements Comparable<Item> {
     @Override
     public int hashCode() {
         return internalName.hashCode();
+    }
+
+    @Override
+    public Actor getActor() {
+        Table table = new Table(GameSkin.get());
+        table.add(new Image(Tradesong.assets.<Texture>get("icons/" + internalName + ".png")));
+        table.add(displayName).row();
+        return table;
     }
 }

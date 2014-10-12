@@ -2,7 +2,7 @@ package com.minus7games.tradesong.workshops;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.JsonValue;
 import com.minus7games.tradesong.Displayable;
 import com.minus7games.tradesong.GameSkin;
@@ -90,9 +90,12 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
 
     @Override
     public Actor getActor() {
-        final Label label = new Label(this.displayName, GameSkin.get());
-        label.setName(String.valueOf(Math.random()));
-        return label;
+        Table table = new Table(GameSkin.get());
+        table.add(displayName).row();
+        if (!outputs.isEmpty()) {
+            table.add(outputs.get(0).getActor());
+        }
+        return table;
     }
 
     public static List<CraftingStep> parseSteps(JsonValue craftingStepsNode) {

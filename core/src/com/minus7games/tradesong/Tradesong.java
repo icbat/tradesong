@@ -2,7 +2,6 @@ package com.minus7games.tradesong;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.minus7games.tradesong.indices.ItemIndex;
 import com.minus7games.tradesong.indices.NodeIndex;
@@ -22,7 +21,11 @@ public class Tradesong extends Game {
         ItemIndex items = new ItemIndex(Gdx.files.internal("items.json"));
         NodeIndex nodes = new NodeIndex(Gdx.files.internal("nodes.json"));
         assets = new AssetManager();
+
         assets.load("1p.png", Texture.class);
+        for (Item item : ItemIndex.getAllItems()) {
+            assets.loadIcon(item.getInternalName());
+        }
         assets.finishLoading();
     }
 }

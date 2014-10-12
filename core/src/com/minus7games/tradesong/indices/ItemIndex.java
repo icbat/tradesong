@@ -39,4 +39,8 @@ public class ItemIndex {
         Gdx.app.error("Item not found with name", internalName);
         throw new IllegalArgumentException("Item not found with name:  " + internalName);
     }
+
+    public static Set<Item> getAllItems() {
+        return allTheItems;
+    }
 }
