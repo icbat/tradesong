@@ -44,13 +44,17 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
 
     /** Gives an item to this step. If the step can use it, it is stored in the step for processing; otherwise it's queued in to the output buffer */
     public void send(Item input) {
-        if (validInput.contains(input)) {
+        if (acceptsInput(input)) {
             if (!inputBuffer.contains(input)) {
                 inputBuffer.add(input);
                 return;
             }
         }
         outputBuffer.addLast(input);
+    }
+
+    private boolean acceptsInput(Item input) {
+        return validInput.contains(input);
     }
 
     /** Tries to process inputs in the input buffer to create outputs. */
@@ -75,7 +79,7 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
     private boolean canCraft() {
         if (inputBuffer.size() == validInput.size()) {
             for (Item input : inputBuffer) {
-                if (!validInput.contains(input)) {
+                if (!acceptsInput(input)) {
                      return false;
                 }
             }
@@ -135,13 +139,17 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
         return displayName;
     }
 
-    public boolean acceptsInput() {
+    public boolean acceptsAnyInput() {
         return !validInput.isEmpty();
     }
 
-    public boolean acceptsInput(ArrayList<Item> outputs) {
-        // TODO
-        return false;
+    public boolean acceptsInputs(ArrayList<Item> inputs) {
+        for (Item input : inputs) {
+            if (!acceptsInput(input)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public float getX() {

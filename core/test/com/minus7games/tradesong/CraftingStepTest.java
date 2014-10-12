@@ -156,11 +156,11 @@ public class CraftingStepTest {
 
     @Test
     public void producer_acceptsInput_returnsFalse() throws Exception {
-        assertFalse(producer.acceptsInput());
+        assertFalse(producer.acceptsAnyInput());
     }
 
     @Test
     public void step_acceptsInput_returnsTrue() throws Exception {
-        assertTrue(simpleStep.acceptsInput());
+        assertTrue(simpleStep.acceptsAnyInput());
     }
 }
