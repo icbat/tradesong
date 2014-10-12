@@ -7,6 +7,7 @@ import com.minus7games.tradesong.Displayable;
 import com.minus7games.tradesong.workshops.actors.NodeActor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -96,5 +97,10 @@ public class Node implements Displayable, Comparable<Node> {
 
     public CraftingStep getOutputBuffer() {
         return outputBuffer;
+    }
+
+    public void setCurrentSteps(Collection<CraftingStepInUse> currentSteps) {
+        this.currentSteps.clear();
+        this.currentSteps.addAll(currentSteps);
     }
 }

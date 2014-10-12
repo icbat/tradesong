@@ -14,6 +14,7 @@ import com.minus7games.tradesong.workshops.CraftingStep;
 import com.minus7games.tradesong.workshops.CraftingStepInUse;
 import com.minus7games.tradesong.workshops.Node;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 public class NodeActor extends Group {
     private final Node node;
     private final Map<Actor, CraftingStep> potentialSteps = new HashMap<Actor, CraftingStep>();
-    private final Map<Actor, CraftingStep> actualSteps = new HashMap<Actor, CraftingStep>();
+    private final Map<Actor, CraftingStepInUse> currentSteps = new HashMap<Actor, CraftingStepInUse>();
     private Image droppableSpace;
     private Actor inputBox;
     private Actor outputBox;
@@ -41,7 +42,7 @@ public class NodeActor extends Group {
     public void redraw() {
         this.clear();
         potentialSteps.clear();
-        actualSteps.clear();
+        currentSteps.clear();
         setupChildActors();
     }
 
@@ -90,13 +91,17 @@ public class NodeActor extends Group {
     }
 
     private void addInUseActors() {
+        Gdx.app.log("Node Actor", "Constructing map of in-use actors");
+        Gdx.app.log(" before size", currentSteps.size() + "");
+
         for (CraftingStepInUse step : node.getCurrentSteps()) {
             Gdx.app.debug("Displaying in-use step ("+step.get().getDisplayName()+") at", "" + step.getX() + ", " + step.getY());
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
-            actualSteps.put(actor, step.get());
+            currentSteps.put(actor, step);
             this.addActor(actor);
         }
+        Gdx.app.log(" after size", currentSteps.size() + "");
     }
 
     private Table setupTopTable() {
@@ -132,7 +137,13 @@ public class NodeActor extends Group {
         return droppableSpace;
     }
 
-    public Map<Actor, CraftingStep> getCurrentSteps() {
-        return actualSteps;
+    public Map<Actor, CraftingStepInUse> getCurrentSteps() {
+        return currentSteps;
+    }
+
+    public void remove(Actor actor) {
+        this.currentSteps.remove(actor);
+        final Collection<CraftingStepInUse> values = currentSteps.values();
+        node.setCurrentSteps(values);
     }
 }

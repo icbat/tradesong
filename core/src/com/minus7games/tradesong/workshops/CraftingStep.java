@@ -79,7 +79,9 @@ public class CraftingStep implements Displayable {
 
     @Override
     public Actor getActor() {
-        return new Label(this.displayName, GameSkin.get());
+        final Label label = new Label(this.displayName, GameSkin.get());
+        label.setName(String.valueOf(Math.random()));
+        return label;
     }
 
     public static List<CraftingStep> parseSteps(JsonValue craftingStepsNode) {
