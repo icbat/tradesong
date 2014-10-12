@@ -15,16 +15,14 @@ import com.minus7games.tradesong.workshops.CraftingStep;
 import com.minus7games.tradesong.workshops.CraftingStepInUse;
 import com.minus7games.tradesong.workshops.Node;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /** Actor representing a node. */
 public class NodeActor extends Group {
     private final Node node;
     private final Map<CraftingStep, Actor> potentialSteps = new HashMap<CraftingStep, Actor>();
-    private final List<Actor> actualSteps = new ArrayList<Actor>();
+    private final Map<CraftingStep, Actor> actualSteps = new HashMap<CraftingStep, Actor>();
     private final DragAndDrop dragAndDrop = new DragAndDrop();
     private Image droppableSpace;
     private Actor inputBox;
@@ -96,7 +94,7 @@ public class NodeActor extends Group {
             Gdx.app.debug("Displaying in-use step ("+step.get().getDisplayName()+") at", "" + step.getX() + ", " + step.getY());
             Actor actor = step.get().getActor();
             actor.setPosition(step.getX(), step.getY());
-            actualSteps.add(actor);
+            actualSteps.put(step.get(), actor);
             this.addActor(actor);
         }
     }
@@ -132,5 +130,9 @@ public class NodeActor extends Group {
 
     public Image getDroppableSpace() {
         return droppableSpace;
+    }
+
+    public Map<CraftingStep, Actor> getCurrentSteps() {
+        return actualSteps;
     }
 }

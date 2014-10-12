@@ -34,19 +34,37 @@ public class NodeScreen extends ScreenWithHUD {
         Gdx.app.log("Node Actor", "Setting up Drag and Drop");
         DragAndDrop dragAndDrop = new DragAndDrop();
         for (final Map.Entry<CraftingStep, Actor> entry : nodeActor.getPotentialSteps().entrySet()) {
-
-            dragAndDrop.addSource(new DragAndDrop.Source(entry.getValue()) {
-                @Override
-                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                    Gdx.app.log("drag started", this.getActor().toString());
-                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                    payload.setObject(entry.getKey());
-                    payload.setDragActor(entry.getKey().getActor());
-                    return payload;
-                }
-            });
-            Gdx.app.log("dnd source added for", entry.getKey().getDisplayName());
+            final CraftingStep payloadObject = entry.getKey();
+            final Actor dragActor = entry.getKey().getActor();
+            final Actor owningActor = entry.getValue();
+            dragAndDrop.addSource(makeSource(owningActor, dragActor, payloadObject));
+            Gdx.app.log("dnd source added for 'potential'", entry.getKey().getDisplayName());
         }
+        for (final Map.Entry<CraftingStep, Actor> entry : nodeActor.getCurrentSteps().entrySet()) {
+            final CraftingStep craftingStep = entry.getKey();
+            final Actor owningActor = entry.getValue();
+            final Actor dragActor = entry.getValue();
+            dragAndDrop.addSource(makeSource(owningActor, dragActor, craftingStep));
+            Gdx.app.log("dnd source added for 'in use'", craftingStep.getDisplayName());
+        }
+
+        addDroppableSpace(dragAndDrop);
+    }
+
+    private DragAndDrop.Source makeSource(final Actor owningActor, final Actor dragActor, final CraftingStep payloadObject) {
+        return new DragAndDrop.Source(owningActor) {
+            @Override
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                Gdx.app.log("drag started", this.getActor().toString());
+                DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                payload.setObject(payloadObject);
+                payload.setDragActor(dragActor);
+                return payload;
+            }
+        };
+    }
+
+    private void addDroppableSpace(DragAndDrop dragAndDrop) {
         dragAndDrop.addTarget(new DragAndDrop.Target(nodeActor.getDroppableSpace()) {
             @Override
             public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
@@ -70,6 +88,6 @@ public class NodeScreen extends ScreenWithHUD {
                 setupDragAndDrop();
             }
         });
-
     }
+
 }
