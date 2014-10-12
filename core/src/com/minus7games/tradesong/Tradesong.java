@@ -1,27 +1,33 @@
 package com.minus7games.tradesong;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.minus7games.tradesong.indices.ItemIndex;
+import com.minus7games.tradesong.indices.NodeIndex;
+import com.minus7games.tradesong.screens.HomeScreen;
 
-public class Tradesong extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class Tradesong extends Game {
+    public static AssetManager assets;
+    public static Tradesong instance;
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
+    @Override
+    public void create() {
+//        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        instance = this;
+        setupGame();
+        setScreen(new HomeScreen());
+    }
+
+    private void setupGame() {
+        ItemIndex items = new ItemIndex(Gdx.files.internal("items.json"));
+        NodeIndex nodes = new NodeIndex(Gdx.files.internal("nodes.json"));
+        assets = new AssetManager();
+
+        assets.load("1p.png", Texture.class);
+        for (Item item : ItemIndex.getAllItems()) {
+            assets.loadIcon(item.getInternalName());
+        }
+        assets.finishLoading();
+    }
 }
