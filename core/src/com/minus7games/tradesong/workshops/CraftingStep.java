@@ -127,10 +127,6 @@ public class CraftingStep implements Displayable, Comparable<CraftingStep> {
         return items;
     }
 
-    public ArrayList<Item> getValidInput() {
-        return validInput;
-    }
-
     public ArrayList<Item> getOutputs() {
         return outputs;
     }
