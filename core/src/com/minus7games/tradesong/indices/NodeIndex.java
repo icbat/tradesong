@@ -39,4 +39,8 @@ public class NodeIndex {
         Gdx.app.error("Node not found with name", internalName);
         throw new IllegalArgumentException("Node not found with name:  " + internalName);
     }
+
+    public static Set<Node> getAllNodes() {
+        return allTheNodes;
+    }
 }

@@ -5,16 +5,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.minus7games.tradesong.indices.ItemIndex;
 import com.minus7games.tradesong.indices.NodeIndex;
-import com.minus7games.tradesong.screens.NodeScreen;
+import com.minus7games.tradesong.screens.HomeScreen;
 
 public class Tradesong extends Game {
     public static AssetManager assets;
+    public static Tradesong instance;
 
     @Override
     public void create() {
 //        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        instance = this;
         setupGame();
-        setScreen(new NodeScreen(NodeIndex.get("orchard")));
+        setScreen(new HomeScreen());
     }
 
     private void setupGame() {
