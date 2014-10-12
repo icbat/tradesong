@@ -17,7 +17,7 @@ public class StepLink implements Displayable {
     public StepLink(CraftingStep input, CraftingStep output) {
         this.input = input;
         this.output = output;
-        Gdx.app.log("Adding link between", input.getDisplayName() + " at " +input.getX() + " and " + output.getDisplayName() + " at " + output.getX());
+        Gdx.app.debug("Adding link between", input.getDisplayName() + " at " +input.getX() + " and " + output.getDisplayName() + " at " + output.getX());
     }
 
     @Override

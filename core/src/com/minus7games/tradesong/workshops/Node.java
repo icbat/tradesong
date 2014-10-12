@@ -91,7 +91,7 @@ public class Node implements Displayable, Comparable<Node> {
 
     private void linkThisInput(CraftingStep stepBeingAdded) {
         final List<CraftingStep> stepsToTheLeft = currentSteps.subList(0, currentSteps.indexOf(stepBeingAdded));
-        Gdx.app.log("Steps to the left", stepsToTheLeft.toString());
+        Gdx.app.debug("Steps to the left", stepsToTheLeft.toString());
         for (CraftingStep existingStep : stepsToTheLeft) {
             if (stepBeingAdded.acceptsInputs(existingStep.getOutputs())) {
                 links.add(new StepLink(existingStep, stepBeingAdded));
@@ -103,7 +103,7 @@ public class Node implements Displayable, Comparable<Node> {
 
     private void linkThisOutput(CraftingStep stepBeingAdded) {
         final List<CraftingStep> stepsToTheRight = currentSteps.subList(currentSteps.indexOf(stepBeingAdded) + 1, currentSteps.size());
-        Gdx.app.log("Steps to the right", stepsToTheRight.toString());
+        Gdx.app.debug("Steps to the right", stepsToTheRight.toString());
         for (CraftingStep existingStep : stepsToTheRight) {
             if (existingStep.acceptsInputs(stepBeingAdded.getOutputs())) {
                 links.add(new StepLink(stepBeingAdded, existingStep));
