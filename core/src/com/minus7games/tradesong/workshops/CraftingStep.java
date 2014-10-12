@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /** There's one stipulation, no duplicate inputs! */
-public class CraftingStep implements Displayable {
+public class CraftingStep implements Displayable, Comparable<CraftingStep> {
 
     /** Should not be modified. A list of the inputs this Step accepts */
     private final ArrayList<Item> validInput = new ArrayList<Item>();
@@ -142,5 +142,18 @@ public class CraftingStep implements Displayable {
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public int compareTo(CraftingStep o) {
+        final float otherX = o.getX();
+        if (x < otherX) {
+            return -1;
+        }
+        if (x > otherX) {
+            return 1;
+        }
+        return 0;
+
     }
 }
