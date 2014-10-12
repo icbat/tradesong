@@ -74,17 +74,19 @@ public class Node implements Displayable, Comparable<Node> {
             CraftingStep stepBeingAdded = step.getCopy();
             stepBeingAdded.setPosition(x, y);
             currentSteps.add(stepBeingAdded);
-            linkSteps(stepBeingAdded);
+            linkAllSteps();
         }
     }
 
-    private void linkSteps(CraftingStep stepBeingAdded) {
+    public void linkAllSteps() {
+        this.links.clear();
         Collections.sort(currentSteps);
-
-        if (stepBeingAdded.acceptsAnyInput()) {
-            linkThisInput(stepBeingAdded);
+        for (CraftingStep stepBeingAdded : currentSteps) {
+            if (stepBeingAdded.acceptsAnyInput()) {
+                linkThisInput(stepBeingAdded);
+            }
+            linkThisOutput(stepBeingAdded);
         }
-        linkThisOutput(stepBeingAdded);
     }
 
     private void linkThisInput(CraftingStep stepBeingAdded) {

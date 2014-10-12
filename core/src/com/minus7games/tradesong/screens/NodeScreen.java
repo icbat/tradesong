@@ -89,6 +89,8 @@ public class NodeScreen extends ScreenWithHUD {
             public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
                 super.reset(source, payload);
                 getActor().setColor(Color.DARK_GRAY);
+                nodeActor.redraw();
+                setupDragAndDrop();
             }
 
             @Override

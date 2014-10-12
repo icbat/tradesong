@@ -41,6 +41,7 @@ public class NodeActor extends Group {
         this.clear();
         potentialSteps.clear();
         currentSteps.clear();
+        node.linkAllSteps();
         setupChildActors();
     }
 
