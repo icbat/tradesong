@@ -1,4 +1,4 @@
-package com.minus7games.tradesong.workshops.actors;
+package com.minus7games.tradesong.workshops.scene2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
