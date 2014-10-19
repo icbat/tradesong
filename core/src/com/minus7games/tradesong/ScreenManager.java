@@ -19,10 +19,14 @@ public class ScreenManager {
         return instance;
     }
 
+    /** Convenience method, adds a screen and adds it to the historical chain */
     public void moveToScreen(Screen screen) {
         moveToScreen(screen, true);
     }
 
+    /** Moves to a screen.
+     *
+     * @param addToChain if true, will add this screen to the "back trail" */
     public void moveToScreen(Screen screen, boolean addToChain) {
         Gdx.app.log("Screen Manager", "move to screen called with addToChain = " + addToChain);
         if (addToChain) {
@@ -31,6 +35,7 @@ public class ScreenManager {
         gameInstance.setScreen(screen);
     }
 
+    /** Sets the screen to the last one moved to and added to the chain, if one exists. */
     public void goBack() {
         Gdx.app.log("Screen Manager", "Go back called");
         if (!chain.isEmpty()) {
