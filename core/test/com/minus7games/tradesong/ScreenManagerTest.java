@@ -18,8 +18,8 @@ public class ScreenManagerTest {
     @Before
     public void setUp() throws Exception {
         // Necessary so log statements won't throw NPE
-        Gdx.app = mock(Application.class);
         game = mock(Tradesong.class);
+        Gdx.app = mock(Application.class);
         screenManager = new ScreenManager(game);
     }
 
@@ -31,23 +31,25 @@ public class ScreenManagerTest {
     }
 
     @Test
-    public void goBack_oneThingAdded_goesToIt() throws Exception {
+    public void goBack_oneScreenAdded_doesNothing() throws Exception {
         Screen screen = mock(Screen.class);
         screenManager.moveToScreen(screen, true);
+        verify(game, times(1)).setScreen(screen);
 
         screenManager.goBack();
 
-        verify(game, times(2)).setScreen(screen);
+        verifyNoMoreInteractions(game);
     }
 
     @Test
     public void moveButDontAddToChain() throws Exception {
         Screen screen = mock(Screen.class);
         screenManager.moveToScreen(screen, false);
+        verify(game, times(1)).setScreen(screen);
 
         screenManager.goBack();
 
-        verify(game, times(1)).setScreen(screen);
+        verifyNoMoreInteractions(game);
     }
 
     @Test
@@ -56,11 +58,13 @@ public class ScreenManagerTest {
         Screen secondScreen = mock(Screen.class);
         screenManager.moveToScreen(firstScreen, true);
         screenManager.moveToScreen(secondScreen, true);
+        verify(game, times(1)).setScreen(firstScreen);
+        verify(game, times(1)).setScreen(secondScreen);
 
         screenManager.goBack();
 
-        verify(game, times(2)).setScreen(secondScreen);
-        verify(game, times(1)).setScreen(firstScreen);
+        verify(game, times(1)).setScreen(secondScreen);
+        verify(game, times(2)).setScreen(firstScreen);
     }
 
 }

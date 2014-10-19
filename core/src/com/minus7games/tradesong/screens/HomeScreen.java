@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.minus7games.tradesong.GameSkin;
-import com.minus7games.tradesong.Tradesong;
+import com.minus7games.tradesong.ScreenManager;
 import com.minus7games.tradesong.indices.NodeIndex;
 import com.minus7games.tradesong.workshops.Node;
 
@@ -37,7 +37,7 @@ public class HomeScreen extends ScreenWithHUD {
         public void clicked(InputEvent event, float x, float y) {
             super.clicked(event, x, y);
             Gdx.app.log("moving to screen", node.getDisplayName());
-            Tradesong.instance.setScreen(new NodeScreen(node));
+            ScreenManager.get().moveToScreen(new NodeScreen(node));
         }
     }
 }

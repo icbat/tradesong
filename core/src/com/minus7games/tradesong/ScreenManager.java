@@ -13,6 +13,7 @@ public class ScreenManager {
 
     public ScreenManager(Tradesong gameInstance) {
         this.gameInstance = gameInstance;
+        instance = this;
     }
 
     public static ScreenManager get() {
@@ -38,12 +39,17 @@ public class ScreenManager {
     /** Sets the screen to the last one moved to and added to the chain, if one exists. */
     public void goBack() {
         Gdx.app.log("Screen Manager", "Go back called");
-        if (!chain.isEmpty()) {
+        if (hasLegalBack()) {
+            chain.removeFirst();
             final Screen firstScreen = chain.pop();
             Gdx.app.log("moving to screen", firstScreen.toString());
             gameInstance.setScreen(firstScreen);
         } else {
             Gdx.app.log("no screen found", "doing nothing!");
         }
+    }
+
+    private boolean hasLegalBack() {
+        return chain.size() > 1;
     }
 }
