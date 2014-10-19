@@ -14,10 +14,10 @@ public class GoBackButton extends TextButton {
         super("Go Back", GameSkin.get());
         if (ScreenManager.get().canGoBack()) {
             this.setDisabled(false);
+            this.addListener(new GoBackOnClickListener());
         } else {
             this.setDisabled(true);
         }
-        this.addListener(new GoBackOnClickListener());
     }
 
     private class GoBackOnClickListener extends ClickListener {
