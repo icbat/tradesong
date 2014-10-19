@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.minus7games.tradesong.GameSkin;
 import com.minus7games.tradesong.screens.scene2d.GoBackButton;
+import com.minus7games.tradesong.screens.scene2d.LoggedClickListener;
 
 /***/
 public abstract class ScreenWithHUD extends BaseScreen {
@@ -14,9 +15,7 @@ public abstract class ScreenWithHUD extends BaseScreen {
         Table table = new Table(GameSkin.get());
         table.setFillParent(true);
         table.align(Align.bottom + Align.left);
-
         table.add(new GoBackButton()).pad(5);
-
         return table;
     }
 
@@ -29,6 +28,7 @@ public abstract class ScreenWithHUD extends BaseScreen {
     protected void afterClearStep() {
         Gdx.app.debug("screen w/ hud", "after clear step");
         stage.setDebugAll(true);
+        stage.addListener(new LoggedClickListener("the stage"));
         stage.addActor(makeHUD());
     }
 

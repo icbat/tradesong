@@ -10,10 +10,6 @@ public class BaseScreen implements Screen {
     public static final String BASE_SCREEN = "base screen";
     protected Stage stage = new Stage();
 
-    public BaseScreen() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
     @Override
     public void render(float delta) {
         actStep(delta);
@@ -36,6 +32,7 @@ public class BaseScreen implements Screen {
     public void resize(int width, int height) {
         Gdx.app.debug(BASE_SCREEN, "resized to " + width + " wide by " + height + " high");
         stage.getViewport().update(width, height);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
