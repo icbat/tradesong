@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.minus7games.tradesong.workshops.CraftingStep;
 import com.minus7games.tradesong.workshops.Node;
-import com.minus7games.tradesong.workshops.actors.NodeActor;
+import com.minus7games.tradesong.workshops.scene2d.NodeActor;
 
 import java.util.Map;
 
@@ -15,18 +15,19 @@ import java.util.Map;
 public class NodeScreen extends ScreenWithHUD {
 
     private final Node node;
-    private NodeActor nodeActor;
+    private final NodeActor nodeActor;
 
     public NodeScreen(Node node) {
         this.node = node;
+        this.nodeActor = (NodeActor) node.getActor();
     }
 
     @Override
     protected void resetStage() {
-        super.resetStage();
-        nodeActor = (NodeActor) node.getActor();
+        this.clearStep();
         setupDragAndDrop();
         stage.addActor(nodeActor);
+        this.afterClearStep();
     }
 
     private void setupDragAndDrop() {
