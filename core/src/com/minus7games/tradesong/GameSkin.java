@@ -20,6 +20,7 @@ public class GameSkin extends Skin {
         TextButton.TextButtonStyle defaultTextButtonStyle = new TextButton.TextButtonStyle();
         defaultTextButtonStyle.font = defaultFont;
         defaultTextButtonStyle.fontColor = Color.WHITE;
+        defaultTextButtonStyle.disabledFontColor = Color.DARK_GRAY;
 
         this.add("default", defaultFont);
         this.add("default", defaultLabelStyle);

@@ -39,7 +39,7 @@ public class ScreenManager {
     /** Sets the screen to the last one moved to and added to the chain, if one exists. */
     public void goBack() {
         Gdx.app.log("Screen Manager", "Go back called");
-        if (hasLegalBack()) {
+        if (canGoBack()) {
             chain.removeFirst();
             final Screen firstScreen = chain.pop();
             Gdx.app.log("moving to screen", firstScreen.toString());
@@ -49,7 +49,8 @@ public class ScreenManager {
         }
     }
 
-    private boolean hasLegalBack() {
+    /** @return whether or not goBack would do anything right now. */
+    public boolean canGoBack() {
         return chain.size() > 1;
     }
 }

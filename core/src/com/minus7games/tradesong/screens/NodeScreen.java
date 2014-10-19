@@ -22,12 +22,11 @@ public class NodeScreen extends ScreenWithHUD {
     }
 
     @Override
-    public void resize(int width, int height) {
-        stage.clear();
+    protected void resetStage() {
+        super.resetStage();
         nodeActor = (NodeActor) node.getActor();
         setupDragAndDrop();
         stage.addActor(nodeActor);
-        super.resize(width, height);
     }
 
     private void setupDragAndDrop() {

@@ -12,7 +12,10 @@ import com.minus7games.tradesong.workshops.Node;
 
 /** A simple screen that takes you to nodes.  */
 public class HomeScreen extends ScreenWithHUD {
-    public HomeScreen() {
+
+    @Override
+    protected void resetStage() {
+        super.resetStage();
         final Table table = new Table(GameSkin.get());
         stage.addActor(table);
 

@@ -16,7 +16,7 @@ public class Tradesong extends Game {
 //        Gdx.app.setLogLevel(Application.LOG_DEBUG);
         instance = this;
         setupGame();
-        setScreen(new HomeScreen());
+        ScreenManager.get().moveToScreen(new HomeScreen());
     }
 
     private void setupGame() {
