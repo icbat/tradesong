@@ -1,6 +1,9 @@
 package icbat.games.tradesong.game;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,6 +15,11 @@ public class TurnTakerTest {
 
     protected TurnTaker turnTaker;
     protected ArrayList<Workshop> workshops;
+
+    @BeforeClass
+    public static void setupGdx() {
+        Gdx.app = mock(Application.class);
+    }
 
     @Before
     public void setUp() throws Exception {
