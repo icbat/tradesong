@@ -25,31 +25,31 @@ public class PrototypeScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        Gdx.app.debug("proto screen", "resized");
     }
 
     @Override
     public void show() {
-
+        Gdx.app.debug("proto screen", "shown");
     }
 
     @Override
     public void hide() {
-
+        Gdx.app.debug("proto screen", "hidden");
     }
 
     @Override
     public void pause() {
-
+        Gdx.app.debug("proto screen", "paused");
     }
 
     @Override
     public void resume() {
-
+        Gdx.app.debug("proto screen", "resumed");
     }
 
     @Override
     public void dispose() {
-
+        Gdx.app.debug("proto screen", "disposed");
     }
 }
