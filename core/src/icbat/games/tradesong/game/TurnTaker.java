@@ -13,6 +13,10 @@ public class TurnTaker {
         this.storage = storage;
     }
 
+    public Collection<Workshop> getActiveWorkshops() {
+        return workshops;
+    }
+
     public void takeAllTurns() {
         Gdx.app.log("Turn Taker", "Taking all turns");
         for (Workshop workshop : workshops) {

@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.TurnTaker;
@@ -56,22 +58,45 @@ public class PrototypeScreen implements Screen {
     private void setupStage() {
         stage.clear();
         final Table layout = new Table();
+        layout.align(Align.top);
         layout.setFillParent(true);
         stage.addActor(layout);
 
         final Label.LabelStyle basicStyle = new Label.LabelStyle();
         basicStyle.font = new BitmapFont();
 
-        layout.add(new Label("Workshop List", basicStyle)).pad(10);
+        layout.add(makePotentialWorkshopsSection(basicStyle)).pad(10).align(Align.top);
+        layout.add(makeActiveWorkshopsSection(basicStyle)).pad(10).align(Align.top);
+        layout.add(makeStorageSection(basicStyle)).pad(10).align(Align.top);
+        layout.add(makeContractSection(basicStyle)).pad(10).align(Align.top);
+    }
+
+    private Actor makeContractSection(Label.LabelStyle basicStyle) {
+        return new Label("Contract List", basicStyle);
+    }
+
+    private Actor makePotentialWorkshopsSection(Label.LabelStyle basicStyle) {
+        return new Label("Potential Workshops", basicStyle);
+    }
+
+    private Actor makeActiveWorkshopsSection(Label.LabelStyle basicStyle) {
+        Table activeDisplay = new Table();
+        final Label header = new Label("Active Workshops", basicStyle);
+        activeDisplay.add(header).pad(10).row();
+        for (Workshop workshop : turnTaker.getActiveWorkshops()) {
+            activeDisplay.add(new Label(workshop.getClass().getSimpleName(), basicStyle));
+        }
+        return activeDisplay;
+    }
+
+    private Actor makeStorageSection(Label.LabelStyle basicStyle) {
         Table storageDisplay = new Table();
         final Label storageHeader = new Label("Storage", basicStyle);
         storageDisplay.add(storageHeader).pad(10).row();
         for (Item item : storage) {
             storageDisplay.add(item.getActor()).row();
         }
-        layout.add(storageDisplay).pad(10);
-        layout.add(new Label("Contract List", basicStyle)).pad(10);
-
+        return storageDisplay;
     }
 
     private void setupTurnTaker() {
