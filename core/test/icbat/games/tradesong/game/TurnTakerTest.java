@@ -24,7 +24,7 @@ public class TurnTakerTest {
     @Before
     public void setUp() throws Exception {
         workshops = new ArrayList<Workshop>();
-        turnTaker = new TurnTaker(workshops);
+        turnTaker = new TurnTaker(workshops, new ArrayList<Item>());
     }
 
     @Test
