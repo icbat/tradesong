@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game.workshops;
 
+import icbat.games.tradesong.game.Item;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class ProducerWorkshopTest {
 
     @Before
     public void setUp() throws Exception {
-        producer = new ProducerWorkshop();
+        producer = new ProducerWorkshop(new Item("an Item"));
     }
 
     @Test
@@ -48,7 +49,7 @@ public class ProducerWorkshopTest {
     public void getNextOutput_happyPath() throws Exception {
         producer.takeTurn();
         assertTrue("producer taking turn did nothing", producer.hasOutput());
-        final String output = producer.getNextOutput();
+        final Item output = producer.getNextOutput();
 
         assertNotNull(output);
     }

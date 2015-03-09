@@ -15,5 +15,5 @@ public interface Workshop {
      * @return the next item output if one exists
      * @throws java.lang.IllegalStateException if there are no outputs to collect; please check with hasOutput first!
      */
-    String getNextOutput();
+    Item getNextOutput();
 }

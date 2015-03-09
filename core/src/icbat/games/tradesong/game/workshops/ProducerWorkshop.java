@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game.workshops;
 
+import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.Workshop;
 
 import java.util.ArrayList;
@@ -7,8 +8,12 @@ import java.util.List;
 
 public class ProducerWorkshop implements Workshop {
 
-    protected String itemProduced = "an item";
-    List<String> outputQueue = new ArrayList<String>();
+    private final Item itemProduced;
+    List<Item> outputQueue = new ArrayList<Item>();
+
+    public ProducerWorkshop(Item itemProduced) {
+        this.itemProduced = itemProduced;
+    }
 
     @Override
     public void takeTurn() {
@@ -21,7 +26,7 @@ public class ProducerWorkshop implements Workshop {
     }
 
     @Override
-    public String getNextOutput() {
+    public Item getNextOutput() {
         if (outputQueue.isEmpty()) {
             throw new IllegalStateException("Dev error, " + this.getClass().getName() + " was accessed when there was no output");
         }

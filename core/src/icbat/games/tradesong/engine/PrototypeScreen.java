@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Timer;
+import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.Workshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
@@ -19,7 +20,7 @@ public class PrototypeScreen implements Screen {
     private Timer turnTimer = new Timer();
 
     public PrototypeScreen() {
-        workshops.add(new ProducerWorkshop());
+        workshops.add(new ProducerWorkshop(new Item("an Item")));
     }
 
     @Override
