@@ -17,7 +17,12 @@ public class TurnTaker {
         Gdx.app.log("Turn Taker", "Taking all turns");
         for (Workshop workshop : workshops) {
             workshop.takeTurn();
+            if (workshop.hasOutput()) {
+                final Item output = workshop.getNextOutput();
+                storage.add(output);
+            }
         }
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
+        Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
     }
 }

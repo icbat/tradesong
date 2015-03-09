@@ -18,7 +18,7 @@ import java.util.Collection;
 
 public class PrototypeScreen implements Screen {
 
-    public static final int TURN_TIMER = 10;
+    public static final int TURN_TIMER = 1;
     protected ArrayList<Item> storage = new ArrayList<Item>();
     private Collection<Workshop> workshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
@@ -33,6 +33,7 @@ public class PrototypeScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        setupStage();
         stage.draw();
     }
 
@@ -48,8 +49,6 @@ public class PrototypeScreen implements Screen {
     }
 
     private void setupScreen() {
-        Gdx.app.debug("proto screen", "setting up stage");
-        setupStage();
         Gdx.app.debug("proto screen", "setting up TurnTaker");
         setupTurnTaker();
     }
@@ -64,7 +63,13 @@ public class PrototypeScreen implements Screen {
         basicStyle.font = new BitmapFont();
 
         layout.add(new Label("Workshop List", basicStyle)).pad(10);
-        layout.add(new Label("Storage", basicStyle)).pad(10);
+        Table storageDisplay = new Table();
+        final Label storageHeader = new Label("Storage", basicStyle);
+        storageDisplay.add(storageHeader).pad(10).row();
+        for (Item item : storage) {
+            storageDisplay.add(item.getActor()).row();
+        }
+        layout.add(storageDisplay).pad(10);
         layout.add(new Label("Contract List", basicStyle)).pad(10);
 
     }
