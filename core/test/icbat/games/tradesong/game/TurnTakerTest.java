@@ -49,7 +49,7 @@ public class TurnTakerTest {
         turnTaker.takeAllTurns();
 
         assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorageSize());
+        assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorage().size());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TurnTakerTest {
         turnTaker.takeAllTurns();
 
         assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 3, holdings.getStorageSize());
+        assertEquals("storage should only have 1 item for 1 producer", 3, holdings.getStorage().size());
     }
 
     @Test

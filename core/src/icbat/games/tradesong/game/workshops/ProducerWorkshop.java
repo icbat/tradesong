@@ -1,12 +1,11 @@
 package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
-import icbat.games.tradesong.game.Workshop;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerWorkshop extends Workshop {
+public class ProducerWorkshop extends DelayedWorkshop implements ItemCreator {
 
     private final Item itemProduced;
     List<Item> outputQueue = new ArrayList<Item>();
@@ -21,7 +20,7 @@ public class ProducerWorkshop extends Workshop {
     }
 
     @Override
-    public void doWork() {
+    protected void doWork() {
         outputQueue.add(itemProduced);
     }
 

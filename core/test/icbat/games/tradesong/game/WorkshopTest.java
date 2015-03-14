@@ -1,57 +1,65 @@
 package icbat.games.tradesong.game;
 
+import icbat.games.tradesong.game.workshops.DelayedWorkshop;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 
 public class WorkshopTest {
 
+    DelayedWorkshop workshop;
+
     @Test
     public void oneTurnToOutput() throws Exception {
-        Workshop workshop = new TestWorkshop(1);
-        assertFalse("had output before work", workshop.hasOutput());
+        workshop = spy(new TestWorkshop(1));
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
 
         workshop.takeTurn();
 
-        assertTrue("doesn't have output after correct # of turns", workshop.hasOutput());
+        Mockito.verify((TestWorkshop) workshop).doWork();
     }
 
     @Test
     public void multipleTurnsToOutput() throws Exception {
-        Workshop delayedWorkshop = new TestWorkshop(3);
-        assertFalse("had output before work", delayedWorkshop.hasOutput());
+        workshop = spy(new TestWorkshop(3));
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
 
-        delayedWorkshop.takeTurn();
-        assertFalse("has premature output", delayedWorkshop.hasOutput());
-        delayedWorkshop.takeTurn();
-        assertFalse("has premature output", delayedWorkshop.hasOutput());
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
 
-        delayedWorkshop.takeTurn();
-        assertTrue("doesn't have output after correct # of turns", delayedWorkshop.hasOutput());
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop).doWork();
     }
 
-    class TestWorkshop extends Workshop {
+    @Test
+    public void multipleTurns_resetsAfterWork() throws Exception {
+        workshop = spy(new TestWorkshop(3));
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
 
-        protected boolean workWasDone = false;
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop, never()).doWork();
 
-        public TestWorkshop(int turnsTaken) {
-            this.turnsRequiredForWork = turnsTaken;
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop).doWork();
+
+        workshop.takeTurn();
+        Mockito.verify((TestWorkshop) workshop).doWork();
+    }
+
+    private class TestWorkshop extends DelayedWorkshop {
+        public TestWorkshop(int delay) {
+            this.turnsRequiredForWork = delay;
         }
 
         @Override
-        protected void doWork() {
-            workWasDone = true;
-        }
+        public void doWork() {
 
-        @Override
-        public boolean hasOutput() {
-            return workWasDone;
-        }
-
-        @Override
-        public Item getNextOutput() {
-            return null;
         }
 
         @Override
