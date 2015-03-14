@@ -7,6 +7,7 @@ import java.util.Collection;
 public class TurnTaker {
     private final Collection<Workshop> workshops;
     private final Collection<Item> storage;
+    private int currentTurn = 1;
 
     public TurnTaker(Collection<Workshop> workshops, Collection<Item> storage) {
         this.workshops = workshops;
@@ -18,7 +19,7 @@ public class TurnTaker {
     }
 
     public void takeAllTurns() {
-        Gdx.app.log("Turn Taker", "Taking all turns");
+        Gdx.app.log("Turn Taker", "Taking turn " + currentTurn);
         for (Workshop workshop : workshops) {
             workshop.takeTurn();
             if (workshop.hasOutput()) {
@@ -26,7 +27,12 @@ public class TurnTaker {
                 storage.add(output);
             }
         }
+        currentTurn++;
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
     }
 }

@@ -68,4 +68,16 @@ public class TurnTakerTest {
         assertFalse("storage didn't get an item when it should", storage.isEmpty());
         assertEquals("storage should only have 1 item for 1 producer", 3, storage.size());
     }
+
+    @Test
+    public void currentTurn_movesAsExpected() throws Exception {
+        assertEquals("current turn not setup right", 1, turnTaker.getCurrentTurn());
+
+        turnTaker.takeAllTurns();
+        assertEquals("current turn not incrementing right", 2, turnTaker.getCurrentTurn());
+
+        turnTaker.takeAllTurns();
+        assertEquals("current turn not incrementing right", 3, turnTaker.getCurrentTurn());
+
+    }
 }
