@@ -62,7 +62,7 @@ public class PrototypeLayoutTable extends Table {
             potentialDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).pad(5);
             final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
             textButtonStyle.font = new BitmapFont();
-            final TextButton addButton = new TextButton("Add", textButtonStyle);
+            final TextButton addButton = new TextButton("+", textButtonStyle);
             addButton.addListener(new ClickListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
