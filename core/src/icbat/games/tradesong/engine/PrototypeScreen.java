@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.Workshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
@@ -17,8 +18,8 @@ import java.util.Collection;
 public class PrototypeScreen implements Screen {
 
     public static final int TURN_TIMER = 1;
-    protected ArrayList<Item> storage = new ArrayList<Item>();
-    private Collection<Workshop> workshops = new ArrayList<Workshop>();
+    private PlayerHoldings holdings = new PlayerHoldings();
+
     private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
     private Timer turnTimer = new Timer();
@@ -57,12 +58,12 @@ public class PrototypeScreen implements Screen {
 
     private void setupStage() {
         stage.clear();
-        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, storage, workshops);
+        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings);
         stage.addActor(layout);
     }
 
     private void setupTurnTaker() {
-        turnTaker = new TurnTaker(workshops, storage);
+        turnTaker = new TurnTaker(holdings);
         turnTimer.clear();
         turnTimer.scheduleTask(new Timer.Task() {
             @Override

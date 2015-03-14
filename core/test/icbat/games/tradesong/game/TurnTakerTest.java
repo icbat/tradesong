@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -16,8 +14,7 @@ import static org.mockito.Mockito.verify;
 public class TurnTakerTest {
 
     protected TurnTaker turnTaker;
-    protected ArrayList<Workshop> workshops;
-    protected ArrayList<Item> storage;
+    protected PlayerHoldings holdings;
 
     @BeforeClass
     public static void setupGdx() {
@@ -26,47 +23,46 @@ public class TurnTakerTest {
 
     @Before
     public void setUp() {
-        workshops = new ArrayList<Workshop>();
-        storage = new ArrayList<Item>();
-        turnTaker = new TurnTaker(workshops, storage);
+        holdings = new PlayerHoldings();
+        turnTaker = new TurnTaker(holdings);
     }
 
     @Test
     public void workshops_doWork() {
         final Workshop workshop = mock(Workshop.class);
-        workshops.add(workshop);
+        holdings.addWorkshop(workshop);
         final Workshop secondShop = mock(Workshop.class);
-        workshops.add(secondShop);
+        holdings.addWorkshop(secondShop);
 
         turnTaker.takeAllTurns();
 
         verify(workshop).takeTurn();
         verify(secondShop).takeTurn();
-        assertTrue("storage was touched despite using mocked workshops", storage.isEmpty());
+        assertTrue("storage was touched despite using mocked workshops", holdings.getStorage().isEmpty());
     }
 
     @Test
     public void generators_addItemsToStorage() {
-        workshops.add(new ProducerWorkshop(mock(Item.class)));
-        assertTrue("test bad, storage started non-empty", storage.isEmpty());
+        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", storage.isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 1, storage.size());
+        assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorageSize());
     }
 
     @Test
     public void producers_multiplesAllAddToStorage() {
-        workshops.add(new ProducerWorkshop(mock(Item.class)));
-        workshops.add(new ProducerWorkshop(mock(Item.class)));
-        workshops.add(new ProducerWorkshop(mock(Item.class)));
-        assertTrue("test bad, storage started non-empty", storage.isEmpty());
+        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", storage.isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 3, storage.size());
+        assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 3, holdings.getStorageSize());
     }
 
     @Test

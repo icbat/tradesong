@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.Workshop;
 
@@ -21,15 +22,13 @@ import java.util.Collection;
 public class PrototypeLayoutTable extends Table {
     private final TurnTaker turnTaker;
     private final Collection<Workshop> potentialWorkshops;
-    private final Collection<Item> storage;
-    private final Collection<Workshop> workshops;
+    private final PlayerHoldings holdings;
 
 
-    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, Collection<Item> storage, Collection<Workshop> workshops) {
+    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, PlayerHoldings holdings) {
         this.turnTaker = turnTaker;
         this.potentialWorkshops = potentialWorkshops;
-        this.storage = storage;
-        this.workshops = workshops;
+        this.holdings = holdings;
         align(Align.top);
         setFillParent(true);
 
@@ -67,7 +66,7 @@ public class PrototypeLayoutTable extends Table {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Gdx.app.log("add button", "clicked!");
-                    workshops.add(workshop);
+                    holdings.addWorkshop(workshop);
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
@@ -82,7 +81,7 @@ public class PrototypeLayoutTable extends Table {
         Table activeDisplay = new Table();
         final Label header = new Label("Active Workshops", basicStyle);
         activeDisplay.add(header).pad(10).row();
-        for (final Workshop workshop : turnTaker.getActiveWorkshops()) {
+        for (final Workshop workshop : holdings.getWorkshops()) {
             activeDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).pad(5);
             final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
             textButtonStyle.font = new BitmapFont();
@@ -91,7 +90,7 @@ public class PrototypeLayoutTable extends Table {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Gdx.app.log("add button", "clicked!");
-                    turnTaker.getActiveWorkshops().remove(workshop);
+                    holdings.removeWorkshop(workshop);
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
@@ -105,7 +104,7 @@ public class PrototypeLayoutTable extends Table {
         Table storageDisplay = new Table();
         final Label storageHeader = new Label("Storage", basicStyle);
         storageDisplay.add(storageHeader).pad(10).row();
-        for (Item item : storage) {
+        for (Item item : holdings.getStorage()) {
             storageDisplay.add(item.getActor()).row();
         }
         return storageDisplay;
