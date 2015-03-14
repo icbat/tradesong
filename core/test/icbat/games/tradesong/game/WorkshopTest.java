@@ -53,5 +53,10 @@ public class WorkshopTest {
         public Item getNextOutput() {
             return null;
         }
+
+        @Override
+        public String getWorkshopName() {
+            return null;
+        }
     }
 }

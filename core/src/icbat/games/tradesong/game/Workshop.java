@@ -33,4 +33,6 @@ public abstract class Workshop {
      * @throws java.lang.IllegalStateException if there are no outputs to collect; please check with hasOutput first!
      */
     public abstract Item getNextOutput();
+
+    public abstract String getWorkshopName();
 }

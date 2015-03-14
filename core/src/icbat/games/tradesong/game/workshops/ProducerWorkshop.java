@@ -37,4 +37,9 @@ public class ProducerWorkshop extends Workshop {
         }
         return outputQueue.remove(0);
     }
+
+    @Override
+    public String getWorkshopName() {
+        return itemProduced.getName() + " Producer";
+    }
 }

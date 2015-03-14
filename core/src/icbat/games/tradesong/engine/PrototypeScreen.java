@@ -93,7 +93,7 @@ public class PrototypeScreen implements Screen {
         final Label header = new Label("Active Workshops", basicStyle);
         activeDisplay.add(header).pad(10).row();
         for (Workshop workshop : turnTaker.getActiveWorkshops()) {
-            activeDisplay.add(new Label(workshop.getClass().getSimpleName(), basicStyle));
+            activeDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).row();
         }
         return activeDisplay;
     }

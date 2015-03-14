@@ -12,6 +12,10 @@ public class Item implements Displayable {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Actor getActor() {
         final Label.LabelStyle labelStyle = new Label.LabelStyle();
