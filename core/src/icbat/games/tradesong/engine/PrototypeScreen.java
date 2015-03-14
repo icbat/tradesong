@@ -3,6 +3,7 @@ package icbat.games.tradesong.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,6 +30,7 @@ public class PrototypeScreen implements Screen {
 
     public PrototypeScreen() {
         workshops.add(new ProducerWorkshop(new Item("an Item")));
+        workshops.add(new ProducerWorkshop(new Item("a better item"), 3));
     }
 
     @Override
@@ -65,6 +67,13 @@ public class PrototypeScreen implements Screen {
         final Label.LabelStyle basicStyle = new Label.LabelStyle();
         basicStyle.font = new BitmapFont();
 
+        layout.add(new Label("", basicStyle) {
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                this.setText("Turn count: " + turnTaker.getCurrentTurn());
+                super.draw(batch, parentAlpha);
+            }
+        }).pad(10).align(Align.top).row();
         layout.add(makePotentialWorkshopsSection(basicStyle)).pad(10).align(Align.top);
         layout.add(makeActiveWorkshopsSection(basicStyle)).pad(10).align(Align.top);
         layout.add(makeStorageSection(basicStyle)).pad(10).align(Align.top);

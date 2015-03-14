@@ -6,7 +6,7 @@ import icbat.games.tradesong.game.Workshop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerWorkshop implements Workshop {
+public class ProducerWorkshop extends Workshop {
 
     private final Item itemProduced;
     List<Item> outputQueue = new ArrayList<Item>();
@@ -15,8 +15,13 @@ public class ProducerWorkshop implements Workshop {
         this.itemProduced = itemProduced;
     }
 
+    public ProducerWorkshop(Item itemProduced, int turnsRequired) {
+        this.itemProduced = itemProduced;
+        this.turnsRequiredForWork = turnsRequired;
+    }
+
     @Override
-    public void takeTurn() {
+    public void doWork() {
         outputQueue.add(itemProduced);
     }
 
