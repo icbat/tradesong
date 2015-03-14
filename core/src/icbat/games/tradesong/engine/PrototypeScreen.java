@@ -3,13 +3,8 @@ package icbat.games.tradesong.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.TurnTaker;
@@ -24,13 +19,15 @@ public class PrototypeScreen implements Screen {
     public static final int TURN_TIMER = 1;
     protected ArrayList<Item> storage = new ArrayList<Item>();
     private Collection<Workshop> workshops = new ArrayList<Workshop>();
+    private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
     private Timer turnTimer = new Timer();
     private Stage stage = new Stage();
 
     public PrototypeScreen() {
-        workshops.add(new ProducerWorkshop(new Item("an Item")));
-        workshops.add(new ProducerWorkshop(new Item("a better item"), 3));
+        Gdx.input.setInputProcessor(stage);
+        potentialWorkshops.add(new ProducerWorkshop(new Item("an Item")));
+        potentialWorkshops.add(new ProducerWorkshop(new Item("a better item"), 3));
     }
 
     @Override
@@ -39,6 +36,7 @@ public class PrototypeScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         setupStage();
         stage.draw();
+        stage.act(delta);
     }
 
     @Override
@@ -59,53 +57,8 @@ public class PrototypeScreen implements Screen {
 
     private void setupStage() {
         stage.clear();
-        final Table layout = new Table();
-        layout.align(Align.top);
-        layout.setFillParent(true);
+        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, storage, workshops);
         stage.addActor(layout);
-
-        final Label.LabelStyle basicStyle = new Label.LabelStyle();
-        basicStyle.font = new BitmapFont();
-
-        layout.add(new Label("", basicStyle) {
-            @Override
-            public void draw(Batch batch, float parentAlpha) {
-                this.setText("Turn count: " + turnTaker.getCurrentTurn());
-                super.draw(batch, parentAlpha);
-            }
-        }).pad(10).align(Align.top).row();
-        layout.add(makePotentialWorkshopsSection(basicStyle)).pad(10).align(Align.top);
-        layout.add(makeActiveWorkshopsSection(basicStyle)).pad(10).align(Align.top);
-        layout.add(makeStorageSection(basicStyle)).pad(10).align(Align.top);
-        layout.add(makeContractSection(basicStyle)).pad(10).align(Align.top);
-    }
-
-    private Actor makeContractSection(Label.LabelStyle basicStyle) {
-        return new Label("Contract List", basicStyle);
-    }
-
-    private Actor makePotentialWorkshopsSection(Label.LabelStyle basicStyle) {
-        return new Label("Potential Workshops", basicStyle);
-    }
-
-    private Actor makeActiveWorkshopsSection(Label.LabelStyle basicStyle) {
-        Table activeDisplay = new Table();
-        final Label header = new Label("Active Workshops", basicStyle);
-        activeDisplay.add(header).pad(10).row();
-        for (Workshop workshop : turnTaker.getActiveWorkshops()) {
-            activeDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).row();
-        }
-        return activeDisplay;
-    }
-
-    private Actor makeStorageSection(Label.LabelStyle basicStyle) {
-        Table storageDisplay = new Table();
-        final Label storageHeader = new Label("Storage", basicStyle);
-        storageDisplay.add(storageHeader).pad(10).row();
-        for (Item item : storage) {
-            storageDisplay.add(item.getActor()).row();
-        }
-        return storageDisplay;
     }
 
     private void setupTurnTaker() {
