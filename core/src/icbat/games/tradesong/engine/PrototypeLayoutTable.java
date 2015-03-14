@@ -82,11 +82,19 @@ public class PrototypeLayoutTable extends Table {
         Table activeDisplay = new Table();
         final Label header = new Label("Active Workshops", basicStyle);
         activeDisplay.add(header).pad(10).row();
-        for (Workshop workshop : turnTaker.getActiveWorkshops()) {
+        for (final Workshop workshop : turnTaker.getActiveWorkshops()) {
             activeDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).pad(5);
             final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
             textButtonStyle.font = new BitmapFont();
             final TextButton removeButton = new TextButton("-", textButtonStyle);
+            removeButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log("add button", "clicked!");
+                    turnTaker.getActiveWorkshops().remove(workshop);
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
             activeDisplay.add(removeButton).pad(5);
             activeDisplay.row();
         }
