@@ -10,6 +10,7 @@ import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.Workshop;
+import icbat.games.tradesong.game.workshops.MutatorWorkshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class PrototypeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         potentialWorkshops.add(new ProducerWorkshop(new Item("an Item")));
         potentialWorkshops.add(new ProducerWorkshop(new Item("a better item"), 3));
+        potentialWorkshops.add(new MutatorWorkshop());
     }
 
     @Override

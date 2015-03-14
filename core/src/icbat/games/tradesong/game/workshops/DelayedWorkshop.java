@@ -11,7 +11,7 @@ public abstract class DelayedWorkshop implements Workshop {
     private int turnsTakenSinceLastWork = 0;
 
     @Override
-    public void takeTurn() {
+    public final void takeTurn() {
         turnsTakenSinceLastWork++;
         if (turnsTakenSinceLastWork >= turnsRequiredForWork) {
             doWork();
