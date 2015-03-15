@@ -1,7 +1,8 @@
 package icbat.games.tradesong.game;
 
 import com.badlogic.gdx.Gdx;
-import icbat.games.tradesong.game.workshops.ItemCreator;
+import icbat.games.tradesong.game.workshops.ItemConsumer;
+import icbat.games.tradesong.game.workshops.ItemProducer;
 
 public class TurnTaker {
     private final PlayerHoldings holdings;
@@ -14,6 +15,7 @@ public class TurnTaker {
 
     public void takeAllTurns() {
         Gdx.app.log("Turn Taker", "Taking turn " + currentTurn);
+        acceptAnyInputs();
         takeTurnOnAllWorkshops();
         moveAllOutputsToStorage();
         currentTurn++;
@@ -21,8 +23,19 @@ public class TurnTaker {
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + holdings.getStorage().size());
     }
 
+    private void acceptAnyInputs() {
+        for (ItemConsumer consumer : holdings.getItemConsumers()) {
+            for (Item storedItem : holdings.getStorage()) {
+                if (consumer.acceptsInput(storedItem)) {
+                    consumer.sendInput(holdings.removeFromStorage(storedItem));
+                    break;
+                }
+            }
+        }
+    }
+
     private void moveAllOutputsToStorage() {
-        for (ItemCreator workshopWithOutput : holdings.getItemCreators()) {
+        for (ItemProducer workshopWithOutput : holdings.getItemCreators()) {
             if (workshopWithOutput.hasOutput()) {
                 holdings.storeItem(workshopWithOutput.getNextOutput());
             }

@@ -4,7 +4,7 @@ import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.Workshop;
 
 /***/
-public interface ItemCreator extends Workshop {
+public interface ItemProducer extends Workshop {
     /**
      * @return true if there is output available, false otherwise
      */

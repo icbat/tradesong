@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Takes one more more items as input and outputs 1 new item
  */
-public class MutatorWorkshop implements ItemCreator, ItemConsumer {
+public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     private final Item output;
     private final Collection<Item> ingredients = new ArrayList<Item>();

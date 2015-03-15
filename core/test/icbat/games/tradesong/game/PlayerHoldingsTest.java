@@ -1,11 +1,11 @@
 package icbat.games.tradesong.game;
 
 import icbat.games.tradesong.game.workshops.ItemConsumer;
-import icbat.games.tradesong.game.workshops.ItemCreator;
+import icbat.games.tradesong.game.workshops.ItemProducer;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 public class PlayerHoldingsTest {
@@ -27,7 +27,7 @@ public class PlayerHoldingsTest {
     public void creatorAdded() throws Exception {
         verifyHoldingsCleanBeforeWork();
 
-        holdings.addWorkshop(mock(ItemCreator.class));
+        holdings.addWorkshop(mock(ItemProducer.class));
 
         assertEquals("Creators should still be workshops", 1, holdings.getWorkshops().size());
         assertEquals("creator not added when it should be", 1, holdings.getItemCreators().size());
@@ -60,7 +60,7 @@ public class PlayerHoldingsTest {
     public void creatorAndConsumerAdded() throws Exception {
         verifyHoldingsCleanBeforeWork();
 
-        holdings.addWorkshop(mock(CreatorAndConsumer.class));
+        holdings.addWorkshop(mock(ProducerAndConsumer.class));
 
         assertEquals("Creators should still be workshops", 1, holdings.getWorkshops().size());
         assertEquals("creater+consumer not added as a creatorr", 1, holdings.getItemCreators().size());
@@ -81,7 +81,48 @@ public class PlayerHoldingsTest {
         assertEquals("Holdings Removed more than it should", expected - 1, holdings.getWorkshops().size());
     }
 
-    private abstract class CreatorAndConsumer implements ItemCreator, ItemConsumer {
+    @Test
+    public void removingConsumers_removesFromBothLists() throws Exception {
+        final ItemConsumer consumer = mock(ItemConsumer.class);
+        holdings.addWorkshop(consumer);
+        holdings.removeWorkshop(consumer);
+
+        assertTrue("didn't remove consumer from basic list", holdings.getWorkshops().isEmpty());
+        assertTrue("didn't remove consumer from consumer-only list", holdings.getItemConsumers().isEmpty());
+    }
+
+    @Test
+    public void removingProducers_removesFromBothLists() throws Exception {
+        final ItemProducer consumer = mock(ItemProducer.class);
+        holdings.addWorkshop(consumer);
+        holdings.removeWorkshop(consumer);
+
+        assertTrue("didn't remove producer from basic list", holdings.getWorkshops().isEmpty());
+        assertTrue("didn't remove producer from consumer-only list", holdings.getItemCreators().isEmpty());
+
+    }
+
+    @Test
+    public void removeFromStorage_failsIfDoesntExist() throws Exception {
+        try {
+            holdings.removeFromStorage(mock(Item.class));
+            fail("allowed to remove something that doesn't exist");
+        } catch (IllegalStateException ise) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void removeFromStorage_happyPath() throws Exception {
+        final Item item = mock(Item.class);
+        holdings.storeItem(item);
+
+        final Item removed = holdings.removeFromStorage(item);
+
+        assertEquals(item, removed);
+    }
+
+    private abstract class ProducerAndConsumer implements ItemProducer, ItemConsumer {
 
     }
 }

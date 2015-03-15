@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Makes items from thin air!
  */
-public class ProducerWorkshop implements ItemCreator {
+public class ProducerWorkshop implements ItemProducer {
 
     private final Item itemProduced;
     /**
