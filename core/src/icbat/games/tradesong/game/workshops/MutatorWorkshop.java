@@ -2,29 +2,83 @@ package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
 
+import java.util.*;
+
 /**
  * Takes one more more items as input and outputs 1 new item
  */
-public class MutatorWorkshop extends DelayedWorkshop implements ItemCreator, ItemConsumer {
+public class MutatorWorkshop implements ItemCreator, ItemConsumer {
 
-    @Override
-    protected void doWork() {
+    private final Item output;
+    private final Collection<Item> ingredients = new ArrayList<Item>();
+    private final Deque<Item> inputQueue = new ArrayDeque<Item>();
+    private final Deque<Item> outputQueue = new ArrayDeque<Item>();
 
+    public MutatorWorkshop(Item output, Item... ingredients) {
+        this.output = output;
+        if (ingredients.length <= 0) {
+            throw new IllegalStateException("Dev error! Mutator attempted to be created without any ingredients!");
+        }
+        Collections.addAll(this.ingredients, ingredients);
     }
 
+    @Override
+    public void takeTurn() {
+        if (readyToWork()) {
+            for (Item ingredient : ingredients) {
+                inputQueue.removeFirstOccurrence(ingredient);
+            }
+            outputQueue.add(output);
+        }
+    }
+
+    private boolean readyToWork() {
+        final Deque<Item> requirements = new ArrayDeque<Item>(ingredients);
+        for (Item input : inputQueue) {
+            for (Item requiredIngredient : requirements) {
+                if (input.equals(requiredIngredient)) {
+                    requirements.removeFirstOccurrence(requiredIngredient);
+                    break;
+                }
+            }
+        }
+
+        return requirements.isEmpty();
+    }
 
     @Override
     public String getWorkshopName() {
-        return null;
+        return output.getName() + " Assembler";
     }
 
     @Override
     public boolean hasOutput() {
-        return false;
+        return !outputQueue.isEmpty();
     }
 
     @Override
     public Item getNextOutput() {
-        return null;
+        if (!hasOutput()) {
+            throw new IllegalStateException("Dev error! " + this.getWorkshopName() + "'s output accessed with an empty output");
+        }
+        return outputQueue.removeFirst();
+    }
+
+    @Override
+    public boolean acceptsInput(Item input) {
+        return ingredients.contains(input);
+    }
+
+    @Override
+    public void sendInput(Item input) {
+        if (!acceptsInput(input)) {
+            throw new IllegalStateException("Dev error! " + input.getName() + "is not acceptable by " + this.getWorkshopName());
+        }
+
+        inputQueue.add(input);
+    }
+
+    protected Collection<Item> getInputQueue() {
+        return inputQueue;
     }
 }

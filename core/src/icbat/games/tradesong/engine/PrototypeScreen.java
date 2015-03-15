@@ -28,9 +28,12 @@ public class PrototypeScreen implements Screen {
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
-        potentialWorkshops.add(new ProducerWorkshop(new Item("an Item")));
-        potentialWorkshops.add(new ProducerWorkshop(new Item("a better item"), 3));
-        potentialWorkshops.add(new MutatorWorkshop());
+        final Item basicItem = new Item("an Item");
+        potentialWorkshops.add(new ProducerWorkshop(basicItem));
+        final Item betterItem = new Item("a better item");
+        potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
+        final Item assembled = new Item("Assembled thing");
+        potentialWorkshops.add(new MutatorWorkshop(assembled, basicItem, betterItem));
     }
 
     @Override
