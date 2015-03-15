@@ -1,5 +1,8 @@
 package icbat.games.tradesong.game.workshops;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
 
 import java.util.ArrayList;
@@ -56,5 +59,12 @@ public class ProducerWorkshop implements ItemProducer {
             doWork();
             turnsTakenSinceLastWork = 0;
         }
+    }
+
+    @Override
+    public Actor getActor() {
+        Label.LabelStyle basicStyle = new Label.LabelStyle();
+        basicStyle.font = new BitmapFont();
+        return new Label(getWorkshopName(), basicStyle);
     }
 }

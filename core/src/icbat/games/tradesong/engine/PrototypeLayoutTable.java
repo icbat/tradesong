@@ -20,45 +20,42 @@ import java.util.Collection;
 
 /***/
 public class PrototypeLayoutTable extends Table {
-    private final TurnTaker turnTaker;
+    protected final Label.LabelStyle basicLabelStyle = new Label.LabelStyle();
     private final Collection<Workshop> potentialWorkshops;
     private final PlayerHoldings holdings;
 
 
     public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, PlayerHoldings holdings) {
-        this.turnTaker = turnTaker;
+        basicLabelStyle.font = new BitmapFont();
+
         this.potentialWorkshops = potentialWorkshops;
         this.holdings = holdings;
         align(Align.top);
         setFillParent(true);
 
-        final Label.LabelStyle basicStyle = new Label.LabelStyle();
-        basicStyle.font = new BitmapFont();
-
-
-        add(new Label("", basicStyle) {
+        add(new Label("", basicLabelStyle) {
             @Override
             public void draw(Batch batch, float parentAlpha) {
                 this.setText("Turn count: " + turnTaker.getCurrentTurn());
                 super.draw(batch, parentAlpha);
             }
         }).pad(10).align(Align.top).row();
-        add(makePotentialWorkshopsSection(basicStyle)).pad(10).align(Align.top);
-        add(makeActiveWorkshopsSection(basicStyle)).pad(10).align(Align.top);
-        add(makeStorageSection(basicStyle)).pad(10).align(Align.top);
-        add(makeContractSection(basicStyle)).pad(10).align(Align.top);
+        add(potentialWorkshops()).pad(10).align(Align.top);
+        add(activeWorkshops()).pad(10).align(Align.top);
+        add(storage()).pad(10).align(Align.top);
+        add(contracts()).pad(10).align(Align.top);
     }
 
-    private Actor makeContractSection(Label.LabelStyle basicStyle) {
-        return new Label("Contract List", basicStyle);
+    private Actor contracts() {
+        return new Label("Contract List", basicLabelStyle);
     }
 
-    private Actor makePotentialWorkshopsSection(Label.LabelStyle basicStyle) {
+    private Actor potentialWorkshops() {
         Table potentialDisplay = new Table();
-        final Label header = new Label("Potential Workshops", basicStyle);
+        final Label header = new Label("Potential Workshops", this.basicLabelStyle);
         potentialDisplay.add(header).pad(10).row();
         for (final Workshop workshop : potentialWorkshops) {
-            potentialDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).pad(5);
+            potentialDisplay.add(workshop.getActor()).pad(5);
             final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
             textButtonStyle.font = new BitmapFont();
             final TextButton addButton = new TextButton("+", textButtonStyle);
@@ -77,12 +74,12 @@ public class PrototypeLayoutTable extends Table {
         return potentialDisplay;
     }
 
-    private Actor makeActiveWorkshopsSection(Label.LabelStyle basicStyle) {
+    private Actor activeWorkshops() {
         Table activeDisplay = new Table();
-        final Label header = new Label("Active Workshops", basicStyle);
+        final Label header = new Label("Active Workshops", this.basicLabelStyle);
         activeDisplay.add(header).pad(10).row();
         for (final Workshop workshop : holdings.getWorkshops()) {
-            activeDisplay.add(new Label(workshop.getWorkshopName(), basicStyle)).pad(5);
+            activeDisplay.add(workshop.getActor()).pad(5);
             final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
             textButtonStyle.font = new BitmapFont();
             final TextButton removeButton = new TextButton("-", textButtonStyle);
@@ -100,9 +97,9 @@ public class PrototypeLayoutTable extends Table {
         return activeDisplay;
     }
 
-    private Actor makeStorageSection(Label.LabelStyle basicStyle) {
+    private Actor storage() {
         Table storageDisplay = new Table();
-        final Label storageHeader = new Label("Storage", basicStyle);
+        final Label storageHeader = new Label("Storage", this.basicLabelStyle);
         storageDisplay.add(storageHeader).pad(10).row();
         for (Item item : holdings.getStorage()) {
             storageDisplay.add(item.getActor()).row();
