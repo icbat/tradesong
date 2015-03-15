@@ -9,9 +9,9 @@ import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
-import icbat.games.tradesong.game.Workshop;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
+import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.ArrayList;
 import java.util.Collection;

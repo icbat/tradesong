@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
+import icbat.games.tradesong.game.workshops.Workshop;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

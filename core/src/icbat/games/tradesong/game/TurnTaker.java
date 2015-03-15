@@ -3,6 +3,7 @@ package icbat.games.tradesong.game;
 import com.badlogic.gdx.Gdx;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ItemProducer;
+import icbat.games.tradesong.game.workshops.Workshop;
 
 public class TurnTaker {
     private final PlayerHoldings holdings;

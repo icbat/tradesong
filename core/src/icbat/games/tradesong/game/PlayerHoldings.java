@@ -2,6 +2,7 @@ package icbat.games.tradesong.game;
 
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ItemProducer;
+import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.ArrayList;
 import java.util.Collection;

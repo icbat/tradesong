@@ -1,4 +1,4 @@
-package icbat.games.tradesong.game;
+package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.engine.Displayable;
 

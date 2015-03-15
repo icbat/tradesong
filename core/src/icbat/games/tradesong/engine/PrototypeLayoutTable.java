@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
-import icbat.games.tradesong.game.Workshop;
+import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.Collection;
 
