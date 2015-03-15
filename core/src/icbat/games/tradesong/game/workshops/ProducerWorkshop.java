@@ -5,10 +5,18 @@ import icbat.games.tradesong.game.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerWorkshop extends DelayedWorkshop implements ItemCreator {
+/**
+ * Makes items from thin air!
+ */
+public class ProducerWorkshop implements ItemCreator {
 
     private final Item itemProduced;
+    /**
+     * Set this to higher to do work less often
+     */
+    protected int turnsRequiredForWork = 1;
     List<Item> outputQueue = new ArrayList<Item>();
+    private int turnsTakenSinceLastWork = 0;
 
     public ProducerWorkshop(Item itemProduced) {
         this.itemProduced = itemProduced;
@@ -19,7 +27,6 @@ public class ProducerWorkshop extends DelayedWorkshop implements ItemCreator {
         this.turnsRequiredForWork = turnsRequired;
     }
 
-    @Override
     protected void doWork() {
         outputQueue.add(itemProduced);
     }
@@ -40,5 +47,14 @@ public class ProducerWorkshop extends DelayedWorkshop implements ItemCreator {
     @Override
     public String getWorkshopName() {
         return itemProduced.getName() + " Producer";
+    }
+
+    @Override
+    public final void takeTurn() {
+        turnsTakenSinceLastWork++;
+        if (turnsTakenSinceLastWork >= turnsRequiredForWork) {
+            doWork();
+            turnsTakenSinceLastWork = 0;
+        }
     }
 }
