@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
+import icbat.games.tradesong.game.workers.WorkerImpl;
+import icbat.games.tradesong.game.workers.WorkerPool;
+import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
@@ -27,6 +30,7 @@ public class PrototypeScreen implements Screen {
     private TurnTaker turnTaker;
     private Timer turnTimer = new Timer();
     private Stage stage = new Stage();
+    private WorkerPool spareWorkers;
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
@@ -43,7 +47,7 @@ public class PrototypeScreen implements Screen {
 
     private void buildStage() {
         stage.clear();
-        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings);
+        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings, spareWorkers);
         stage.addActor(layout);
     }
 
@@ -58,6 +62,14 @@ public class PrototypeScreen implements Screen {
         setupTurnTaker();
         setupItems();
         setupWorkshops();
+        setupWorkerPool();
+    }
+
+    private void setupWorkerPool() {
+        spareWorkers = new WorkerPoolImpl();
+        spareWorkers.addWorker(new WorkerImpl());
+        spareWorkers.addWorker(new WorkerImpl());
+        spareWorkers.addWorker(new WorkerImpl());
     }
 
     private void setupTurnTaker() {

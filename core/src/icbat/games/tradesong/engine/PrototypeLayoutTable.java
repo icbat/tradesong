@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
+import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class PrototypeLayoutTable extends Table {
     private final PlayerHoldings holdings;
 
 
-    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, PlayerHoldings holdings) {
+    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, PlayerHoldings holdings, final WorkerPool spareWorkers) {
         basicLabelStyle.font = new BitmapFont();
 
         this.potentialWorkshops = potentialWorkshops;
@@ -39,7 +40,15 @@ public class PrototypeLayoutTable extends Table {
                 this.setText("Turn count: " + turnTaker.getCurrentTurn());
                 super.draw(batch, parentAlpha);
             }
+        }).pad(10).align(Align.top);
+        add(new Label("", basicLabelStyle) {
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                this.setText("Spare workers: " + spareWorkers.size());
+                super.draw(batch, parentAlpha);
+            }
         }).pad(10).align(Align.top).row();
+
         add(potentialWorkshops()).pad(10).align(Align.top);
         add(activeWorkshops()).pad(10).align(Align.top);
         add(storage()).pad(10).align(Align.top);
