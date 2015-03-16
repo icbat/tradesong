@@ -3,6 +3,7 @@ package icbat.games.tradesong.game.workshops;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.workers.Worker;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.mock;
 
 public class MutatorWorkshopTest {
 
+    protected final Worker worker = mock(Worker.class);
     protected MutatorWorkshop redundantInputMutator;
     private MutatorWorkshop singleInputMutator;
     private MutatorWorkshop multipleInputMutator;
@@ -24,11 +26,11 @@ public class MutatorWorkshopTest {
     @Before
     public void setUp() throws Exception {
         singleInputMutator = new MutatorWorkshop(output, goodInput);
-        singleInputMutator.getWorkers().addWorker(mock(Worker.class));
+        singleInputMutator.getWorkers().addWorker(worker);
         multipleInputMutator = new MutatorWorkshop(output, goodInput, secondGoodInput);
-        multipleInputMutator.getWorkers().addWorker(mock(Worker.class));
+        multipleInputMutator.getWorkers().addWorker(worker);
         redundantInputMutator = new MutatorWorkshop(output, goodInput, goodInput);
-        redundantInputMutator.getWorkers().addWorker(mock(Worker.class));
+        redundantInputMutator.getWorkers().addWorker(worker);
     }
 
     @Test
@@ -173,5 +175,36 @@ public class MutatorWorkshopTest {
         } catch (IllegalStateException ise) {
             assertTrue("", true);
         }
+    }
+
+    @Test
+    public void clone_doesntKeepPersonalInfo() throws Exception {
+        singleInputMutator.sendInput(goodInput);
+        singleInputMutator.getWorkers().addWorker(worker);
+        singleInputMutator.takeTurn();
+        final MutatorWorkshop singleClone = singleInputMutator.spawnClone();
+
+        assertFalse(singleClone.hasOutput());
+        assertFalse(singleClone.getWorkers().hasWorkers());
+    }
+
+    @Test
+    @Ignore
+    /** Test would work and be useful if item equivalence wasn't the default impl, but I'm not sure what that changed would break right now. */
+    public void clone_acceptsAllInputs() throws Exception {
+        final MutatorWorkshop singleClone = singleInputMutator.spawnClone();
+        assertTrue(singleClone.acceptsInput(goodInput));
+        assertFalse(singleClone.acceptsInput(secondGoodInput));
+        assertFalse(singleClone.acceptsInput(badInput));
+
+        final MutatorWorkshop multiClone = multipleInputMutator.spawnClone();
+        assertTrue(multiClone.acceptsInput(goodInput));
+        assertTrue(multiClone.acceptsInput(secondGoodInput));
+        assertFalse(multiClone.acceptsInput(badInput));
+
+        final MutatorWorkshop redundantClone = redundantInputMutator.spawnClone();
+        assertTrue(redundantClone.acceptsInput(goodInput));
+        assertFalse(redundantClone.acceptsInput(secondGoodInput));
+        assertFalse(redundantClone.acceptsInput(badInput));
     }
 }

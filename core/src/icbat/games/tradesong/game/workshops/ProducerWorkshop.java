@@ -105,4 +105,9 @@ public class ProducerWorkshop implements ItemProducer {
         layout.add(new Label(" Workers:" + getWorkers().size(), basicStyle));
         return layout;
     }
+
+    @Override
+    public ProducerWorkshop spawnClone() {
+        return new ProducerWorkshop(itemProduced.spawnClone());
+    }
 }

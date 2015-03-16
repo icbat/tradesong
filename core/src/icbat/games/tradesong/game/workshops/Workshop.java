@@ -8,6 +8,7 @@ public interface Workshop {
     void takeTurn();
     String getWorkshopName();
     WorkerPool getWorkers();
-
     Actor getActor();
+
+    Workshop spawnClone();
 }

@@ -16,7 +16,7 @@ import java.util.*;
 public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     private final Item output;
-    private final Collection<Item> ingredients = new ArrayList<Item>();
+    private final List<Item> ingredients = new ArrayList<Item>();
     private final Deque<Item> inputQueue = new ArrayDeque<Item>();
     private final Deque<Item> outputQueue = new ArrayDeque<Item>();
     private WorkerPool workerPool = new WorkerPoolImpl();
@@ -108,5 +108,14 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         layout.add(new Label(getWorkshopName(), basicStyle)).row();
         layout.add(new Label(" Workers:" + getWorkers().size(), basicStyle));
         return layout;
+    }
+
+    @Override
+    public MutatorWorkshop spawnClone() {
+        Item[] clonesIngredients = new Item[ingredients.size()];
+        for (int i = 0; i < ingredients.size(); ++i) {
+            clonesIngredients[i] = ingredients.get(i).spawnClone();
+        }
+        return new MutatorWorkshop(output.spawnClone(), clonesIngredients);
     }
 }

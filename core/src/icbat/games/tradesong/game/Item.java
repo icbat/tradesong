@@ -20,4 +20,8 @@ public class Item {
         labelStyle.font = new BitmapFont();
         return new Label(name, labelStyle);
     }
+
+    public Item spawnClone() {
+        return new Item(name);
+    }
 }
