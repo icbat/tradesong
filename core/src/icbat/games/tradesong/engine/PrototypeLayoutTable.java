@@ -48,12 +48,15 @@ public class PrototypeLayoutTable extends Table {
                 this.setText("Spare workers: " + spareWorkers.size());
                 super.draw(batch, parentAlpha);
             }
-        }).pad(10).align(Align.top).row();
+        }).pad(10).align(Align.top);
+        row();
 
         add(potentialWorkshops()).pad(10).align(Align.top);
         add(activeWorkshops()).pad(10).align(Align.top);
-        add(storage()).pad(10).align(Align.top);
+        row();
+
         add(contracts()).pad(10).align(Align.top);
+        add(storage()).pad(10).align(Align.top);
     }
 
     private Actor contracts() {
