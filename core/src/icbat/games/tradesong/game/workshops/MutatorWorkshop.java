@@ -3,6 +3,7 @@ package icbat.games.tradesong.game.workshops;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workers.WorkerPoolImpl;
@@ -101,9 +102,11 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     @Override
     public Actor getActor() {
+        Table layout = new Table();
         Label.LabelStyle basicStyle = new Label.LabelStyle();
         basicStyle.font = new BitmapFont();
-        return new Label(getWorkshopName(), basicStyle);
-
+        layout.add(new Label(getWorkshopName(), basicStyle)).row();
+        layout.add(new Label(" Workers:" + getWorkers().size(), basicStyle));
+        return layout;
     }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -62,22 +61,10 @@ public class PrototypeLayoutTable extends Table {
     private Actor potentialWorkshops() {
         Table potentialDisplay = new Table();
         final Label header = new Label("Potential Workshops", this.basicLabelStyle);
-        potentialDisplay.add(header).pad(10).row();
+        potentialDisplay.add(header).colspan(2).pad(10).row();
         for (final Workshop workshop : potentialWorkshops) {
             potentialDisplay.add(workshop.getActor()).pad(5);
-            final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.font = new BitmapFont();
-            final TextButton addButton = new TextButton("+", textButtonStyle);
-            addButton.addListener(new ClickListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    Gdx.app.log("add button", "clicked!");
-                    holdings.addWorkshop(workshop);
-                    return super.touchDown(event, x, y, pointer, button);
-                }
-            });
-            addButton.setTouchable(Touchable.enabled);
-            potentialDisplay.add(addButton).pad(5);
+            potentialDisplay.add(buildTextButton("Add ->", new AddWorkshopListener(workshop))).pad(5);
             potentialDisplay.row();
         }
         return potentialDisplay;
@@ -86,21 +73,10 @@ public class PrototypeLayoutTable extends Table {
     private Actor activeWorkshops() {
         Table activeDisplay = new Table();
         final Label header = new Label("Active Workshops", this.basicLabelStyle);
-        activeDisplay.add(header).pad(10).row();
+        activeDisplay.add(header).colspan(2).pad(10).row();
         for (final Workshop workshop : holdings.getWorkshops()) {
+            activeDisplay.add(buildTextButton("<-", new RemoveWorkshopListener(workshop))).pad(5);
             activeDisplay.add(workshop.getActor()).pad(5);
-            final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.font = new BitmapFont();
-            final TextButton removeButton = new TextButton("-", textButtonStyle);
-            removeButton.addListener(new ClickListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    Gdx.app.log("add button", "clicked!");
-                    holdings.removeWorkshop(workshop);
-                    return super.touchDown(event, x, y, pointer, button);
-                }
-            });
-            activeDisplay.add(removeButton).pad(5);
             activeDisplay.row();
         }
         return activeDisplay;
@@ -114,6 +90,44 @@ public class PrototypeLayoutTable extends Table {
             storageDisplay.add(item.getActor()).row();
         }
         return storageDisplay;
+    }
+
+    private TextButton buildTextButton(String text, ClickListener listener) {
+        final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        final TextButton addButton = new TextButton(text, textButtonStyle);
+        addButton.addListener(listener);
+        return addButton;
+    }
+
+    private class RemoveWorkshopListener extends ClickListener {
+        private final Workshop workshop;
+
+        public RemoveWorkshopListener(Workshop workshop) {
+            this.workshop = workshop;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Gdx.app.log("add button", "clicked!");
+            holdings.removeWorkshop(workshop);
+            return super.touchDown(event, x, y, pointer, button);
+        }
+    }
+
+    private class AddWorkshopListener extends ClickListener {
+        private final Workshop workshop;
+
+        public AddWorkshopListener(Workshop workshop) {
+            this.workshop = workshop;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Gdx.app.log("add button", "clicked!");
+            holdings.addWorkshop(workshop);
+            return super.touchDown(event, x, y, pointer, button);
+        }
     }
 }
 
