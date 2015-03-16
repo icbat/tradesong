@@ -19,8 +19,10 @@ import java.util.Collection;
 public class PrototypeScreen implements Screen {
 
     public static final int TURN_TIMER = 1;
+    protected Item basicItem;
+    protected Item betterItem;
+    protected Item assembledItem;
     private PlayerHoldings holdings = new PlayerHoldings();
-
     private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
     private Timer turnTimer = new Timer();
@@ -28,21 +30,21 @@ public class PrototypeScreen implements Screen {
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
-        final Item basicItem = new Item("an Item");
-        potentialWorkshops.add(new ProducerWorkshop(basicItem));
-        final Item betterItem = new Item("a better item");
-        potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
-        final Item assembled = new Item("Assembled thing");
-        potentialWorkshops.add(new MutatorWorkshop(assembled, basicItem, betterItem));
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        setupStage();
+        buildStage();
         stage.draw();
         stage.act(delta);
+    }
+
+    private void buildStage() {
+        stage.clear();
+        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings);
+        stage.addActor(layout);
     }
 
     @Override
@@ -53,18 +55,9 @@ public class PrototypeScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.debug("proto screen", "shown");
-        setupScreen();
-    }
-
-    private void setupScreen() {
-        Gdx.app.debug("proto screen", "setting up TurnTaker");
         setupTurnTaker();
-    }
-
-    private void setupStage() {
-        stage.clear();
-        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings);
-        stage.addActor(layout);
+        setupItems();
+        setupWorkshops();
     }
 
     private void setupTurnTaker() {
@@ -77,6 +70,18 @@ public class PrototypeScreen implements Screen {
             }
         }, TURN_TIMER, TURN_TIMER);
         turnTimer.start();
+    }
+
+    private void setupItems() {
+        basicItem = new Item("an Item");
+        betterItem = new Item("a better item");
+        assembledItem = new Item("Assembled thing");
+    }
+
+    private void setupWorkshops() {
+        potentialWorkshops.add(new ProducerWorkshop(basicItem));
+        potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
+        potentialWorkshops.add(new MutatorWorkshop(assembledItem, basicItem, betterItem));
     }
 
     @Override
