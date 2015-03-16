@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.workers.WorkerPool;
+import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
 import java.util.*;
 
@@ -16,6 +18,7 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     private final Collection<Item> ingredients = new ArrayList<Item>();
     private final Deque<Item> inputQueue = new ArrayDeque<Item>();
     private final Deque<Item> outputQueue = new ArrayDeque<Item>();
+    private WorkerPool workerPool = new WorkerPoolImpl();
 
     public MutatorWorkshop(Item output, Item... ingredients) {
         this.output = output;
@@ -27,15 +30,21 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     @Override
     public void takeTurn() {
-        if (readyToWork()) {
-            for (Item ingredient : ingredients) {
-                inputQueue.removeFirstOccurrence(ingredient);
+        for (int i = 0; i < workerPool.size(); ++i) {
+            if (isStockedWithProperIngredients()) {
+                consumeIngredients();
+                outputQueue.add(output);
             }
-            outputQueue.add(output);
         }
     }
 
-    private boolean readyToWork() {
+    private void consumeIngredients() {
+        for (Item ingredient : ingredients) {
+            inputQueue.removeFirstOccurrence(ingredient);
+        }
+    }
+
+    private boolean isStockedWithProperIngredients() {
         final Deque<Item> requirements = new ArrayDeque<Item>(ingredients);
         for (Item input : inputQueue) {
             for (Item requiredIngredient : requirements) {
@@ -52,6 +61,11 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     @Override
     public String getWorkshopName() {
         return output.getName() + " Assembler";
+    }
+
+    @Override
+    public WorkerPool getWorkers() {
+        return this.workerPool;
     }
 
     @Override

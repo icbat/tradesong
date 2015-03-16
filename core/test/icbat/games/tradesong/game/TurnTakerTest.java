@@ -2,6 +2,7 @@ package icbat.games.tradesong.game;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
@@ -45,7 +46,7 @@ public class TurnTakerTest {
 
     @Test
     public void generators_addItemsToStorage() {
-        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        holdings.addWorkshop(makeProducerWorkshop());
         assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
 
         turnTaker.takeAllTurns();
@@ -54,11 +55,17 @@ public class TurnTakerTest {
         assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorage().size());
     }
 
+    private ProducerWorkshop makeProducerWorkshop() {
+        final ProducerWorkshop producerWorkshop = new ProducerWorkshop(mock(Item.class));
+        producerWorkshop.getWorkers().addWorker(mock(Worker.class));
+        return producerWorkshop;
+    }
+
     @Test
     public void producers_multiplesAllAddToStorage() {
-        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
-        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
-        holdings.addWorkshop(new ProducerWorkshop(mock(Item.class)));
+        holdings.addWorkshop(makeProducerWorkshop());
+        holdings.addWorkshop(makeProducerWorkshop());
+        holdings.addWorkshop(makeProducerWorkshop());
         assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
 
         turnTaker.takeAllTurns();

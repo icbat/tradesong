@@ -1,6 +1,7 @@
 package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.workers.Worker;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.mock;
 
 public class MutatorWorkshopTest {
 
+    protected MutatorWorkshop redundantInputMutator;
     private MutatorWorkshop singleInputMutator;
     private MutatorWorkshop multipleInputMutator;
     private Item badInput = mock(Item.class);
@@ -22,7 +24,11 @@ public class MutatorWorkshopTest {
     @Before
     public void setUp() throws Exception {
         singleInputMutator = new MutatorWorkshop(output, goodInput);
+        singleInputMutator.getWorkers().addWorker(mock(Worker.class));
         multipleInputMutator = new MutatorWorkshop(output, goodInput, secondGoodInput);
+        multipleInputMutator.getWorkers().addWorker(mock(Worker.class));
+        redundantInputMutator = new MutatorWorkshop(output, goodInput, goodInput);
+        redundantInputMutator.getWorkers().addWorker(mock(Worker.class));
     }
 
     @Test
@@ -139,15 +145,13 @@ public class MutatorWorkshopTest {
 
     @Test
     public void redundantInputs_waitsForEnoughInputs() throws Exception {
-        MutatorWorkshop redundant = new MutatorWorkshop(output, goodInput, goodInput);
+        redundantInputMutator.sendInput(goodInput);
+        redundantInputMutator.takeTurn();
+        assertFalse("Work was done w/o enough inputs!", redundantInputMutator.hasOutput());
 
-        redundant.sendInput(goodInput);
-        redundant.takeTurn();
-        assertFalse("Work was done w/o enough inputs!", redundant.hasOutput());
-
-        redundant.sendInput(goodInput);
-        redundant.takeTurn();
-        assertTrue("No work done with enough inputs", redundant.hasOutput());
+        redundantInputMutator.sendInput(goodInput);
+        redundantInputMutator.takeTurn();
+        assertTrue("No work done with enough inputs", redundantInputMutator.hasOutput());
     }
 
     @Test

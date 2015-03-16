@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.workers.WorkerPool;
+import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,8 @@ public class ProducerWorkshop implements ItemProducer {
      */
     protected int turnsRequiredForWork = 1;
     List<Item> outputQueue = new ArrayList<Item>();
-    private int turnsTakenSinceLastWork = 0;
+    private int turnsStoredUp = 0;
+    private WorkerPool workerPool = new WorkerPoolImpl();
 
     public ProducerWorkshop(Item itemProduced) {
         this.itemProduced = itemProduced;
@@ -53,12 +56,43 @@ public class ProducerWorkshop implements ItemProducer {
     }
 
     @Override
+    public WorkerPool getWorkers() {
+        return this.workerPool;
+    }
+
+    @Override
     public final void takeTurn() {
-        turnsTakenSinceLastWork++;
-        if (turnsTakenSinceLastWork >= turnsRequiredForWork) {
-            doWork();
-            turnsTakenSinceLastWork = 0;
+        if (!workerPool.hasWorkers()) {
+            return;
         }
+        turnsStoredUp += determineTurnsToTake();
+        while (turnsStoredUp >= turnsRequiredForWork) {
+            doWork();
+            turnsStoredUp -= turnsRequiredForWork;
+        }
+    }
+
+    private int determineTurnsToTake() {
+        final int size = workerPool.size();
+        if (size == 1) {
+            return 1;
+        }
+
+        int stepSize = 1;
+        int output = 2;
+        int count = 2;
+        int stepsTaken = 0;
+        while (count < workerPool.size()) {
+            count++;
+            stepsTaken++;
+            if (stepsTaken == stepSize) {
+                output++;
+                stepsTaken = 0;
+                stepSize++;
+            }
+        }
+
+        return output;
     }
 
     @Override

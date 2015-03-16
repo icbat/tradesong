@@ -1,6 +1,7 @@
 package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.workers.Worker;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,12 +11,13 @@ import static org.mockito.Mockito.*;
 
 public class ProducerWorkshopTest {
 
-    protected Item mockItem = mock(Item.class);
+    protected Item output = mock(Item.class);
     private ProducerWorkshop producer;
 
     @Before
     public void setUp() throws Exception {
-        producer = new ProducerWorkshop(mockItem);
+        final int turnsRequired = 1;
+        setupProducer(turnsRequired);
     }
 
     @Test
@@ -59,7 +61,8 @@ public class ProducerWorkshopTest {
 
     @Test
     public void oneTurnToOutput() throws Exception {
-        producer = spy(new ProducerWorkshop(mockItem, 1));
+        final int turnsRequired = 1;
+        setupProducer(turnsRequired);
         Mockito.verify(producer, never()).doWork();
 
         producer.takeTurn();
@@ -69,7 +72,8 @@ public class ProducerWorkshopTest {
 
     @Test
     public void multipleTurnsToOutput() throws Exception {
-        producer = spy(new ProducerWorkshop(mockItem, 3));
+        final int turnsRequired = 3;
+        setupProducer(turnsRequired);
         Mockito.verify(producer, never()).doWork();
 
         producer.takeTurn();
@@ -83,7 +87,8 @@ public class ProducerWorkshopTest {
 
     @Test
     public void multipleTurns_resetsAfterWork() throws Exception {
-        producer = spy(new ProducerWorkshop(mockItem, 3));
+        final int turnsRequired = 3;
+        setupProducer(turnsRequired);
         Mockito.verify(producer, never()).doWork();
 
         producer.takeTurn();
@@ -96,5 +101,10 @@ public class ProducerWorkshopTest {
 
         producer.takeTurn();
         Mockito.verify(producer).doWork();
+    }
+
+    private void setupProducer(int turnsRequired) {
+        producer = spy(new ProducerWorkshop(output, turnsRequired));
+        producer.getWorkers().addWorker(mock(Worker.class));
     }
 }
