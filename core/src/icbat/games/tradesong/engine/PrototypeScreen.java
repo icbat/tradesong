@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
+import icbat.games.tradesong.game.contracts.BasicRandomContract;
+import icbat.games.tradesong.game.contracts.Contract;
 import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
@@ -17,6 +19,7 @@ import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PrototypeScreen implements Screen {
 
@@ -29,6 +32,7 @@ public class PrototypeScreen implements Screen {
     private TurnTaker turnTaker;
     private Timer turnTimer = new Timer();
     private Stage stage = new Stage();
+    private List<Contract> contracts;
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
@@ -45,7 +49,7 @@ public class PrototypeScreen implements Screen {
 
     private void buildStage() {
         stage.clear();
-        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings);
+        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings, contracts);
         stage.addActor(layout);
     }
 
@@ -61,6 +65,14 @@ public class PrototypeScreen implements Screen {
         setupItems();
         setupWorkshops();
         setupWorkerPool();
+        setupContracts();
+    }
+
+    private void setupContracts() {
+        contracts = new ArrayList<Contract>();
+        contracts.add(new BasicRandomContract(assembledItem));
+        contracts.add(new BasicRandomContract(basicItem));
+        contracts.add(new BasicRandomContract(betterItem));
     }
 
     private void setupWorkerPool() {

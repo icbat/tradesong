@@ -13,19 +13,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
+import icbat.games.tradesong.game.contracts.Contract;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.Collection;
+import java.util.List;
 
 /***/
 public class PrototypeLayoutTable extends Table {
     protected final Label.LabelStyle basicLabelStyle = new Label.LabelStyle();
     private final Collection<Workshop> potentialWorkshops;
     private final PlayerHoldings holdings;
+    private final List<Contract> contracts;
 
-
-    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, final PlayerHoldings holdings) {
+    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, final PlayerHoldings holdings, List<Contract> contracts) {
+        this.contracts = contracts;
         basicLabelStyle.font = new BitmapFont();
 
         this.potentialWorkshops = potentialWorkshops;
@@ -58,7 +61,14 @@ public class PrototypeLayoutTable extends Table {
     }
 
     private Actor contracts() {
-        return new Label("Contract List", basicLabelStyle);
+        Table contractDisplay = new Table();
+        contractDisplay.add(new Label("Contract List", basicLabelStyle)).colspan(2).pad(10).row();
+        for (Contract contract : contracts) {
+            contractDisplay.add(contract.getActor()).pad(5);
+            contractDisplay.add(buildTextButton("<complete>", new ContractCompletionListener(contract, holdings)));
+            contractDisplay.row();
+        }
+        return contractDisplay;
     }
 
     private Actor potentialWorkshops() {
@@ -98,7 +108,7 @@ public class PrototypeLayoutTable extends Table {
     }
 
     private TextButton buildTextButton(String text, ClickListener listener) {
-        final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
         final TextButton addButton = new TextButton(text, textButtonStyle);
         addButton.addListener(listener);
@@ -165,6 +175,26 @@ public class PrototypeLayoutTable extends Table {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             if (workshop.getWorkers().hasWorkers()) {
                 spareWorkers.addWorker(workshop.getWorkers().removeWorker());
+            }
+            return super.touchDown(event, x, y, pointer, button);
+        }
+    }
+
+
+    private class ContractCompletionListener extends ClickListener {
+        private final Contract contract;
+        private final PlayerHoldings holdings;
+
+        public ContractCompletionListener(Contract contract, PlayerHoldings holdings) {
+            this.contract = contract;
+            this.holdings = holdings;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Gdx.app.debug("can complete?", "" + contract.canComplete(holdings));
+            if (contract.canComplete(holdings)) {
+                contract.completeContract(holdings);
             }
             return super.touchDown(event, x, y, pointer, button);
         }

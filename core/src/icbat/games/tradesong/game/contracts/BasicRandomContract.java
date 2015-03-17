@@ -1,5 +1,8 @@
 package icbat.games.tradesong.game.contracts;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.workers.WorkerImpl;
@@ -25,5 +28,12 @@ public class BasicRandomContract implements Contract {
 
         holdings.removeFromStorage(requiredItem);
         holdings.getWorkers().addWorker(new WorkerImpl());
+    }
+
+    @Override
+    public Actor getActor() {
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = new BitmapFont();
+        return new Label("Bring me one " + requiredItem.getName() + "!", style);
     }
 }
