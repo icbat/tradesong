@@ -23,11 +23,9 @@ public class PrototypeLayoutTable extends Table {
     protected final Label.LabelStyle basicLabelStyle = new Label.LabelStyle();
     private final Collection<Workshop> potentialWorkshops;
     private final PlayerHoldings holdings;
-    private final WorkerPool spareWorkers;
 
 
-    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, PlayerHoldings holdings, final WorkerPool spareWorkers) {
-        this.spareWorkers = spareWorkers;
+    public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, final PlayerHoldings holdings) {
         basicLabelStyle.font = new BitmapFont();
 
         this.potentialWorkshops = potentialWorkshops;
@@ -45,7 +43,7 @@ public class PrototypeLayoutTable extends Table {
         add(new Label("", basicLabelStyle) {
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                this.setText("Spare workers: " + spareWorkers.size());
+                this.setText("Spare workers: " + holdings.getWorkers().size());
                 super.draw(batch, parentAlpha);
             }
         }).pad(10).align(Align.top);
@@ -82,8 +80,8 @@ public class PrototypeLayoutTable extends Table {
         for (final Workshop workshop : holdings.getWorkshops()) {
             activeDisplay.add(buildTextButton("<-", new RemoveWorkshopListener(workshop))).pad(5);
             activeDisplay.add(workshop.getActor()).pad(5);
-            activeDisplay.add(buildTextButton("+", new AddWorkersListener(workshop, spareWorkers))).pad(5);
-            activeDisplay.add(buildTextButton("-", new RemoveWorkersListener(workshop, spareWorkers))).pad(5);
+            activeDisplay.add(buildTextButton("+", new AddWorkersListener(workshop, holdings.getWorkers()))).pad(5);
+            activeDisplay.add(buildTextButton("-", new RemoveWorkersListener(workshop, holdings.getWorkers()))).pad(5);
             activeDisplay.row();
         }
         return activeDisplay;
