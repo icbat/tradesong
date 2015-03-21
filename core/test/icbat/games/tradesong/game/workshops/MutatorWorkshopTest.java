@@ -190,7 +190,10 @@ public class MutatorWorkshopTest {
 
     @Test
     @Ignore
-    /** Test would work and be useful if item equivalence wasn't the default impl, but I'm not sure what that changed would break right now. */
+    /** Test is failing due to a bug in item equivalence?
+     *
+     * TODO fix this stupid test
+     * */
     public void clone_acceptsAllInputs() throws Exception {
         final MutatorWorkshop singleClone = singleInputMutator.spawnClone();
         assertTrue(singleClone.acceptsInput(goodInput));
