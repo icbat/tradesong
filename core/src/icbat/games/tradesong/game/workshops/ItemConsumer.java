@@ -15,4 +15,6 @@ public interface ItemConsumer extends Workshop {
      * @throws IllegalStateException if the item is unacceptable, check with acceptsInput() first!
      */
     void sendInput(Item input);
+
+    void updateInputQueueCapacity(int inputQueueCapacity);
 }

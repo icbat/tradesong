@@ -156,12 +156,14 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         return new MutatorWorkshop(output.spawnClone(), clonesIngredients);
     }
 
+    @Override
     public void updateInputQueueCapacity(int inputQueueCapacity) {
         for (ItemStack stack : inputStacks) {
             stack.setCapacity(inputQueueCapacity);
         }
     }
 
+    @Override
     public void updateOutputCapacity(int newCapacity) {
         outputQueue.setCapacity(newCapacity);
     }

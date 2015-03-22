@@ -110,6 +110,7 @@ public class ProducerWorkshop implements ItemProducer {
         return new ProducerWorkshop(itemProduced.spawnClone());
     }
 
+    @Override
     public void updateOutputCapacity(int newCapacity) {
         outputQueue.setCapacity(newCapacity);
     }
