@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,8 +16,6 @@ public class ItemStackTest {
     public void setUp() throws Exception {
         stack = new ItemStack(goodInput);
         when(goodInput.spawnClone()).thenReturn(goodInput);
-        when(goodInput.isCloneOf(any(Item.class))).thenReturn(false);
-        when(goodInput.isCloneOf(goodInput)).thenReturn(true);
     }
 
     @Test
@@ -51,7 +48,7 @@ public class ItemStackTest {
     public void itemReturned_isCloneOfSetupItem() throws Exception {
         stack.addItem(goodInput);
 
-        assertTrue("item returned should be the same as the item it was setup with", stack.removeItem().isCloneOf(goodInput));
+        assertTrue("item returned should be the same as the item it was setup with", stack.removeItem().equals(goodInput));
     }
 
     @Test

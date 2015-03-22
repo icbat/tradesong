@@ -22,7 +22,7 @@ public class ItemStack {
     }
 
     public void addItem(Item input) {
-        if (!item.isCloneOf(input)) {
+        if (!item.equals(input)) {
             throw new IllegalStateException("Dev error! This stack only accepts " + item.getName() + " but was handed " + input.getName());
         }
         stackSize++;

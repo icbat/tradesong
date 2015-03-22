@@ -25,10 +25,20 @@ public class Item {
         return new Item(name);
     }
 
-    public boolean isCloneOf(Item otherItem) {
-        if (otherItem == null) {
-            return false;
-        }
-        return this.getName().equals(otherItem.getName());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+
+        Item item = (Item) o;
+
+        if (!name.equals(item.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

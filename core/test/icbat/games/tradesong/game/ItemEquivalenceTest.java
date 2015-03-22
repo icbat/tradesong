@@ -36,7 +36,7 @@ public class ItemEquivalenceTest {
 
     @Test
     public void compareItems() throws Exception {
-        assertEquals(expected, item.isCloneOf(otherItem));
+        assertEquals(expected, item.equals(otherItem));
 
     }
 }
