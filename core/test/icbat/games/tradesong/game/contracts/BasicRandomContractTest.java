@@ -70,7 +70,7 @@ public class BasicRandomContractTest {
 
         contract.completeContract(holdings);
 
-        verify(holdings).removeFromStorage(requiredItem);
+        verify(storage).remove(requiredItem);
 
     }
 }

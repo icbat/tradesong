@@ -10,11 +10,11 @@ import java.util.List;
  * A warehouse?
  */
 public class Storage {
-    private List<Item> storage = new ArrayList<Item>();
+    private List<Item> itemsStored = new ArrayList<Item>();
     private WorkerPool workersAssignedToStorage = new WorkerPoolImpl();
 
     public List<Item> getContents() {
-        return storage;
+        return itemsStored;
     }
 
     public WorkerPool getWorkersAssignedToStorage() {
@@ -22,15 +22,26 @@ public class Storage {
     }
 
     public void storeItem(Item output) {
-        storage.add(output);
+        itemsStored.add(output);
     }
 
     public boolean contains(Item storedItem) {
-        return storage.contains(storedItem);
+        return itemsStored.contains(storedItem);
     }
 
     public Item remove(Item storedItem) {
-        int index = storage.indexOf(storedItem);
-        return storage.remove(index);
+        if (!itemsStored.contains(storedItem)) {
+            throw new IllegalStateException("Dev error, tried to pull a " + storedItem.getName() + " from storage that didn't exist!");
+        }
+        int index = itemsStored.indexOf(storedItem);
+        return itemsStored.remove(index);
+    }
+
+    public boolean isEmpty() {
+        return itemsStored.isEmpty();
+    }
+
+    public int size() {
+        return itemsStored.size();
     }
 }

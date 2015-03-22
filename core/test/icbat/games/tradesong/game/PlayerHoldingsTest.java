@@ -6,7 +6,8 @@ import icbat.games.tradesong.game.workshops.Workshop;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class PlayerHoldingsTest {
@@ -103,25 +104,6 @@ public class PlayerHoldingsTest {
 
     }
 
-    @Test
-    public void removeFromStorage_failsIfDoesntExist() throws Exception {
-        try {
-            holdings.removeFromStorage(mock(Item.class));
-            fail("allowed to remove something that doesn't exist");
-        } catch (IllegalStateException ise) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void removeFromStorage_happyPath() throws Exception {
-        final Item item = mock(Item.class);
-        holdings.getStorage().storeItem(item);
-
-        final Item removed = holdings.removeFromStorage(item);
-
-        assertEquals(item, removed);
-    }
 
     private abstract class ProducerAndConsumer implements ItemProducer, ItemConsumer {
 

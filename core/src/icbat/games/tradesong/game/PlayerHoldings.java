@@ -56,13 +56,6 @@ public class PlayerHoldings {
         return consumingWorkshops;
     }
 
-    public Item removeFromStorage(Item storedItem) {
-        if (!storage.contains(storedItem)) {
-            throw new IllegalStateException("Dev error, tried to pull a " + storedItem.getName() + " from storage that didn't exist!");
-        }
-        return storage.remove(storedItem);
-    }
-
     public WorkerPool getSpareWorkers() {
         return spareWorkers;
     }

@@ -18,6 +18,7 @@ public class TurnTakerTest {
 
     protected TurnTaker turnTaker;
     protected PlayerHoldings holdings;
+    protected Storage storage;
 
     @BeforeClass
     public static void setupGdx() {
@@ -28,6 +29,7 @@ public class TurnTakerTest {
     public void setUp() {
         holdings = new PlayerHoldings();
         turnTaker = new TurnTaker(holdings);
+        storage = holdings.getStorage();
     }
 
     @Test
@@ -41,18 +43,18 @@ public class TurnTakerTest {
 
         verify(workshop).takeTurn();
         verify(secondShop).takeTurn();
-        assertTrue("storage was touched despite using mocked workshops", holdings.getStorage().getContents().isEmpty());
+        assertTrue("storage was touched despite using mocked workshops", storage.isEmpty());
     }
 
     @Test
     public void generators_addItemsToStorage() {
         holdings.addWorkshop(makeProducerWorkshop());
-        assertTrue("test bad, storage started non-empty", holdings.getStorage().getContents().isEmpty());
+        assertTrue("test bad, storage started non-empty", storage.isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", holdings.getStorage().getContents().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorage().getContents().size());
+        assertFalse("storage didn't get an item when it should", storage.isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 1, storage.size());
     }
 
     private ProducerWorkshop makeProducerWorkshop() {
@@ -66,12 +68,12 @@ public class TurnTakerTest {
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
-        assertTrue("test bad, storage started non-empty", holdings.getStorage().getContents().isEmpty());
+        assertTrue("test bad, storage started non-empty", storage.isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", holdings.getStorage().getContents().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 3, holdings.getStorage().getContents().size());
+        assertFalse("storage didn't get an item when it should", storage.isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 3, storage.size());
     }
 
     @Test
@@ -91,7 +93,7 @@ public class TurnTakerTest {
         acceptAnyInput(consumer);
         holdings.addWorkshop(consumer);
         final Item input = mock(Item.class);
-        holdings.getStorage().storeItem(input);
+        storage.storeItem(input);
 
         turnTaker.takeAllTurns();
 
@@ -108,7 +110,7 @@ public class TurnTakerTest {
         acceptAnyInput(unluckyConsumer);
         holdings.addWorkshop(unluckyConsumer);
         final Item input = mock(Item.class);
-        holdings.getStorage().storeItem(input);
+        storage.storeItem(input);
 
         turnTaker.takeAllTurns();
 
@@ -121,13 +123,13 @@ public class TurnTakerTest {
         ItemConsumer consumer = mock(ItemConsumer.class);
         acceptAnyInput(consumer);
         holdings.addWorkshop(consumer);
-        holdings.getStorage().storeItem(mock(Item.class));
-        holdings.getStorage().storeItem(mock(Item.class));
-        holdings.getStorage().storeItem(mock(Item.class));
+        storage.storeItem(mock(Item.class));
+        storage.storeItem(mock(Item.class));
+        storage.storeItem(mock(Item.class));
 
         turnTaker.takeAllTurns();
 
-        assertFalse("one consumer ate all the items!", holdings.getStorage().getContents().isEmpty());
+        assertFalse("one consumer ate all the items!", storage.isEmpty());
 
     }
 

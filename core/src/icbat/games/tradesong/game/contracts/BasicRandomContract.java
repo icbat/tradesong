@@ -26,7 +26,7 @@ public class BasicRandomContract implements Contract {
             throw new IllegalStateException("Dev error! contract tried to complete w/o requirements");
         }
 
-        holdings.removeFromStorage(requiredItem);
+        holdings.getStorage().remove(requiredItem);
         holdings.getSpareWorkers().addWorker(new WorkerImpl());
     }
 
