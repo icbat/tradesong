@@ -18,6 +18,7 @@ public class ProducerWorkshopTest {
     public void setUp() throws Exception {
         final int turnsRequired = 1;
         setupProducer(turnsRequired);
+        when(output.spawnClone()).thenReturn(output);
     }
 
     @Test
@@ -106,5 +107,17 @@ public class ProducerWorkshopTest {
     private void setupProducer(int turnsRequired) {
         producer = spy(new ProducerWorkshop(output, turnsRequired));
         producer.getWorkers().addWorker(mock(Worker.class));
+    }
+
+    @Test
+    public void outputQueue() throws Exception {
+        producer.updateOutputCapacity(1);
+
+        producer.takeTurn();
+        producer.takeTurn();
+        assertTrue(producer.hasOutput());
+        producer.getNextOutput();
+
+        assertFalse(producer.hasOutput());
     }
 }

@@ -15,4 +15,6 @@ public interface ItemProducer extends Workshop {
      * @throws IllegalStateException If there is no item available, check with hasOutput() first!
      */
     Item getNextOutput();
+
+    void updateOutputCapacity(int newCapacity);
 }

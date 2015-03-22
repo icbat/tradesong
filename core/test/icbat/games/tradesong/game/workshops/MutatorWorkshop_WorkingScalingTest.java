@@ -36,10 +36,15 @@ public class MutatorWorkshop_WorkingScalingTest {
     @Test
     public void testCase() throws Exception {
         mutator = new MutatorWorkshop(mock(Item.class), goodInput);
+
         for (int i = 0; i < workers; ++i) {
             mutator.getWorkers().addWorker(mock(Worker.class));
         }
-        for (int i = 0; i < 10; ++i) {
+
+        final int inputsToSend = 10;
+        mutator.updateInputQueueCapacity(inputsToSend);
+        mutator.updateOutputCapacity(inputsToSend);
+        for (int i = 0; i < inputsToSend; ++i) {
             mutator.sendInput(goodInput);
         }
 

@@ -5,11 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.ItemStack;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workers.WorkerPoolImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Makes items from thin air!
@@ -17,25 +15,26 @@ import java.util.List;
 public class ProducerWorkshop implements ItemProducer {
 
     private final Item itemProduced;
+    private final ItemStack outputQueue;
     /**
      * Set this to higher to do work less often
      */
-    protected int turnsRequiredForWork = 1;
-    List<Item> outputQueue = new ArrayList<Item>();
+    protected int turnsRequiredForWork;
     private int turnsStoredUp = 0;
     private WorkerPool workerPool = new WorkerPoolImpl();
 
     public ProducerWorkshop(Item itemProduced) {
-        this.itemProduced = itemProduced;
+        this(itemProduced, 1);
     }
 
     public ProducerWorkshop(Item itemProduced, int turnsRequired) {
         this.itemProduced = itemProduced;
         this.turnsRequiredForWork = turnsRequired;
+        this.outputQueue = new ItemStack(itemProduced, 1);
     }
 
     protected void doWork() {
-        outputQueue.add(itemProduced);
+        outputQueue.addItem(itemProduced);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ProducerWorkshop implements ItemProducer {
         if (outputQueue.isEmpty()) {
             throw new IllegalStateException("Dev error, " + this.getClass().getName() + " was accessed when there was no output");
         }
-        return outputQueue.remove(0);
+        return outputQueue.removeItem();
     }
 
     @Override
@@ -67,7 +66,7 @@ public class ProducerWorkshop implements ItemProducer {
             return;
         }
         turnsStoredUp += determineTurnsToTake();
-        while (turnsStoredUp >= turnsRequiredForWork) {
+        while (turnsStoredUp >= turnsRequiredForWork && !outputQueue.isFull()) {
             doWork();
             turnsStoredUp -= turnsRequiredForWork;
         }
@@ -109,5 +108,10 @@ public class ProducerWorkshop implements ItemProducer {
     @Override
     public ProducerWorkshop spawnClone() {
         return new ProducerWorkshop(itemProduced.spawnClone());
+    }
+
+    @Override
+    public void updateOutputCapacity(int newCapacity) {
+        outputQueue.setCapacity(newCapacity);
     }
 }
