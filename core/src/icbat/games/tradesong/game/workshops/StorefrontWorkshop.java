@@ -2,12 +2,18 @@ package icbat.games.tradesong.game.workshops;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.workers.WorkerPool;
 
 /***/
 public class StorefrontWorkshop implements ItemConsumer {
+    private final PlayerHoldings holdings;
     private int inputQueue = 0;
     private int queueCapacity = 1;
+
+    public StorefrontWorkshop(PlayerHoldings holdings) {
+        this.holdings = holdings;
+    }
 
     @Override
     public boolean acceptsInput(Item input) {
@@ -29,7 +35,8 @@ public class StorefrontWorkshop implements ItemConsumer {
 
     @Override
     public void takeTurn() {
-
+        inputQueue--;
+        holdings.addCurrency(100);
     }
 
     @Override

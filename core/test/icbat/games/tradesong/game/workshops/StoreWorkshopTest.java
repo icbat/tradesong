@@ -1,20 +1,25 @@
 package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.PlayerHoldings;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class StoreWorkshopTest {
 
     protected StorefrontWorkshop store;
     protected Item someItem;
+    protected PlayerHoldings holdings;
 
     @Before
     public void setUp() throws Exception {
-        store = new StorefrontWorkshop();
+        holdings = mock(PlayerHoldings.class);
+        store = new StorefrontWorkshop(holdings);
         someItem = mock(Item.class);
     }
 
@@ -35,6 +40,25 @@ public class StoreWorkshopTest {
         } catch (IllegalStateException ise) {
             assertTrue(true);
         }
+    }
 
+    @Test
+    public void takeTurn_consumesGoods() throws Exception {
+        store.sendInput(someItem);
+        assertFalse("assumption incorrect, store should be full here for the test to work", store.acceptsInput(someItem));
+
+        store.takeTurn();
+
+        assertTrue("store should now have room but rejected an item", store.acceptsInput(someItem));
+    }
+
+    @Test
+    public void takeTurn_addsMoneyToHoldings() throws Exception {
+        store.sendInput(someItem);
+        assertFalse("assumption incorrect, store should be full here for the test to work", store.acceptsInput(someItem));
+
+        store.takeTurn();
+
+        verify(holdings).addCurrency(anyInt());
     }
 }
