@@ -93,7 +93,7 @@ public class TurnTakerTest {
 
     @Test
     public void consumers_getItems() throws Exception {
-        final ItemConsumer consumer = makeItemConsumer();
+        final ItemConsumer consumer = makeConsumerWorkshop();
         holdings.addWorkshop(consumer);
         final Item input = mock(Item.class);
         storage.storeItem(input);
@@ -104,7 +104,7 @@ public class TurnTakerTest {
         verify(consumer).sendInput(input);
     }
 
-    private ItemConsumer makeItemConsumer() {
+    private ItemConsumer makeConsumerWorkshop() {
         ItemConsumer consumer;
         consumer = mock(ItemConsumer.class);
         when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
@@ -113,9 +113,9 @@ public class TurnTakerTest {
 
     @Test
     public void multipleConsumers_notEnoughIngredients() throws Exception {
-        final ItemConsumer luckyConsumer = makeItemConsumer();
+        final ItemConsumer luckyConsumer = makeConsumerWorkshop();
         holdings.addWorkshop(luckyConsumer);
-        final ItemConsumer unluckyConsumer = makeItemConsumer();
+        final ItemConsumer unluckyConsumer = makeConsumerWorkshop();
         holdings.addWorkshop(unluckyConsumer);
         final Item input = mock(Item.class);
         storage.storeItem(input);
@@ -128,7 +128,7 @@ public class TurnTakerTest {
 
     @Test
     public void consumer_doesntEatAll() throws Exception {
-        holdings.addWorkshop(makeItemConsumer());
+        holdings.addWorkshop(makeConsumerWorkshop());
         storage.storeItem(mock(Item.class));
         storage.storeItem(mock(Item.class));
         storage.storeItem(mock(Item.class));
@@ -141,9 +141,7 @@ public class TurnTakerTest {
 
     @Test
     public void noStorageWorkers_doesntMoveOutput() throws Exception {
-        while (storage.getWorkers().hasWorkers()) {
-            storage.getWorkers().removeWorker();
-        }
+        emptyStorageWorkers();
         holdings.addWorkshop(makeProducerWorkshop());
 
         turnTaker.takeAllTurns();
@@ -151,8 +149,15 @@ public class TurnTakerTest {
         assertTrue("Nothing should've been moved from the producer!", storage.isEmpty());
     }
 
+    private void emptyStorageWorkers() {
+        while (storage.getWorkers().hasWorkers()) {
+            storage.getWorkers().removeWorker();
+        }
+    }
+
     @Test
     public void moreStorageWorkers_producerEmptiesFaster() throws Exception {
+        storage.getWorkers().addWorker(mock(Worker.class));
         storage.getWorkers().addWorker(mock(Worker.class));
         final ItemProducer producer = mock(ItemProducer.class);
         when(producer.hasOutput()).thenReturn(true);
@@ -166,4 +171,27 @@ public class TurnTakerTest {
         assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkers().size());
     }
 
+    @Test
+    public void noStorageWorkers_doesntMoveInput() throws Exception {
+        emptyStorageWorkers();
+        holdings.addWorkshop(makeConsumerWorkshop());
+        storage.getContents().add(mock(Item.class));
+
+        turnTaker.takeAllTurns();
+
+        assertFalse("Storage was moved to a consumer without anyone hauling!", storage.isEmpty());
+    }
+
+    @Test
+    public void moreStorageWorkers_moveMoreInputsToConsumers() throws Exception {
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        holdings.addWorkshop(makeConsumerWorkshop());
+        storage.getContents().add(mock(Item.class));
+        storage.getContents().add(mock(Item.class));
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("Storage didn't empty faster with more workers", storage.isEmpty());
+    }
 }

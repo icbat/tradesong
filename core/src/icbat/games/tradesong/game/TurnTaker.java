@@ -5,6 +5,9 @@ import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ItemProducer;
 import icbat.games.tradesong.game.workshops.Workshop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TurnTaker {
     private final PlayerHoldings holdings;
     private final Storage storage;
@@ -27,13 +30,28 @@ public class TurnTaker {
     }
 
     private void moveAllInputs() {
+        if (!storage.getWorkers().hasWorkers()) {
+            return;
+        }
+        int workersSpent = 0;
+        List<Item> itemsMoved = new ArrayList<Item>();
         for (ItemConsumer consumer : holdings.getItemConsumers()) {
+            if (workersSpent >= storage.getWorkers().size()) {
+                break;
+            }
             for (Item storedItem : storage.getContents()) {
                 if (consumer.acceptsInput(storedItem)) {
-                    consumer.sendInput(storage.remove(storedItem));
-                    break;
+                    itemsMoved.add(storedItem);
+                    consumer.sendInput(storedItem);
+                    workersSpent++;
+                    if (workersSpent >= storage.getWorkers().size()) {
+                        break;
+                    }
                 }
             }
+        }
+        for (Item item : itemsMoved) {
+            storage.remove(item);
         }
     }
 
