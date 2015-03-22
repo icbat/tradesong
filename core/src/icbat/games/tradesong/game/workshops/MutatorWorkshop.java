@@ -19,7 +19,7 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     private final Item output;
     private final Map<Item, Integer> requirements = new HashMap<Item, Integer>();
     private final List<ItemStack> inputStacks = new ArrayList<ItemStack>();
-    private final Deque<Item> outputQueue = new ArrayDeque<Item>();
+    private final ItemStack outputQueue;
     private WorkerPool workerPool = new WorkerPoolImpl();
 
     public MutatorWorkshop(Item output, Item... ingredients) {
@@ -28,6 +28,7 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     public MutatorWorkshop(Item output, List<Item> ingredients) {
         this.output = output;
+        this.outputQueue = new ItemStack(output, 1);
         if (ingredients.size() <= 0) {
             throw new IllegalStateException("Dev error! Mutator attempted to be created without any ingredients!");
         }
@@ -49,9 +50,9 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     @Override
     public void takeTurn() {
         for (int i = 0; i < workerPool.size(); ++i) {
-            if (isStockedWithProperIngredients()) {
+            if (isStockedWithProperIngredients() && !outputQueue.isFull()) {
                 consumeIngredients();
-                outputQueue.add(output);
+                outputQueue.addItem(output);
             }
         }
     }
@@ -127,7 +128,7 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         if (!hasOutput()) {
             throw new IllegalStateException("Dev error! " + this.getWorkshopName() + "'s output accessed with an empty output");
         }
-        return outputQueue.removeFirst();
+        return outputQueue.removeItem();
     }
 
     protected List<ItemStack> getInputStacks() {
@@ -159,5 +160,9 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         for (ItemStack stack : inputStacks) {
             stack.setCapacity(inputQueueCapacity);
         }
+    }
+
+    public void updateOutputCapacity(int newCapacity) {
+        outputQueue.setCapacity(newCapacity);
     }
 }

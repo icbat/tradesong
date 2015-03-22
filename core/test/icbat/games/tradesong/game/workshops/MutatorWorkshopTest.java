@@ -31,6 +31,7 @@ public class MutatorWorkshopTest {
         redundantInputMutator.getWorkers().addWorker(worker);
 
         when(output.getName()).thenReturn("TestOutput");
+        when(output.spawnClone()).thenReturn(output);
         when(goodInput.getName()).thenReturn("Good Input");
         when(secondGoodInput.getName()).thenReturn("A Second Good Input");
         when(badInput.getName()).thenReturn("Bad Input");
@@ -261,5 +262,18 @@ public class MutatorWorkshopTest {
         for (ItemStack stack : singleInputMutator.getInputStacks()) {
             assertEquals("underlying stack was not updated with new capacity", initialCapacity + 7, stack.getCapacity());
         }
+    }
+
+    @Test
+    public void outputQueue() throws Exception {
+        singleInputMutator.updateOutputCapacity(1);
+        singleInputMutator.sendInput(goodInput);
+        singleInputMutator.takeTurn();
+        singleInputMutator.sendInput(goodInput);
+        singleInputMutator.takeTurn();
+
+        singleInputMutator.getNextOutput();
+
+        assertFalse("Work was done even with a full output queue", singleInputMutator.hasOutput());
     }
 }
