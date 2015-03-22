@@ -42,7 +42,8 @@ public class PrototypeLayoutTable extends Table {
                 this.setText("Turn count: " + turnTaker.getCurrentTurn());
                 super.draw(batch, parentAlpha);
             }
-        }).pad(10).align(Align.top);
+        }).pad(10).align(Align.top).colspan(2);
+        row();
         add(new Label("", basicLabelStyle) {
             @Override
             public void draw(Batch batch, float parentAlpha) {
@@ -50,6 +51,14 @@ public class PrototypeLayoutTable extends Table {
                 super.draw(batch, parentAlpha);
             }
         }).pad(10).align(Align.top);
+        add(new Label("", basicLabelStyle) {
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                this.setText("Money: " + holdings.getCurrency());
+                super.draw(batch, parentAlpha);
+            }
+        }).pad(10).align(Align.top);
+
         row();
 
         add(potentialWorkshops()).pad(10).align(Align.top);
