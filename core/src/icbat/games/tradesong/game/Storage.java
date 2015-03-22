@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game;
 
+import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
@@ -12,6 +13,10 @@ import java.util.List;
 public class Storage {
     private List<Item> itemsStored = new ArrayList<Item>();
     private WorkerPool workersAssignedToStorage = new WorkerPoolImpl();
+
+    public Storage() {
+        workersAssignedToStorage.addWorker(new WorkerImpl());
+    }
 
     public List<Item> getContents() {
         return itemsStored;
