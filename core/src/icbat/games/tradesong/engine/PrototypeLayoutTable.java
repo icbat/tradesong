@@ -101,7 +101,7 @@ public class PrototypeLayoutTable extends Table {
         Table storageDisplay = new Table();
         final Label storageHeader = new Label("Storage", this.basicLabelStyle);
         storageDisplay.add(storageHeader).pad(10).row();
-        for (Item item : holdings.getStorageContents()) {
+        for (Item item : holdings.getStorage().getContents()) {
             storageDisplay.add(item.getActor()).row();
         }
         return storageDisplay;

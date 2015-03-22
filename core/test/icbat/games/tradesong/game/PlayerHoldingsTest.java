@@ -116,7 +116,7 @@ public class PlayerHoldingsTest {
     @Test
     public void removeFromStorage_happyPath() throws Exception {
         final Item item = mock(Item.class);
-        holdings.storeItem(item);
+        holdings.getStorage().storeItem(item);
 
         final Item removed = holdings.removeFromStorage(item);
 

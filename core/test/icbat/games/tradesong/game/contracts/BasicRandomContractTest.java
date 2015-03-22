@@ -2,19 +2,18 @@ package icbat.games.tradesong.game.contracts;
 
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
+import icbat.games.tradesong.game.Storage;
 import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 
-import java.util.Collection;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class BasicRandomContractTest {
-    protected Collection<Item> storage;
+    protected Storage storage;
     private BasicRandomContract contract;
     private PlayerHoldings holdings = mock(PlayerHoldings.class);
     private Item requiredItem = mock(Item.class);
@@ -24,9 +23,9 @@ public class BasicRandomContractTest {
     public void setUp() throws Exception {
         contract = new BasicRandomContract(requiredItem);
 
-        storage = mock(Collection.class);
+        storage = mock(Storage.class);
         workerPool = mock(WorkerPool.class);
-        when(holdings.getStorageContents()).thenReturn(storage);
+        when(holdings.getStorage()).thenReturn(storage);
         when(holdings.getSpareWorkers()).thenReturn(workerPool);
     }
 

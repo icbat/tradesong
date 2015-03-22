@@ -17,7 +17,7 @@ public class BasicRandomContract implements Contract {
 
     @Override
     public boolean canComplete(PlayerHoldings holdings) {
-        return holdings.getStorageContents().contains(requiredItem);
+        return holdings.getStorage().contains(requiredItem);
     }
 
     @Override
