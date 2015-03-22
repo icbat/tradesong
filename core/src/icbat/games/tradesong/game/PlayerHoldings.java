@@ -13,8 +13,8 @@ import java.util.List;
 /***/
 public class PlayerHoldings {
     private List<Workshop> workshops = new ArrayList<Workshop>();
-    private List<ItemProducer> itemProducers = new ArrayList<ItemProducer>();
-    private List<ItemConsumer> itemConsumers = new ArrayList<ItemConsumer>();
+    private Collection<ItemProducer> itemProducers = new ArrayList<ItemProducer>();
+    private Collection<ItemConsumer> itemConsumers = new ArrayList<ItemConsumer>();
     private WorkerPool spareWorkers = new WorkerPoolImpl();
     private Storage storage = new Storage();
 
