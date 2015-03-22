@@ -13,8 +13,8 @@ import java.util.List;
 /***/
 public class PlayerHoldings {
     private List<Workshop> workshops = new ArrayList<Workshop>();
-    private List<ItemProducer> producingWorkshops = new ArrayList<ItemProducer>();
-    private List<ItemConsumer> consumingWorkshops = new ArrayList<ItemConsumer>();
+    private List<ItemProducer> itemProducers = new ArrayList<ItemProducer>();
+    private List<ItemConsumer> itemConsumers = new ArrayList<ItemConsumer>();
     private WorkerPool spareWorkers = new WorkerPoolImpl();
     private Storage storage = new Storage();
 
@@ -22,11 +22,11 @@ public class PlayerHoldings {
     public void addWorkshop(Workshop workshop) {
         workshops.add(workshop);
         if (workshop instanceof ItemProducer) {
-            producingWorkshops.add((ItemProducer) workshop);
+            itemProducers.add((ItemProducer) workshop);
         }
 
         if (workshop instanceof ItemConsumer) {
-            consumingWorkshops.add((ItemConsumer) workshop);
+            itemConsumers.add((ItemConsumer) workshop);
         }
     }
 
@@ -39,21 +39,21 @@ public class PlayerHoldings {
     }
 
     public Collection<ItemProducer> getItemProducers() {
-        return producingWorkshops;
+        return itemProducers;
     }
 
     public void removeWorkshop(Workshop workshop) {
         workshops.remove(workshop);
         if (workshop instanceof ItemProducer) {
-            producingWorkshops.remove(workshop);
+            itemProducers.remove(workshop);
         }
         if (workshop instanceof ItemConsumer) {
-            consumingWorkshops.remove(workshop);
+            itemConsumers.remove(workshop);
         }
     }
 
     public Collection<ItemConsumer> getItemConsumers() {
-        return consumingWorkshops;
+        return itemConsumers;
     }
 
     public WorkerPool getSpareWorkers() {
