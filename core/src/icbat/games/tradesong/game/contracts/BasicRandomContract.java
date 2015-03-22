@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
-import icbat.games.tradesong.game.workers.WorkerImpl;
 
 /***/
 public class BasicRandomContract implements Contract {
     private final Item requiredItem;
+    private final ContractReward reward = new WorkerReward();
 
     public BasicRandomContract(Item requiredItem) {
         this.requiredItem = requiredItem;
@@ -25,9 +25,8 @@ public class BasicRandomContract implements Contract {
         if (!canComplete(holdings)) {
             throw new IllegalStateException("Dev error! contract tried to complete w/o requirements");
         }
-
         holdings.getStorage().remove(requiredItem);
-        holdings.getSpareWorkers().addWorker(new WorkerImpl());
+        reward.addRewardToHoldings(holdings);
     }
 
     @Override
