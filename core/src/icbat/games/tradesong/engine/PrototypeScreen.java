@@ -70,9 +70,9 @@ public class PrototypeScreen implements Screen {
     private void setupContracts() {
         contracts = new ArrayList<Contract>();
         ContractFactory factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
-        contracts.add(factory.buildRandomItemContract());
-        contracts.add(factory.buildRandomItemContract());
-        contracts.add(factory.buildRandomItemContract());
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
     }
 
     private void setupWorkerPool() {
