@@ -26,8 +26,8 @@ public class BasicRandomContractTest {
 
         storage = mock(Collection.class);
         workerPool = mock(WorkerPool.class);
-        when(holdings.getStorage()).thenReturn(storage);
-        when(holdings.getWorkers()).thenReturn(workerPool);
+        when(holdings.getStorageContents()).thenReturn(storage);
+        when(holdings.getSpareWorkers()).thenReturn(workerPool);
     }
 
     @Test

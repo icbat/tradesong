@@ -16,7 +16,7 @@ public class PlayerHoldings {
     private List<Workshop> workshops = new ArrayList<Workshop>();
     private List<ItemProducer> producingWorkshops = new ArrayList<ItemProducer>();
     private List<ItemConsumer> consumingWorkshops = new ArrayList<ItemConsumer>();
-    private WorkerPool workers = new WorkerPoolImpl();
+    private WorkerPool spareWorkers = new WorkerPoolImpl();
 
     public void addWorkshop(Workshop workshop) {
         workshops.add(workshop);
@@ -29,7 +29,7 @@ public class PlayerHoldings {
         }
     }
 
-    public Collection<Item> getStorage() {
+    public Collection<Item> getStorageContents() {
         return storage;
     }
 
@@ -67,7 +67,7 @@ public class PlayerHoldings {
         return storage.remove(foundIndex);
     }
 
-    public WorkerPool getWorkers() {
-        return workers;
+    public WorkerPool getSpareWorkers() {
+        return spareWorkers;
     }
 }

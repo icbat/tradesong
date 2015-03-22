@@ -21,12 +21,12 @@ public class TurnTaker {
         moveAllOutputsToStorage();
         currentTurn++;
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
-        Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + holdings.getStorage().size());
+        Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + holdings.getStorageContents().size());
     }
 
     private void acceptAnyInputs() {
         for (ItemConsumer consumer : holdings.getItemConsumers()) {
-            for (Item storedItem : holdings.getStorage()) {
+            for (Item storedItem : holdings.getStorageContents()) {
                 if (consumer.acceptsInput(storedItem)) {
                     consumer.sendInput(holdings.removeFromStorage(storedItem));
                     break;

@@ -46,7 +46,7 @@ public class PrototypeLayoutTable extends Table {
         add(new Label("", basicLabelStyle) {
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                this.setText("Spare workers: " + holdings.getWorkers().size());
+                this.setText("Spare workers: " + holdings.getSpareWorkers().size());
                 super.draw(batch, parentAlpha);
             }
         }).pad(10).align(Align.top);
@@ -90,8 +90,8 @@ public class PrototypeLayoutTable extends Table {
         for (final Workshop workshop : holdings.getWorkshops()) {
             activeDisplay.add(buildTextButton("<-", new RemoveWorkshopListener(workshop))).pad(5);
             activeDisplay.add(workshop.getActor()).pad(5);
-            activeDisplay.add(buildTextButton("+", new AddWorkersListener(workshop, holdings.getWorkers()))).pad(5);
-            activeDisplay.add(buildTextButton("-", new RemoveWorkersListener(workshop, holdings.getWorkers()))).pad(5);
+            activeDisplay.add(buildTextButton("+", new AddWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
+            activeDisplay.add(buildTextButton("-", new RemoveWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
             activeDisplay.row();
         }
         return activeDisplay;
@@ -101,7 +101,7 @@ public class PrototypeLayoutTable extends Table {
         Table storageDisplay = new Table();
         final Label storageHeader = new Label("Storage", this.basicLabelStyle);
         storageDisplay.add(storageHeader).pad(10).row();
-        for (Item item : holdings.getStorage()) {
+        for (Item item : holdings.getStorageContents()) {
             storageDisplay.add(item.getActor()).row();
         }
         return storageDisplay;
