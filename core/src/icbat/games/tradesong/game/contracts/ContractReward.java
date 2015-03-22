@@ -5,4 +5,6 @@ import icbat.games.tradesong.game.PlayerHoldings;
 /***/
 public interface ContractReward {
     void addRewardToHoldings(PlayerHoldings holdings);
+
+    String name();
 }

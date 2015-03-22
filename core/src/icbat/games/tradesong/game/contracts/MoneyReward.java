@@ -14,4 +14,9 @@ public class MoneyReward implements ContractReward {
     public void addRewardToHoldings(PlayerHoldings holdings) {
         holdings.addCurrency(amount);
     }
+
+    @Override
+    public String name() {
+        return "reward: " + amount + " money";
+    }
 }

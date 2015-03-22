@@ -34,7 +34,7 @@ public class ContractImpl implements Contract {
     public Actor getActor() {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
-        return new Label("Bring me one " + requiredItem.getName() + "!", style);
+        return new Label("Bring me one " + requiredItem.getName() + "! " + reward.name(), style);
     }
 
     @Override

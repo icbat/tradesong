@@ -10,4 +10,9 @@ public class WorkerReward implements ContractReward {
     public void addRewardToHoldings(PlayerHoldings holdings) {
         holdings.getSpareWorkers().addWorker(new WorkerImpl());
     }
+
+    @Override
+    public String name() {
+        return "rewards one worker!";
+    }
 }

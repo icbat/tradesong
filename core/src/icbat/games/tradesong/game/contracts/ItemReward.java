@@ -15,4 +15,9 @@ public class ItemReward implements ContractReward {
     public void addRewardToHoldings(PlayerHoldings holdings) {
         holdings.getStorage().storeItem(reward);
     }
+
+    @Override
+    public String name() {
+        return "reward: " + reward.getName();
+    }
 }
