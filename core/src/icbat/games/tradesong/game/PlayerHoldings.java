@@ -12,11 +12,12 @@ import java.util.List;
 
 /***/
 public class PlayerHoldings {
-    private List<Item> storage = new ArrayList<Item>();
     private List<Workshop> workshops = new ArrayList<Workshop>();
     private List<ItemProducer> producingWorkshops = new ArrayList<ItemProducer>();
     private List<ItemConsumer> consumingWorkshops = new ArrayList<ItemConsumer>();
-    private WorkerPool workers = new WorkerPoolImpl();
+    private WorkerPool spareWorkers = new WorkerPoolImpl();
+    private Storage storage = new Storage();
+
 
     public void addWorkshop(Workshop workshop) {
         workshops.add(workshop);
@@ -29,7 +30,7 @@ public class PlayerHoldings {
         }
     }
 
-    public Collection<Item> getStorage() {
+    public Storage getStorage() {
         return storage;
     }
 
@@ -37,12 +38,8 @@ public class PlayerHoldings {
         return workshops;
     }
 
-    public Collection<ItemProducer> getItemCreators() {
+    public Collection<ItemProducer> getItemProducers() {
         return producingWorkshops;
-    }
-
-    public void storeItem(Item output) {
-        storage.add(output);
     }
 
     public void removeWorkshop(Workshop workshop) {
@@ -59,15 +56,7 @@ public class PlayerHoldings {
         return consumingWorkshops;
     }
 
-    public Item removeFromStorage(Item storedItem) {
-        if (!storage.contains(storedItem)) {
-            throw new IllegalStateException("Dev error, tried to pull a " + storedItem.getName() + " from storage that didn't exist!");
-        }
-        int foundIndex = storage.indexOf(storedItem);
-        return storage.remove(foundIndex);
-    }
-
-    public WorkerPool getWorkers() {
-        return workers;
+    public WorkerPool getSpareWorkers() {
+        return spareWorkers;
     }
 }

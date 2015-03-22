@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
+import icbat.games.tradesong.game.workshops.ItemProducer;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 import org.junit.Before;
@@ -18,6 +19,7 @@ public class TurnTakerTest {
 
     protected TurnTaker turnTaker;
     protected PlayerHoldings holdings;
+    protected Storage storage;
 
     @BeforeClass
     public static void setupGdx() {
@@ -28,6 +30,7 @@ public class TurnTakerTest {
     public void setUp() {
         holdings = new PlayerHoldings();
         turnTaker = new TurnTaker(holdings);
+        storage = holdings.getStorage();
     }
 
     @Test
@@ -41,18 +44,18 @@ public class TurnTakerTest {
 
         verify(workshop).takeTurn();
         verify(secondShop).takeTurn();
-        assertTrue("storage was touched despite using mocked workshops", holdings.getStorage().isEmpty());
+        assertTrue("storage was touched despite using mocked workshops", storage.isEmpty());
     }
 
     @Test
     public void generators_addItemsToStorage() {
         holdings.addWorkshop(makeProducerWorkshop());
-        assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
+        assertTrue("test bad, storage started non-empty", storage.isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 1, holdings.getStorage().size());
+        assertFalse("storage didn't get an item when it should", storage.isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 1, storage.size());
     }
 
     private ProducerWorkshop makeProducerWorkshop() {
@@ -63,15 +66,18 @@ public class TurnTakerTest {
 
     @Test
     public void producers_multiplesAllAddToStorage() {
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
-        assertTrue("test bad, storage started non-empty", holdings.getStorage().isEmpty());
+        assertTrue("test bad, storage started non-empty", storage.isEmpty());
 
         turnTaker.takeAllTurns();
 
-        assertFalse("storage didn't get an item when it should", holdings.getStorage().isEmpty());
-        assertEquals("storage should only have 1 item for 1 producer", 3, holdings.getStorage().size());
+        assertFalse("storage didn't get an item when it should", storage.isEmpty());
+        assertEquals("storage should only have 1 item for 1 producer", 3, storage.size());
     }
 
     @Test
@@ -87,11 +93,10 @@ public class TurnTakerTest {
 
     @Test
     public void consumers_getItems() throws Exception {
-        final ItemConsumer consumer = mock(ItemConsumer.class);
-        acceptAnyInput(consumer);
+        final ItemConsumer consumer = makeConsumerWorkshop();
         holdings.addWorkshop(consumer);
         final Item input = mock(Item.class);
-        holdings.storeItem(input);
+        storage.storeItem(input);
 
         turnTaker.takeAllTurns();
 
@@ -99,16 +104,21 @@ public class TurnTakerTest {
         verify(consumer).sendInput(input);
     }
 
+    private ItemConsumer makeConsumerWorkshop() {
+        ItemConsumer consumer;
+        consumer = mock(ItemConsumer.class);
+        when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
+        return consumer;
+    }
+
     @Test
     public void multipleConsumers_notEnoughIngredients() throws Exception {
-        final ItemConsumer luckyConsumer = mock(ItemConsumer.class);
-        acceptAnyInput(luckyConsumer);
+        final ItemConsumer luckyConsumer = makeConsumerWorkshop();
         holdings.addWorkshop(luckyConsumer);
-        final ItemConsumer unluckyConsumer = mock(ItemConsumer.class);
-        acceptAnyInput(unluckyConsumer);
+        final ItemConsumer unluckyConsumer = makeConsumerWorkshop();
         holdings.addWorkshop(unluckyConsumer);
         final Item input = mock(Item.class);
-        holdings.storeItem(input);
+        storage.storeItem(input);
 
         turnTaker.takeAllTurns();
 
@@ -118,20 +128,70 @@ public class TurnTakerTest {
 
     @Test
     public void consumer_doesntEatAll() throws Exception {
-        ItemConsumer consumer = mock(ItemConsumer.class);
-        acceptAnyInput(consumer);
-        holdings.addWorkshop(consumer);
-        holdings.storeItem(mock(Item.class));
-        holdings.storeItem(mock(Item.class));
-        holdings.storeItem(mock(Item.class));
+        holdings.addWorkshop(makeConsumerWorkshop());
+        storage.storeItem(mock(Item.class));
+        storage.storeItem(mock(Item.class));
+        storage.storeItem(mock(Item.class));
 
         turnTaker.takeAllTurns();
 
-        assertFalse("one consumer ate all the items!", holdings.getStorage().isEmpty());
+        assertFalse("one consumer ate all the items!", storage.isEmpty());
 
     }
 
-    private void acceptAnyInput(ItemConsumer consumer) {
-        when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
+    @Test
+    public void noStorageWorkers_doesntMoveOutput() throws Exception {
+        emptyStorageWorkers();
+        holdings.addWorkshop(makeProducerWorkshop());
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("Nothing should've been moved from the producer!", storage.isEmpty());
+    }
+
+    private void emptyStorageWorkers() {
+        while (storage.getWorkers().hasWorkers()) {
+            storage.getWorkers().removeWorker();
+        }
+    }
+
+    @Test
+    public void moreStorageWorkers_producerEmptiesFaster() throws Exception {
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        final ItemProducer producer = mock(ItemProducer.class);
+        when(producer.hasOutput()).thenReturn(true);
+        when(producer.getNextOutput()).thenReturn(mock(Item.class));
+        holdings.addWorkshop(producer);
+        holdings.addWorkshop(producer);
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("More workers moved the same amount of goods", storage.size() > 1);
+        assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkers().size());
+    }
+
+    @Test
+    public void noStorageWorkers_doesntMoveInput() throws Exception {
+        emptyStorageWorkers();
+        holdings.addWorkshop(makeConsumerWorkshop());
+        storage.getContents().add(mock(Item.class));
+
+        turnTaker.takeAllTurns();
+
+        assertFalse("Storage was moved to a consumer without anyone hauling!", storage.isEmpty());
+    }
+
+    @Test
+    public void moreStorageWorkers_moveMoreInputsToConsumers() throws Exception {
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        holdings.addWorkshop(makeConsumerWorkshop());
+        storage.getContents().add(mock(Item.class));
+        storage.getContents().add(mock(Item.class));
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("Storage didn't empty faster with more workers", storage.isEmpty());
     }
 }

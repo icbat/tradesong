@@ -31,7 +31,7 @@ public class ItemStack {
             throw new IllegalStateException("Dev error! This stack only accepts " + item.getName() + " but was handed " + input.getName());
         }
         if (isFull()) {
-            throw new IllegalStateException("Dev error! Check stack's capacity before attempting to add!");
+            throw new IllegalStateException("Dev error! Check stack's capacity before attempting to storeItem!");
         }
         stackSize++;
     }

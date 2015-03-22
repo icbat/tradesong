@@ -76,7 +76,7 @@ public class PrototypeScreen implements Screen {
     }
 
     private void setupWorkerPool() {
-        WorkerPool spareWorkers = holdings.getWorkers();
+        WorkerPool spareWorkers = holdings.getSpareWorkers();
         spareWorkers.addWorker(new WorkerImpl());
         spareWorkers.addWorker(new WorkerImpl());
         spareWorkers.addWorker(new WorkerImpl());
