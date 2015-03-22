@@ -51,4 +51,8 @@ public class ItemStack {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    public boolean isEmpty() {
+        return stackSize <= 0;
+    }
 }

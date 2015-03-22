@@ -101,4 +101,12 @@ public class ItemStackTest {
         stack.addItem(goodInput);
         assertTrue(stack.isFull());
     }
+
+    @Test
+    public void isEmpty() throws Exception {
+        assertTrue(stack.isEmpty());
+        stack.addItem(goodInput);
+        assertFalse(stack.isEmpty());
+
+    }
 }
