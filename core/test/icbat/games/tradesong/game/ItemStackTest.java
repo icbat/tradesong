@@ -14,7 +14,7 @@ public class ItemStackTest {
 
     @Before
     public void setUp() throws Exception {
-        stack = new ItemStack(goodInput);
+        stack = new ItemStack(goodInput, 2);
         when(goodInput.spawnClone()).thenReturn(goodInput);
     }
 
@@ -59,5 +59,46 @@ public class ItemStackTest {
         } catch (IllegalStateException ise) {
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void capacity_zero_isUnacceptable() throws Exception {
+        try {
+            new ItemStack(mock(Item.class), 0);
+            fail("Capacity was allowed to be less than one!!");
+        } catch (IllegalStateException ise) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void capacity_negative_isUnacceptable() throws Exception {
+        try {
+            new ItemStack(mock(Item.class), -2);
+            fail("Capacity was allowed to be less than one!!");
+        } catch (IllegalStateException ise) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void capacity_isAbidedBy() throws Exception {
+        stack.setCapacity(1);
+        stack.addItem(goodInput);
+        try {
+            stack.addItem(goodInput);
+            fail("Item was allowed to be added while at max capacity!");
+        } catch (IllegalStateException ise) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void isFull() throws Exception {
+        stack.setCapacity(1);
+
+        assertFalse(stack.isFull());
+        stack.addItem(goodInput);
+        assertTrue(stack.isFull());
     }
 }
