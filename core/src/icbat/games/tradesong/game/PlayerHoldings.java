@@ -17,6 +17,7 @@ public class PlayerHoldings {
     private Collection<ItemConsumer> itemConsumers = new ArrayList<ItemConsumer>();
     private WorkerPool spareWorkers = new WorkerPoolImpl();
     private Storage storage = new Storage();
+    private int currency = 0;
 
 
     public void addWorkshop(Workshop workshop) {
@@ -58,5 +59,17 @@ public class PlayerHoldings {
 
     public WorkerPool getSpareWorkers() {
         return spareWorkers;
+    }
+
+    public int getCurrency() {
+        return currency;
+    }
+
+    public void addCurrency(int amount) {
+        this.currency += amount;
+    }
+
+    public void removeCurrency(int amount) {
+        this.currency -= amount;
     }
 }
