@@ -2,6 +2,8 @@ package icbat.games.tradesong.game;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import icbat.games.tradesong.game.contracts.Contract;
+import icbat.games.tradesong.game.contracts.ContractFactory;
 import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ItemProducer;
@@ -12,6 +14,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Matchers;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -20,6 +24,7 @@ public class TurnTakerTest {
     protected TurnTaker turnTaker;
     protected PlayerHoldings holdings;
     protected Storage storage;
+    protected ContractFactory contractFactory;
 
     @BeforeClass
     public static void setupGdx() {
@@ -29,8 +34,10 @@ public class TurnTakerTest {
     @Before
     public void setUp() {
         holdings = new PlayerHoldings();
-        turnTaker = new TurnTaker(holdings);
         storage = holdings.getStorage();
+
+        contractFactory = mock(ContractFactory.class);
+        turnTaker = new TurnTaker(holdings, new ArrayList<Contract>(), contractFactory);
     }
 
     @Test
@@ -193,5 +200,23 @@ public class TurnTakerTest {
         turnTaker.takeAllTurns();
 
         assertTrue("Storage didn't empty faster with more workers", storage.isEmpty());
+    }
+
+    @Test
+    public void contractsAdded() throws Exception {
+        for (int i = 0; i < 4; ++i) {
+            turnTaker.takeAllTurns();
+            verify(contractFactory, times(0)).buildRandomContract();
+        }
+        turnTaker.takeAllTurns();
+        verify(contractFactory, times(1)).buildRandomContract();
+
+
+        for (int i = 0; i < 9; ++i) {
+            turnTaker.takeAllTurns();
+            verify(contractFactory, times(1)).buildRandomContract();
+        }
+        turnTaker.takeAllTurns();
+        verify(contractFactory, times(2)).buildRandomContract();
     }
 }

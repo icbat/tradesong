@@ -26,6 +26,7 @@ public class PrototypeScreen implements Screen {
     protected Item basicItem;
     protected Item betterItem;
     protected Item assembledItem;
+    protected ContractFactory factory;
     private PlayerHoldings holdings = new PlayerHoldings();
     private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
@@ -60,16 +61,16 @@ public class PrototypeScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.debug("proto screen", "shown");
-        setupTurnTaker();
         setupItems();
+        setupContracts();
+        setupTurnTaker();
         setupWorkshops();
         setupWorkerPool();
-        setupContracts();
     }
 
     private void setupContracts() {
+        factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
         contracts = new ArrayList<Contract>();
-        ContractFactory factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
         contracts.add(factory.buildRandomContract());
         contracts.add(factory.buildRandomContract());
         contracts.add(factory.buildRandomContract());
@@ -83,7 +84,7 @@ public class PrototypeScreen implements Screen {
     }
 
     private void setupTurnTaker() {
-        turnTaker = new TurnTaker(holdings);
+        turnTaker = new TurnTaker(holdings, contracts, factory);
         turnTimer.clear();
         turnTimer.scheduleTask(new Timer.Task() {
             @Override
