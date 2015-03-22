@@ -17,6 +17,7 @@ public class PlayerHoldings {
     private List<ItemProducer> producingWorkshops = new ArrayList<ItemProducer>();
     private List<ItemConsumer> consumingWorkshops = new ArrayList<ItemConsumer>();
     private WorkerPool spareWorkers = new WorkerPoolImpl();
+    private WorkerPool workersAssignedToStorage = new WorkerPoolImpl();
 
     public void addWorkshop(Workshop workshop) {
         workshops.add(workshop);
@@ -69,5 +70,9 @@ public class PlayerHoldings {
 
     public WorkerPool getSpareWorkers() {
         return spareWorkers;
+    }
+
+    public WorkerPool getWorkersAssignedToStorage() {
+        return workersAssignedToStorage;
     }
 }
