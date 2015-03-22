@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
-public class StoreWorkshopTest {
+public class StorefrontWorkshopTest {
 
     protected StorefrontWorkshop store;
     protected Item someItem;
@@ -100,6 +100,15 @@ public class StoreWorkshopTest {
         store.takeTurn();
 
         verify(holdings, times(1)).addCurrency(anyInt());
+    }
 
+    @Test
+    public void spawnClone_forgetsQueueSize() throws Exception {
+        store.updateInputQueueCapacity(5);
+
+        final StorefrontWorkshop clone = store.spawnClone();
+
+        clone.sendInput(someItem);
+        assertFalse(clone.acceptsInput(someItem));
     }
 }

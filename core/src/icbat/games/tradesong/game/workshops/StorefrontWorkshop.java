@@ -64,7 +64,7 @@ public class StorefrontWorkshop implements ItemConsumer {
     }
 
     @Override
-    public Workshop spawnClone() {
-        return null;
+    public StorefrontWorkshop spawnClone() {
+        return new StorefrontWorkshop(holdings);
     }
 }
