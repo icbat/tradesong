@@ -3,17 +3,16 @@ package icbat.games.tradesong.game.contracts;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.Storage;
-import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class ContractImplTest {
     protected Storage storage;
+    protected ContractReward reward;
     private ContractImpl contract;
     private PlayerHoldings holdings = mock(PlayerHoldings.class);
     private Item requiredItem = mock(Item.class);
@@ -21,7 +20,8 @@ public class ContractImplTest {
 
     @Before
     public void setUp() throws Exception {
-        contract = new ContractImpl(requiredItem);
+        reward = mock(ContractReward.class);
+        contract = new ContractImpl(requiredItem, reward);
 
         storage = mock(Storage.class);
         workerPool = mock(WorkerPool.class);
@@ -44,12 +44,12 @@ public class ContractImplTest {
     }
 
     @Test
-    public void onCompletion_addsWorker() throws Exception {
+    public void onCompletion_givesReward() throws Exception {
         when(storage.contains(requiredItem)).thenReturn(true);
 
         contract.completeContract(holdings);
 
-        verify(workerPool).addWorker(Matchers.<Worker>any());
+        verify(reward).addRewardToHoldings(holdings);
     }
 
     @Test

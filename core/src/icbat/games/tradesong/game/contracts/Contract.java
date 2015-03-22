@@ -10,5 +10,7 @@ public interface Contract {
     void completeContract(PlayerHoldings holdings);
 
     Actor getActor();
+
+    ContractReward viewReward();
 }
 

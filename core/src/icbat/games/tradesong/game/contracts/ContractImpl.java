@@ -9,10 +9,11 @@ import icbat.games.tradesong.game.PlayerHoldings;
 /***/
 public class ContractImpl implements Contract {
     private final Item requiredItem;
-    private final ContractReward reward = new WorkerReward();
+    private final ContractReward reward;
 
-    public ContractImpl(Item requiredItem) {
+    public ContractImpl(Item requiredItem, ContractReward reward) {
         this.requiredItem = requiredItem;
+        this.reward = reward;
     }
 
     @Override
@@ -34,5 +35,10 @@ public class ContractImpl implements Contract {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
         return new Label("Bring me one " + requiredItem.getName() + "!", style);
+    }
+
+    @Override
+    public ContractReward viewReward() {
+        return this.reward;
     }
 }

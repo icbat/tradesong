@@ -19,8 +19,23 @@ public class ContractFactory {
         this.possibleItems = possibleItems;
     }
 
+    public Contract buildRandomItemContract() {
+        return new ContractImpl(getRandomItem(), new ItemReward(getRandomItem()));
+    }
+
+    private Item getRandomItem() {
+        return possibleItems.get(random.nextInt(possibleItems.size()));
+    }
+
+    public Contract buildRandomMoneyContract() {
+        return new ContractImpl(getRandomItem(), new MoneyReward(random.nextInt(50) + 70));
+    }
+
     public Contract buildRandomContract() {
-        final int index = random.nextInt(possibleItems.size());
-        return new ContractImpl(possibleItems.get(index));
+        if (random.nextBoolean()) {
+            return buildRandomItemContract();
+        } else {
+            return buildRandomMoneyContract();
+        }
     }
 }
