@@ -15,6 +15,7 @@ import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
+import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class PrototypeScreen implements Screen {
         potentialWorkshops.add(new ProducerWorkshop(basicItem));
         potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
         potentialWorkshops.add(new MutatorWorkshop(assembledItem, basicItem, betterItem));
+        potentialWorkshops.add(new StorefrontWorkshop(holdings));
     }
 
     @Override
