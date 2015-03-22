@@ -1,16 +1,14 @@
 package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.ItemStack;
 import icbat.games.tradesong.game.workers.Worker;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MutatorWorkshopTest {
 
@@ -29,10 +27,13 @@ public class MutatorWorkshopTest {
         singleInputMutator.getWorkers().addWorker(worker);
         multipleInputMutator = new MutatorWorkshop(output, goodInput, secondGoodInput);
         multipleInputMutator.getWorkers().addWorker(worker);
-        multipleInputMutator.setInputQueueCapacity(5);
         redundantInputMutator = new MutatorWorkshop(output, goodInput, goodInput);
         redundantInputMutator.getWorkers().addWorker(worker);
-        multipleInputMutator.setInputQueueCapacity(2);
+
+        when(output.getName()).thenReturn("TestOutput");
+        when(goodInput.getName()).thenReturn("Good Input");
+        when(secondGoodInput.getName()).thenReturn("A Second Good Input");
+        when(badInput.getName()).thenReturn("Bad Input");
     }
 
     @Test
@@ -81,9 +82,9 @@ public class MutatorWorkshopTest {
     @Test
     public void whenWorkIsDone_inputIsConsumed() throws Exception {
         singleInputMutator.sendInput(goodInput);
-        assertFalse("at least one input was not present before it was used!", singleInputMutator.getInputQueue().isEmpty());
+        assertEquals("at least one input was not present before it was used!", 1, singleInputMutator.getInputStacks().get(0).getSize());
         singleInputMutator.takeTurn();
-        assertTrue("one input was not removed after it was used!", singleInputMutator.getInputQueue().isEmpty());
+        assertEquals("at least one input was not present before it was used!", 0, singleInputMutator.getInputStacks().get(0).getSize());
     }
 
     @Test
@@ -94,7 +95,7 @@ public class MutatorWorkshopTest {
         try {
             multipleInputMutator.sendInput(goodInput);
             multipleInputMutator.sendInput(secondGoodInput);
-            assertEquals("both inputs not actually accepted, collection size not growing", 2, multipleInputMutator.getInputQueue().size());
+            assertEquals("both inputs not actually accepted, collection size not growing", 2, countTotalItems(multipleInputMutator));
         } catch (IllegalStateException ise) {
             fail("a valid input was not accepted!");
         }
@@ -104,11 +105,13 @@ public class MutatorWorkshopTest {
     public void multipleInputs_allInputsConsumed() throws Exception {
         multipleInputMutator.sendInput(goodInput);
         multipleInputMutator.sendInput(secondGoodInput);
-        assertEquals("input size not set up correctly", 2, multipleInputMutator.getInputQueue().size());
+        assertEquals("input size not set up correctly", 2, countTotalItems(multipleInputMutator));
 
         multipleInputMutator.takeTurn();
 
-        assertTrue("both inputs not removed", multipleInputMutator.getInputQueue().isEmpty());
+        for (ItemStack stack : multipleInputMutator.getInputStacks()) {
+            assertEquals(stack.getItem().getName() + " was not removed", 0, stack.getSize());
+        }
     }
 
     @Test
@@ -127,16 +130,35 @@ public class MutatorWorkshopTest {
 
     @Test
     public void multipleInputs_doesntRemoveDuplicatesUnnecessarily() throws Exception {
+        multipleInputMutator.updateInputQueueCapacity(5);
         multipleInputMutator.sendInput(goodInput);
         multipleInputMutator.sendInput(goodInput);
         multipleInputMutator.sendInput(goodInput);
         multipleInputMutator.sendInput(secondGoodInput);
-        assertEquals("inputs not set up right, test will be invalid", 4, multipleInputMutator.getInputQueue().size());
+        assertEquals("inputs not set up right, test will be invalid", 4, countTotalItems(multipleInputMutator));
 
         multipleInputMutator.takeTurn();
 
         assertTrue("no output after valid work case", multipleInputMutator.hasOutput());
-        assertEquals("an incorrect number of inputs was removed", 2, multipleInputMutator.getInputQueue().size());
+        assertEquals("an incorrect number of inputs was removed", 2, countTotalItems(multipleInputMutator));
+    }
+
+    private int countTotalItems(MutatorWorkshop workshop) {
+        int count = 0;
+        for (ItemStack stack : workshop.getInputStacks()) {
+            count += stack.getSize();
+        }
+        return count;
+    }
+
+    @Test
+    public void redundantInputs_acceptsTwiceAsMany() throws Exception {
+        redundantInputMutator.sendInput(goodInput);
+        try {
+            redundantInputMutator.sendInput(goodInput);
+        } catch (Exception e) {
+            fail("Redundant ingredient wasn't accepted!");
+        }
     }
 
     @Test
@@ -151,6 +173,17 @@ public class MutatorWorkshopTest {
     }
 
     @Test
+    public void redundantInputs_removesEnoughInputsWithWork() throws Exception {
+        redundantInputMutator.sendInput(goodInput);
+        redundantInputMutator.sendInput(goodInput);
+        assertEquals("setup conditions were wrong", 2, countTotalItems(redundantInputMutator));
+
+        redundantInputMutator.takeTurn();
+
+        assertEquals("All items weren't removed!", 0, countTotalItems(redundantInputMutator));
+    }
+
+    @Test
     public void multipleInputs_orderDoesntMatter() throws Exception {
         multipleInputMutator.sendInput(secondGoodInput);
         multipleInputMutator.sendInput(goodInput);
@@ -158,7 +191,6 @@ public class MutatorWorkshopTest {
         multipleInputMutator.takeTurn();
 
         assertTrue("no work done on out-of-order ingredients", multipleInputMutator.hasOutput());
-
     }
 
     @Test
@@ -183,11 +215,6 @@ public class MutatorWorkshopTest {
     }
 
     @Test
-    @Ignore
-    /** Test is failing due to a bug in item equivalence?
-     *
-     * TODO fix this stupid test
-     * */
     public void clone_acceptsAllInputs() throws Exception {
         final MutatorWorkshop singleClone = singleInputMutator.spawnClone();
         assertTrue(singleClone.acceptsInput(goodInput));
@@ -206,10 +233,33 @@ public class MutatorWorkshopTest {
     }
 
     @Test
-    public void workshop_shouldOnlyAccept_untilItsFull() throws Exception {
+    public void shouldOnlyAcceptInput_untilItsFull() throws Exception {
         singleInputMutator.sendInput(goodInput);
-        assertEquals("setup conditions weren't right", 1, singleInputMutator.getInputQueue().size());
+        assertEquals("setup conditions weren't right", 1, singleInputMutator.getInputStacks().size());
 
         assertFalse("Workshop will still accept inputs after it is full!", singleInputMutator.acceptsInput(goodInput));
+    }
+
+    @Test
+    public void differentInputs_allocateToTheirOwnQueues() throws Exception {
+        multipleInputMutator.updateInputQueueCapacity(1);
+        assertTrue("single input should be allowed even with capacity 1", multipleInputMutator.acceptsInput(goodInput));
+        multipleInputMutator.sendInput(goodInput);
+        assertFalse("multi input mutator shouldn't be OK with duplicates, should reserve space for all requirements", multipleInputMutator.acceptsInput(goodInput));
+
+        assertTrue("a different input didn't have space allocated for it", multipleInputMutator.acceptsInput(secondGoodInput));
+        multipleInputMutator.sendInput(secondGoodInput);
+        assertFalse("The different input was allowable after it was full", multipleInputMutator.acceptsInput(secondGoodInput));
+    }
+
+    @Test
+    public void setQueueCapacity_affectsUnderlyingStacks() throws Exception {
+        final int initialCapacity = singleInputMutator.getInputStacks().get(0).getCapacity();
+
+        singleInputMutator.updateInputQueueCapacity(initialCapacity + 7);
+
+        for (ItemStack stack : singleInputMutator.getInputStacks()) {
+            assertEquals("underlying stack was not updated with new capacity", initialCapacity + 7, stack.getCapacity());
+        }
     }
 }

@@ -42,7 +42,7 @@ public class MutatorWorkshop_WorkingScalingTest {
         }
 
         final int inputsToSend = 10;
-        mutator.setInputQueueCapacity(inputsToSend);
+        mutator.updateInputQueueCapacity(inputsToSend);
         for (int i = 0; i < inputsToSend; ++i) {
             mutator.sendInput(goodInput);
         }

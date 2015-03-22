@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.game.Item;
+import icbat.games.tradesong.game.ItemStack;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
@@ -16,18 +17,33 @@ import java.util.*;
 public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     private final Item output;
-    private final List<Item> ingredients = new ArrayList<Item>();
-    private final Deque<Item> inputQueue = new ArrayDeque<Item>();
+    private final Map<Item, Integer> requirements = new HashMap<Item, Integer>();
+    private final List<ItemStack> inputStacks = new ArrayList<ItemStack>();
     private final Deque<Item> outputQueue = new ArrayDeque<Item>();
-    private int inputQueueCapacity = 1;
     private WorkerPool workerPool = new WorkerPoolImpl();
 
     public MutatorWorkshop(Item output, Item... ingredients) {
+        this(output, Arrays.asList(ingredients));
+    }
+
+    public MutatorWorkshop(Item output, List<Item> ingredients) {
         this.output = output;
-        if (ingredients.length <= 0) {
+        if (ingredients.size() <= 0) {
             throw new IllegalStateException("Dev error! Mutator attempted to be created without any ingredients!");
         }
-        Collections.addAll(this.ingredients, ingredients);
+
+        for (Item ingredient : ingredients) {
+            requirements.put(ingredient, 0);
+        }
+
+        for (Item ingredient : ingredients) {
+            Integer requiredAmount = requirements.get(ingredient);
+            requirements.put(ingredient, requiredAmount + 1);
+        }
+
+        for (Map.Entry<Item, Integer> requirement : requirements.entrySet()) {
+            inputStacks.add(new ItemStack(requirement.getKey(), requirement.getValue()));
+        }
     }
 
     @Override
@@ -41,39 +57,54 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     }
 
     private void consumeIngredients() {
-        for (Item ingredient : ingredients) {
-            inputQueue.removeFirstOccurrence(ingredient);
+        for (Map.Entry<Item, Integer> requirement : requirements.entrySet()) {
+            ItemStack stack = findMatchingItemStack(requirement.getKey(), inputStacks);
+            for (int i = 0; i < requirement.getValue(); ++i) {
+                stack.removeItem();
+            }
         }
     }
 
     private boolean isStockedWithProperIngredients() {
-        final Deque<Item> requirements = new ArrayDeque<Item>(ingredients);
-        for (Item input : inputQueue) {
-            for (Item requiredIngredient : requirements) {
-                if (input.equals(requiredIngredient)) {
-                    requirements.removeFirstOccurrence(requiredIngredient);
-                    break;
-                }
+        boolean isStocked = true;
+        for (Map.Entry<Item, Integer> requirement : requirements.entrySet()) {
+            final ItemStack stack = findMatchingItemStack(requirement.getKey(), inputStacks);
+            if (stack.getSize() < requirement.getValue()) {
+                isStocked = false;
             }
         }
-
-        return requirements.isEmpty();
+        for (ItemStack stack : inputStacks) {
+            if (stack.getSize() <= 0) {
+                isStocked = false;
+            }
+        }
+        return isStocked;
     }
 
     @Override
     public boolean acceptsInput(Item input) {
-        final boolean isLegalIngredient = ingredients.contains(input);
-        final boolean inputQueueNotFull = inputQueue.size() < inputQueueCapacity * ingredients.size();
-        return isLegalIngredient && inputQueueNotFull;
+        if (!requirements.keySet().contains(input)) {
+            return false;
+        }
+        return !findMatchingItemStack(input, inputStacks).isFull();
+    }
+
+    private ItemStack findMatchingItemStack(Item item, List<ItemStack> stacks) {
+        for (ItemStack stack : stacks) {
+            if (item.equals(stack.getItem())) {
+                return stack;
+            }
+        }
+        throw new IllegalStateException("Could not find an item stack in workshop " + getWorkshopName() + " for item " + item);
     }
 
     @Override
     public void sendInput(Item input) {
         if (!acceptsInput(input)) {
-            throw new IllegalStateException("Dev error! " + input.getName() + " is not acceptable by " + this.getWorkshopName());
+            throw new IllegalStateException("Dev error! " + this.getWorkshopName() + " does not accept as input: " + input.getName());
         }
 
-        inputQueue.add(input);
+        findMatchingItemStack(input, inputStacks).addItem(input);
     }
 
     @Override
@@ -99,8 +130,8 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         return outputQueue.removeFirst();
     }
 
-    protected Collection<Item> getInputQueue() {
-        return inputQueue;
+    protected List<ItemStack> getInputStacks() {
+        return inputStacks;
     }
 
     @Override
@@ -115,14 +146,18 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     @Override
     public MutatorWorkshop spawnClone() {
-        Item[] clonesIngredients = new Item[ingredients.size()];
-        for (int i = 0; i < ingredients.size(); ++i) {
-            clonesIngredients[i] = ingredients.get(i).spawnClone();
+        List<Item> clonesIngredients = new ArrayList<Item>();
+        for (Map.Entry<Item, Integer> requirement : requirements.entrySet()) {
+            for (int i = 0; i < requirement.getValue(); ++i) {
+                clonesIngredients.add(requirement.getKey());
+            }
         }
         return new MutatorWorkshop(output.spawnClone(), clonesIngredients);
     }
 
-    public void setInputQueueCapacity(int inputQueueCapacity) {
-        this.inputQueueCapacity = inputQueueCapacity;
+    public void updateInputQueueCapacity(int inputQueueCapacity) {
+        for (ItemStack stack : inputStacks) {
+            stack.setCapacity(inputQueueCapacity);
+        }
     }
 }
