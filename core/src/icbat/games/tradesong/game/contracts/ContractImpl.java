@@ -5,14 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
-import icbat.games.tradesong.game.workers.WorkerImpl;
 
 /***/
-public class BasicRandomContract implements Contract {
+public class ContractImpl implements Contract {
     private final Item requiredItem;
+    private final ContractReward reward;
 
-    public BasicRandomContract(Item requiredItem) {
+    public ContractImpl(Item requiredItem, ContractReward reward) {
         this.requiredItem = requiredItem;
+        this.reward = reward;
     }
 
     @Override
@@ -25,15 +26,19 @@ public class BasicRandomContract implements Contract {
         if (!canComplete(holdings)) {
             throw new IllegalStateException("Dev error! contract tried to complete w/o requirements");
         }
-
         holdings.getStorage().remove(requiredItem);
-        holdings.getSpareWorkers().addWorker(new WorkerImpl());
+        reward.addRewardToHoldings(holdings);
     }
 
     @Override
     public Actor getActor() {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
-        return new Label("Bring me one " + requiredItem.getName() + "!", style);
+        return new Label("Bring me one " + requiredItem.getName() + "! " + reward.name(), style);
+    }
+
+    @Override
+    public ContractReward viewReward() {
+        return this.reward;
     }
 }

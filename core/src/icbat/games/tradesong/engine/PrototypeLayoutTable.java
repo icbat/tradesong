@@ -204,6 +204,7 @@ public class PrototypeLayoutTable extends Table {
             Gdx.app.debug("can complete?", "" + contract.canComplete(holdings));
             if (contract.canComplete(holdings)) {
                 contract.completeContract(holdings);
+                contracts.remove(contract);
             }
             return super.touchDown(event, x, y, pointer, button);
         }

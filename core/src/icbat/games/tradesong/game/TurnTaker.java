@@ -1,6 +1,8 @@
 package icbat.games.tradesong.game;
 
 import com.badlogic.gdx.Gdx;
+import icbat.games.tradesong.game.contracts.Contract;
+import icbat.games.tradesong.game.contracts.ContractFactory;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
 import icbat.games.tradesong.game.workshops.ItemProducer;
 import icbat.games.tradesong.game.workshops.Workshop;
@@ -10,12 +12,15 @@ import java.util.List;
 
 public class TurnTaker {
     private final PlayerHoldings holdings;
+    private final List<Contract> contracts;
+    private final ContractFactory contractFactory;
     private final Storage storage;
     private int currentTurn = 1;
 
-    public TurnTaker(PlayerHoldings holdings) {
-
+    public TurnTaker(PlayerHoldings holdings, List<Contract> contracts, ContractFactory contractFactory) {
         this.holdings = holdings;
+        this.contracts = contracts;
+        this.contractFactory = contractFactory;
         storage = holdings.getStorage();
     }
 
@@ -24,9 +29,23 @@ public class TurnTaker {
         moveAllInputs();
         takeTurnOnAllWorkshops();
         moveAllOutputsToStorage();
+        ageContracts();
         currentTurn++;
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
+    }
+
+    private void ageContracts() {
+        if (currentTurn % 10 == 0) {
+            if (!contracts.isEmpty()) {
+                Gdx.app.log("Turn Taker", "Removing old contract");
+                contracts.remove(0);
+            }
+        }
+        if ((currentTurn - 5) % 10 == 0) {
+            Gdx.app.log("Turn Taker", "Adding new contract");
+            contracts.add(contractFactory.buildRandomContract());
+        }
     }
 
     private void moveAllInputs() {

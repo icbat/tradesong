@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
-import icbat.games.tradesong.game.contracts.BasicRandomContract;
 import icbat.games.tradesong.game.contracts.Contract;
+import icbat.games.tradesong.game.contracts.ContractFactory;
 import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
@@ -18,9 +18,7 @@ import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class PrototypeScreen implements Screen {
 
@@ -28,6 +26,7 @@ public class PrototypeScreen implements Screen {
     protected Item basicItem;
     protected Item betterItem;
     protected Item assembledItem;
+    protected ContractFactory factory;
     private PlayerHoldings holdings = new PlayerHoldings();
     private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
     private TurnTaker turnTaker;
@@ -62,18 +61,19 @@ public class PrototypeScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.debug("proto screen", "shown");
-        setupTurnTaker();
         setupItems();
+        setupContracts();
+        setupTurnTaker();
         setupWorkshops();
         setupWorkerPool();
-        setupContracts();
     }
 
     private void setupContracts() {
+        factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
         contracts = new ArrayList<Contract>();
-        contracts.add(new BasicRandomContract(assembledItem));
-        contracts.add(new BasicRandomContract(basicItem));
-        contracts.add(new BasicRandomContract(betterItem));
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
     }
 
     private void setupWorkerPool() {
@@ -84,7 +84,7 @@ public class PrototypeScreen implements Screen {
     }
 
     private void setupTurnTaker() {
-        turnTaker = new TurnTaker(holdings);
+        turnTaker = new TurnTaker(holdings, contracts, factory);
         turnTimer.clear();
         turnTimer.scheduleTask(new Timer.Task() {
             @Override
