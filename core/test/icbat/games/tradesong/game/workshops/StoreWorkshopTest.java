@@ -2,13 +2,13 @@ package icbat.games.tradesong.game.workshops;
 
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
+import icbat.games.tradesong.game.workers.Worker;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class StoreWorkshopTest {
 
@@ -20,6 +20,7 @@ public class StoreWorkshopTest {
     public void setUp() throws Exception {
         holdings = mock(PlayerHoldings.class);
         store = new StorefrontWorkshop(holdings);
+        store.getWorkers().addWorker(mock(Worker.class));
         someItem = mock(Item.class);
     }
 
@@ -60,5 +61,45 @@ public class StoreWorkshopTest {
         store.takeTurn();
 
         verify(holdings).addCurrency(anyInt());
+    }
+
+    @Test
+    public void noWorkers_noWork() throws Exception {
+        while (store.getWorkers().hasWorkers()) {
+            store.getWorkers().removeWorker();
+        }
+        store.sendInput(someItem);
+        assertFalse("assumption incorrect, store should be full here", store.acceptsInput(someItem));
+
+        store.takeTurn();
+
+        assertFalse("No workers should leave the input queue full", store.acceptsInput(someItem));
+    }
+
+    @Test
+    public void moreWorkers_sellMoreGoods() throws Exception {
+        store.getWorkers().addWorker(mock(Worker.class));
+        store.getWorkers().addWorker(mock(Worker.class));
+        store.updateInputQueueCapacity(3);
+        store.sendInput(someItem);
+        store.sendInput(someItem);
+        store.sendInput(someItem);
+
+        store.takeTurn();
+
+        verify(holdings, times(3)).addCurrency(anyInt());
+    }
+
+    @Test
+    public void moreWorkers_dontSellNonexistantGoods() throws Exception {
+        store.getWorkers().addWorker(mock(Worker.class));
+        store.getWorkers().addWorker(mock(Worker.class));
+        store.updateInputQueueCapacity(3);
+        store.sendInput(someItem);
+
+        store.takeTurn();
+
+        verify(holdings, times(1)).addCurrency(anyInt());
+
     }
 }

@@ -4,10 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.workers.WorkerPool;
+import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
 /***/
 public class StorefrontWorkshop implements ItemConsumer {
     private final PlayerHoldings holdings;
+    protected WorkerPoolImpl workerPool = new WorkerPoolImpl();
     private int inputQueue = 0;
     private int queueCapacity = 1;
 
@@ -35,8 +37,15 @@ public class StorefrontWorkshop implements ItemConsumer {
 
     @Override
     public void takeTurn() {
-        inputQueue--;
-        holdings.addCurrency(100);
+        if (!workerPool.hasWorkers()) {
+            return;
+        }
+        int workersSpent = 0;
+        while (workersSpent < workerPool.size() && inputQueue > 0) {
+            inputQueue--;
+            holdings.addCurrency(100);
+            workersSpent++;
+        }
     }
 
     @Override
@@ -46,7 +55,7 @@ public class StorefrontWorkshop implements ItemConsumer {
 
     @Override
     public WorkerPool getWorkers() {
-        return null;
+        return workerPool;
     }
 
     @Override
