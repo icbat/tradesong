@@ -29,8 +29,10 @@ public class MutatorWorkshopTest {
         singleInputMutator.getWorkers().addWorker(worker);
         multipleInputMutator = new MutatorWorkshop(output, goodInput, secondGoodInput);
         multipleInputMutator.getWorkers().addWorker(worker);
+        multipleInputMutator.setInputQueueCapacity(5);
         redundantInputMutator = new MutatorWorkshop(output, goodInput, goodInput);
         redundantInputMutator.getWorkers().addWorker(worker);
+        multipleInputMutator.setInputQueueCapacity(2);
     }
 
     @Test
@@ -79,17 +81,9 @@ public class MutatorWorkshopTest {
     @Test
     public void whenWorkIsDone_inputIsConsumed() throws Exception {
         singleInputMutator.sendInput(goodInput);
-
+        assertFalse("at least one input was not present before it was used!", singleInputMutator.getInputQueue().isEmpty());
         singleInputMutator.takeTurn();
-
         assertTrue("one input was not removed after it was used!", singleInputMutator.getInputQueue().isEmpty());
-
-        singleInputMutator.sendInput(goodInput);
-        singleInputMutator.sendInput(goodInput);
-
-        singleInputMutator.takeTurn();
-
-        assertEquals("input size incorrect after work was done", 1, singleInputMutator.getInputQueue().size());
     }
 
     @Test
@@ -209,5 +203,13 @@ public class MutatorWorkshopTest {
         assertTrue(redundantClone.acceptsInput(goodInput));
         assertFalse(redundantClone.acceptsInput(secondGoodInput));
         assertFalse(redundantClone.acceptsInput(badInput));
+    }
+
+    @Test
+    public void workshop_shouldOnlyAccept_untilItsFull() throws Exception {
+        singleInputMutator.sendInput(goodInput);
+        assertEquals("setup conditions weren't right", 1, singleInputMutator.getInputQueue().size());
+
+        assertFalse("Workshop will still accept inputs after it is full!", singleInputMutator.acceptsInput(goodInput));
     }
 }

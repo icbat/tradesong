@@ -19,6 +19,7 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     private final List<Item> ingredients = new ArrayList<Item>();
     private final Deque<Item> inputQueue = new ArrayDeque<Item>();
     private final Deque<Item> outputQueue = new ArrayDeque<Item>();
+    private int inputQueueCapacity = 1;
     private WorkerPool workerPool = new WorkerPoolImpl();
 
     public MutatorWorkshop(Item output, Item... ingredients) {
@@ -84,13 +85,15 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
 
     @Override
     public boolean acceptsInput(Item input) {
-        return ingredients.contains(input);
+        final boolean isLegalIngredient = ingredients.contains(input);
+        final boolean inputQueueNotFull = inputQueue.size() < inputQueueCapacity * ingredients.size();
+        return isLegalIngredient && inputQueueNotFull;
     }
 
     @Override
     public void sendInput(Item input) {
         if (!acceptsInput(input)) {
-            throw new IllegalStateException("Dev error! " + input.getName() + "is not acceptable by " + this.getWorkshopName());
+            throw new IllegalStateException("Dev error! " + input.getName() + " is not acceptable by " + this.getWorkshopName());
         }
 
         inputQueue.add(input);
@@ -117,5 +120,9 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
             clonesIngredients[i] = ingredients.get(i).spawnClone();
         }
         return new MutatorWorkshop(output.spawnClone(), clonesIngredients);
+    }
+
+    public void setInputQueueCapacity(int inputQueueCapacity) {
+        this.inputQueueCapacity = inputQueueCapacity;
     }
 }
