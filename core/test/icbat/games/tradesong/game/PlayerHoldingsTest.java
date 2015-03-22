@@ -21,7 +21,7 @@ public class PlayerHoldingsTest {
 
     private void verifyHoldingsCleanBeforeWork() {
         assertEquals("Workshops not empty to start", 0, holdings.getWorkshops().size());
-        assertEquals("Creator list not empty to start", 0, holdings.getItemCreators().size());
+        assertEquals("Creator list not empty to start", 0, holdings.getItemProducers().size());
         assertEquals("Consumer list not empty to start", 0, holdings.getItemConsumers().size());
     }
 
@@ -32,7 +32,7 @@ public class PlayerHoldingsTest {
         holdings.addWorkshop(mock(ItemProducer.class));
 
         assertEquals("Creators should still be workshops", 1, holdings.getWorkshops().size());
-        assertEquals("creator not added when it should be", 1, holdings.getItemCreators().size());
+        assertEquals("creator not added when it should be", 1, holdings.getItemProducers().size());
         assertEquals("creator was added as a consumer", 0, holdings.getItemConsumers().size());
     }
 
@@ -43,7 +43,7 @@ public class PlayerHoldingsTest {
         holdings.addWorkshop(mock(Workshop.class));
 
         assertEquals("Workshop not added", 1, holdings.getWorkshops().size());
-        assertEquals("Generic Workshop was added as a creator", 0, holdings.getItemCreators().size());
+        assertEquals("Generic Workshop was added as a creator", 0, holdings.getItemProducers().size());
         assertEquals("creator was added as a consumer", 0, holdings.getItemConsumers().size());
     }
 
@@ -54,7 +54,7 @@ public class PlayerHoldingsTest {
         holdings.addWorkshop(mock(ItemConsumer.class));
 
         assertEquals("Creators should still be workshops", 1, holdings.getWorkshops().size());
-        assertEquals("consumer was added as a creator", 0, holdings.getItemCreators().size());
+        assertEquals("consumer was added as a creator", 0, holdings.getItemProducers().size());
         assertEquals("consumer not added as a consumer", 1, holdings.getItemConsumers().size());
     }
 
@@ -65,7 +65,7 @@ public class PlayerHoldingsTest {
         holdings.addWorkshop(mock(ProducerAndConsumer.class));
 
         assertEquals("Creators should still be workshops", 1, holdings.getWorkshops().size());
-        assertEquals("creater+consumer not added as a creatorr", 1, holdings.getItemCreators().size());
+        assertEquals("creater+consumer not added as a creatorr", 1, holdings.getItemProducers().size());
         assertEquals("creater+consumer not added as a consumer", 1, holdings.getItemConsumers().size());
     }
 
@@ -100,7 +100,7 @@ public class PlayerHoldingsTest {
         holdings.removeWorkshop(consumer);
 
         assertTrue("didn't remove producer from basic list", holdings.getWorkshops().isEmpty());
-        assertTrue("didn't remove producer from consumer-only list", holdings.getItemCreators().isEmpty());
+        assertTrue("didn't remove producer from consumer-only list", holdings.getItemProducers().isEmpty());
 
     }
 

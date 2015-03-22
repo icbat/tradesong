@@ -66,9 +66,9 @@ public class TurnTakerTest {
 
     @Test
     public void producers_multiplesAllAddToStorage() {
-        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
-        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
-        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
@@ -142,9 +142,9 @@ public class TurnTakerTest {
     }
 
     @Test
-    public void noStorageWorkers_producer_doesntMoveOutput() throws Exception {
-        while (storage.getWorkersAssignedToStorage().hasWorkers()) {
-            storage.getWorkersAssignedToStorage().removeWorker();
+    public void noStorageWorkers_doesntMoveOutput() throws Exception {
+        while (storage.getWorkers().hasWorkers()) {
+            storage.getWorkers().removeWorker();
         }
         holdings.addWorkshop(makeProducerWorkshop());
 
@@ -155,8 +155,7 @@ public class TurnTakerTest {
 
     @Test
     public void moreStorageWorkers_producerEmptiesFaster() throws Exception {
-        // TODO rename storage.getWorkers...
-        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
+        storage.getWorkers().addWorker(mock(Worker.class));
         final ItemProducer producer = mock(ItemProducer.class);
         when(producer.hasOutput()).thenReturn(true);
         when(producer.getNextOutput()).thenReturn(mock(Item.class));
@@ -166,6 +165,6 @@ public class TurnTakerTest {
         turnTaker.takeAllTurns();
 
         assertTrue("More workers moved the same amount of goods", storage.size() > 1);
-        assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkersAssignedToStorage().size());
+        assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkers().size());
     }
 }

@@ -22,7 +22,7 @@ public class Storage {
         return itemsStored;
     }
 
-    public WorkerPool getWorkersAssignedToStorage() {
+    public WorkerPool getWorkers() {
         return workersAssignedToStorage;
     }
 

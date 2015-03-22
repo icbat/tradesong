@@ -18,7 +18,7 @@ public class TurnTaker {
 
     public void takeAllTurns() {
         Gdx.app.log("Turn Taker", "Taking turn " + currentTurn);
-        acceptAnyInputs();
+        moveAllInputs();
         takeTurnOnAllWorkshops();
         moveAllOutputsToStorage();
         currentTurn++;
@@ -26,8 +26,7 @@ public class TurnTaker {
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
     }
 
-    // TODO name this better
-    private void acceptAnyInputs() {
+    private void moveAllInputs() {
         for (ItemConsumer consumer : holdings.getItemConsumers()) {
             for (Item storedItem : storage.getContents()) {
                 if (consumer.acceptsInput(storedItem)) {
@@ -40,9 +39,8 @@ public class TurnTaker {
 
     private void moveAllOutputsToStorage() {
         int workersSpent = 0;
-        // TODO rename holdings getItemCreators to producers
-        for (ItemProducer workshopWithOutput : holdings.getItemCreators()) {
-            if (workersSpent >= storage.getWorkersAssignedToStorage().size()) {
+        for (ItemProducer workshopWithOutput : holdings.getItemProducers()) {
+            if (workersSpent >= storage.getWorkers().size()) {
                 break;
             }
             if (workshopWithOutput.hasOutput()) {

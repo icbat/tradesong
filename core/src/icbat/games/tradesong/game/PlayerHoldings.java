@@ -38,7 +38,7 @@ public class PlayerHoldings {
         return workshops;
     }
 
-    public Collection<ItemProducer> getItemCreators() {
+    public Collection<ItemProducer> getItemProducers() {
         return producingWorkshops;
     }
 
