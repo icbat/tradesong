@@ -12,16 +12,16 @@ import org.mockito.Matchers;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class BasicRandomContractTest {
+public class ContractImplTest {
     protected Storage storage;
-    private BasicRandomContract contract;
+    private ContractImpl contract;
     private PlayerHoldings holdings = mock(PlayerHoldings.class);
     private Item requiredItem = mock(Item.class);
     private WorkerPool workerPool;
 
     @Before
     public void setUp() throws Exception {
-        contract = new BasicRandomContract(requiredItem);
+        contract = new ContractImpl(requiredItem);
 
         storage = mock(Storage.class);
         workerPool = mock(WorkerPool.class);

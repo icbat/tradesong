@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
-import icbat.games.tradesong.game.contracts.BasicRandomContract;
 import icbat.games.tradesong.game.contracts.Contract;
+import icbat.games.tradesong.game.contracts.ContractImpl;
 import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
@@ -71,9 +71,9 @@ public class PrototypeScreen implements Screen {
 
     private void setupContracts() {
         contracts = new ArrayList<Contract>();
-        contracts.add(new BasicRandomContract(assembledItem));
-        contracts.add(new BasicRandomContract(basicItem));
-        contracts.add(new BasicRandomContract(betterItem));
+        contracts.add(new ContractImpl(assembledItem));
+        contracts.add(new ContractImpl(basicItem));
+        contracts.add(new ContractImpl(betterItem));
     }
 
     private void setupWorkerPool() {

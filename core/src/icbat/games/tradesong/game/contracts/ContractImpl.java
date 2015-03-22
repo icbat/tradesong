@@ -7,11 +7,11 @@ import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 
 /***/
-public class BasicRandomContract implements Contract {
+public class ContractImpl implements Contract {
     private final Item requiredItem;
     private final ContractReward reward = new WorkerReward();
 
-    public BasicRandomContract(Item requiredItem) {
+    public ContractImpl(Item requiredItem) {
         this.requiredItem = requiredItem;
     }
 
