@@ -61,6 +61,22 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     }
 
     @Override
+    public boolean acceptsInput(Item input) {
+        final boolean isLegalIngredient = ingredients.contains(input);
+        final boolean inputQueueNotFull = inputQueue.size() < inputQueueCapacity * ingredients.size();
+        return isLegalIngredient && inputQueueNotFull;
+    }
+
+    @Override
+    public void sendInput(Item input) {
+        if (!acceptsInput(input)) {
+            throw new IllegalStateException("Dev error! " + input.getName() + " is not acceptable by " + this.getWorkshopName());
+        }
+
+        inputQueue.add(input);
+    }
+
+    @Override
     public String getWorkshopName() {
         return output.getName() + " Assembler";
     }
@@ -81,22 +97,6 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
             throw new IllegalStateException("Dev error! " + this.getWorkshopName() + "'s output accessed with an empty output");
         }
         return outputQueue.removeFirst();
-    }
-
-    @Override
-    public boolean acceptsInput(Item input) {
-        final boolean isLegalIngredient = ingredients.contains(input);
-        final boolean inputQueueNotFull = inputQueue.size() < inputQueueCapacity * ingredients.size();
-        return isLegalIngredient && inputQueueNotFull;
-    }
-
-    @Override
-    public void sendInput(Item input) {
-        if (!acceptsInput(input)) {
-            throw new IllegalStateException("Dev error! " + input.getName() + " is not acceptable by " + this.getWorkshopName());
-        }
-
-        inputQueue.add(input);
     }
 
     protected Collection<Item> getInputQueue() {
