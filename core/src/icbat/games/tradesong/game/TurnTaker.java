@@ -8,17 +8,16 @@ import icbat.games.tradesong.game.workshops.ItemProducer;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class TurnTaker {
     private final PlayerHoldings holdings;
-    private final Collection<Contract> contracts;
+    private final List<Contract> contracts;
     private final ContractFactory contractFactory;
     private final Storage storage;
     private int currentTurn = 1;
 
-    public TurnTaker(PlayerHoldings holdings, Collection<Contract> contracts, ContractFactory contractFactory) {
+    public TurnTaker(PlayerHoldings holdings, List<Contract> contracts, ContractFactory contractFactory) {
         this.holdings = holdings;
         this.contracts = contracts;
         this.contractFactory = contractFactory;
@@ -30,12 +29,23 @@ public class TurnTaker {
         moveAllInputs();
         takeTurnOnAllWorkshops();
         moveAllOutputsToStorage();
-        if ((currentTurn - 5) % 10 == 0) {
-            contracts.add(contractFactory.buildRandomContract());
-        }
+        ageContracts();
         currentTurn++;
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
+    }
+
+    private void ageContracts() {
+        if (currentTurn % 10 == 0) {
+            if (!contracts.isEmpty()) {
+                Gdx.app.log("Turn Taker", "Removing old contract");
+                contracts.remove(0);
+            }
+        }
+        if ((currentTurn - 5) % 10 == 0) {
+            Gdx.app.log("Turn Taker", "Adding new contract");
+            contracts.add(contractFactory.buildRandomContract());
+        }
     }
 
     private void moveAllInputs() {
