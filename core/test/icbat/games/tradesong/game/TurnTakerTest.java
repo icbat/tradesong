@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import icbat.games.tradesong.game.workers.Worker;
 import icbat.games.tradesong.game.workshops.ItemConsumer;
+import icbat.games.tradesong.game.workshops.ItemProducer;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 import org.junit.Before;
@@ -65,6 +66,9 @@ public class TurnTakerTest {
 
     @Test
     public void producers_multiplesAllAddToStorage() {
+        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
+        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
+        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
         holdings.addWorkshop(makeProducerWorkshop());
@@ -135,5 +139,33 @@ public class TurnTakerTest {
 
     private void acceptAnyInput(ItemConsumer consumer) {
         when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
+    }
+
+    @Test
+    public void noStorageWorkers_producer_doesntMoveOutput() throws Exception {
+        while (storage.getWorkersAssignedToStorage().hasWorkers()) {
+            storage.getWorkersAssignedToStorage().removeWorker();
+        }
+        holdings.addWorkshop(makeProducerWorkshop());
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("Nothing should've been moved from the producer!", storage.isEmpty());
+    }
+
+    @Test
+    public void moreStorageWorkers_producerEmptiesFaster() throws Exception {
+        // TODO rename storage.getWorkers...
+        storage.getWorkersAssignedToStorage().addWorker(mock(Worker.class));
+        final ItemProducer producer = mock(ItemProducer.class);
+        when(producer.hasOutput()).thenReturn(true);
+        when(producer.getNextOutput()).thenReturn(mock(Item.class));
+        holdings.addWorkshop(producer);
+        holdings.addWorkshop(producer);
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("More workers moved the same amount of goods", storage.size() > 1);
+        assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkersAssignedToStorage().size());
     }
 }
