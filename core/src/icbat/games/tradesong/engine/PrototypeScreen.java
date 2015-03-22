@@ -10,7 +10,7 @@ import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.contracts.Contract;
-import icbat.games.tradesong.game.contracts.ContractImpl;
+import icbat.games.tradesong.game.contracts.ContractFactory;
 import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.MutatorWorkshop;
@@ -18,9 +18,7 @@ import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class PrototypeScreen implements Screen {
 
@@ -71,9 +69,10 @@ public class PrototypeScreen implements Screen {
 
     private void setupContracts() {
         contracts = new ArrayList<Contract>();
-        contracts.add(new ContractImpl(assembledItem));
-        contracts.add(new ContractImpl(basicItem));
-        contracts.add(new ContractImpl(betterItem));
+        ContractFactory factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
+        contracts.add(factory.buildRandomContract());
     }
 
     private void setupWorkerPool() {

@@ -20,7 +20,7 @@ public class ContractFactory {
     }
 
     public Contract buildRandomContract() {
-        final int index = random.nextInt(possibleItems.size() - 1);
+        final int index = random.nextInt(possibleItems.size());
         return new ContractImpl(possibleItems.get(index));
     }
 }
