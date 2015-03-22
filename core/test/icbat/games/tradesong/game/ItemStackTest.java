@@ -62,12 +62,12 @@ public class ItemStackTest {
     }
 
     @Test
-    public void capacity_zero_isUnacceptable() throws Exception {
+    public void capacity_zero_isAcceptable() throws Exception {
         try {
             new ItemStack(mock(Item.class), 0);
-            fail("Capacity was allowed to be less than one!!");
-        } catch (IllegalStateException ise) {
             assertTrue(true);
+        } catch (IllegalStateException ise) {
+            fail("Input stack size of zero is acceptable but threw");
         }
     }
 

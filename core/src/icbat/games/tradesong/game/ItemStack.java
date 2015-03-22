@@ -8,7 +8,7 @@ public class ItemStack {
 
     public ItemStack(Item item, int capacity) {
         this.item = item;
-        if (capacity <= 0) {
+        if (capacity < 0) {
             throw new IllegalStateException("Item stack for " + item.getName() + " cannot be created with capacity " + capacity);
         }
         this.capacity = capacity;
