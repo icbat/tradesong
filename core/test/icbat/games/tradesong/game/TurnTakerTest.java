@@ -93,8 +93,7 @@ public class TurnTakerTest {
 
     @Test
     public void consumers_getItems() throws Exception {
-        final ItemConsumer consumer = mock(ItemConsumer.class);
-        acceptAnyInput(consumer);
+        final ItemConsumer consumer = makeItemConsumer();
         holdings.addWorkshop(consumer);
         final Item input = mock(Item.class);
         storage.storeItem(input);
@@ -105,13 +104,18 @@ public class TurnTakerTest {
         verify(consumer).sendInput(input);
     }
 
+    private ItemConsumer makeItemConsumer() {
+        ItemConsumer consumer;
+        consumer = mock(ItemConsumer.class);
+        when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
+        return consumer;
+    }
+
     @Test
     public void multipleConsumers_notEnoughIngredients() throws Exception {
-        final ItemConsumer luckyConsumer = mock(ItemConsumer.class);
-        acceptAnyInput(luckyConsumer);
+        final ItemConsumer luckyConsumer = makeItemConsumer();
         holdings.addWorkshop(luckyConsumer);
-        final ItemConsumer unluckyConsumer = mock(ItemConsumer.class);
-        acceptAnyInput(unluckyConsumer);
+        final ItemConsumer unluckyConsumer = makeItemConsumer();
         holdings.addWorkshop(unluckyConsumer);
         final Item input = mock(Item.class);
         storage.storeItem(input);
@@ -124,9 +128,7 @@ public class TurnTakerTest {
 
     @Test
     public void consumer_doesntEatAll() throws Exception {
-        ItemConsumer consumer = mock(ItemConsumer.class);
-        acceptAnyInput(consumer);
-        holdings.addWorkshop(consumer);
+        holdings.addWorkshop(makeItemConsumer());
         storage.storeItem(mock(Item.class));
         storage.storeItem(mock(Item.class));
         storage.storeItem(mock(Item.class));
@@ -135,10 +137,6 @@ public class TurnTakerTest {
 
         assertFalse("one consumer ate all the items!", storage.isEmpty());
 
-    }
-
-    private void acceptAnyInput(ItemConsumer consumer) {
-        when(consumer.acceptsInput(Matchers.<Item>any())).thenReturn(true);
     }
 
     @Test
@@ -167,4 +165,5 @@ public class TurnTakerTest {
         assertTrue("More workers moved the same amount of goods", storage.size() > 1);
         assertFalse("Each worker is moving more than they should be able", storage.size() > storage.getWorkers().size());
     }
+
 }
