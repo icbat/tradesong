@@ -45,6 +45,7 @@ public class ProducerWorkshop_WorkerScalingTest {
     @Before
     public void setUp() throws Exception {
         producer = new ProducerWorkshop(mock(Item.class));
+        producer.updateOutputCapacity(15);
         for (int i = 0; i < workers; ++i) {
             producer.getWorkers().addWorker(mock(Worker.class));
         }
