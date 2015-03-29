@@ -1,7 +1,6 @@
 package icbat.games.tradesong.engine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.engine.screens.components.MoneyCounter;
+import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
 import icbat.games.tradesong.engine.screens.components.TurnCounter;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -38,18 +38,10 @@ public class PrototypeLayoutTable extends Table {
         align(Align.top);
         setFillParent(true);
 
-        Actor turnCounter = new TurnCounter(turnTaker, basicLabelStyle);
-        add(turnCounter).pad(10).align(Align.top).colspan(2);
+        add(new TurnCounter(turnTaker, basicLabelStyle)).pad(10).align(Align.top).colspan(2);
         row();
-        add(new Label("", basicLabelStyle) {
-            @Override
-            public void draw(Batch batch, float parentAlpha) {
-                this.setText("Spare workers: " + holdings.getSpareWorkers().size());
-                super.draw(batch, parentAlpha);
-            }
-        }).pad(10).align(Align.top);
-        Actor moneyCounter = new MoneyCounter(holdings, PrototypeLayoutTable.this.basicLabelStyle);
-        add(moneyCounter).pad(10).align(Align.top);
+        add(new SpareWorkerCounter(holdings, PrototypeLayoutTable.this.basicLabelStyle)).pad(10).align(Align.top);
+        add(new MoneyCounter(holdings, this.basicLabelStyle)).pad(10).align(Align.top);
 
         row();
 
