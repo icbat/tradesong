@@ -2,7 +2,7 @@ package icbat.games.tradesong.engine.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
-import icbat.games.tradesong.engine.PrototypeLayoutTable;
+import icbat.games.tradesong.engine.screens.components.PrototypeLayoutTable;
 
 public class PrototypeScreen extends AbstractBaseScreen {
 

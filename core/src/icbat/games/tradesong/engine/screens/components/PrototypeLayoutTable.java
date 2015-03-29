@@ -1,4 +1,4 @@
-package icbat.games.tradesong.engine;
+package icbat.games.tradesong.engine.screens.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,9 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import icbat.games.tradesong.engine.screens.components.MoneyCounter;
-import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
-import icbat.games.tradesong.engine.screens.components.TurnCounter;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
