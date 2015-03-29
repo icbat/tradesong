@@ -21,6 +21,11 @@ public abstract class AbstractBaseScreen implements Screen {
         stage.act(delta);
     }
 
+    /**
+     * Called on each render, rebuilds the stage. Really inefficient, there's probably a better way but for now this will do.
+     *
+     * Given that, you'll usually want to call stage.clear first
+     */
     protected abstract void buildStage();
 
 
