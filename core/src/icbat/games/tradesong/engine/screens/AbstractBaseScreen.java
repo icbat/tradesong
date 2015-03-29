@@ -38,6 +38,7 @@ public abstract class AbstractBaseScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.debug("proto screen", "shown");
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
