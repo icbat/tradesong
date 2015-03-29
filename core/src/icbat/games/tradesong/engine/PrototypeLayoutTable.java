@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import icbat.games.tradesong.engine.screens.components.MoneyCounter;
 import icbat.games.tradesong.engine.screens.components.TurnCounter;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -47,13 +48,8 @@ public class PrototypeLayoutTable extends Table {
                 super.draw(batch, parentAlpha);
             }
         }).pad(10).align(Align.top);
-        add(new Label("", basicLabelStyle) {
-            @Override
-            public void draw(Batch batch, float parentAlpha) {
-                this.setText("Money: " + holdings.getCurrency());
-                super.draw(batch, parentAlpha);
-            }
-        }).pad(10).align(Align.top);
+        Actor moneyCounter = new MoneyCounter(holdings, PrototypeLayoutTable.this.basicLabelStyle);
+        add(moneyCounter).pad(10).align(Align.top);
 
         row();
 
