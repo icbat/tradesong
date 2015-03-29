@@ -5,35 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Timer;
+import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.PrototypeLayoutTable;
-import icbat.games.tradesong.game.Item;
-import icbat.games.tradesong.game.PlayerHoldings;
-import icbat.games.tradesong.game.TurnTaker;
-import icbat.games.tradesong.game.contracts.Contract;
-import icbat.games.tradesong.game.contracts.ContractFactory;
-import icbat.games.tradesong.game.workers.WorkerImpl;
-import icbat.games.tradesong.game.workers.WorkerPool;
-import icbat.games.tradesong.game.workshops.MutatorWorkshop;
-import icbat.games.tradesong.game.workshops.ProducerWorkshop;
-import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
-import icbat.games.tradesong.game.workshops.Workshop;
-
-import java.util.*;
 
 public class PrototypeScreen implements Screen {
 
-    public static final int TURN_TIMER = 1;
-    protected Item basicItem;
-    protected Item betterItem;
-    protected Item assembledItem;
-    protected ContractFactory factory;
-    private PlayerHoldings holdings = new PlayerHoldings();
-    private Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
-    private TurnTaker turnTaker;
-    private Timer turnTimer = new Timer();
     private Stage stage = new Stage();
-    private List<Contract> contracts;
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
@@ -50,7 +27,7 @@ public class PrototypeScreen implements Screen {
 
     private void buildStage() {
         stage.clear();
-        final Table layout = new PrototypeLayoutTable(turnTaker, potentialWorkshops, holdings, contracts);
+        final Table layout = new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings, TradesongGame.contracts);
         stage.addActor(layout);
     }
 
@@ -62,75 +39,30 @@ public class PrototypeScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.debug("proto screen", "shown");
-        setupItems();
-        setupContracts();
-        setupTurnTaker();
-        setupWorkshops();
-        setupWorkerPool();
-    }
-
-    private void setupContracts() {
-        factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
-        contracts = new ArrayList<Contract>();
-        contracts.add(factory.buildRandomContract());
-        contracts.add(factory.buildRandomContract());
-        contracts.add(factory.buildRandomContract());
-    }
-
-    private void setupWorkerPool() {
-        WorkerPool spareWorkers = holdings.getSpareWorkers();
-        spareWorkers.addWorker(new WorkerImpl());
-        spareWorkers.addWorker(new WorkerImpl());
-        spareWorkers.addWorker(new WorkerImpl());
-    }
-
-    private void setupTurnTaker() {
-        turnTaker = new TurnTaker(holdings, contracts, factory);
-        turnTimer.clear();
-        turnTimer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                turnTaker.takeAllTurns();
-            }
-        }, TURN_TIMER, TURN_TIMER);
-        turnTimer.start();
-    }
-
-    private void setupItems() {
-        basicItem = new Item("an Item");
-        betterItem = new Item("a better item");
-        assembledItem = new Item("Assembled thing");
-    }
-
-    private void setupWorkshops() {
-        potentialWorkshops.add(new ProducerWorkshop(basicItem));
-        potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
-        potentialWorkshops.add(new MutatorWorkshop(assembledItem, basicItem, betterItem));
-        potentialWorkshops.add(new StorefrontWorkshop(holdings));
     }
 
     @Override
     public void hide() {
         Gdx.app.debug("proto screen", "hidden");
-        turnTimer.stop();
+        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void pause() {
         Gdx.app.debug("proto screen", "paused");
-        turnTimer.stop();
+        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void resume() {
         Gdx.app.debug("proto screen", "resumed");
-        turnTimer.start();
+        TradesongGame.turnTimer.start();
     }
 
     @Override
     public void dispose() {
         Gdx.app.debug("proto screen", "disposed");
-        turnTimer.stop();
-        turnTimer.clear();
+        TradesongGame.turnTimer.stop();
+        TradesongGame.turnTimer.clear();
     }
 }
