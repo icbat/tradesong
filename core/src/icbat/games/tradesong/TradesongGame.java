@@ -3,7 +3,7 @@ package icbat.games.tradesong;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import icbat.games.tradesong.engine.PrototypeScreen;
+import icbat.games.tradesong.engine.screens.PrototypeScreen;
 
 public class TradesongGame extends Game {
 	
