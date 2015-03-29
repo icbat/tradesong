@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.PrototypeLayoutTable;
 
-public class PrototypeScreen extends BaseScreen {
+public class PrototypeScreen extends AbstractBaseScreen {
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);

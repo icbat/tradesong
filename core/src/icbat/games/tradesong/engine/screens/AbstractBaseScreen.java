@@ -8,7 +8,7 @@ import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
 
 /***/
-public abstract class BaseScreen implements Screen {
+public abstract class AbstractBaseScreen implements Screen {
     protected final Stage stage = new Stage();
     protected final RGBA backgroundColor = new RGBA();
 
