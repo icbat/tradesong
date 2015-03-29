@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import icbat.games.tradesong.engine.screens.components.TurnCounter;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
@@ -36,13 +37,8 @@ public class PrototypeLayoutTable extends Table {
         align(Align.top);
         setFillParent(true);
 
-        add(new Label("", basicLabelStyle) {
-            @Override
-            public void draw(Batch batch, float parentAlpha) {
-                this.setText("Turn count: " + turnTaker.getCurrentTurn());
-                super.draw(batch, parentAlpha);
-            }
-        }).pad(10).align(Align.top).colspan(2);
+        Actor turnCounter = new TurnCounter(turnTaker, basicLabelStyle);
+        add(turnCounter).pad(10).align(Align.top).colspan(2);
         row();
         add(new Label("", basicLabelStyle) {
             @Override
@@ -209,6 +205,7 @@ public class PrototypeLayoutTable extends Table {
             return super.touchDown(event, x, y, pointer, button);
         }
     }
+
 }
 
 
