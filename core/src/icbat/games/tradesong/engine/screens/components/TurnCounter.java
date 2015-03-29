@@ -2,14 +2,15 @@ package icbat.games.tradesong.engine.screens.components;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.game.TurnTaker;
 
 /***/
 public class TurnCounter extends Label {
     private final TurnTaker turnTaker;
 
-    public TurnCounter(TurnTaker turnTaker, LabelStyle labelStyle) {
-        super("", labelStyle);
+    public TurnCounter(TurnTaker turnTaker) {
+        super("", TradesongGame.skin);
         this.turnTaker = turnTaker;
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
+import icbat.games.tradesong.engine.GameSkin;
 import icbat.games.tradesong.engine.screens.PrototypeScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -30,6 +31,7 @@ public class TradesongGame extends Game {
 	public static Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
 	public static TurnTaker turnTaker;
 	public static Timer turnTimer;
+	public static GameSkin skin;
 
 	public static List<Contract> contracts;
 
@@ -79,6 +81,7 @@ public class TradesongGame extends Game {
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+		skin = new GameSkin();
 		setupItems();
 		setupContracts();
 		setupTurnTaker();
