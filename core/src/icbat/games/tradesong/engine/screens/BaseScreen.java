@@ -5,14 +5,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import icbat.games.tradesong.TradesongGame;
+import icbat.games.tradesong.engine.RGBA;
 
 /***/
 public abstract class BaseScreen implements Screen {
-    protected Stage stage = new Stage();
+    protected final Stage stage = new Stage();
+    protected final RGBA backgroundColor = new RGBA();
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClearColor(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         buildStage();
         stage.draw();

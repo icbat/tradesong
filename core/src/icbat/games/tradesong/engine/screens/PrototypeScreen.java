@@ -9,6 +9,10 @@ public class PrototypeScreen extends BaseScreen {
 
     public PrototypeScreen() {
         Gdx.input.setInputProcessor(stage);
+        backgroundColor.setRed(0.2f);
+        backgroundColor.setGreen(0.2f);
+        backgroundColor.setBlue(0.2f);
+        backgroundColor.setAlpha(1);
     }
 
     @Override
