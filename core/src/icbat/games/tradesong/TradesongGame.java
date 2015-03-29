@@ -88,6 +88,10 @@ public class TradesongGame extends Game {
 		setupWorkshops();
 		setupWorkerPool();
 
+		for (Workshop potential : potentialWorkshops) {
+			holdings.addWorkshop(potential);
+		}
+
 		this.setScreen(new OverviewScreen());
 	}
 }

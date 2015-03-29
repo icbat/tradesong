@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.screens.components.MoneyCounter;
 import icbat.games.tradesong.engine.screens.components.TurnCounter;
+import icbat.games.tradesong.engine.screens.components.VerticalWorkshopDisplay;
 
 /***/
 public class OverviewScreen extends AbstractBaseScreen {
@@ -29,6 +30,8 @@ public class OverviewScreen extends AbstractBaseScreen {
         table.add(new MoneyCounter(TradesongGame.holdings)).pad(50);
         table.add(new TurnCounter(TradesongGame.turnTaker)).pad(50);
         table.row();
+        table.add("Active Workshops").row();
+        table.add(new VerticalWorkshopDisplay(TradesongGame.holdings.getWorkshops()));
         return table;
     }
 }
