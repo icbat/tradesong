@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.engine.GameSkin;
-import icbat.games.tradesong.engine.screens.PrototypeScreen;
+import icbat.games.tradesong.engine.screens.OverviewScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
@@ -88,6 +88,6 @@ public class TradesongGame extends Game {
 		setupWorkshops();
 		setupWorkerPool();
 
-		this.setScreen(new PrototypeScreen());
+		this.setScreen(new OverviewScreen());
 	}
 }
