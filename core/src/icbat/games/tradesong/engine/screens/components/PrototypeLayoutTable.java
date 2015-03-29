@@ -22,6 +22,7 @@ import java.util.List;
 /***/
 public class PrototypeLayoutTable extends Table {
     protected final Label.LabelStyle basicLabelStyle = new Label.LabelStyle();
+    protected final TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
     private final Collection<Workshop> potentialWorkshops;
     private final PlayerHoldings holdings;
     private final List<Contract> contracts;
@@ -29,6 +30,7 @@ public class PrototypeLayoutTable extends Table {
     public PrototypeLayoutTable(final TurnTaker turnTaker, Collection<Workshop> potentialWorkshops, final PlayerHoldings holdings, List<Contract> contracts) {
         this.contracts = contracts;
         basicLabelStyle.font = new BitmapFont();
+        textButtonStyle.font = new BitmapFont();
 
         this.potentialWorkshops = potentialWorkshops;
         this.holdings = holdings;
@@ -55,7 +57,7 @@ public class PrototypeLayoutTable extends Table {
         contractDisplay.add(new Label("Contract List", basicLabelStyle)).colspan(2).pad(10).row();
         for (Contract contract : contracts) {
             contractDisplay.add(contract.getActor()).pad(5);
-            contractDisplay.add(buildTextButton("<complete>", new ContractCompletionListener(contract, holdings)));
+            contractDisplay.add(new BasicTextButton("<complete>", textButtonStyle, new ContractCompletionListener(contract, holdings)));
             contractDisplay.row();
         }
         return contractDisplay;
@@ -67,7 +69,7 @@ public class PrototypeLayoutTable extends Table {
         potentialDisplay.add(header).colspan(2).pad(10).row();
         for (final Workshop workshop : potentialWorkshops) {
             potentialDisplay.add(workshop.getActor()).pad(5);
-            potentialDisplay.add(buildTextButton("Add ->", new AddWorkshopListener(workshop))).pad(5);
+            potentialDisplay.add(new BasicTextButton("Add ->", textButtonStyle, new AddWorkshopListener(workshop))).pad(5);
             potentialDisplay.row();
         }
         return potentialDisplay;
@@ -78,10 +80,10 @@ public class PrototypeLayoutTable extends Table {
         final Label header = new Label("Active Workshops", this.basicLabelStyle);
         activeDisplay.add(header).colspan(2).pad(10).row();
         for (final Workshop workshop : holdings.getWorkshops()) {
-            activeDisplay.add(buildTextButton("<-", new RemoveWorkshopListener(workshop))).pad(5);
+            activeDisplay.add(new BasicTextButton("<-", textButtonStyle, new RemoveWorkshopListener(workshop))).pad(5);
             activeDisplay.add(workshop.getActor()).pad(5);
-            activeDisplay.add(buildTextButton("+", new AddWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
-            activeDisplay.add(buildTextButton("-", new RemoveWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
+            activeDisplay.add(new BasicTextButton("+", textButtonStyle, new AddWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
+            activeDisplay.add(new BasicTextButton("-", textButtonStyle, new RemoveWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
             activeDisplay.row();
         }
         return activeDisplay;
@@ -95,14 +97,6 @@ public class PrototypeLayoutTable extends Table {
             storageDisplay.add(item.getActor()).row();
         }
         return storageDisplay;
-    }
-
-    private TextButton buildTextButton(String text, ClickListener listener) {
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = new BitmapFont();
-        final TextButton addButton = new TextButton(text, textButtonStyle);
-        addButton.addListener(listener);
-        return addButton;
     }
 
     private class RemoveWorkshopListener extends ClickListener {
