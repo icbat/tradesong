@@ -20,7 +20,7 @@ public class PrototypeScreen extends AbstractBaseScreen {
 
     @Override
     protected Table buildCentralLayout() {
-        return new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings, TradesongGame.contracts);
+        return new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings);
     }
 
 }
