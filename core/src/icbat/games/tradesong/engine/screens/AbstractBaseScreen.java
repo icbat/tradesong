@@ -51,6 +51,7 @@ public abstract class AbstractBaseScreen implements Screen {
         navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen())).space(10);
         navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).space(10);
         navigationHolder.add(new GoToScreenButton("Contracts", new ContractsScreen())).space(10);
+        navigationHolder.add(new GoToScreenButton("Workshops", new WorkshopManagementScreen())).space(10);
         stage.addActor(navigationHolder);
     }
 
