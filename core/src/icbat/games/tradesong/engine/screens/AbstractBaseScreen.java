@@ -48,7 +48,8 @@ public abstract class AbstractBaseScreen implements Screen {
         Table navigationHolder = new Table(TradesongGame.skin);
         navigationHolder.setFillParent(true);
         navigationHolder.align(Align.bottom);
-        navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen()));
+        navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen())).space(10);
+        navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).space(10);
         stage.addActor(navigationHolder);
     }
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.TradesongGame;
-import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.contracts.Contract;
@@ -42,7 +41,7 @@ public class PrototypeLayoutTable extends Table {
         row();
 
         add(contracts()).pad(10).align(Align.top);
-        add(storage()).pad(10).align(Align.top);
+        add(new StorageDisplay()).pad(10).align(Align.top);
     }
 
     private Actor contracts() {
@@ -78,15 +77,6 @@ public class PrototypeLayoutTable extends Table {
             activeDisplay.row();
         }
         return activeDisplay;
-    }
-
-    private Actor storage() {
-        Table storageDisplay = new Table(TradesongGame.skin);
-        storageDisplay.add("Storage").pad(10).row();
-        for (Item item : holdings.getStorage().getContents()) {
-            storageDisplay.add(item.getActor()).row();
-        }
-        return storageDisplay;
     }
 
     private class RemoveWorkshopListener extends ClickListener {
