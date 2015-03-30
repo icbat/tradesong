@@ -81,26 +81,21 @@ public abstract class AbstractBaseScreen implements Screen {
     @Override
     public void hide() {
         Gdx.app.debug("proto screen", "hidden");
-        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void pause() {
         Gdx.app.debug("proto screen", "paused");
-        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void resume() {
         Gdx.app.debug("proto screen", "resumed");
-        TradesongGame.turnTimer.start();
     }
 
     @Override
     public void dispose() {
         Gdx.app.debug("proto screen", "disposed");
-        TradesongGame.turnTimer.stop();
-        TradesongGame.turnTimer.clear();
     }
 
     protected abstract Table buildCentralLayout();
