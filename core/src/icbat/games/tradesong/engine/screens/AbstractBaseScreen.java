@@ -26,7 +26,7 @@ public abstract class AbstractBaseScreen implements Screen {
         stage.act(delta);
     }
 
-    protected void buildStage() {
+    private void buildStage() {
         stage.clear();
         final Table centralLayout = buildCentralLayout();
         centralLayout.setFillParent(true);
