@@ -143,7 +143,6 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
         Label.LabelStyle basicStyle = new Label.LabelStyle();
         basicStyle.font = new BitmapFont();
         layout.add(new Label(getWorkshopName(), basicStyle)).row();
-        layout.add(new Label(" Workers:" + getWorkers().size(), basicStyle));
         return layout;
     }
 
