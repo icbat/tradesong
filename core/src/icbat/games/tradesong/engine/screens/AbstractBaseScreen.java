@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
 
@@ -12,7 +13,6 @@ import icbat.games.tradesong.engine.RGBA;
 public abstract class AbstractBaseScreen implements Screen {
     protected final RGBA backgroundColor = new RGBA();
     private final Stage stage = new Stage();
-    protected Table layout;
 
     @Override
     public void render(float delta) {
@@ -25,9 +25,18 @@ public abstract class AbstractBaseScreen implements Screen {
 
     protected void buildStage() {
         stage.clear();
-        layout = buildLayout();
-        stage.addActor(layout);
+        final Table centralLayout = buildCentralLayout();
+        centralLayout.setFillParent(true);
+        stage.addActor(centralLayout);
+        final String headerText = getScreenName();
+        final Table header = new Table(TradesongGame.skin);
+        header.setFillParent(true);
+        header.align(Align.top);
+        header.add(headerText);
+        stage.addActor(header);
     }
+
+    protected abstract String getScreenName();
 
 
     @Override
@@ -67,5 +76,5 @@ public abstract class AbstractBaseScreen implements Screen {
         TradesongGame.turnTimer.clear();
     }
 
-    protected abstract Table buildLayout();
+    protected abstract Table buildCentralLayout();
 }

@@ -14,7 +14,12 @@ public class PrototypeScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected Table buildLayout() {
+    protected String getScreenName() {
+        return "Prototype Screen";
+    }
+
+    @Override
+    protected Table buildCentralLayout() {
         return new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings, TradesongGame.contracts);
     }
 

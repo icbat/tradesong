@@ -2,7 +2,6 @@ package icbat.games.tradesong.engine.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.game.workshops.Workshop;
 
@@ -16,13 +15,15 @@ public class WorkshopScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected Table buildLayout() {
+    protected Table buildCentralLayout() {
         final Table layout = new Table(TradesongGame.skin);
-        layout.setFillParent(true);
-        layout.align(Align.top);
-        layout.add(workshop.getWorkshopName()).row();
         layout.add(new Label(" Workers:" + workshop.getWorkers().size(), TradesongGame.skin));
 
         return layout;
+    }
+
+    @Override
+    protected String getScreenName() {
+        return workshop.getWorkshopName();
     }
 }

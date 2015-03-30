@@ -1,7 +1,6 @@
 package icbat.games.tradesong.engine.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.screens.components.*;
 import icbat.games.tradesong.game.workshops.Workshop;
@@ -16,11 +15,13 @@ public class OverviewScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected Table buildLayout() {
+    protected String getScreenName() {
+        return "Overview";
+    }
+
+    @Override
+    protected Table buildCentralLayout() {
         final Table layout = new Table(TradesongGame.skin);
-        layout.setFillParent(true);
-        layout.align(Align.top);
-        layout.add("Overview").colspan(2);
         layout.row().space(20);
         layout.add(new TurnCounter(TradesongGame.turnTaker)).colspan(2).pad(5);
         layout.row();
