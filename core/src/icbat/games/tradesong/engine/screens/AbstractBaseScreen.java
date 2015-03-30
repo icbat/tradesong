@@ -3,6 +3,7 @@ package icbat.games.tradesong.engine.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -43,9 +44,19 @@ public abstract class AbstractBaseScreen implements Screen {
         header.align(Align.top);
         header.add(headerText);
         stage.addActor(header);
+
+        Table backButtonHolder = new Table(TradesongGame.skin);
+        backButtonHolder.setFillParent(true);
+        backButtonHolder.align(Align.bottom + Align.right);
+        backButtonHolder.add(buildBackButton());
+        stage.addActor(backButtonHolder);
     }
 
     protected abstract String getScreenName();
+
+    protected Actor buildBackButton() {
+        return new Actor();
+    }
 
     private Table buildStatusBlock() {
         final Table layout = new Table(TradesongGame.skin);

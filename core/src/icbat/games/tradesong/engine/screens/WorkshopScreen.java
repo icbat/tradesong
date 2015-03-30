@@ -1,5 +1,6 @@
 package icbat.games.tradesong.engine.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
@@ -18,8 +19,13 @@ public class WorkshopScreen extends AbstractBaseScreen {
     protected Table buildCentralLayout() {
         final Table layout = new Table(TradesongGame.skin);
         layout.add(new Label(" Workers:" + workshop.getWorkers().size(), TradesongGame.skin));
-
         return layout;
+    }
+
+    @Override
+    protected Actor buildBackButton() {
+        final OverviewScreen overviewScreen = new OverviewScreen();
+        return new Actor();
     }
 
     @Override

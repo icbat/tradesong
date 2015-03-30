@@ -32,7 +32,7 @@ public class OverviewScreen extends AbstractBaseScreen {
     private Table makeVerticalWorkshopButtons(List<Workshop> workshops) {
         final Table table = new Table(TradesongGame.skin);
         for (Workshop workshop : workshops) {
-            table.add(new GoToScreenButton(workshop)).row();
+            table.add(new GoToScreenButton("Go to " + workshop.getWorkshopName(), workshop.getScreen())).row();
         }
         return table;
     }
