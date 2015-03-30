@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
+import icbat.games.tradesong.engine.screens.components.MoneyCounter;
+import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
+import icbat.games.tradesong.engine.screens.components.TurnCounter;
 
 /***/
 public abstract class AbstractBaseScreen implements Screen {
@@ -28,6 +31,12 @@ public abstract class AbstractBaseScreen implements Screen {
         final Table centralLayout = buildCentralLayout();
         centralLayout.setFillParent(true);
         stage.addActor(centralLayout);
+
+        final Table statusBlock = buildStatusBlock();
+        statusBlock.setFillParent(true);
+        statusBlock.align(Align.top + Align.left);
+        stage.addActor(statusBlock);
+
         final String headerText = getScreenName();
         final Table header = new Table(TradesongGame.skin);
         header.setFillParent(true);
@@ -38,6 +47,13 @@ public abstract class AbstractBaseScreen implements Screen {
 
     protected abstract String getScreenName();
 
+    private Table buildStatusBlock() {
+        final Table layout = new Table(TradesongGame.skin);
+        layout.add(new TurnCounter(TradesongGame.turnTaker)).pad(20, 10, 10, 10).row();
+        layout.add(new MoneyCounter(TradesongGame.holdings)).pad(10).row();
+        layout.add(new SpareWorkerCounter(TradesongGame.holdings)).pad(10).row();
+        return layout;
+    }
 
     @Override
     public void resize(int width, int height) {
