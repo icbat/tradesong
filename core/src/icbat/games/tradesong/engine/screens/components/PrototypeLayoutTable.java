@@ -11,7 +11,6 @@ import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.TurnTaker;
 import icbat.games.tradesong.game.contracts.Contract;
-import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 import java.util.Collection;
@@ -74,8 +73,8 @@ public class PrototypeLayoutTable extends Table {
         for (final Workshop workshop : holdings.getWorkshops()) {
             activeDisplay.add(new BasicTextButton("<-", new RemoveWorkshopListener(workshop))).pad(5);
             activeDisplay.add(workshop.getActor()).pad(5);
-            activeDisplay.add(new BasicTextButton("+", new AddWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
-            activeDisplay.add(new BasicTextButton("-", new RemoveWorkersListener(workshop, holdings.getSpareWorkers()))).pad(5);
+            activeDisplay.add(new AddWorkersButton(workshop, holdings.getSpareWorkers())).pad(5);
+            activeDisplay.add(new RemoveWorkersButton(workshop, holdings.getSpareWorkers())).pad(5);
             activeDisplay.row();
         }
         return activeDisplay;
@@ -115,42 +114,6 @@ public class PrototypeLayoutTable extends Table {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             holdings.addWorkshop(workshop.spawnClone());
-            return super.touchDown(event, x, y, pointer, button);
-        }
-    }
-
-    private class AddWorkersListener extends ClickListener {
-        private final Workshop workshop;
-        private final WorkerPool spareWorkers;
-
-        public AddWorkersListener(Workshop workshop, WorkerPool spareWorkers) {
-            this.workshop = workshop;
-            this.spareWorkers = spareWorkers;
-        }
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            if (spareWorkers.hasWorkers()) {
-                workshop.getWorkers().addWorker(spareWorkers.removeWorker());
-            }
-            return super.touchDown(event, x, y, pointer, button);
-        }
-    }
-
-    private class RemoveWorkersListener extends ClickListener {
-        private final Workshop workshop;
-        private final WorkerPool spareWorkers;
-
-        public RemoveWorkersListener(Workshop workshop, WorkerPool spareWorkers) {
-            this.workshop = workshop;
-            this.spareWorkers = spareWorkers;
-        }
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            if (workshop.getWorkers().hasWorkers()) {
-                spareWorkers.addWorker(workshop.getWorkers().removeWorker());
-            }
             return super.touchDown(event, x, y, pointer, button);
         }
     }
