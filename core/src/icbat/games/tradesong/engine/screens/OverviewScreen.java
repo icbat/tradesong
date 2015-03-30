@@ -24,8 +24,8 @@ public class OverviewScreen extends AbstractBaseScreen {
     protected Table buildCentralLayout() {
         final Table layout = new Table(TradesongGame.skin);
         layout.add("Active Workshops").row();
-        layout.add(new VerticalWorkshopDisplay(TradesongGame.holdings.getWorkshops()));
-        layout.add(makeVerticalWorkshopButtons(TradesongGame.holdings.getWorkshops()));
+        layout.add(new VerticalWorkshopDisplay(TradesongGame.holdings.getWorkshops())).pad(15);
+        layout.add(makeVerticalWorkshopButtons(TradesongGame.holdings.getWorkshops())).pad(15);
         return layout;
     }
 
