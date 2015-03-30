@@ -3,12 +3,12 @@ package icbat.games.tradesong.engine.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
+import icbat.games.tradesong.engine.screens.components.GoToScreenButton;
 import icbat.games.tradesong.engine.screens.components.MoneyCounter;
 import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
 import icbat.games.tradesong.engine.screens.components.TurnCounter;
@@ -45,18 +45,15 @@ public abstract class AbstractBaseScreen implements Screen {
         header.add(headerText);
         stage.addActor(header);
 
-        Table backButtonHolder = new Table(TradesongGame.skin);
-        backButtonHolder.setFillParent(true);
-        backButtonHolder.align(Align.bottom + Align.right);
-        backButtonHolder.add(buildBackButton());
-        stage.addActor(backButtonHolder);
+        Table navigationHolder = new Table(TradesongGame.skin);
+        navigationHolder.setFillParent(true);
+        navigationHolder.align(Align.bottom);
+        navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen())).space(10);
+        navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).space(10);
+        stage.addActor(navigationHolder);
     }
 
     protected abstract String getScreenName();
-
-    protected Actor buildBackButton() {
-        return new Actor();
-    }
 
     private Table buildStatusBlock() {
         final Table layout = new Table(TradesongGame.skin);
