@@ -15,13 +15,7 @@ public class OverviewScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected void buildStage() {
-        stage.clear();
-        final Table layout = buildLayout();
-        stage.addActor(layout);
-    }
-
-    private Table buildLayout() {
+    protected Table buildLayout() {
         final Table table = new Table(TradesongGame.skin);
         table.setFillParent(true);
         table.align(Align.top);

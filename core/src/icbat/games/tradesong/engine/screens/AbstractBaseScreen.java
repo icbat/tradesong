@@ -4,13 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
 
 /***/
 public abstract class AbstractBaseScreen implements Screen {
-    protected final Stage stage = new Stage();
     protected final RGBA backgroundColor = new RGBA();
+    private final Stage stage = new Stage();
+    protected Table layout;
 
     @Override
     public void render(float delta) {
@@ -21,12 +23,11 @@ public abstract class AbstractBaseScreen implements Screen {
         stage.act(delta);
     }
 
-    /**
-     * Called on each render, rebuilds the stage. Really inefficient, there's probably a better way but for now this will do.
-     *
-     * Given that, you'll usually want to call stage.clear first
-     */
-    protected abstract void buildStage();
+    protected void buildStage() {
+        stage.clear();
+        layout = buildLayout();
+        stage.addActor(layout);
+    }
 
 
     @Override
@@ -65,4 +66,6 @@ public abstract class AbstractBaseScreen implements Screen {
         TradesongGame.turnTimer.stop();
         TradesongGame.turnTimer.clear();
     }
+
+    protected abstract Table buildLayout();
 }
