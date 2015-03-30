@@ -3,14 +3,20 @@ package icbat.games.tradesong.engine.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
+import icbat.games.tradesong.engine.screens.components.MoneyCounter;
+import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
+import icbat.games.tradesong.engine.screens.components.TurnCounter;
 
 /***/
 public abstract class AbstractBaseScreen implements Screen {
-    protected final Stage stage = new Stage();
     protected final RGBA backgroundColor = new RGBA();
+    private final Stage stage = new Stage();
 
     @Override
     public void render(float delta) {
@@ -21,13 +27,44 @@ public abstract class AbstractBaseScreen implements Screen {
         stage.act(delta);
     }
 
-    /**
-     * Called on each render, rebuilds the stage. Really inefficient, there's probably a better way but for now this will do.
-     *
-     * Given that, you'll usually want to call stage.clear first
-     */
-    protected abstract void buildStage();
+    private void buildStage() {
+        stage.clear();
+        final Table centralLayout = buildCentralLayout();
+        centralLayout.setFillParent(true);
+        stage.addActor(centralLayout);
 
+        final Table statusBlock = buildStatusBlock();
+        statusBlock.setFillParent(true);
+        statusBlock.align(Align.top + Align.left);
+        stage.addActor(statusBlock);
+
+        final String headerText = getScreenName();
+        final Table header = new Table(TradesongGame.skin);
+        header.setFillParent(true);
+        header.align(Align.top);
+        header.add(headerText);
+        stage.addActor(header);
+
+        Table backButtonHolder = new Table(TradesongGame.skin);
+        backButtonHolder.setFillParent(true);
+        backButtonHolder.align(Align.bottom + Align.right);
+        backButtonHolder.add(buildBackButton());
+        stage.addActor(backButtonHolder);
+    }
+
+    protected abstract String getScreenName();
+
+    protected Actor buildBackButton() {
+        return new Actor();
+    }
+
+    private Table buildStatusBlock() {
+        final Table layout = new Table(TradesongGame.skin);
+        layout.add(new TurnCounter(TradesongGame.turnTaker)).pad(20, 10, 10, 10).row();
+        layout.add(new MoneyCounter(TradesongGame.holdings)).pad(10).row();
+        layout.add(new SpareWorkerCounter(TradesongGame.holdings)).pad(10).row();
+        return layout;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -44,25 +81,22 @@ public abstract class AbstractBaseScreen implements Screen {
     @Override
     public void hide() {
         Gdx.app.debug("proto screen", "hidden");
-        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void pause() {
         Gdx.app.debug("proto screen", "paused");
-        TradesongGame.turnTimer.stop();
     }
 
     @Override
     public void resume() {
         Gdx.app.debug("proto screen", "resumed");
-        TradesongGame.turnTimer.start();
     }
 
     @Override
     public void dispose() {
         Gdx.app.debug("proto screen", "disposed");
-        TradesongGame.turnTimer.stop();
-        TradesongGame.turnTimer.clear();
     }
+
+    protected abstract Table buildCentralLayout();
 }

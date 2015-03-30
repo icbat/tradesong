@@ -1,9 +1,11 @@
 package icbat.games.tradesong.game.workshops;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import icbat.games.tradesong.engine.screens.WorkshopScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.workers.WorkerPool;
@@ -67,12 +69,16 @@ public class StorefrontWorkshop implements ItemConsumer {
         Label.LabelStyle basicStyle = new Label.LabelStyle();
         basicStyle.font = new BitmapFont();
         layout.add(new Label(getWorkshopName(), basicStyle)).row();
-        layout.add(new Label(" Workers:" + getWorkers().size(), basicStyle));
         return layout;
     }
 
     @Override
     public StorefrontWorkshop spawnClone() {
         return new StorefrontWorkshop(holdings);
+    }
+
+    @Override
+    public Screen getScreen() {
+        return new WorkshopScreen(this);
     }
 }

@@ -1,11 +1,12 @@
 package icbat.games.tradesong.engine.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
-import icbat.games.tradesong.engine.screens.components.MoneyCounter;
-import icbat.games.tradesong.engine.screens.components.TurnCounter;
+import icbat.games.tradesong.engine.screens.components.GoToScreenButton;
 import icbat.games.tradesong.engine.screens.components.VerticalWorkshopDisplay;
+import icbat.games.tradesong.game.workshops.Workshop;
+
+import java.util.List;
 
 /***/
 public class OverviewScreen extends AbstractBaseScreen {
@@ -15,23 +16,24 @@ public class OverviewScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected void buildStage() {
-        stage.clear();
-        final Table layout = buildLayout();
-        stage.addActor(layout);
+    protected String getScreenName() {
+        return "Overview";
     }
 
-    private Table buildLayout() {
+    @Override
+    protected Table buildCentralLayout() {
+        final Table layout = new Table(TradesongGame.skin);
+        layout.add("Active Workshops").row();
+        layout.add(new VerticalWorkshopDisplay(TradesongGame.holdings.getWorkshops())).pad(15);
+        layout.add(makeVerticalWorkshopButtons(TradesongGame.holdings.getWorkshops())).pad(15);
+        return layout;
+    }
+
+    private Table makeVerticalWorkshopButtons(List<Workshop> workshops) {
         final Table table = new Table(TradesongGame.skin);
-        table.setFillParent(true);
-        table.align(Align.top);
-        table.add("Overview").colspan(2);
-        table.row();
-        table.add(new MoneyCounter(TradesongGame.holdings)).pad(50);
-        table.add(new TurnCounter(TradesongGame.turnTaker)).pad(50);
-        table.row();
-        table.add("Active Workshops").row();
-        table.add(new VerticalWorkshopDisplay(TradesongGame.holdings.getWorkshops()));
+        for (Workshop workshop : workshops) {
+            table.add(new GoToScreenButton("Go to " + workshop.getWorkshopName(), workshop.getScreen())).row();
+        }
         return table;
     }
 }

@@ -14,10 +14,13 @@ public class PrototypeScreen extends AbstractBaseScreen {
     }
 
     @Override
-    protected void buildStage() {
-        stage.clear();
-        final Table layout = new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings, TradesongGame.contracts);
-        stage.addActor(layout);
+    protected String getScreenName() {
+        return "Prototype Screen";
+    }
+
+    @Override
+    protected Table buildCentralLayout() {
+        return new PrototypeLayoutTable(TradesongGame.turnTaker, TradesongGame.potentialWorkshops, TradesongGame.holdings, TradesongGame.contracts);
     }
 
 }

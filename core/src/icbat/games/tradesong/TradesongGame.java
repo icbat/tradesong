@@ -5,6 +5,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.engine.GameSkin;
+import icbat.games.tradesong.engine.ScreenManager;
+import icbat.games.tradesong.engine.SimpleScreenManager;
 import icbat.games.tradesong.engine.screens.OverviewScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -32,6 +34,7 @@ public class TradesongGame extends Game {
 	public static TurnTaker turnTaker;
 	public static Timer turnTimer;
 	public static GameSkin skin;
+	public static ScreenManager screenManager;
 
 	public static List<Contract> contracts;
 
@@ -51,9 +54,9 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupTurnTaker() {
-		turnTimer = new Timer();
-
 		turnTaker = new TurnTaker(holdings, contracts, factory);
+
+		turnTimer = new Timer();
 		turnTimer.clear();
 		turnTimer.scheduleTask(new Timer.Task() {
 			@Override
@@ -87,6 +90,8 @@ public class TradesongGame extends Game {
 		setupTurnTaker();
 		setupWorkshops();
 		setupWorkerPool();
+
+		screenManager = new SimpleScreenManager(this);
 
 		for (Workshop potential : potentialWorkshops) {
 			holdings.addWorkshop(potential);
