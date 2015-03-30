@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
+import icbat.games.tradesong.engine.screens.components.GoToScreenButton;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 /***/
@@ -24,8 +25,7 @@ public class WorkshopScreen extends AbstractBaseScreen {
 
     @Override
     protected Actor buildBackButton() {
-        final OverviewScreen overviewScreen = new OverviewScreen();
-        return new Actor();
+        return new GoToScreenButton("<-- to Overview", new OverviewScreen());
     }
 
     @Override
