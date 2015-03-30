@@ -1,9 +1,11 @@
 package icbat.games.tradesong.game.workshops;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import icbat.games.tradesong.engine.screens.WorkshopScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.ItemStack;
 import icbat.games.tradesong.game.workers.WorkerPool;
@@ -166,5 +168,10 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     @Override
     public void updateOutputCapacity(int newCapacity) {
         outputQueue.setCapacity(newCapacity);
+    }
+
+    @Override
+    public Screen getScreen() {
+        return new WorkshopScreen(this);
     }
 }
