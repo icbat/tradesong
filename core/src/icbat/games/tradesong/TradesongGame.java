@@ -92,11 +92,9 @@ public class TradesongGame extends Game {
 		setupWorkshops();
 		setupWorkerPool();
 
-		screenManager = new SimpleScreenManager(this);
+		holdings.addCurrency(1000);
 
-		for (Workshop potential : potentialWorkshops) {
-			holdings.addWorkshop(potential);
-		}
+		screenManager = new SimpleScreenManager(this);
 
 		this.setScreen(new OverviewScreen());
 	}

@@ -204,19 +204,49 @@ public class TurnTakerTest {
 
     @Test
     public void contractsAdded() throws Exception {
-        for (int i = 0; i < 4; ++i) {
-            turnTaker.takeAllTurns();
-            verify(contractFactory, times(0)).buildRandomContract();
-        }
+        takeTurns(4);
+        verify(contractFactory, times(0)).buildRandomContract();
         turnTaker.takeAllTurns();
         verify(contractFactory, times(1)).buildRandomContract();
 
 
-        for (int i = 0; i < 9; ++i) {
-            turnTaker.takeAllTurns();
-            verify(contractFactory, times(1)).buildRandomContract();
-        }
+        takeTurns(9);
+        verify(contractFactory, times(1)).buildRandomContract();
         turnTaker.takeAllTurns();
         verify(contractFactory, times(2)).buildRandomContract();
     }
+
+    @Test
+    public void rentIsDeducted() throws Exception {
+        takeTurns(9);
+        assertEquals("rent deducted too soon!", 0, holdings.getCurrency());
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("rent not deducted on 10th turn", holdings.getCurrency() < 0);
+    }
+
+    @Test
+    public void rentIdDeducted_moreWithActiveWorkshops() throws Exception {
+        takeTurns(10);
+        final int amountLostWithNoWorkshops = holdings.getCurrency();
+        assertTrue("initial amount not low enough!", amountLostWithNoWorkshops < 0);
+        final Workshop workshop = mock(Workshop.class);
+        when(workshop.getCost()).thenReturn(1000);
+        holdings.addWorkshop(workshop);
+
+        takeTurns(10);
+        final int amountWithWorkshops = holdings.getCurrency();
+
+        final int newDeduction = amountWithWorkshops - amountLostWithNoWorkshops;
+        assertTrue("amount lost with active workshops (" + newDeduction + ") should be less than without workshops (" + amountLostWithNoWorkshops + ")", newDeduction < amountLostWithNoWorkshops);
+    }
+
+    private void takeTurns(int turnsToTake) {
+        for (int i = 0; i < turnsToTake; ++i) {
+            turnTaker.takeAllTurns();
+        }
+    }
+
+
 }

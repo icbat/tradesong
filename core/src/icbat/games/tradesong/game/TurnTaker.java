@@ -30,9 +30,19 @@ public class TurnTaker {
         takeTurnOnAllWorkshops();
         moveAllOutputsToStorage();
         ageContracts();
+        subtractRent();
         currentTurn++;
         Gdx.app.debug("Turn Taker", "Finished taking all turns");
         Gdx.app.debug("Turn Taker", "After taking turns, storage is now holding " + storage.size());
+    }
+
+    private void subtractRent() {
+        if (currentTurn % 10 == 0) {
+            holdings.removeCurrency(500);
+            for (Workshop workshop : holdings.getWorkshops()) {
+                holdings.removeCurrency(workshop.getCost() / 3);
+            }
+        }
     }
 
     private void ageContracts() {

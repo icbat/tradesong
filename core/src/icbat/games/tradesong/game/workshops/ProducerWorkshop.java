@@ -112,6 +112,16 @@ public class ProducerWorkshop implements ItemProducer {
     }
 
     @Override
+    public boolean canAfford(int currentFunds) {
+        return currentFunds >= getCost();
+    }
+
+    @Override
+    public int getCost() {
+        return 1000;
+    }
+
+    @Override
     public void updateOutputCapacity(int newCapacity) {
         outputQueue.setCapacity(newCapacity);
     }
