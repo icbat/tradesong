@@ -6,10 +6,10 @@ import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 /***/
-public class AddWorkshopListener extends ClickListener {
+public class BuyWorkshopListener extends ClickListener {
     private final Workshop workshop;
 
-    public AddWorkshopListener(Workshop workshop) {
+    public BuyWorkshopListener(Workshop workshop) {
         this.workshop = workshop;
     }
 

@@ -8,8 +8,8 @@ import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 /***/
-public class AddWorkersButton extends TextButton {
-    public AddWorkersButton(Workshop workshop, WorkerPool spareWorkers) {
+public class BuyWorkersButton extends TextButton {
+    public BuyWorkersButton(Workshop workshop, WorkerPool spareWorkers) {
         super("Assign worker", TradesongGame.skin);
         addListener(new AddWorkersListener(workshop, spareWorkers));
     }
