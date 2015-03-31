@@ -52,6 +52,7 @@ public class TradesongGame extends Game {
 		spareWorkers.addWorker(new WorkerImpl());
 		spareWorkers.addWorker(new WorkerImpl());
 		spareWorkers.addWorker(new WorkerImpl());
+		spareWorkers.addWorker(new WorkerImpl());
 	}
 
 	public void setupTurnTaker() {
