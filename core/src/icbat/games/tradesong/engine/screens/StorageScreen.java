@@ -1,6 +1,7 @@
 package icbat.games.tradesong.engine.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.screens.components.StorageDisplay;
 
 /***/
@@ -12,7 +13,14 @@ public class StorageScreen extends AbstractBaseScreen {
 
     @Override
     protected Table buildCentralLayout() {
-        return new StorageDisplay();
+        Table layout = new Table(TradesongGame.skin);
+        layout.add("Items in storage:").space(15);
+        layout.add("" + TradesongGame.holdings.getStorage().size()).space(15).row();
+
+
+        final StorageDisplay storageDisplay = new StorageDisplay();
+        layout.add(storageDisplay).colspan(2).space(15);
+        return layout;
     }
 
 }
