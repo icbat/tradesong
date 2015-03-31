@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game.contracts;
 
+import icbat.games.tradesong.engine.RandomGenerator;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
 import org.junit.Before;
@@ -20,6 +21,7 @@ public class ContractFactoryTest {
     protected List<Item> possibleItems;
     protected Item requirement;
     protected Item otherRequirement;
+    protected RandomGenerator<Item> itemGenerator;
     private PlayerHoldings holdings;
     private Random random;
 
@@ -33,7 +35,8 @@ public class ContractFactoryTest {
         holdings = new PlayerHoldings();
         random = mock(Random.class);
 
-        factory = new ContractFactory(possibleItems, random);
+        itemGenerator = new RandomGenerator<Item>(possibleItems, random);
+        factory = new ContractFactory(random, itemGenerator);
     }
 
     @Test
@@ -46,16 +49,6 @@ public class ContractFactoryTest {
 
         assertNotNull(contract);
         assertTrue("Should be able to complete", contract.canComplete(holdings));
-    }
-
-    @Test
-    public void construction_requiresSomeItem() throws Exception {
-        try {
-            new ContractFactory(new ArrayList<Item>(), random);
-            fail("factory requires at least some items!");
-        } catch (IllegalStateException ise) {
-            assertTrue(true);
-        }
     }
 
     @Test
