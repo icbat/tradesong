@@ -20,8 +20,8 @@ public class WorkshopScreen extends AbstractBaseScreen {
     protected Table buildCentralLayout() {
         final Table layout = new Table(TradesongGame.skin);
         layout.add(new Label("Assigned Workers:" + workshop.getWorkers().size(), TradesongGame.skin)).colspan(2).row();
-        layout.add(new AddWorkersButton(workshop, TradesongGame.holdings.getSpareWorkers())).pad(15);
-        layout.add(new RemoveWorkersButton(workshop, TradesongGame.holdings.getSpareWorkers())).pad(15);
+        layout.add(new AddWorkersButton(workshop.getWorkers(), TradesongGame.holdings.getSpareWorkers())).pad(15);
+        layout.add(new RemoveWorkersButton(workshop.getWorkers(), TradesongGame.holdings.getSpareWorkers())).pad(15);
         return layout;
     }
 
