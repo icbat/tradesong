@@ -78,4 +78,19 @@ public class ContractFactoryTest {
         final Item rewarded = holdings.getStorage().getContents().get(0);
         assertNotEquals("the same item was the requirement and reward!", possibleItems.get(0), rewarded);
     }
+
+    @Test
+    public void randomItemContract_failsIfOnlyOnePossibleItem() throws Exception {
+        assertFalse("setup invalid", possibleItems.isEmpty());
+        while (possibleItems.size() > 1) {
+            possibleItems.remove(0);
+        }
+
+        try {
+            factory.buildRandomItemContract();
+            fail("undefined behavior, contracts need at least one item");
+        } catch (IllegalStateException ise) {
+            assertTrue(true);
+        }
+    }
 }

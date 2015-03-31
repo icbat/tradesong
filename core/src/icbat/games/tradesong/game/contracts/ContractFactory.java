@@ -29,6 +29,9 @@ public class ContractFactory {
     }
 
     private Item getRandomItem() {
+        if (possibleItems.size() <= 1) {
+            throw new IllegalStateException("Dev error! There needs to be more than 1 possible item to make contracts");
+        }
         return possibleItems.get(random.nextInt(possibleItems.size()));
     }
 
