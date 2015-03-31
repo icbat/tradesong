@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,6 +39,7 @@ public class ContractFactoryTest {
     @Test
     public void randomItemContract_usesRequirements() throws Exception {
         when(random.nextBoolean()).thenReturn(true);
+        when(random.nextInt(anyInt())).thenReturn(0).thenReturn(1);
         holdings.getStorage().getContents().addAll(possibleItems);
 
         final Contract contract = factory.buildRandomItemContract();
@@ -59,8 +61,21 @@ public class ContractFactoryTest {
     @Test
     public void randomContract_canBeEitherKind() throws Exception {
         when(random.nextBoolean()).thenReturn(true).thenReturn(false);
+        when(random.nextInt(anyInt())).thenReturn(0).thenReturn(1);
 
         assertTrue(factory.buildRandomContract().viewReward() instanceof ItemReward);
         assertTrue(factory.buildRandomContract().viewReward() instanceof MoneyReward);
+    }
+
+    @Test
+    public void randomItemContract_cantRewardTheRequirement() throws Exception {
+        when(random.nextInt(anyInt())).thenReturn(0).thenReturn(0).thenReturn(1);
+        assertTrue("setup inconsistent, test not valid!", holdings.getStorage().isEmpty());
+
+        final Contract contract = factory.buildRandomItemContract();
+        contract.viewReward().addRewardToHoldings(holdings);
+
+        final Item rewarded = holdings.getStorage().getContents().get(0);
+        assertNotEquals("the same item was the requirement and reward!", possibleItems.get(0), rewarded);
     }
 }

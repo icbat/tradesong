@@ -20,7 +20,12 @@ public class ContractFactory {
     }
 
     public Contract buildRandomItemContract() {
-        return new ContractImpl(getRandomItem(), new ItemReward(getRandomItem()));
+        final Item requiredItem = getRandomItem();
+        Item reward = null;
+        while (reward == null || reward.equals(requiredItem)) {
+            reward = getRandomItem();
+        }
+        return new ContractImpl(requiredItem, new ItemReward(reward));
     }
 
     private Item getRandomItem() {
