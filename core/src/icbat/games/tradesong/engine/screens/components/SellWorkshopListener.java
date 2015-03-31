@@ -7,10 +7,10 @@ import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.game.workshops.Workshop;
 
 /***/
-public class RemoveWorkshopListener extends ClickListener {
+public class SellWorkshopListener extends ClickListener {
     private final Workshop workshop;
 
-    public RemoveWorkshopListener(Workshop workshop) {
+    public SellWorkshopListener(Workshop workshop) {
         this.workshop = workshop;
     }
 
@@ -18,6 +18,7 @@ public class RemoveWorkshopListener extends ClickListener {
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         Gdx.app.log("add button", "clicked!");
         TradesongGame.holdings.removeWorkshop(workshop);
+        TradesongGame.holdings.addCurrency(workshop.getCost() / 4);
         return super.touchDown(event, x, y, pointer, button);
     }
 }

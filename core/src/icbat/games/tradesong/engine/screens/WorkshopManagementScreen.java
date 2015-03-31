@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.screens.components.BasicTextButton;
 import icbat.games.tradesong.engine.screens.components.BuyWorkshopListener;
-import icbat.games.tradesong.engine.screens.components.RemoveWorkshopListener;
+import icbat.games.tradesong.engine.screens.components.SellWorkshopListener;
 import icbat.games.tradesong.engine.screens.components.VerticalWorkshopDisplay;
 import icbat.games.tradesong.game.workshops.Workshop;
 
@@ -51,7 +51,7 @@ public class WorkshopManagementScreen extends AbstractBaseScreen {
     private Table buildRemoveTable() {
         final Table removeTable = new Table(TradesongGame.skin);
         for (Workshop workshop : TradesongGame.holdings.getWorkshops()) {
-            removeTable.add(new BasicTextButton("Remove workshop", new RemoveWorkshopListener(workshop))).row();
+            removeTable.add(new BasicTextButton("Sell workshop for " + (workshop.getCost() / 4), new SellWorkshopListener(workshop))).row();
         }
         return removeTable;
     }
