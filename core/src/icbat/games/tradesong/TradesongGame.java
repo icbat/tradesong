@@ -93,6 +93,7 @@ public class TradesongGame extends Game {
 		setupWorkerPool();
 
 		holdings.addCurrency(1000);
+		holdings.addWorkshop(new StorefrontWorkshop(holdings));
 
 		screenManager = new SimpleScreenManager(this);
 
