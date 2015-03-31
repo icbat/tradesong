@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.engine.GameSkin;
+import icbat.games.tradesong.engine.RandomGenerator;
 import icbat.games.tradesong.engine.ScreenManager;
 import icbat.games.tradesong.engine.SimpleScreenManager;
 import icbat.games.tradesong.engine.screens.OverviewScreen;
@@ -39,7 +40,7 @@ public class TradesongGame extends Game {
 	public static List<Contract> contracts;
 
 	public void setupContracts() {
-		factory = new ContractFactory(Arrays.asList(basicItem, betterItem, assembledItem), new Random());
+		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(Arrays.asList(basicItem, betterItem, assembledItem), new Random()));
 		contracts = new ArrayList<Contract>();
 		contracts.add(factory.buildRandomContract());
 		contracts.add(factory.buildRandomContract());

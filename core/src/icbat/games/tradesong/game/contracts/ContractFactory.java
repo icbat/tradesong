@@ -1,34 +1,29 @@
 package icbat.games.tradesong.game.contracts;
 
+import icbat.games.tradesong.engine.RandomGenerator;
 import icbat.games.tradesong.game.Item;
 
-import java.util.List;
 import java.util.Random;
 
 /***/
 public class ContractFactory {
 
-    private final List<Item> possibleItems;
     private final Random random;
+    private final RandomGenerator<Item> itemGenerator;
 
-    public ContractFactory(List<Item> possibleItems, Random random) {
-        if (possibleItems.isEmpty()) {
-            throw new IllegalStateException("Dev error, contract factory requires some possible reward items!");
-        }
+    public ContractFactory(Random random, RandomGenerator<Item> itemGenerator) {
+        this.itemGenerator = itemGenerator;
         this.random = random;
-        this.possibleItems = possibleItems;
     }
 
     public Contract buildRandomItemContract() {
-        return new ContractImpl(getRandomItem(), new ItemReward(getRandomItem()));
-    }
-
-    private Item getRandomItem() {
-        return possibleItems.get(random.nextInt(possibleItems.size()));
+        final Item requiredItem = itemGenerator.getNext();
+        Item reward = itemGenerator.getNextDifferent(requiredItem);
+        return new ContractImpl(requiredItem, new ItemReward(reward));
     }
 
     public Contract buildRandomMoneyContract() {
-        return new ContractImpl(getRandomItem(), new MoneyReward(random.nextInt(50) + 70));
+        return new ContractImpl(itemGenerator.getNext(), new MoneyReward(random.nextInt(50) + 70));
     }
 
     public Contract buildRandomContract() {
