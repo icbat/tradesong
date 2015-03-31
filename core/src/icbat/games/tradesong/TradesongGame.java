@@ -96,10 +96,6 @@ public class TradesongGame extends Game {
 
 		screenManager = new SimpleScreenManager(this);
 
-		for (Workshop potential : potentialWorkshops) {
-			holdings.addWorkshop(potential);
-		}
-
 		this.setScreen(new OverviewScreen());
 	}
 }
