@@ -39,6 +39,9 @@ public class TurnTaker {
     private void subtractRent() {
         if (currentTurn % 10 == 0) {
             holdings.removeCurrency(500);
+            for (Workshop workshop : holdings.getWorkshops()) {
+                holdings.removeCurrency(workshop.getCost() / 3);
+            }
         }
     }
 
