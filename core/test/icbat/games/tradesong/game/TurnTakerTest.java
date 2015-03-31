@@ -216,6 +216,16 @@ public class TurnTakerTest {
         verify(contractFactory, times(2)).buildRandomContract();
     }
 
+    @Test
+    public void rentIsDeducted() throws Exception {
+        takeTurns(9);
+        assertEquals("rent deducted too soon!", 0, holdings.getCurrency());
+
+        turnTaker.takeAllTurns();
+
+        assertTrue("rent not deducted on 10th turn", holdings.getCurrency() < 0);
+    }
+
     private void takeTurns(int turnsToTake) {
         for (int i = 0; i < turnsToTake; ++i) {
             turnTaker.takeAllTurns();
