@@ -78,6 +78,16 @@ public class StorefrontWorkshop implements ItemConsumer {
     }
 
     @Override
+    public boolean canAfford(int currentFunds) {
+        return currentFunds >= getCost();
+    }
+
+    @Override
+    public int getCost() {
+        return 5000;
+    }
+
+    @Override
     public Screen getScreen() {
         return new WorkshopScreen(this);
     }

@@ -158,6 +158,16 @@ public class MutatorWorkshop implements ItemProducer, ItemConsumer {
     }
 
     @Override
+    public boolean canAfford(int currentFunds) {
+        return currentFunds >= getCost();
+    }
+
+    @Override
+    public int getCost() {
+        return 1000;
+    }
+
+    @Override
     public void updateInputQueueCapacity(int inputQueueCapacity) {
         for (ItemStack stack : inputStacks) {
             stack.setCapacity(inputQueueCapacity);

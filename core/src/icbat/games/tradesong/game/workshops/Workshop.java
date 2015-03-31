@@ -11,6 +11,9 @@ public interface Workshop {
     WorkerPool getWorkers();
     Actor getActor();
     Workshop spawnClone();
-
     Screen getScreen();
+
+    boolean canAfford(int currentFunds);
+
+    int getCost();
 }
