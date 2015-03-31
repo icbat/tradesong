@@ -52,6 +52,7 @@ public class TradesongGame extends Game {
 		spareWorkers.addWorker(new WorkerImpl());
 		spareWorkers.addWorker(new WorkerImpl());
 		spareWorkers.addWorker(new WorkerImpl());
+		spareWorkers.addWorker(new WorkerImpl());
 	}
 
 	public void setupTurnTaker() {
@@ -93,6 +94,7 @@ public class TradesongGame extends Game {
 		setupWorkerPool();
 
 		holdings.addCurrency(1000);
+		holdings.addWorkshop(new StorefrontWorkshop(holdings));
 
 		screenManager = new SimpleScreenManager(this);
 

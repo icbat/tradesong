@@ -5,29 +5,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.game.workers.WorkerPool;
-import icbat.games.tradesong.game.workshops.Workshop;
 
 /***/
 public class RemoveWorkersButton extends TextButton {
 
-    public RemoveWorkersButton(Workshop workshop, WorkerPool spareWorkers) {
+    public RemoveWorkersButton(WorkerPool targetWorkerPool, WorkerPool spareWorkers) {
         super("Remove worker", TradesongGame.skin);
-        addListener(new RemoveWorkersListener(workshop, spareWorkers));
+        addListener(new RemoveWorkersListener(targetWorkerPool, spareWorkers));
     }
 
     class RemoveWorkersListener extends ClickListener {
-        private final Workshop workshop;
+        private final WorkerPool targetWorkerPool;
         private final WorkerPool spareWorkers;
 
-        public RemoveWorkersListener(Workshop workshop, WorkerPool spareWorkers) {
-            this.workshop = workshop;
+        public RemoveWorkersListener(WorkerPool targetWorkerPool, WorkerPool spareWorkers) {
+            this.targetWorkerPool = targetWorkerPool;
             this.spareWorkers = spareWorkers;
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            if (workshop.getWorkers().hasWorkers()) {
-                spareWorkers.addWorker(workshop.getWorkers().removeWorker());
+            if (targetWorkerPool.hasWorkers()) {
+                spareWorkers.addWorker(targetWorkerPool.removeWorker());
             }
             return super.touchDown(event, x, y, pointer, button);
         }
