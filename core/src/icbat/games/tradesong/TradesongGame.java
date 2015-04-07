@@ -3,7 +3,6 @@ package icbat.games.tradesong;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Timer;
 import icbat.games.tradesong.engine.GameSkin;
 import icbat.games.tradesong.engine.RandomGenerator;
 import icbat.games.tradesong.engine.ScreenManager;
@@ -32,7 +31,6 @@ public class TradesongGame extends Game {
 	public static PlayerHoldings holdings = new PlayerHoldings();
 	public static Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
 	public static TurnTaker turnTaker;
-	public static Timer turnTimer;
 	public static GameSkin skin;
 	public static ScreenManager screenManager;
 
@@ -55,9 +53,9 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupItems() {
-		basicItem = new Item("an Item");
-		betterItem = new Item("a better item");
-		assembledItem = new Item("Assembled thing");
+		basicItem = new Item("an Item", 300);
+		betterItem = new Item("a better item", 1000);
+		assembledItem = new Item("Assembled thing", 1500);
 	}
 
 	public void setupWorkshops() {

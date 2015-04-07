@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ItemEquivalenceTest {
-    private final Item item = new Item("itemName");
+    private final Item item = new Item("itemName", 100);
 
     @Parameterized.Parameter(0)
     public String nameOfTest;
@@ -25,17 +25,18 @@ public class ItemEquivalenceTest {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"happy path", true, buildItem("itemName")},
-                {"happy + padding", false, buildItem("itemName   ")},
-                {"different name", false, buildItem("some string")},
-                {"empty string name", false, buildItem("")},
-                {"null name", false, buildItem(null)},
+                {"happy path", true, buildItem("itemName", 100)},
+                {"happy - money", false, buildItem("itemName", 99)},
+                {"happy + padding", false, buildItem("  itemName   ", 100)},
+                {"different name", false, buildItem("some string", 100)},
+                {"empty string name", false, buildItem("", 100)},
+                {"null name", false, buildItem(null, 100)},
                 {"null item", false, null},
         });
     }
 
-    private static Item buildItem(String itemName) {
-        return new Item(itemName);
+    private static Item buildItem(String itemName, int basePrice) {
+        return new Item(itemName, basePrice);
     }
 
     @Test
