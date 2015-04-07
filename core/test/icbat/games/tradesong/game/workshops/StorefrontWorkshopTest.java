@@ -111,4 +111,15 @@ public class StorefrontWorkshopTest {
         clone.sendInput(someItem);
         assertFalse(clone.acceptsInput(someItem));
     }
+
+    @Test
+    public void moneyGained_basedOnItemsBasePrice() throws Exception {
+        final int basePrice = 10000;
+        when(someItem.getBasePrice()).thenReturn(basePrice);
+        store.sendInput(someItem);
+
+        store.takeTurn();
+
+        verify(holdings).addCurrency(basePrice);
+    }
 }

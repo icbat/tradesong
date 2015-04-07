@@ -120,4 +120,15 @@ public class ProducerWorkshopTest {
 
         assertFalse(producer.hasOutput());
     }
+
+    @Test
+    public void spawnClone_remembersRequiredInformation() throws Exception {
+        final int turnsRequired = 5;
+        setupProducer(turnsRequired);
+
+        final ProducerWorkshop clone = producer.spawnClone();
+
+        assertEquals(turnsRequired, clone.getTurnsRequiredForWork());
+
+    }
 }

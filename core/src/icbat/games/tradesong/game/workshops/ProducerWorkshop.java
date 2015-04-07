@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game.workshops;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -36,6 +37,7 @@ public class ProducerWorkshop implements ItemProducer {
     }
 
     protected void doWork() {
+        Gdx.app.debug(getWorkshopName(), "Doing work!");
         outputQueue.addItem(itemProduced);
     }
 
@@ -64,7 +66,12 @@ public class ProducerWorkshop implements ItemProducer {
 
     @Override
     public final void takeTurn() {
+        Gdx.app.debug(getWorkshopName(), "Taking turn! " +
+                "Workers assigned: " + workerPool.size() +
+                "; turns needed to work: " + turnsRequiredForWork
+                + "; is output full? " + outputQueue.isFull());
         if (!workerPool.hasWorkers()) {
+            Gdx.app.debug(getWorkshopName(), "No work can be done, no workers");
             return;
         }
         turnsStoredUp += determineTurnsToTake();
@@ -75,6 +82,7 @@ public class ProducerWorkshop implements ItemProducer {
     }
 
     private int determineTurnsToTake() {
+
         final int size = workerPool.size();
         if (size == 1) {
             return 1;
@@ -93,7 +101,7 @@ public class ProducerWorkshop implements ItemProducer {
                 stepSize++;
             }
         }
-
+        Gdx.app.debug(getWorkshopName(), "Turns worth of work to do: " + output);
         return output;
     }
 
@@ -108,7 +116,7 @@ public class ProducerWorkshop implements ItemProducer {
 
     @Override
     public ProducerWorkshop spawnClone() {
-        return new ProducerWorkshop(itemProduced.spawnClone());
+        return new ProducerWorkshop(itemProduced.spawnClone(), turnsRequiredForWork);
     }
 
     @Override
@@ -129,5 +137,9 @@ public class ProducerWorkshop implements ItemProducer {
     @Override
     public Screen getScreen() {
         return new WorkshopScreen(this);
+    }
+
+    protected int getTurnsRequiredForWork() {
+        return turnsRequiredForWork;
     }
 }

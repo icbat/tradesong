@@ -8,10 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import icbat.games.tradesong.TradesongGame;
 import icbat.games.tradesong.engine.RGBA;
-import icbat.games.tradesong.engine.screens.components.GoToScreenButton;
-import icbat.games.tradesong.engine.screens.components.MoneyCounter;
-import icbat.games.tradesong.engine.screens.components.SpareWorkerCounter;
-import icbat.games.tradesong.engine.screens.components.TurnCounter;
+import icbat.games.tradesong.engine.screens.components.*;
 
 /***/
 public abstract class AbstractBaseScreen implements Screen {
@@ -52,6 +49,7 @@ public abstract class AbstractBaseScreen implements Screen {
         navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).space(10);
         navigationHolder.add(new GoToScreenButton("Contracts", new ContractsScreen())).space(10);
         navigationHolder.add(new GoToScreenButton("Workshops", new WorkshopManagementScreen())).space(10);
+        navigationHolder.add(new EndTurnButton());
         stage.addActor(navigationHolder);
     }
 

@@ -6,13 +6,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Item {
     private final String name;
+    private final int basePrice;
 
-    public Item(String name) {
+    public Item(String name, int basePrice) {
         this.name = name;
+        this.basePrice = basePrice;
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
     }
 
     public Actor getActor() {
@@ -22,7 +28,7 @@ public class Item {
     }
 
     public Item spawnClone() {
-        return new Item(name);
+        return new Item(name, basePrice);
     }
 
     @Override
@@ -32,13 +38,15 @@ public class Item {
 
         Item item = (Item) o;
 
-        if (!name.equals(item.name)) return false;
+        if (basePrice != item.basePrice) return false;
+        return name.equals(item.name);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        int result = name.hashCode();
+        result = 31 * result + basePrice;
+        return result;
     }
 }

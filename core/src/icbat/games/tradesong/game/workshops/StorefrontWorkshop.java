@@ -1,5 +1,6 @@
 package icbat.games.tradesong.game.workshops;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,11 +12,14 @@ import icbat.games.tradesong.game.PlayerHoldings;
 import icbat.games.tradesong.game.workers.WorkerPool;
 import icbat.games.tradesong.game.workers.WorkerPoolImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /***/
 public class StorefrontWorkshop implements ItemConsumer {
     private final PlayerHoldings holdings;
+    private final List<Item> inputQueue = new ArrayList<Item>();
     protected WorkerPoolImpl workerPool = new WorkerPoolImpl();
-    private int inputQueue = 0;
     private int queueCapacity = 1;
 
     public StorefrontWorkshop(PlayerHoldings holdings) {
@@ -24,7 +28,7 @@ public class StorefrontWorkshop implements ItemConsumer {
 
     @Override
     public boolean acceptsInput(Item input) {
-        return inputQueue < queueCapacity;
+        return inputQueue.size() < queueCapacity;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class StorefrontWorkshop implements ItemConsumer {
         if (!acceptsInput(input)) {
             throw new IllegalStateException("Dev error, store cannot accept more items! Check acceptsInput first!");
         }
-        inputQueue++;
+        inputQueue.add(input);
     }
 
     @Override
@@ -42,13 +46,16 @@ public class StorefrontWorkshop implements ItemConsumer {
 
     @Override
     public void takeTurn() {
+        Gdx.app.debug(getWorkshopName(), "Taking turn! Workers assigned: " + workerPool.size() + "; input queue size: " + inputQueue.size());
         if (!workerPool.hasWorkers()) {
+            Gdx.app.debug(getWorkshopName(), "No work can be done, no workers");
             return;
         }
         int workersSpent = 0;
-        while (workersSpent < workerPool.size() && inputQueue > 0) {
-            inputQueue--;
-            holdings.addCurrency(100);
+        while (workersSpent < workerPool.size() && !inputQueue.isEmpty()) {
+            Item sold = inputQueue.remove(0);
+            Gdx.app.debug(getWorkshopName(), "sold " + sold.getName() + ". now holding " + inputQueue.size());
+            holdings.addCurrency(sold.getBasePrice());
             workersSpent++;
         }
     }
