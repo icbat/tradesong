@@ -25,7 +25,6 @@ import java.util.*;
 
 public class TradesongGame extends Game {
 
-	public static final int TURN_TIMER = 1;
 	public static Item basicItem;
 	public static Item betterItem;
 	public static Item assembledItem;
@@ -55,20 +54,6 @@ public class TradesongGame extends Game {
 		spareWorkers.addWorker(new WorkerImpl());
 	}
 
-	public void setupTurnTaker() {
-		turnTaker = new TurnTaker(holdings, contracts, factory);
-
-		turnTimer = new Timer();
-		turnTimer.clear();
-		turnTimer.scheduleTask(new Timer.Task() {
-			@Override
-			public void run() {
-				turnTaker.takeAllTurns();
-			}
-		}, TURN_TIMER, TURN_TIMER);
-		turnTimer.start();
-	}
-
 	public void setupItems() {
 		basicItem = new Item("an Item");
 		betterItem = new Item("a better item");
@@ -89,7 +74,7 @@ public class TradesongGame extends Game {
 		skin = new GameSkin();
 		setupItems();
 		setupContracts();
-		setupTurnTaker();
+		turnTaker = new TurnTaker(holdings, contracts, factory);
 		setupWorkshops();
 		setupWorkerPool();
 
