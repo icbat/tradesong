@@ -25,13 +25,17 @@ public class ItemEquivalenceTest {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"happy path", true, new Item("itemName")},
-                {"happy + padding", false, new Item("itemName   ")},
-                {"different name", false, new Item("some string")},
-                {"empty string name", false, new Item("")},
-                {"null name", false, new Item(null)},
+                {"happy path", true, buildItem("itemName")},
+                {"happy + padding", false, buildItem("itemName   ")},
+                {"different name", false, buildItem("some string")},
+                {"empty string name", false, buildItem("")},
+                {"null name", false, buildItem(null)},
                 {"null item", false, null},
         });
+    }
+
+    private static Item buildItem(String itemName) {
+        return new Item(itemName);
     }
 
     @Test
