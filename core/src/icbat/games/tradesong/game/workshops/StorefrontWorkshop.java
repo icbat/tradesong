@@ -48,6 +48,7 @@ public class StorefrontWorkshop implements ItemConsumer {
     public void takeTurn() {
         Gdx.app.debug(getWorkshopName(), "Taking turn! Workers assigned: " + workerPool.size() + "; input queue size: " + inputQueue.size());
         if (!workerPool.hasWorkers()) {
+            Gdx.app.debug(getWorkshopName(), "No work can be done, no workers");
             return;
         }
         int workersSpent = 0;
