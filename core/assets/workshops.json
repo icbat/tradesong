@@ -1,0 +1,23 @@
+[
+  {
+    workshopType: "PRODUCER",
+    outputItemName: "an Item",
+  },
+  {
+    workshopType: "PRODUCER",
+    outputItemName: "a better item",
+    baseTimeRequired: 3,
+  },
+  {
+    workshopType: "MUTATOR",
+    outputItemName: "Assembled thing",
+    inputItemNames: [
+      "an Item",
+      "a better item",
+    ],
+  },
+  {
+    workshopType: "STOREFRONT",
+  },
+
+]
