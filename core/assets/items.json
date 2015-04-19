@@ -1,0 +1,14 @@
+[
+  {
+    name: "an Item",
+    basePrice: 300,
+  },
+  {
+    name: "a better item",
+    basePrice: 1000,
+  },
+  {
+    name: "Assembled thing",
+    basePrice: 1500,
+  },
+]
