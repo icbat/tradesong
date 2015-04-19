@@ -3,7 +3,10 @@ package icbat.games.tradesong;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import icbat.games.tradesong.engine.*;
+import icbat.games.tradesong.engine.GameSkin;
+import icbat.games.tradesong.engine.RandomGenerator;
+import icbat.games.tradesong.engine.ScreenManager;
+import icbat.games.tradesong.engine.SimpleScreenManager;
 import icbat.games.tradesong.engine.screens.OverviewScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -30,13 +33,13 @@ public class TradesongGame extends Game {
 	public static GameSkin skin;
 	public static ScreenManager screenManager;
 	public static List<Contract> contracts;
-	public static MasterList<Item> items;
+	public static List<Item> items;
 	private static Item basicItem;
 	private static Item betterItem;
 	private static Item assembledItem;
 
 	public void setupContracts() {
-		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(items.getList(), new Random()));
+		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(items, new Random()));
 		contracts = new ArrayList<Contract>();
 		contracts.add(factory.buildRandomContract());
 		contracts.add(factory.buildRandomContract());
@@ -52,7 +55,7 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupItems() {
-		items = new MasterList<Item>();
+		items = new ArrayList<Item>();
 		basicItem = new Item("an Item", 300);
 		betterItem = new Item("a better item", 1000);
 		assembledItem = new Item("Assembled thing", 1500);
