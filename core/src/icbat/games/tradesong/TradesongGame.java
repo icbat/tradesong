@@ -3,7 +3,6 @@ package icbat.games.tradesong;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import icbat.games.tradesong.engine.*;
 import icbat.games.tradesong.engine.screens.OverviewScreen;
 import icbat.games.tradesong.game.Item;
@@ -17,6 +16,7 @@ import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,18 +49,6 @@ public class TradesongGame extends Game {
 		spareWorkers.addWorker(new WorkerImpl());
 	}
 
-	private String readAssetFileToString(String path) {
-		final FileHandle assetFile = Gdx.files.internal(path);
-		final String string;
-		try {
-			string = FileUtils.readFileToString(assetFile.file());
-		} catch (IOException e) {
-			Gdx.app.error("Loading items", "IO error reading from" +assetFile.file().getAbsolutePath(), e);
-			throw new RuntimeException(e); //TODO make this less dirty
-		}
-		return string;
-	}
-
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
@@ -77,5 +65,15 @@ public class TradesongGame extends Game {
 
 		screenManager = new SimpleScreenManager(this);
 		screenManager.goToScreen(new OverviewScreen());
+	}
+
+	private String readAssetFileToString(String path) {
+		final File assetFile = Gdx.files.internal(path).file();
+		try {
+			return FileUtils.readFileToString(assetFile);
+		} catch (IOException e) {
+			Gdx.app.error("Loading items", "IO error reading from" + assetFile.getAbsolutePath(), e);
+			throw new RuntimeException(e); //TODO make this less dirty
+		}
 	}
 }
