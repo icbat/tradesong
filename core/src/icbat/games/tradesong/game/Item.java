@@ -3,8 +3,9 @@ package icbat.games.tradesong.game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import icbat.games.tradesong.engine.Prototype;
 
-public class Item {
+public class Item implements Prototype<Item> {
     private final String name;
     private final int basePrice;
 
@@ -27,6 +28,7 @@ public class Item {
         return new Label(name, labelStyle);
     }
 
+    @Override
     public Item spawnClone() {
         return new Item(name, basePrice);
     }
