@@ -3,10 +3,8 @@ package icbat.games.tradesong;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import icbat.games.tradesong.engine.GameSkin;
-import icbat.games.tradesong.engine.RandomGenerator;
-import icbat.games.tradesong.engine.ScreenManager;
-import icbat.games.tradesong.engine.SimpleScreenManager;
+import com.badlogic.gdx.files.FileHandle;
+import icbat.games.tradesong.engine.*;
 import icbat.games.tradesong.engine.screens.OverviewScreen;
 import icbat.games.tradesong.game.Item;
 import icbat.games.tradesong.game.PlayerHoldings;
@@ -19,25 +17,29 @@ import icbat.games.tradesong.game.workshops.MutatorWorkshop;
 import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
+import org.apache.commons.io.FileUtils;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 public class TradesongGame extends Game {
-
-	public static Item basicItem;
-	public static Item betterItem;
-	public static Item assembledItem;
 	public static ContractFactory factory;
 	public static PlayerHoldings holdings = new PlayerHoldings();
 	public static Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
 	public static TurnTaker turnTaker;
 	public static GameSkin skin;
 	public static ScreenManager screenManager;
-
 	public static List<Contract> contracts;
+	public static List<Item> items;
+	private static Item basicItem;
+	private static Item betterItem;
+	private static Item assembledItem;
 
 	public void setupContracts() {
-		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(Arrays.asList(basicItem, betterItem, assembledItem), new Random()));
+		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(items, new Random()));
 		contracts = new ArrayList<Contract>();
 		contracts.add(factory.buildRandomContract());
 		contracts.add(factory.buildRandomContract());
@@ -53,9 +55,24 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupItems() {
+		items = new ArrayList<Item>();
 		basicItem = new Item("an Item", 300);
 		betterItem = new Item("a better item", 1000);
 		assembledItem = new Item("Assembled thing", 1500);
+		items.addAll(new ItemJsonReader().read(readAssetFileToString("items.json")));
+		System.out.println(items);
+	}
+
+	private String readAssetFileToString(String path) {
+		final FileHandle assetFile = Gdx.files.internal(path);
+		final String string;
+		try {
+			string = FileUtils.readFileToString(assetFile.file());
+		} catch (IOException e) {
+			Gdx.app.error("Loading items", "IO error reading from" +assetFile.file().getAbsolutePath(), e);
+			throw new RuntimeException(e); //TODO make this less dirty
+		}
+		return string;
 	}
 
 	public void setupWorkshops() {
@@ -80,7 +97,6 @@ public class TradesongGame extends Game {
 		holdings.addWorkshop(new StorefrontWorkshop(holdings));
 
 		screenManager = new SimpleScreenManager(this);
-
-		this.setScreen(new OverviewScreen());
+		screenManager.goToScreen(new OverviewScreen());
 	}
 }
