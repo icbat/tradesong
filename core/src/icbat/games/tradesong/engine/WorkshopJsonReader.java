@@ -62,7 +62,7 @@ public class WorkshopJsonReader {
     }
 
     private Item findItemByName(String targetItemName) {
-        for (Item item : TradesongGame.items) {
+        for (Item item : TradesongGame.potentialItems) {
             if (item.getName().equals(targetItemName)) {
                 return item;
             }

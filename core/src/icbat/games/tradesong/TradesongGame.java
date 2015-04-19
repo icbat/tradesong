@@ -26,15 +26,15 @@ import java.util.Random;
 public class TradesongGame extends Game {
 	public static ContractFactory factory;
 	public static PlayerHoldings holdings = new PlayerHoldings();
-	public static Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
 	public static TurnTaker turnTaker;
 	public static GameSkin skin;
 	public static ScreenManager screenManager;
 	public static List<Contract> contracts;
-	public static List<Item> items = new ArrayList<Item>();
+	public static Collection<Workshop> potentialWorkshops = new ArrayList<Workshop>();
+	public static List<Item> potentialItems = new ArrayList<Item>();
 
 	public void setupContracts() {
-		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(items, new Random()));
+		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(potentialItems, new Random()));
 		contracts = new ArrayList<Contract>();
 		contracts.add(factory.buildRandomContract());
 		contracts.add(factory.buildRandomContract());
@@ -49,10 +49,6 @@ public class TradesongGame extends Game {
 		spareWorkers.addWorker(new WorkerImpl());
 	}
 
-	public void setupItems() {
-		items.addAll(new ItemJsonReader().read(readAssetFileToString("items.json")));
-	}
-
 	private String readAssetFileToString(String path) {
 		final FileHandle assetFile = Gdx.files.internal(path);
 		final String string;
@@ -65,19 +61,15 @@ public class TradesongGame extends Game {
 		return string;
 	}
 
-	public void setupWorkshops() {
-		potentialWorkshops.addAll(new WorkshopJsonReader().read(readAssetFileToString("workshops.json")));
-	}
-
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 		skin = new GameSkin();
-		setupItems();
+		potentialItems.addAll(new ItemJsonReader().read(readAssetFileToString("items.json")));
+		potentialWorkshops.addAll(new WorkshopJsonReader().read(readAssetFileToString("workshops.json")));
 		setupContracts();
 		turnTaker = new TurnTaker(holdings, contracts, factory);
-		setupWorkshops();
 		setupWorkerPool();
 
 		holdings.addCurrency(1000);
