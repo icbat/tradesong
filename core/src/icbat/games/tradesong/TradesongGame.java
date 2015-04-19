@@ -13,8 +13,6 @@ import icbat.games.tradesong.game.contracts.Contract;
 import icbat.games.tradesong.game.contracts.ContractFactory;
 import icbat.games.tradesong.game.workers.WorkerImpl;
 import icbat.games.tradesong.game.workers.WorkerPool;
-import icbat.games.tradesong.game.workshops.MutatorWorkshop;
-import icbat.games.tradesong.game.workshops.ProducerWorkshop;
 import icbat.games.tradesong.game.workshops.StorefrontWorkshop;
 import icbat.games.tradesong.game.workshops.Workshop;
 import org.apache.commons.io.FileUtils;
@@ -33,10 +31,7 @@ public class TradesongGame extends Game {
 	public static GameSkin skin;
 	public static ScreenManager screenManager;
 	public static List<Contract> contracts;
-	public static List<Item> items;
-	private static Item basicItem;
-	private static Item betterItem;
-	private static Item assembledItem;
+	public static List<Item> items = new ArrayList<Item>();
 
 	public void setupContracts() {
 		factory = new ContractFactory(new Random(), new RandomGenerator<Item>(items, new Random()));
@@ -55,12 +50,7 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupItems() {
-		items = new ArrayList<Item>();
-		basicItem = new Item("an Item", 300);
-		betterItem = new Item("a better item", 1000);
-		assembledItem = new Item("Assembled thing", 1500);
 		items.addAll(new ItemJsonReader().read(readAssetFileToString("items.json")));
-		System.out.println(items);
 	}
 
 	private String readAssetFileToString(String path) {
@@ -76,10 +66,7 @@ public class TradesongGame extends Game {
 	}
 
 	public void setupWorkshops() {
-		potentialWorkshops.add(new ProducerWorkshop(basicItem));
-		potentialWorkshops.add(new ProducerWorkshop(betterItem, 3));
-		potentialWorkshops.add(new MutatorWorkshop(assembledItem, basicItem, betterItem));
-		potentialWorkshops.add(new StorefrontWorkshop(holdings));
+		potentialWorkshops.addAll(new WorkshopJsonReader().read(readAssetFileToString("workshops.json")));
 	}
 
 	@Override
