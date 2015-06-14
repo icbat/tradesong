@@ -44,13 +44,20 @@ public abstract class AbstractBaseScreen implements Screen {
 
         Table navigationHolder = new Table(TradesongGame.skin);
         navigationHolder.setFillParent(true);
-        navigationHolder.align(Align.bottom);
-        navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen())).space(10);
-        navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).space(10);
-        navigationHolder.add(new GoToScreenButton("Contracts", new ContractsScreen())).space(10);
-        navigationHolder.add(new GoToScreenButton("Workshops", new WorkshopManagementScreen())).space(10);
-        navigationHolder.add(new EndTurnButton());
+        navigationHolder.align(Align.bottom + Align.left);
+        navigationHolder.add(new GoToScreenButton("Overview", new OverviewScreen())).row().space(10);
+        navigationHolder.add(new GoToScreenButton("Storage", new StorageScreen())).row().space(10);
+        navigationHolder.add(new GoToScreenButton("Contracts", new ContractsScreen())).row().space(10);
+        navigationHolder.add(new GoToScreenButton("Workshops", new WorkshopManagementScreen())).row().space(10);
+
         stage.addActor(navigationHolder);
+
+        Table rarelyUsedButtons = new Table(TradesongGame.skin);
+        rarelyUsedButtons.setFillParent(true);
+        rarelyUsedButtons.align(Align.top + Align.right);
+        rarelyUsedButtons.add(new EndTurnButton());
+
+        stage.addActor(rarelyUsedButtons);
     }
 
     protected abstract String getScreenName();
